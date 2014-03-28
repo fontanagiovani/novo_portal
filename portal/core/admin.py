@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
+from django_summernote.admin import SummernoteModelAdmin
 from portal.core.models import Curso
 from portal.core.models import Site
 from portal.core.models import Menu
@@ -38,7 +39,7 @@ class MidiaInLine(admin.StackedInline):
     extra = 0
 
 
-class PaginaAdmin(admin.ModelAdmin):
+class PaginaAdmin(SummernoteModelAdmin):
     inlines = (MidiaInLine, )
 
 admin.site.register(Pagina, PaginaAdmin)
