@@ -1,0 +1,12 @@
+Django==1.6.2
+South==0.8.4
+Unipath==1.0
+dj-database-url==0.3.0
+dj-static==0.0.5
+django-mptt==0.6.0
+gunicorn==18.0
+psycopg2==2.5.2
+python-decouple==2.2
+django-debug-toolbar==1.0.1
+sqlformatter==1.0
+pytz
