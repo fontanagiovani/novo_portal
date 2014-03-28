@@ -14,5 +14,5 @@
 .DS_Store
 /.env
 .idea/
-portal/staticfiles/
-portal/media/
+staticfiles/
+media/
