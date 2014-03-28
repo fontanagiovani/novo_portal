@@ -96,10 +96,6 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = BASE_DIR.child('media')
 MEDIA_URL = '/media/'
 
-import ipdb
-ipdb.set_trace()
-
-
 # Cache
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 
