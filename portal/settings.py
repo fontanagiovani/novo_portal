@@ -216,10 +216,6 @@ SUIT_CONFIG = {
 SUMMERNOTE_CONFIG = {
     # Change editor size
     'width': '100%',
-    'height': '480',
-
-    # Para que o fullscreen funcione adequadamente
-    'iframe': False
 
     # Set editor language/locale
     # 'lang': 'en-US',
