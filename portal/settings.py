@@ -19,6 +19,19 @@ BASE_DIR = Path(__file__).parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
+# configuracao para .env
+try:
+    execfile(BASE_DIR.parent.child('.env'))
+except IOError:
+    from django.utils.crypto import get_random_string
+    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+    content = 'SECRET_KEY=\'{}\'\n'.format(get_random_string(50, chars))
+    content += 'DEBUG=False\n'
+    # content += 'TEMPLATE_DEBUG = DEBUG\n'
+    # content += 'ALLOWED_HOSTS = [\'.localhost\', \'127.0.0.1\']\n'
+    open(BASE_DIR.parent.child('.env'), "w").write(content)
+    execfile(BASE_DIR.parent.child('.env'))
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
@@ -35,7 +48,6 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = (
-    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +55,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'south',
+    # 'south',
     'mptt',
     'django_summernote',
     'portal.core',
@@ -180,36 +192,6 @@ LOGGING = {
             'level': 'INFO',
         },
     },
-}
-
-# Django Suit configuration
-SUIT_CONFIG = {
-    # header
-    'ADMIN_NAME': 'Portal - IFMT',
-    'HEADER_DATE_FORMAT': 'l, j F Y',
-    # 'HEADER_TIME_FORMAT': 'H:i',
-
-    # forms
-    # 'SHOW_REQUIRED_ASTERISK': True,  # Default True
-    # 'CONFIRM_UNSAVED_CHANGES': True, # Default True
-
-    # menu
-    # 'SEARCH_URL': '/admin/auth/user/',
-    # 'MENU_ICONS': {
-    #    'sites': 'icon-leaf',
-    #    'auth': 'icon-lock',
-    # },
-    # 'MENU_OPEN_FIRST_CHILD': True, # Default True
-    # 'MENU_EXCLUDE': ('auth.group',),
-    # 'MENU': (
-    #     'sites',
-    #     {'app': 'auth', 'icon':'icon-lock', 'models': ('user', 'group')},
-    #     {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
-    #     {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
-    # ),
-
-    # misc
-    # 'LIST_PER_PAGE': 15
 }
 
 # Summernote configuration
