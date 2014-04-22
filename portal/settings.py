@@ -198,7 +198,6 @@ LOGGING = {
 SUMMERNOTE_CONFIG = {
     # Change editor size
     'width': '100%',
-    'height': '480',
 
     # Set editor language/locale
     # 'lang': 'en-US',
