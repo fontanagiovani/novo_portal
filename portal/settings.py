@@ -29,7 +29,7 @@ except IOError:
     content += 'DEBUG=False\n'
     # content += 'TEMPLATE_DEBUG = DEBUG\n'
     # content += 'ALLOWED_HOSTS = [\'.localhost\', \'127.0.0.1\']\n'
-    open(BASE_DIR.parent.child('.env'), "w").write(content)
+    open(BASE_DIR.parent.child('.env'), 'w').write(content)
     execfile(BASE_DIR.parent.child('.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
