@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from django.db.backends.sqlite3.base import IntegrityError
 from django.db.models.signals import post_delete
 from django.dispatch.dispatcher import receiver
 from django.db import models
