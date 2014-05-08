@@ -49,7 +49,7 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = (
-    # Pre admin apps
+    # External pre apps
 
     # Django apps
     'django.contrib.admin',
