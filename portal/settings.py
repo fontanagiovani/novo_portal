@@ -55,14 +55,19 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'debug_toolbar',
-
     'south',
     'mptt',
     'django_summernote',
 
     'portal.core',
 )
+
+if DEBUG:
+    DEBUG_APPS = (
+        'debug_toolbar',
+    )
+
+    INSTALLED_APPS += DEBUG_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
