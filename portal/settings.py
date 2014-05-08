@@ -27,6 +27,7 @@ except IOError:
     chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
     content = 'SECRET_KEY=\'{}\'\n'.format(get_random_string(50, chars))
     content += 'DEBUG=False\n'
+    content += 'TESTING=False\n'
     # content += 'TEMPLATE_DEBUG = DEBUG\n'
     # content += 'ALLOWED_HOSTS = [\'.localhost\', \'127.0.0.1\']\n'
     open(os.path.join(BASE_DIR, '.env'), 'w').write(content)
@@ -40,7 +41,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
-TESTING = 'test' in sys.argv
+TESTING = 'test' in sys.argv or config('TESTING', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 
@@ -48,6 +49,9 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = (
+    # Pre admin apps
+
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,27 +59,33 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # External apps
     'south',
     'mptt',
     'django_summernote',
 
+    # Project apps
     'portal.core',
 )
 
 if DEBUG:
     # Add here the debug apps
+    DEBUG_PRE_INSTALLED_APPS = ()
+
     DEBUG_APPS = (
         'debug_toolbar',
     )
 
-    INSTALLED_APPS += DEBUG_APPS
+    INSTALLED_APPS = DEBUG_PRE_INSTALLED_APPS + INSTALLED_APPS + DEBUG_APPS
 else:
     # Add here the production apps
-    PRODUCTION_APPS = (
+    PRODUCTION_PRE_INSTALLED_APPS = ()
 
+    PRODUCTION_APPS = (
+        'gunicorn',
     )
 
-    INSTALLED_APPS += PRODUCTION_APPS
+    INSTALLED_APPS = PRODUCTION_PRE_INSTALLED_APPS + INSTALLED_APPS + PRODUCTION_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -195,7 +205,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'sqlformatter',
-            'filters': ['require_debug_true'],
+            'filters': ['require_debug_true', 'skip_on_testing'],
         },
     },
     'loggers': {
