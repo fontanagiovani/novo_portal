@@ -1,0 +1,84 @@
+{% extends "admin/base_site.html" %}
+{% load admin_static i18n admin_urls %}
+{% block title %}Adicionar Site | {% trans 'Portal IFMT - Administração' %}{% endblock %}
+
+{% block extrahead %}
+    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+    <script src="{% static "admin/js/admin/RelatedObjectLookups.js" %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />{% endblock %}
+
+{% block bodyclass %}change-form{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+        &rsaquo;
+        <a href="{% url 'admin:app_list' app_label='core' %}">Core</a>
+        &rsaquo;
+        <a href="{% url 'admin:core_site_changelist' %}">Sites</a>
+        &rsaquo;
+        Adicionar Site
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Adicionar Site</h1>
+    <form action="" method="post">{% csrf_token %}
+        <div>
+            {% if form.errors %}
+                <p class="errornote">
+                    {% if errors|length == 1 %}{% trans "Por favor, corrija os erros abaixo." %}{% else %}{% trans "Por favor, corrija os erros abaixo." %}{% endif %}
+                </p>
+                {{ form.non_field_errors }}
+            {% endif %}
+
+            <fieldset class="module aligned">
+                {#                <h2>Fieldset nome</h2>#}
+                {#                <div class="description">Descrição do fieldset</div>#}
+
+                {#                {% for field in form %}#}
+
+                <div class="form-row field-parent{% if form.parent.errors %} errors{% endif %}"> {# errors #}
+                    <div class="field-box field-parent{% if form.parent.errors %} errors{% endif %}">
+
+                        <label for="{{form.parent.id_for_label}}">{{ form.parent.label }}: </label>
+                        {{ form.parent }}
+
+                        <a href="{% url 'admin:core_site_add' %}" class="add-another" id="add_id_parent" onclick="return showAddAnotherPopup(this);">
+                            <img src="{% static "admin/img/icon_addlink.gif" %}" width="10" height="10" alt="Adicionar outro"/></a>
+
+                    </div>
+                </div>
+
+                <div class="form-row field-nome{% if form.nome.errors %} errors{% endif %}"> {# errors #}
+                    <div class="field-box field-nome{% if form.nome.errors %} errors{% endif %}">
+
+                        <label for="id_{{form.nome.id_for_label}}" class="required"> {{ form.nome.label }}: </label>
+                        {{ form.nome }}
+                    </div>
+                </div>
+
+                <div class="form-row field-slug{% if form.slug.errors %} errors{% endif %}"> {# errors #}
+                    <div class="field-box field-slug{% if form.slug.errors %} errors{% endif %}">
+
+                        <label for="id_{{form.slug.id_for_label}}" class="required"> {{ form.slug.label }}: </label>
+                        {{ form.slug }}
+                    </div>
+                </div>
+
+            </fieldset>
+            <div class="submit-row">
+                <input type="submit" value="{% trans 'Save' %}" class="default" name="_save" />
+                <p class="deletelink-box"><a href="/delete/url/" class="deletelink">{% trans "Delete" %}</a></p>
+                <input type="submit" value="{% trans 'Save as new' %}" name="_saveasnew" />
+                <input type="submit" value="{% trans 'Save and add another' %}" name="_addanother" />
+                <input type="submit" value="{% trans 'Save and continue editing' %}" name="_continue" />
+            </div>
+
+        </div>
+    </form>
+
+    <script type="text/javascript">document.getElementById("{{form.parent.auto_id}}").focus();</script>
+{% endblock %}

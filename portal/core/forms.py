@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django import forms
 from django.forms import ModelForm
 from portal.core.models import Curso
 from portal.core.models import Site
@@ -14,6 +15,8 @@ class CursoForm(ModelForm):
 class SiteForm(ModelForm):
     class Meta:
         model = Site
+
+    nome = forms.CharField(widget=forms.TextInput(attrs={'size': '50'}))
 
 
 class MenuForm(ModelForm):

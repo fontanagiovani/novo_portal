@@ -12,7 +12,7 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^summernote/', include('django_summernote.urls')),
                        url(r'^$', 'portal.core.views.home', name='home'),
-                       url(r'^site/', 'portal.core.views.site', name='site'),
+                       url(r'^exemplo_form_admin/', 'portal.core.views.exemplo_form_admin', name='exemplo_form_admin'),
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do summernote
