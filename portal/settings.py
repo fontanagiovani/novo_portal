@@ -63,11 +63,19 @@ INSTALLED_APPS = (
 )
 
 if DEBUG:
+    # Add here the debug apps
     DEBUG_APPS = (
         'debug_toolbar',
     )
 
     INSTALLED_APPS += DEBUG_APPS
+else:
+    # Add here the production apps
+    PRODUCTION_APPS = (
+
+    )
+
+    INSTALLED_APPS += PRODUCTION_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
