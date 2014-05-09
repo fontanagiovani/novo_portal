@@ -25,11 +25,9 @@ try:
 except IOError:
     from django.utils.crypto import get_random_string
     chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-    content = 'SECRET_KEY=\'{}\'\n'.format(get_random_string(50, chars))
+    content = "SECRET_KEY='{}'\n".format(get_random_string(50, chars))
     content += 'DEBUG=False\n'
     content += 'SQL_LOG=False\n'
-    # content += 'TEMPLATE_DEBUG = DEBUG\n'
-    # content += 'ALLOWED_HOSTS = [\'.localhost\', \'127.0.0.1\']\n'
     open(os.path.join(BASE_DIR, '.env'), 'w').write(content)
     execfile(os.path.join(BASE_DIR, '.env'))
 
@@ -82,7 +80,7 @@ else:
     PRODUCTION_APPS_BEFORE_INSTALLED_APPS = ()
 
     PRODUCTION_APPS = (
-        # 'gunicorn',
+        'gunicorn',
     )
 
     INSTALLED_APPS = PRODUCTION_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + PRODUCTION_APPS
