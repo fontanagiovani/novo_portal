@@ -164,7 +164,9 @@ else:  # Assume development mode
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
 TEMPLATE_STRING_IF_INVALID = 'CONTEXT_ERROR'
-TEMPLATE_DIRS = ('portal/templates', )
+TEMPLATE_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'templates'),
+)
 
 # Logging
 def skip_on_testing(record):
