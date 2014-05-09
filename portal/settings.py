@@ -27,7 +27,7 @@ except IOError:
     chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
     content = 'SECRET_KEY=\'{}\'\n'.format(get_random_string(50, chars))
     content += 'DEBUG=False\n'
-    content += 'TESTING=False\n'
+    content += 'SQL_LOG=False\n'
     # content += 'TEMPLATE_DEBUG = DEBUG\n'
     # content += 'ALLOWED_HOSTS = [\'.localhost\', \'127.0.0.1\']\n'
     open(os.path.join(BASE_DIR, '.env'), 'w').write(content)
@@ -41,7 +41,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
-TESTING = 'test' in sys.argv or config('TESTING', default=False, cast=bool)
+TESTING = 'test' in sys.argv or not config('SQL_LOG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 
@@ -82,7 +82,7 @@ else:
     PRODUCTION_APPS_BEFORE_INSTALLED_APPS = ()
 
     PRODUCTION_APPS = (
-        'gunicorn',
+        # 'gunicorn',
     )
 
     INSTALLED_APPS = PRODUCTION_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + PRODUCTION_APPS
