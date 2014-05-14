@@ -12,6 +12,7 @@
 *.swp
 *.sqlite3
 .DS_Store
+/.coverage
 /.env
 /.idea
 /staticfiles

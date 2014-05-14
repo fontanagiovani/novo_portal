@@ -5,3 +5,5 @@ django-debug-toolbar==1.0.1
 sqlformatter==1.0
 ipython==2.0.0
 ipdb==0.8
+coverage==3.7.1
+django-nose==1.2
