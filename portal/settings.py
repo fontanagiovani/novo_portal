@@ -73,6 +73,7 @@ if DEBUG:
     DEBUG_APPS = (
         'debug_toolbar',
         'django_nose',
+        'django_extensions',
     )
 
     # Use nose to run all tests
