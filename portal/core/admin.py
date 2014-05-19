@@ -36,7 +36,7 @@ admin.site.register(MenuContainer, MenuContainerAdmin)
 
 class MidiaInLine(admin.StackedInline):
     model = MidiaPagina
-    extra = 0
+    extra = 1
 
 
 class PaginaAdmin(SummernoteModelAdmin):

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from django.db.backends.sqlite3.base import IntegrityError
 from django.db.models.signals import post_delete
 from django.dispatch.dispatcher import receiver
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from topnotchdev import files_widget
 
 
 class Curso(models.Model):
@@ -94,6 +94,8 @@ class Pagina(models.Model):
 class Midia(models.Model):
     descricao = models.TextField()
     arquivo = models.FileField(upload_to='%d_%d' % (datetime.today().year, datetime.today().month))
+    image = files_widget.ImageField()
+    images = files_widget.ImagesField()
 
     class Meta:
         verbose_name = u'Mídia'

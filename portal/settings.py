@@ -61,6 +61,8 @@ INSTALLED_APPS = (
     'south',
     'mptt',
     'django_summernote',
+    'sorl.thumbnail',
+    'topnotchdev.files_widget',
 
     # Project apps
     'portal.core',
@@ -144,6 +146,8 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+THUMBNAIL_DEBUG = False
 
 # Cache
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True

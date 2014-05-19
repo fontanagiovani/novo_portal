@@ -11,6 +11,7 @@ urlpatterns = patterns('',
                        # url(r'^blog/', include('blog.urls')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^summernote/', include('django_summernote.urls')),
+                       url(r'^files-widget/', include('topnotchdev.files_widget.urls')),
                        url(r'^$', 'portal.core.views.home', name='home'),
                        url(r'^exemplo_form_admin/', 'portal.core.views.exemplo_form_admin', name='exemplo_form_admin'),
                        )
