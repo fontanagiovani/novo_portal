@@ -5,6 +5,7 @@ from django.dispatch.dispatcher import receiver
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from topnotchdev import files_widget
+from filebrowser.fields import FileBrowseField
 
 
 class Curso(models.Model):
@@ -94,8 +95,12 @@ class Pagina(models.Model):
 class Midia(models.Model):
     descricao = models.TextField()
     arquivo = models.FileField(upload_to='%d_%d' % (datetime.today().year, datetime.today().month))
-    image = files_widget.ImageField()
-    images = files_widget.ImagesField()
+    imagens_files_widget = files_widget.ImageField()
+    arquivos_files_widget = files_widget.FileField()
+    imagem_filebrowser = FileBrowseField("Imagem", max_length=200, directory='imagens/', blank=True, null=True,
+                                         extensions=['.jpg', '.jpeg', '.gif', '.png'])
+    arquivo_filebrowser = FileBrowseField("Documento", max_length=200, directory='documentos/', blank=True,
+                                          extensions=['.pdf', '.doc', '.*'],  null=True)
 
     class Meta:
         verbose_name = u'Mídia'

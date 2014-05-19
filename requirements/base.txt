@@ -5,3 +5,5 @@ python-decouple==2.2
 django-mptt==0.6.0
 django-summernote==0.5.8
 git+git://github.com/TND/django-files-widget.git
+django-grappelli==2.5.3
+django-filebrowser==3.5.6

@@ -48,6 +48,8 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 
 INSTALLED_APPS = (
     # External pre apps
+    'grappelli',
+    'filebrowser',
 
     # Django apps
     'django.contrib.admin',
@@ -147,7 +149,16 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-THUMBNAIL_DEBUG = False
+# Usado pelo grappelli
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+)
+
+GRAPPELLI_ADMIN_TITLE = u'IFMT Portal - Administração'
+
+# Usado pelo filebrowser
+DIRECTORY = os.path.join(MEDIA_ROOT, 'uploads/')
 
 # Cache
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
@@ -178,7 +189,7 @@ else:  # Assume development mode
 # Templates
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
-TEMPLATE_STRING_IF_INVALID = 'CONTEXT_ERROR'
+# TEMPLATE_STRING_IF_INVALID = 'CONTEXT_ERROR'
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'templates'),
 )
