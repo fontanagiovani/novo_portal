@@ -48,8 +48,8 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 
 INSTALLED_APPS = (
     # External pre apps
-    'grappelli',
-    'filebrowser',
+    # 'grappelli',
+    # 'filebrowser',
 
     # Django apps
     'django.contrib.admin',
@@ -63,8 +63,10 @@ INSTALLED_APPS = (
     'south',
     'mptt',
     'django_summernote',
-    'sorl.thumbnail',
-    'topnotchdev.files_widget',
+    # 'sorl.thumbnail',
+    # 'topnotchdev.files_widget',
+    'filer',
+    'easy_thumbnails',
 
     # Project apps
     'portal.core',
@@ -87,7 +89,7 @@ if DEBUG:
     NOSE_ARGS = [
         '--with-coverage',
         '--cover-package=portal.core',
-    ]
+        ]
 
     INSTALLED_APPS = DEBUG_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + DEBUG_APPS
 else:
@@ -124,7 +126,7 @@ DATABASES = {
         'DATABASE_URL',
         default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
         cast=db_url),
-}
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -150,15 +152,28 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Usado pelo grappelli
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-)
-
-GRAPPELLI_ADMIN_TITLE = u'IFMT Portal - Administração'
+# STATICFILES_FINDERS = (
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+# )
+#
+# GRAPPELLI_ADMIN_TITLE = u'IFMT Portal - Administração'
 
 # Usado pelo filebrowser
-DIRECTORY = os.path.join(MEDIA_ROOT, 'uploads/')
+# DIRECTORY = os.path.join(MEDIA_ROOT, 'uploads/')
+
+# Usando pelo django-filer
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    #'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
+
+SOUTH_MIGRATION_MODULES = {
+    'easy_thumbnails': 'easy_thumbnails.south_migrations',
+}
 
 # Cache
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
@@ -174,15 +189,15 @@ if CACHE_ACTIVE:
             'OPTIONS': {
                 'ketama': True,
                 'tcp_nodelay': True,
-            },
+                },
             'TIMEOUT': config('CACHE_TIMEOUT', default=500, cast=int),
-        },
-    }
+            },
+        }
 else:  # Assume development mode
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        }
+            }
     }
 
 
@@ -209,42 +224,42 @@ LOGGING = {
         'sqlformatter': {
             '()': 'sqlformatter.SqlFormatter',
             'format': '%(levelname)s %(message)s',
+            },
         },
-    },
     'filters': {
         'require_debug_true': {
             '()': 'django.utils.log.RequireDebugTrue',
-        },
+            },
         'skip_on_testing': {
             '()': 'django.utils.log.CallbackFilter',
             'callback': skip_on_testing,
+            },
         },
-    },
     'handlers': {
         'stderr': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'normal',
             'filters': ['skip_on_testing'],
-        },
+            },
         'sqlhandler': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'sqlformatter',
             'filters': ['require_debug_true', 'skip_on_testing'],
+            },
         },
-    },
     'loggers': {
         'django.db.backends': {
             'handlers': ['sqlhandler'],
             'level': 'DEBUG',
-        },
+            },
         'portal': {
             'handlers': ['stderr'],
             'level': 'INFO',
+            },
         },
-    },
-}
+    }
 
 # Summernote configuration
 SUMMERNOTE_CONFIG = {

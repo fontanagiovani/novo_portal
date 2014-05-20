@@ -4,8 +4,10 @@ from django.db.models.signals import post_delete
 from django.dispatch.dispatcher import receiver
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
-from topnotchdev import files_widget
-from filebrowser.fields import FileBrowseField
+# from topnotchdev import files_widget
+# from filebrowser.fields import FileBrowseField
+from filer.fields.image import FilerImageField
+from filer.fields.file import FilerFileField
 
 
 class Curso(models.Model):
@@ -94,13 +96,15 @@ class Pagina(models.Model):
 
 class Midia(models.Model):
     descricao = models.TextField()
-    arquivo = models.FileField(upload_to='%d_%d' % (datetime.today().year, datetime.today().month))
-    imagens_files_widget = files_widget.ImageField()
-    arquivos_files_widget = files_widget.FileField()
-    imagem_filebrowser = FileBrowseField("Imagem", max_length=200, directory='imagens/', blank=True, null=True,
-                                         extensions=['.jpg', '.jpeg', '.gif', '.png'])
-    arquivo_filebrowser = FileBrowseField("Documento", max_length=200, directory='documentos/', blank=True,
-                                          extensions=['.pdf', '.doc', '.*'],  null=True)
+    imagem = FilerImageField(null=True, blank=True, related_name='imagem')
+    arquivo = FilerFileField(null=True, blank=True, related_name='arquivo')
+    # arquivo = models.FileField(upload_to='%d_%d' % (datetime.today().year, datetime.today().month))
+    # imagens_files_widget = files_widget.ImageField(blank=True, null=True)
+    # arquivos_files_widget = files_widget.FileField(blank=True, null=True)
+    # imagem_filebrowser = FileBrowseField("Imagem", max_length=200, directory='imagens/', blank=True, null=True,
+    #                                      extensions=['.jpg', '.jpeg', '.gif', '.png'])
+    # arquivo_filebrowser = FileBrowseField("Documento", max_length=200, directory='documentos/', blank=True,
+    #                                       extensions=['.pdf', '.doc', '.*'],  null=True)
 
     class Meta:
         verbose_name = u'Mídia'
