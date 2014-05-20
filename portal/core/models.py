@@ -94,7 +94,7 @@ class Pagina(models.Model):
 
 class Midia(models.Model):
     descricao = models.TextField()
-    arquivo = models.FileField(upload_to='%d_%d' % (datetime.today().year, datetime.today().month))
+    # arquivo = models.FileField(upload_to='%d_%d' % (datetime.today().year, datetime.today().month))
     imagens_files_widget = files_widget.ImageField()
     arquivos_files_widget = files_widget.FileField()
     imagem_filebrowser = FileBrowseField("Imagem", max_length=200, directory='imagens/', blank=True, null=True,
