@@ -7,7 +7,7 @@ from portal.core.models import Site
 from portal.core.models import Menu
 from portal.core.models import MenuContainer
 from portal.core.models import Pagina
-from portal.core.models import MidiaPagina
+from portal.core.models import Midia
 
 
 class CursoAdmin(admin.ModelAdmin):
@@ -35,7 +35,7 @@ admin.site.register(MenuContainer, MenuContainerAdmin)
 
 
 class MidiaInLine(admin.StackedInline):
-    model = MidiaPagina
+    model = Midia
     extra = 1
 
 

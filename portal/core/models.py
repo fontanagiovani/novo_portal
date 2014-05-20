@@ -96,8 +96,9 @@ class Pagina(models.Model):
 
 class Midia(models.Model):
     descricao = models.TextField()
-    imagem = FilerImageField(null=True, blank=True, related_name='imagem')
-    arquivo = FilerFileField(null=True, blank=True, related_name='arquivo')
+    pagina = models.ForeignKey('Pagina')
+    arquivo = FilerFileField(null=True, blank=True, related_name='arquivos_pagina')
+    # imagem = FilerImageField(null=True, blank=True, related_name='imagem')
     # arquivo = models.FileField(upload_to='%d_%d' % (datetime.today().year, datetime.today().month))
     # imagens_files_widget = files_widget.ImageField(blank=True, null=True)
     # arquivos_files_widget = files_widget.FileField(blank=True, null=True)
@@ -114,12 +115,12 @@ class Midia(models.Model):
         return self.descricao
 
 
-class MidiaPagina(Midia):
-    pagina = models.ForeignKey('Pagina')
-
-    class Meta:
-        verbose_name = u'Mídia da página'
-        verbose_name_plural = u'Mídias da página'
+# class MidiaPagina(Midia):
+#     pagina = models.ForeignKey('Pagina')
+#
+#     class Meta:
+#         verbose_name = u'Mídia da página'
+#         verbose_name_plural = u'Mídias da página'
 
 
 @receiver(post_delete, sender=Midia)
