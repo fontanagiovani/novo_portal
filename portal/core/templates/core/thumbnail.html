@@ -1,0 +1,44 @@
+{% load staticfiles %}
+{% load thumbnail %}
+<!DOCTYPE html>
+<html>
+  <head>
+        <title>A Django Project</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+      </head>
+  
+  <body>
+    <h1>Thumbnails da página: {{ pagina.id }}</h1>
+
+        {% for midia in pagina.midiapagina_set.all %}
+            {% if midia.imagem.image %}
+                {{ midia.imagem.pk }}
+                <img src="{% thumbnail midia.imagem 64x64 upscale %}">
+                <img src="{% thumbnail midia.imagem 128x128 upscale %}">
+                <img src="{% thumbnail midia.imagem 256x256 upscale %}">
+                <img src="{% thumbnail midia.imagem 512x512 upscale %}">
+                <img src="{% thumbnail midia.imagem 768x768 upscale quality=70 %}">
+            {% endif %}
+        {% endfor %}
+
+        <br>
+
+        {% for midia in pagina.midiapagina_set.all %}
+            {% if midia.arquivo.image %}
+                {{ midia.arquivo.pk }}
+                <img src="{% thumbnail midia.arquivo 64x64 upscale %}">
+                <img src="{% thumbnail midia.arquivo 128x128 upscale %}">
+                <img src="{% thumbnail midia.arquivo 256x256 upscale %}">
+                <img src="{% thumbnail midia.arquivo 512x512 upscale %}">
+                <img src="{% thumbnail midia.arquivo 768x768 upscale %}">
+            {% else %}
+                {{ midia.arquivo.file }}
+            {% endif %}
+        {% endfor %}
+
+
+  
+    <script src="//code.jquery.com/jquery.js"></script>
+  </body>
+</html>

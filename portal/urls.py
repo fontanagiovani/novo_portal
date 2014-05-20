@@ -14,9 +14,10 @@ urlpatterns = patterns('',
                        # (r'^grappelli/', include('grappelli.urls')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^summernote/', include('django_summernote.urls')),
-                       url(r'^files-widget/', include('topnotchdev.files_widget.urls')),
+                       # url(r'^files-widget/', include('topnotchdev.files_widget.urls')),
                        url(r'^$', 'portal.core.views.home', name='home'),
                        url(r'^exemplo_form_admin/', 'portal.core.views.exemplo_form_admin', name='exemplo_form_admin'),
+                       url(r'^pagina/(?P<pagina_id>\d+)/thumbnail/', 'portal.core.views.thumbnail', name='thumbnail'),
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do summernote

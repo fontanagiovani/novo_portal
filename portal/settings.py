@@ -163,6 +163,8 @@ MEDIA_URL = '/media/'
 # DIRECTORY = os.path.join(MEDIA_ROOT, 'uploads/')
 
 # Usando pelo django-filer
+FILER_ENABLE_PERMISSIONS = True
+
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
