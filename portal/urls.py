@@ -1,22 +1,16 @@
 # coding: utf-8
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from filebrowser.sites import site
 
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
-                       # Examples:
-                       # url(r'^$', 'portal.views.home', name='home'),
-                       # url(r'^blog/', include('blog.urls')),
-                       (r'^admin/filebrowser/', include(site.urls)),
-                       (r'^grappelli/', include('grappelli.urls')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^summernote/', include('django_summernote.urls')),
-                       url(r'^files-widget/', include('topnotchdev.files_widget.urls')),
                        url(r'^$', 'portal.core.views.home', name='home'),
                        url(r'^exemplo_form_admin/', 'portal.core.views.exemplo_form_admin', name='exemplo_form_admin'),
+                       url(r'^pagina/(?P<pagina_id>\d+)/thumbnail/', 'portal.core.views.thumbnail', name='thumbnail'),
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do summernote

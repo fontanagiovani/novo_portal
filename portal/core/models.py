@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from django.db.models.signals import post_delete
-from django.dispatch.dispatcher import receiver
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
-from topnotchdev import files_widget
-from filebrowser.fields import FileBrowseField
+from filer.fields.file import FilerFileField
 
 
 class Curso(models.Model):
@@ -94,6 +90,9 @@ class Pagina(models.Model):
 
 class Midia(models.Model):
     descricao = models.TextField()
+<<<<<<< HEAD
+    arquivo = FilerFileField(null=True, blank=True, related_name='arquivos_pagina')
+=======
     # arquivo = models.FileField(upload_to='%d_%d' % (datetime.today().year, datetime.today().month))
     imagens_files_widget = files_widget.ImageField()
     arquivos_files_widget = files_widget.FileField()
@@ -101,6 +100,7 @@ class Midia(models.Model):
                                          extensions=['.jpg', '.jpeg', '.gif', '.png'])
     arquivo_filebrowser = FileBrowseField("Documento", max_length=200, directory='documentos/', blank=True,
                                           extensions=['.pdf', '.doc', '.*'],  null=True)
+>>>>>>> master
 
     class Meta:
         verbose_name = u'Mídia'
@@ -116,12 +116,3 @@ class MidiaPagina(Midia):
     class Meta:
         verbose_name = u'Mídia da página'
         verbose_name_plural = u'Mídias da página'
-
-
-@receiver(post_delete, sender=Midia)
-def midia_delete(sender, instance, **kwargs):
-    """
-    Signal post_delete para remover o arquivo do disco quando uma Midia e apagada
-    """
-    # Pass false so FileField doesn't save the model.
-    instance.arquivo.delete(False)
