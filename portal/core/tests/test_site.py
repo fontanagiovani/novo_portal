@@ -6,7 +6,7 @@ from django.test import TestCase
 class SiteTest(TestCase):
 
     def setUp(self):
-        self.resp = self.client.get(reverse('site'))
+        self.resp = self.client.get(reverse('home'))
 
     def test_get(self):
         'GET / must return status code 200.'
@@ -14,4 +14,4 @@ class SiteTest(TestCase):
 
     def test_template(self):
         'Response should be a rendered template.'
-        self.assertTemplateUsed(self.resp, 'core/site.html')
+        self.assertTemplateUsed(self.resp, 'core/base.html')
