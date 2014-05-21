@@ -10,34 +10,23 @@
   
   <body>
     <h1>Thumbnails da página: {{ pagina.id }}</h1>
-
-{#        {% for midia in pagina.midiapagina_set.all %}#}
-{#            {% if midia.imagem.image %}#}
-{#                {{ midia.imagem.pk }}#}
-{#                <img src="{% thumbnail midia.imagem 64x64 upscale %}">#}
-{#                <img src="{% thumbnail midia.imagem 128x128 upscale %}">#}
-{#                <img src="{% thumbnail midia.imagem 256x256 upscale %}">#}
-{#                <img src="{% thumbnail midia.imagem 512x512 upscale %}">#}
-{#                <img src="{% thumbnail midia.imagem 768x768 upscale quality=70 %}">#}
-{#            {% endif %}#}
-{#        {% endfor %}#}
-    {% if pagina.midia_set %}
+    {% if pagina.midia_set.all %}
         {% for midia in pagina.midia_set.all %}
             {% if midia.arquivo.image %}
                 Imagem: {{ midia.arquivo.pk }}
-                <img src="{% thumbnail midia.arquivo 64x64 upscale %}">
-                <img src="{% thumbnail midia.arquivo 128x128 upscale %}">
-                <img src="{% thumbnail midia.arquivo 256x256 upscale %}">
-                <img src="{% thumbnail midia.arquivo 512x512 upscale %}">
+                <img src="{% thumbnail midia.arquivo 64x64 upscale quality=80 %}">
+                <img src="{% thumbnail midia.arquivo 128x128 upscale quality=80 %}">
+                <img src="{% thumbnail midia.arquivo 256x256 upscale quality=80 %}">
+                <img src="{% thumbnail midia.arquivo 512x512 upscale quality=80 %}">
                 <img src="{% thumbnail midia.arquivo 768x768 upscale quality=80 %}">
             {% else %}
                 Arquivo: {{ midia.arquivo.file }}
             {% endif %}
             <br>
         {% endfor %}
+    {% else %}
+        Nenhum arquivo para esta página
     {% endif %}
-
-
   
     <script src="//code.jquery.com/jquery.js"></script>
   </body>
