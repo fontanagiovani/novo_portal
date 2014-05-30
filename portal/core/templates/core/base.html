@@ -2,14 +2,238 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>A Django Project</title>
+    <title>Portal IFMT:: </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+    <link href="{{ STATIC_URL }}/css/base.css" rel="stylesheet" type="text/css" />
   </head>
   
   <body>
-    <h1>Hello, world!</h1>
-  
-    <script src="//code.jquery.com/jquery.js"></script>
+    <div id="palco">
+        <div id="topo">
+            <img src="{{ STATIC_URL }}img/logo_ifmt.png" alt="IFMT" id="logo">
+            <div id="links">
+                <div id="diretos">
+                    <a href="">IFMT Portal</a>
+                    <a href="">Ouvidoria</a>
+                    <a href="">Imprensa</a>
+                </div>
+                <form action="" method="post">
+                   <input name="busca"/>
+                </form>
+                <div id="sociais">
+                    <a href=""><img src="{{ STATIC_URL }}img/sociais/f_mini.fw.png"/></a>
+                    <a href=""><img src="{{ STATIC_URL }}img/sociais/g_mini.fw.png"/></a>
+                    <a href=""><img src="{{ STATIC_URL }}img/sociais/t_mini.fw.png"/></a>
+                    <a href=""><img src="{{ STATIC_URL }}img/sociais/y_mini.fw.png"/></a>
+                    <a href=""><img src="{{ STATIC_URL }}img/sociais/i_mini.fw.png"/></a>
+                </div>
+                <div id="menus">
+                    <a href="">Campis</a>
+                    <a href="">Institucional</a>
+                    <a href="">Ensino</a>
+                    <a href="">Pesquisa</a>
+                    <a href="">Estensão</a>
+                    <a href="">Ingresso</a>
+                    <a href="">Contato</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="corpo">
+            <div id="destaque">
+                <div id="quadro">
+                    <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" id="principal"/>
+                    <div id="texto">
+                        <data><dia>08 Mai</dia> 2014</data>
+                        <campus>Rondonopolis</campus>
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                    </div>
+                    <div id="menu">
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    </div>
+                </div>
+                <div id="especial">
+                    <p>Especial</p>
+                    <div>
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        II Jogos do Instituto Federal de Mato Grosso - 23 a 27 de junho - Campus Barra do Garças
+                    </div>
+                    <div>
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        Biblioteca digital em software livre
+                    </div>
+                    <div>
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" class="banner" >
+                    </div>
+                </div>
+                <img src="{{ STATIC_URL }}img/exame_vestibular.jpg" id="exame_vestibular" />
+            </div>
+
+            <div id="noticias">
+                <p>NOTICIAS <a href="">| + Ver Mais</a></p>
+                <a href="">
+                    <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    <data-local>08 Mai - Rondonopolis</data-local>
+                    <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
+                </a>
+                <a href="">
+                    <data-local>08 Mai - Rondonopolis</data-local>
+                    <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
+                </a>
+                <a href="">
+                    <data-local>08 Mai</data-local>
+                    <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
+                </a>
+                <a href="">
+                    <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    <data-local>08 Mai</data-local>
+                    <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
+                </a>
+                <a href="">
+                    <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    <data-local>08 Mai - Rondonopolis</data-local>
+                    <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
+                </a>
+                <a href="">
+                    <data-local>08 Mai - Rondonopolis</data-local>
+                    <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
+                </a>
+                <a href="">
+                    <data-local>08 Mai</data-local>
+                    <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
+                </a>
+                <a href="">
+                    <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    <data-local>08 Mai</data-local>
+                    <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
+                </a>
+            </div>
+
+            <form id="guia">
+                <p>Conheça os cursos ofertados pelo IFMT</p>
+                <label>
+                    Selecione um campus
+                    <select name="campus">
+                        <option value="01">--------</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                    </select>
+                </label>
+                <label>
+                    Selecione uma tipo de Formação
+                    <select name="formacao">
+                        <option value="01">--------</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                    </select>
+                </label>
+                <label>
+                    Selecione um Curso
+                    <select name="curso">
+                        <option value="01">--------</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                    </select>
+                </label>
+            </form>
+
+            <div id="proreitorias-diretorias">
+                <p>PRÓ-REITORIAS</p>
+                    <a href="">Pró-Reitoria de Administração</a>
+                    <a href="">Pró-Reitoria de Ensino</a>
+                    <a href="">Pró-Reitoria de Extenção</a>
+                    <a href="">Pró-Reitoria de Pesquisa e Inovação</a>
+                    <a href="">Pró-Reitoria de Desenvolvimento Institucional</a>
+                <p>DIRETORIAS</p>
+                    <a href="">Diretoria Sistemica de Gestão de Pessoas</a>
+                    <a href="">Diretoria Sistemica de Tecnologia da Informação</a>
+            </div>
+
+            <div id="eventos">
+                 <p>EVENTOS <a href="">| + Ver Mais</a></p>
+                 <a href="">
+                        <data><dia>08 Mai</dia> 2014</data>
+                        <campus>Rondonopolis</campus>
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                 </a>
+                <a href="">
+                        <data><dia>08 Mai</dia> 2014</data>
+                        <campus>Rondonopolis</campus>
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                 </a>
+                <a href="">
+                        <data><dia>08 Mai</dia> 2014</data>
+                        <campus>Rondonopolis</campus>
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                 </a>
+            </div>
+
+
+            <div id="acesso-rapido">
+                <p>ACESSO RAPIDO</p>
+                 <a href="">
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                 </a>
+                 <a href="">
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza</titulo>
+                 </a>
+                 <a href="">
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                 </a>
+                 <a href="">
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                 </a>
+                 <a href="">
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                 </a>
+            </div>
+
+            <div id="midias">
+                <div id="galeria">
+                    <p>Galerias <a href="">| + Ver Mais</a></p>
+                     <grande>
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg"/>
+                        <data><dia>08 Mai</dia> 2014</data>
+                        <campus>Rondonopolis</campus>
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                    </grande>
+                    <menu>
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    </menu>
+                </div>
+                <div id="video">
+                    <p>Videos <a href="">| + Ver Mais</a></p>
+                    <grande>
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg"/>
+                        <data><dia>08 Mai</dia> 2014</data>
+                        <campus>Rondonopolis</campus>
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                    </grande>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="rodape">
+        <div id="mapa">
+
+        </div>
+    </div>
   </body>
 </html>
