@@ -4,9 +4,9 @@ from filer.fields.file import FilerFileField
 
 
 class Conteudo(models.Model):
-    titulo = models.CharField(max_length=250)
+    titulo = models.CharField(max_length=250, verbose_name=u'Título')
     texto = models.TextField()
-    data_publicacao = models.DateTimeField()
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
 
     class Meta:
         verbose_name = u'Página'
@@ -17,9 +17,9 @@ class Conteudo(models.Model):
 
 
 class Midia(models.Model):
-    pagina = models.ForeignKey('Conteudo')
-    descricao = models.TextField()
-    arquivo = FilerFileField(null=True, blank=True, related_name='arquivos_midia')
+    conteudo = models.ForeignKey('Conteudo', verbose_name=u'Conteúdo')
+    descricao = models.TextField(verbose_name=u'Descrição')
+    arquivo = FilerFileField(related_name='arquivos_midia')
 
     class Meta:
         verbose_name = u'Mídia'
