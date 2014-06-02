@@ -10,8 +10,8 @@ class Conteudo(models.Model):
     destaque = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = u'Página'
-        verbose_name_plural = u'Páginas'
+        verbose_name = u'Conteúdo'
+        verbose_name_plural = u'Conteúdos'
 
     def __unicode__(self):
         return self.titulo
