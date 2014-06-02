@@ -85,7 +85,8 @@ if DEBUG:
     NOSE_ARGS = [
         '--with-coverage',
         '--cover-package=portal.core',
-        ]
+        '--nologcapture',
+    ]
 
     INSTALLED_APPS = DEBUG_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + DEBUG_APPS
 else:
