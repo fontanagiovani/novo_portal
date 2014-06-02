@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from django.utils import timezone
-from portal.core.models import Pagina
+from portal.core.models import Conteudo
 from portal.core.models import Site
 
 
@@ -14,7 +14,7 @@ class PaginaTest(TestCase):
         )
         self.site.save()
 
-        self.obj = Pagina(
+        self.obj = Conteudo(
             titulo=u'Título',
             texto=u'seu texto aqui!!!',
             data_postagem=timezone.now(),  # '2014-03-21 17:59:00',

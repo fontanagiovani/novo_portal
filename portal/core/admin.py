@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
-from portal.core.models import Pagina
-from portal.core.models import MidiaPagina
+from portal.core.models import Conteudo
+from portal.core.models import Midia
 
 
 
-class MidiaPaginaInLine(admin.StackedInline):
-    model = MidiaPagina
+class MidiaInLine(admin.StackedInline):
+    model = Midia
     extra = 1
 
 
-class PaginaAdmin(SummernoteModelAdmin):
-    inlines = (MidiaPaginaInLine, )
+class ConteudoAdmin(SummernoteModelAdmin):
+    inlines = (MidiaInLine, )
 
-admin.site.register(Pagina, PaginaAdmin)
+admin.site.register(Conteudo, ConteudoAdmin)

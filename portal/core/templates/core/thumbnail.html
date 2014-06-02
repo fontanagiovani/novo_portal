@@ -9,9 +9,9 @@
       </head>
   
   <body>
-    <h1>Thumbnails da página: {{ pagina.id }}</h1>
-    {% if pagina.midiapagina_set.all %}
-        {% for midia in pagina.midiapagina_set.all %}
+    <h1>Thumbnails do conteudo: {{ conteudo.id }}</h1>
+    {% if conteudo.midia_set.all %}
+        {% for midia in conteudo.midia_set.all %}
             {% if midia.arquivo.image %}
                 Imagem: {{ midia.arquivo.pk }}
                 <img src="{% thumbnail midia.arquivo 64x64 upscale quality=80 %}">
