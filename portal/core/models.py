@@ -7,6 +7,7 @@ class Conteudo(models.Model):
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+    destaque = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = u'Página'
