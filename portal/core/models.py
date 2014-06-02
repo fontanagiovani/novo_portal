@@ -1,84 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
 from filer.fields.file import FilerFileField
 
 
-class Curso(models.Model):
-    CHOICES_CAMPUS = (
-        ('CNP', u'Campus Campo Novo do Parecis'),
-        ('CBA', u'Campus Cuiabá'),
-        ('BLV', u'Campus Bela Vista')
-    )
-
-    CHOICES_NIVEL = (
-        ('POS', 'Pós-Graduação'),
-        ('SUP', 'Superior'),
-        ('TSS', 'Técnico Subsequente'),
-        ('TIM', 'Técnico Integrado ao Ensino Médio'),
-        ('TIP', 'Técnico Integrado ao Ensino Médio Modalidade PROEJA')
-    )
-
-    campus = models.CharField(max_length=3, choices=CHOICES_CAMPUS)
-    nivel = models.CharField(max_length=200, choices=CHOICES_NIVEL)
-    nome = models.CharField(max_length=300)
-    descricao = models.TextField(blank=True, null=True)
-
-    class Meta:
-        verbose_name = u'Curso'
-        verbose_name_plural = u'Cursos'
-
-    def __unicode__(self):
-        return '%s - %s' % (self.campus, self.nome)
-
-
-class Site(MPTTModel):
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Site pai')
-    nome = models.CharField(max_length=100)
-    slug = models.SlugField()
-
-    class Meta:
-        verbose_name = u'Site'
-        verbose_name_plural = u'Sites'
-
-    def __unicode__(self):
-        return self.slug
-
-
-class Menu(MPTTModel):
-    sites = models.ManyToManyField('Site')
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Menu pai')
-    menucontainer = models.ForeignKey('MenuContainer', verbose_name='Container')
-    titulo = models.CharField(max_length=50)
-    ordem = models.IntegerField()
-    link = models.URLField(null=True, blank=True,
-                           help_text=u'Informe o link completo - Ex.: http://www.ifmt.edu.br')
-    pagina = models.IntegerField(null=True, blank=True)
-
-    class Meta:
-        verbose_name = u'Menu'
-        verbose_name_plural = u'Menus'
-
-    def __unicode__(self):
-        return self.titulo
-
-
-class MenuContainer(models.Model):
-    nome = models.CharField(max_length=50)
-
-    class Meta:
-        verbose_name = u'Menu container'
-        verbose_name_plural = u'Menus container'
-
-    def __unicode__(self):
-        return self.nome
-
-
-class Pagina(models.Model):
-    sites = models.ManyToManyField('Site')
-    titulo = models.CharField(max_length=250)
+class Conteudo(models.Model):
+    titulo = models.CharField(max_length=250, verbose_name=u'Título')
     texto = models.TextField()
-    data_postagem = models.DateTimeField()
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
 
     class Meta:
         verbose_name = u'Página'
@@ -89,8 +17,9 @@ class Pagina(models.Model):
 
 
 class Midia(models.Model):
-    descricao = models.TextField()
-    arquivo = FilerFileField(null=True, blank=True, related_name='arquivos_midia')
+    conteudo = models.ForeignKey('Conteudo', verbose_name=u'Conteúdo')
+    descricao = models.TextField(verbose_name=u'Descrição')
+    arquivo = FilerFileField(related_name='arquivos_midia')
 
     class Meta:
         verbose_name = u'Mídia'
@@ -98,11 +27,3 @@ class Midia(models.Model):
 
     def __unicode__(self):
         return self.descricao
-
-
-class MidiaPagina(Midia):
-    pagina = models.ForeignKey('Pagina')
-
-    class Meta:
-        verbose_name = u'Mídia da página'
-        verbose_name_plural = u'Mídias da página'

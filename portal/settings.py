@@ -48,8 +48,6 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 
 INSTALLED_APPS = (
     # External pre apps
-    # 'grappelli',
-    # 'filebrowser',
 
     # Django apps
     'django.contrib.admin',
@@ -63,8 +61,6 @@ INSTALLED_APPS = (
     'south',
     'mptt',
     'django_summernote',
-    # 'sorl.thumbnail',
-    # 'topnotchdev.files_widget',
     'filer',
     'easy_thumbnails',
 
