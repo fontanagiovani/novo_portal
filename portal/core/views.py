@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 
 
 def home(request):
-    return render(request, 'core/base.html')
+    return render(request, 'core/portal.html')
 
 
 def exemplo_form_admin(request):
