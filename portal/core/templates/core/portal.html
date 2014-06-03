@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load thumbnail %}
 {% block content %}
 <div id="destaque">
     <div id="quadro">
@@ -35,42 +36,22 @@
 
 <div id="noticias">
     <p>NOTICIAS <a href="">| + Ver Mais</a></p>
+    {% for noticia in noticias %}
     <a href="">
-        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+    {% if noticia.midia_set.all %}
+        {% for midia in noticia.midia_set.all %}
+            {% if midia.arquivo.image %}
+{#                Imagem: {{ midia.arquivo.pk }}#}
+                <img src="{% thumbnail midia.arquivo 64x64 upscale quality=80 %}">
+{#                <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >#}
+{#                {% break %}#}
+            {% endif %}
+        {% endfor %}
+        {% endif %}
         <data-local>08 Mai - Rondonopolis</data-local>
-        <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
+        <titulo>{{ noticia.titulo }}</titulo>
     </a>
-    <a href="">
-        <data-local>08 Mai - Rondonopolis</data-local>
-        <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
-    </a>
-    <a href="">
-        <data-local>08 Mai</data-local>
-        <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
-    </a>
-    <a href="">
-         <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-         <data-local>08 Mai</data-local>
-         <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
-    </a>
-    <a href="">
-         <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-         <data-local>08 Mai - Rondonopolis</data-local>
-         <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
-    </a>
-    <a href="">
-         <data-local>08 Mai - Rondonopolis</data-local>
-         <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
-    </a>
-    <a href="">
-         <data-local>08 Mai</data-local>
-         <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
-    </a>
-    <a href="">
-         <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-         <data-local>08 Mai</data-local>
-         <titulo>Abertas as inscrições para o processo seletivo de tutor a distância no Programa Profuncionário</titulo>
-    </a>
+    {% endfor %}
 </div>
 
 <form id="guia">

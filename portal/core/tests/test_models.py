@@ -4,6 +4,8 @@ from django.utils import timezone
 from portal.core.models import Conteudo
 from portal.core.models import Midia
 from filer.models import File as FileFiler
+from filer.models.imagemodels import Image
+from model_mommy import mommy
 
 
 class ConteudoTest(TestCase):
@@ -27,6 +29,9 @@ class ConteudoTest(TestCase):
         """
         self.assertEqual(u'Título', unicode(self.obj))
 
+class ConteudoMidiaTeste(TestCase):
+    def setUp(self):
+        self.conteudo = mommy.make(Conteudo, )
 
 class MidiaTest(TestCase):
     def setUp(self):
@@ -59,3 +64,4 @@ class MidiaTest(TestCase):
         Midia deve apresentar descricao como unicode
         '''
         self.assertEqual(u'foto1', unicode(self.midia))
+

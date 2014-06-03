@@ -4,7 +4,7 @@ from django_summernote.admin import SummernoteModelAdmin
 from portal.core.models import Conteudo
 from portal.core.models import Midia
 
-
+1
 
 class MidiaInLine(admin.StackedInline):
     model = Midia
