@@ -36,14 +36,27 @@
 #noticia #texto{
     text-align:justify;
 }
+#noticia #texto iframe{
+    width:100%;
+    text-align:center;
+}
+#noticia #texto #galeria{
+    display:block;
+    width:100%;
+    text-align:center;
+}
 #noticia #texto img{
     float:right;
     width:350px;
 }
+
+
 #noticia autor{
     display:block;
     text-align:right;
 }
+
+
 #noticia relacionados{
     display:block;
     background:#ccc;
