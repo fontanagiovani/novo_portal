@@ -38,17 +38,12 @@
     <p>NOTICIAS <a href="">| + Ver Mais</a></p>
     {% for noticia in noticias %}
     <a href="">
-    {% if noticia.midia_set.all %}
-        {% for midia in noticia.midia_set.all %}
-            {% if midia.arquivo.image %}
+    {% if noticia.primeira_imagem %}
 {#                Imagem: {{ midia.arquivo.pk }}#}
-                <img src="{% thumbnail midia.arquivo 64x64 upscale quality=80 %}">
+                <img src="{% thumbnail noticia.primeira_imagem 64x64 upscale quality=80 %}">
 {#                <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >#}
-{#                {% break %}#}
-            {% endif %}
-        {% endfor %}
         {% endif %}
-        <data-local>08 Mai - Rondonopolis</data-local>
+        <data-local>{{ noticia.data_publicacao|date:"d M" }} - Rondonopolis</data-local>
         <titulo>{{ noticia.titulo }}</titulo>
     </a>
     {% endfor %}

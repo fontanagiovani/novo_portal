@@ -16,6 +16,9 @@ class Conteudo(models.Model):
     def __unicode__(self):
         return self.titulo
 
+    def primeira_imagem(self):
+        if self.midia_set.filter(arquivo__image__isnull=False).exists():
+            return self.midia_set.filter(arquivo__image__isnull=False)[0].arquivo
 
 class Midia(models.Model):
     conteudo = models.ForeignKey('Conteudo', verbose_name=u'Conteúdo')

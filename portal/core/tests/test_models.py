@@ -4,8 +4,10 @@ from django.utils import timezone
 from portal.core.models import Conteudo
 from portal.core.models import Midia
 from filer.models import File as FileFiler
-from filer.models.imagemodels import Image
 from model_mommy import mommy
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from PIL import Image
+import StringIO
 
 
 class ConteudoTest(TestCase):
@@ -29,9 +31,47 @@ class ConteudoTest(TestCase):
         """
         self.assertEqual(u'Título', unicode(self.obj))
 
-class ConteudoMidiaTeste(TestCase):
-    def setUp(self):
-        self.conteudo = mommy.make(Conteudo, )
+# class ConteudoMidiaTeste(TestCase):
+#     def setUp(self):
+#         self.conteudo = mommy.make(Conteudo, )
+#
+#         io = StringIO.StringIO()
+#         io.write('foo')
+#         text_file = InMemoryUploadedFile(io, None, 'foo.txt', 'text', io.len, None)
+#         text_file.seek(0)
+#         arquivo = FileFiler(file=text_file)
+#         arquivo.save()
+#         self.midia_texto = Midia(
+#             conteudo=self.conteudo,
+#             descricao=u'foto1',
+#             arquivo=arquivo
+#         )
+#         self.midia_texto.save()
+#
+#         size = (200,200)
+#         color = (255,0,0,0)
+#         image = Image.new("RGBA", size, color)
+#         image.save(io, format='JPEG')
+#         image_file = InMemoryUploadedFile(io, None, 'foo.jpg', 'jpeg', io.len, None)
+#         image_file.seek(0)
+#         arquivo = FileFiler(file=image_file)
+#         arquivo.save()
+#         self.midia_imagem = Midia(
+#             conteudo=self.conteudo,
+#             descricao=u'foto1',
+#             arquivo=arquivo
+#         )
+#         self.midia_imagem.save()
+#         self.conteudo.save()
+
+    def test_primeira_imagem(self):
+        """
+        Deve retornar a primeira imagem de um conteudo
+        """
+        imagem = self.conteudo.primeira_imagem()
+        self.assertEqual(self.midia_imagem.arquivo, imagem)
+
+
 
 class MidiaTest(TestCase):
     def setUp(self):
