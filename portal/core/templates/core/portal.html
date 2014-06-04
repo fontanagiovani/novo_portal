@@ -1,166 +1,221 @@
 {% extends 'core/base.html' %}
 {% load thumbnail %}
 {% block content %}
-<div id="destaque">
-    <div id="quadro">
-        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" id="principal"/>
-        <div id="texto">
-            <data><dia>08 Mai</dia> 2014</data>
-            <campus>Rondonopolis</campus>
-            <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-        </div>
+<div class="row" id="destaque">
+    <div class="large-8 columns" id="quadro">
+        <ul class="example-orbit" data-orbit data-options="animation_speed:500;navigation_arrows:false;bullets:false;slide_number:false;swipe:false;resume_on_mouseout:true;">
+          <li  data-orbit-slide="f1">
+            <a href="http:\\globo.com"><img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" /></a>
+            <div class="orbit-caption">
+                <data><dia>08 Mai</dia> 2014</data>
+                <campus>Rondonopolis</campus>
+                <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+            </div>
+          </li>
+          <li data-orbit-slide="f2">
+            <a href="http:\\globo.com"><img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 2" /></a>
+            <div class="orbit-caption">
+              <data><dia>08 Mai</dia> 2014</data>
+                <campus>Rondonopolis</campus>
+                <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+            </div>
+          </li>
+          <li data-orbit-slide="f3">
+            <a href="http:\\globo.com"><img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 3" /></a>
+            <div class="orbit-caption">
+              <data><dia>08 Mai</dia> 2014</data>
+                <campus>Rondonopolis</campus>
+                <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+            </div>
+          </li>
+          <li data-orbit-slide="f4">
+            <a href="http:\\globo.com"><img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 3" /></a>
+            <div class="orbit-caption">
+              <data><dia>08 Mai</dia> 2014</data>
+                <campus>Rondonopolis</campus>
+                <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+            </div>
+          </li>
+          <li data-orbit-slide="f5">
+            <a href="http:\\globo.com"><img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 3" /></a>
+            <div class="orbit-caption">
+              <data><dia>08 Mai</dia> 2014</data>
+                <campus>Rondonopolis</campus>
+                <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+            </div>
+          </li>
+        </ul>
         <div id="menu">
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+            <a data-orbit-link="f1">
+              <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" />
+            </a>
+            <a data-orbit-link="f2">
+              <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" />
+            </a>
+            <a data-orbit-link="f3">
+             <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" />
+            </a>
+            <a data-orbit-link="f4">
+              <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" />
+            </a>
+            <a data-orbit-link="f5">
+             <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" />
+            </a>
         </div>
     </div>
-    <div id="especial">
-        <p>Especial</p>
-        <div>
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-            II Jogos do Instituto Federal de Mato Grosso - 23 a 27 de junho - Campus Barra do Garças
+    <div class="large-4 columns">
+        <div id="especial">
+            <p>Especial</p>
+            <div>
+                <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                II Jogos do Instituto Federal de Mato Grosso - 23 a 27 de junho - Campus Barra do Garças
+            </div>
+            <div>
+                <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                 Biblioteca digital em software livre
+            </div>
+            <div>
+                <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" class="banner" >
+            </div>
         </div>
-        <div>
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-             Biblioteca digital em software livre
-        </div>
-        <div>
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" class="banner" >
-        </div>
+        <img src="{{ STATIC_URL }}img/exame_vestibular.jpg" id="exame_vestibular" />
     </div>
-    <img src="{{ STATIC_URL }}img/exame_vestibular.jpg" id="exame_vestibular" />
 </div>
-
-<div id="noticias">
-    <p>NOTICIAS <a href="">| + Ver Mais</a></p>
-    {% for noticia in noticias %}
-    <a href="">
-    {% if noticia.primeira_imagem %}
-{#                Imagem: {{ midia.arquivo.pk }}#}
-                <img src="{% thumbnail noticia.primeira_imagem 64x64 upscale quality=80 %}">
-{#                <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >#}
-        {% endif %}
-        <data-local>{{ noticia.data_publicacao|date:"d M" }} - Rondonopolis</data-local>
-        <titulo>{{ noticia.titulo }}</titulo>
-    </a>
-    {% endfor %}
-</div>
-
-<form id="guia">
-    <p>Conheça os cursos ofertados pelo IFMT</p>
-    <label>
-        Selecione um campus
-        <select name="campus">
-            <option value="01">--------</option>
-            <option value="01">Campus 1</option>
-            <option value="01">Campus 1</option>
-            <option value="01">Campus 1</option>
-            <option value="01">Campus 1</option>
-        </select>
-    </label>
-    <label>
-        Selecione uma tipo de Formação
-        <select name="formacao">
-            <option value="01">--------</option>
-            <option value="01">Campus 1</option>
-            <option value="01">Campus 1</option>
-            <option value="01">Campus 1</option>
-            <option value="01">Campus 1</option>
-        </select>
-    </label>
-    <label>
-        Selecione um Curso
-        <select name="curso">
-            <option value="01">--------</option>
-            <option value="01">Campus 1</option>
-            <option value="01">Campus 1</option>
-            <option value="01">Campus 1</option>
-            <option value="01">Campus 1</option>
-        </select>
-    </label>
-</form>
-
-<div id="proreitorias-diretorias">
-    <p>PRÓ-REITORIAS</p>
-        <a href="">Pró-Reitoria de Administração</a>
-        <a href="">Pró-Reitoria de Ensino</a>
-        <a href="">Pró-Reitoria de Extenção</a>
-        <a href="">Pró-Reitoria de Pesquisa e Inovação</a>
-        <a href="">Pró-Reitoria de Desenvolvimento Institucional</a>
-    <p>DIRETORIAS</p>
-        <a href="">Diretoria Sistemica de Gestão de Pessoas</a>
-        <a href="">Diretoria Sistemica de Tecnologia da Informação</a>
-</div>
-
-<div id="eventos">
-    <p>EVENTOS <a href="">| + Ver Mais</a></p>
-    <a href="">
-        <data><dia>08 Mai</dia> 2014</data>
-        <campus>Rondonopolis</campus>
-        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-    </a>
-    <a href="">
-         <data><dia>08 Mai</dia> 2014</data>
-         <campus>Rondonopolis</campus>
-         <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-    </a>
-    <a href="">
-          <data><dia>08 Mai</dia> 2014</data>
-          <campus>Rondonopolis</campus>
-          <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-    </a>
-</div>
-
-<div id="acesso-rapido">
-     <p>ACESSO RAPIDO</p>
-     <a href="">
-         <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-     </a>
-     <a href="">
-        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-        <titulo>Novo terminal remoto do aeroporto de Fortaleza</titulo>
-     </a>
-    <a href="">
-        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-    </a>
-    <a href="">
-        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-    </a>
-    <a href="">
-        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-    </a>
-</div>
-
-<div id="midias">
-    <div id="galeria">
-        <p>Galerias <a href="">| + Ver Mais</a></p>
-        <grande>
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg"/>
-            <data><dia>08 Mai</dia> 2014</data>
-            <campus>Rondonopolis</campus>
-            <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-        </grande>
-        <menu>
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-        </menu>
+<div class="row">
+    <div class="large-4 columns" id="noticias">
+        <p>NOTICIAS <a href="">| + Ver Mais</a></p>
+        {% for noticia in noticias %}
+        <a href="">
+        {% if noticia.primeira_imagem %}
+    {#                Imagem: {{ midia.arquivo.pk }}#}
+                    <img src="{% thumbnail noticia.primeira_imagem 64x64 upscale quality=80 %}">
+    {#                <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >#}
+            {% endif %}
+            <data-local>{{ noticia.data_publicacao|date:"d M" }} - Rondonopolis</data-local>
+            <titulo>{{ noticia.titulo }}</titulo>
+        </a>
+        {% endfor %}
     </div>
-    <div id="video">
-        <p>Videos <a href="">| + Ver Mais</a></p>
-        <grande>
-            <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg"/>
-            <data><dia>08 Mai</dia> 2014</data>
-            <campus>Rondonopolis</campus>
-            <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-        </grande>
+    <div class="large-8 columns">
+        <div class="row">
+            <form id="guia" class="large-4 columns">
+                <p>Conheça os cursos ofertados pelo IFMT</p>
+                <label>
+                    Selecione um campus
+                    <select name="campus">
+                        <option value="01">--------</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                    </select>
+                </label>
+                <label>
+                    Selecione uma tipo de Formação
+                    <select name="formacao">
+                        <option value="01">--------</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                    </select>
+                </label>
+                <label>
+                    Selecione um Curso
+                    <select name="curso">
+                        <option value="01">--------</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                        <option value="01">Campus 1</option>
+                    </select>
+                </label>
+            </form>
+
+            <div id="proreitorias-diretorias" class="large-4 columns">
+                <p>PRÓ-REITORIAS</p>
+                    <a href="">Pró-Reitoria de Administração</a>
+                    <a href="">Pró-Reitoria de Ensino</a>
+                    <a href="">Pró-Reitoria de Extenção</a>
+                    <a href="">Pró-Reitoria de Pesquisa e Inovação</a>
+                    <a href="">Pró-Reitoria de Desenvolvimento Institucional</a>
+                <p>DIRETORIAS</p>
+                    <a href="">Diretoria Sistemica de Gestão de Pessoas</a>
+                    <a href="">Diretoria Sistemica de Tecnologia da Informação</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-4 columns">
+                <div id="eventos">
+                    <p>EVENTOS <a href="">| + Ver Mais</a></p>
+                    <a href="">
+                        <data><dia>08 Mai</dia> 2014</data>
+                        <campus>Rondonopolis</campus>
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                    </a>
+                    <a href="">
+                         <data><dia>08 Mai</dia> 2014</data>
+                         <campus>Rondonopolis</campus>
+                         <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                    </a>
+                    <a href="">
+                          <data><dia>08 Mai</dia> 2014</data>
+                          <campus>Rondonopolis</campus>
+                          <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                    </a>
+                </div>
+
+                <div id="acesso-rapido">
+                     <p>ACESSO RAPIDO</p>
+                     <a href="">
+                         <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                     </a>
+                     <a href="">
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza</titulo>
+                     </a>
+                    <a href="">
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                    </a>
+                    <a href="">
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                    </a>
+                    <a href="">
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                    </a>
+                </div>
+            </div>
+
+            <div id="midias" class="large-4 columns">
+                <div id="galeria">
+                    <p>Galerias <a href="">| + Ver Mais</a></p>
+                    <grande>
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg"/>
+                        <data><dia>08 Mai</dia> 2014</data>
+                        <campus>Rondonopolis</campus>
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                    </grande>
+                    <menu>
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    </menu>
+                </div>
+                <div id="video">
+                    <p>Videos <a href="">| + Ver Mais</a></p>
+                    <grande>
+                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg"/>
+                        <data><dia>08 Mai</dia> 2014</data>
+                        <campus>Rondonopolis</campus>
+                        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+                    </grande>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

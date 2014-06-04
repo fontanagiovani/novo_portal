@@ -1,16 +1,28 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
   <head>
     <title>Portal IFMT:: </title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ STATIC_URL }}/css/base.css" rel="stylesheet" type="text/css" />
     <link href="{{ STATIC_URL }}/css/portal.css" rel="stylesheet" type="text/css" />
     <link href="{{ STATIC_URL }}/css/conteudo.css" rel="stylesheet" type="text/css" />
+    <!-- Css Foundation -->
+    <!-- If you are using CSS version, only link these 2 files, you may add app.css to use for your overrides if you like. -->
+    <link href="{{ STATIC_URL }}css/normalize.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/foundation.css" rel="stylesheet">
+
+    <!-- If you are using the gem version, you need this only -->
+    <!-- <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet"> -->
+
+    <!-- Js Foundation -->
+    <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
   </head>
   
   <body>
-    <div id="palco">
+    <div id="palco">
 
         <div id="topo">
             <img src="{{ STATIC_URL }}img/logo_ifmt.png" alt="IFMT" id="logo">
@@ -52,5 +64,16 @@
 
         </div>
     </div>
+
+    <!-- js Foundation Orbit -->
+    <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
+    <script src="{{ STATIC_URL }}js/foundation/foundation.js"></script>
+    <script src="{{ STATIC_URL }}js/foundation/foundation.orbit.js"></script>
+    <!-- js Foundation -->
+    <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
+    <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
   </body>
 </html>
