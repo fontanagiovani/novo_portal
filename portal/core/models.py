@@ -17,6 +17,10 @@ class Conteudo(models.Model):
     def __unicode__(self):
         return self.titulo
 
+    @models.permalink
+    def get_absolute_url(self):
+        return 'conteudo_detalhe', (), {'conteudo_id': self.id}
+
     def primeira_imagem(self):
         if self.midia_set.filter(arquivo__image__isnull=False).exists():
             return self.midia_set.filter(arquivo__image__isnull=False)[0].arquivo

@@ -11,8 +11,13 @@ def home(request):
         'mais_noticias': mais_noticias}
     )
 
+
+def conteudo_detalhe(request, conteudo_id):
+    pass
+
 # def exemplo_form_admin(request):
 #     return render(request, 'core/exemplo_form_admin.html', {'form': SiteForm()})
+
 
 def thumbnail(request, conteudo_id):
     conteudo = get_object_or_404(Conteudo, pk=conteudo_id)

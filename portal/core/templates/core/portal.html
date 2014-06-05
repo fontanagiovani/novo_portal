@@ -8,7 +8,7 @@
                 {% for noticia in noticias_destaque %}
                     <li  data-orbit-slide="{{ noticia.id }}">
                         {% if noticia.primeira_imagem %}
-                            <a href="http:\\globo.com"><img src="{% thumbnail noticia.primeira_imagem 520x450 crop quality=80 %}" alt="{{ noticia.titulo }}"/></a>
+                            <a href="{{ noticia.get_absolute_url }}"><img src="{% thumbnail noticia.primeira_imagem 520x450 crop quality=80 %}" alt="{{ noticia.titulo }}"/></a>
                         {% endif %}
                         <div class="orbit-caption">
                             <data>
@@ -53,7 +53,7 @@
         <div class="large-4 columns" id="noticias">
             <p>NOTICIAS <a href="">| + Ver Mais</a></p>
             {% for noticia in mais_noticias %}
-                <a href="">
+                <a href="{{ noticia.get_absolute_url }}">
                     {% if noticia.primeira_imagem %}
                         <img src="{% thumbnail noticia.primeira_imagem 100x80 crop quality=80 %}" alt="{{ noticia.titulo }}">
                     {% endif %}
