@@ -1,4 +1,5 @@
 {% extends 'core/pagina.html' %}
+{% load thumbnail %}
 {% block conteudo %}
     <data>{{ conteudo.data_publicacao }}</data>
     <titulo>{{ conteudo.titulo }}</titulo>
@@ -22,8 +23,9 @@
         <img src="{{ STATIC_URL }}img/logo_ifmt.png" id="galeria" alt="IFMT">
         -->
         <!-- Para noticia de texto, essa imagem não aparece para os outros tipos -->
-        
-        <img src="{{ STATIC_URL }}img/logo_ifmt.png" alt="IFMT">
+        {% for imagem in conteudo.imagens %}
+            <img src="{% thumbnail imagem.arquivo 100x100 upscale quality=80 %}" alt="{{ imagem.descricao }}"/>
+        {% endfor %}
         {% autoescape off %}
             {{ conteudo.texto }}
         {% endautoescape %}
@@ -31,10 +33,12 @@
     <autor>Assessoria IFMT</autor>
     <relacionados>
         <div>
-            <p>Arquivos Relacionados</p>
-            <a href="">EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-            <a href="">EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-            <a href="">EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
+            {% if conteudo.documentos %}
+                <p>Arquivos Relacionados</p>
+                {% for documento in conteudo.documentos %}
+                    <a href="{{ documento.arquivo.url }}">{{ documento.descricao }}</a>
+                {% endfor %}
+            {% endif %}
         </div>
         <div>
             <p>Galerias Relacionadas</p>

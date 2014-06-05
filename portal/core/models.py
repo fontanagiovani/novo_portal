@@ -25,6 +25,14 @@ class Conteudo(models.Model):
         if self.midia_set.filter(arquivo__image__isnull=False).exists():
             return self.midia_set.filter(arquivo__image__isnull=False)[0].arquivo
 
+    def imagens(self):
+        if self.midia_set.filter(arquivo__image__isnull=False).exists():
+            return self.midia_set.filter(arquivo__image__isnull=False)
+
+    def documentos(self):
+        if self.midia_set.filter(arquivo__image__isnull=True).exists():
+            return self.midia_set.filter(arquivo__image__isnull=True)
+
 
 class Midia(models.Model):
     conteudo = models.ForeignKey('Conteudo', verbose_name=u'Conteúdo')
