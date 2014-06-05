@@ -13,7 +13,8 @@ def home(request):
 
 
 def conteudo_detalhe(request, conteudo_id):
-    pass
+    conteudo = get_object_or_404(Conteudo, id=conteudo_id)
+    return render(request, 'core/conteudo.html', {'conteudo': conteudo})
 
 # def exemplo_form_admin(request):
 #     return render(request, 'core/exemplo_form_admin.html', {'form': SiteForm()})

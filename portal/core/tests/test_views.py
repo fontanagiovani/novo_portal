@@ -9,7 +9,6 @@ class HomeTest(TestCase):
     def setUp(self):
         self.resp = self.client.get(reverse('home'))
 
-
     def test_get(self):
         """
         GET / must return status code 200.
@@ -48,3 +47,33 @@ class HomeContextTest(TestCase):
         # Como sao exibidos os thumbnails para navegacao esse numero duplica, ficando 10
         # Como e feita a exibicao do titulo como alt da tag img esse numero duplica, ficando 20
         self.assertContains(self.resp, u'noticia_destaque', 10)
+
+
+class ConteudoDetalheTest(TestCase):
+    def setUp(self):
+        self.conteudo = mommy.make(Conteudo,
+                                   titulo='titulo_teste',
+                                   texto=u'texto_teste',
+                                   data_publicacao='2014-06-05 10:16:00'
+                                   )
+        self.resp = self.client.get(reverse('conteudo_detalhe', kwargs={'conteudo_id': self.conteudo.id}))
+
+    def test_get(self):
+        """
+        GET /conteudo/1/ deve retorno status code 200
+        """
+        self.assertEqual(200, self.resp.status_code)
+
+    def test_template(self):
+        """
+        Conteudo detalhe deve renderizar o template conteudo.html
+        """
+        self.assertTemplateUsed(self.resp, 'core/conteudo.html')
+
+    def test_html(self):
+        """
+        HTML deve conter o titulo, data, texto
+        """
+        self.assertContains(self.resp, 'titulo_teste')
+        self.assertContains(self.resp, u'texto_teste')
+        self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
