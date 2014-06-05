@@ -12,6 +12,7 @@ class Conteudo(models.Model):
     class Meta:
         verbose_name = u'Conteúdo'
         verbose_name_plural = u'Conteúdos'
+        ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
         return self.titulo
@@ -19,6 +20,7 @@ class Conteudo(models.Model):
     def primeira_imagem(self):
         if self.midia_set.filter(arquivo__image__isnull=False).exists():
             return self.midia_set.filter(arquivo__image__isnull=False)[0].arquivo
+
 
 class Midia(models.Model):
     conteudo = models.ForeignKey('Conteudo', verbose_name=u'Conteúdo')
