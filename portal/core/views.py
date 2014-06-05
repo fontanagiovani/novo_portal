@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 
 def home(request):
     noticias_detaque = Conteudo.objects.filter(destaque=True)[:5]
-    mais_noticias = Conteudo.objects.exclude(id__in=noticias_detaque.values_list('id', flat=True))[:8]
+    mais_noticias = Conteudo.objects.exclude(id__in=noticias_detaque.values_list('id', flat=True))[:9]
     return render(request, 'core/portal.html', {
         'noticias_destaque': noticias_detaque,
         'mais_noticias': mais_noticias}

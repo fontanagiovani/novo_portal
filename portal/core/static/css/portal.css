@@ -1,15 +1,15 @@
-/* Area de Destaque
-#quadro{
-    width:600px;
-}*/
+body{
+    font-size:20px;
+}
+/* Area de Destaque */
 #quadro ul img{
     width:100%;
     height:450px;
 }
-#quadro .orbit-caption, #quadro #menu{
+#quadro .orbit-caption{
+    position:relative;
     background:#fff;
     height:70px;
-    position:relative;
     font-size:22px;
     top:-71px;
     color:#000;
@@ -43,11 +43,16 @@
     color:#2db200;
 }
 #quadro #menu {
-    padding:5px;
+    position:relative;
+    background:#fff;
+    width:100%;
+    height:70px;
+    margin-top:-71px;
+    padding:4px 0 4px 0;
     text-align:center;
 }
 #quadro #menu img{
-    width:112px;
+    width:114px;
     height:60px;
     margin:0;
     padding:0;
@@ -57,51 +62,42 @@
     border:2px #2db200 solid;
 }
 
-/* Especial
+/* Especial*/
 #especial{
-    display:inline-block;
-    margin-top:0;
-    margin-left:10px;
-    padding:5px;
-    width:310px;
-    height:365px;
     background:#fff;
-} */
+    margin:0;
+    padding:0;
+    width:100%;
+    color:#2db200;
+}
 #especial p{
     font-size:20px;
-    color:#2db200;
     margin:0;
-    padding:5px 0 5px 0;
+    padding:5px;
 }
 #especial div{
-    display:block;
-    width:96%;
-    height:100px;
-    margin-top:5px;
-    font-size:14px;
-    color:#2db200;
-    vertical-align:middle;
+    display:bock;
+    width:100%;
+    height:110px;
+    padding:5px;
 }
 #especial div img{
     float:left;
     width:120px;
-    height:90px;
-    margin:5px;
+    height:100px;
+    margin-right:5px;
 }
 #especial div .banner{
     width:100%;
-    height:100%;
     margin-right:5px;
 }
 #exame_vestibular{
-    display:inline-block;
     margin-top:5px;
-    margin-left:10px;
     width:320px;
-    height:148px;
+    height:138px;
 }
-#noticias{
-}
+
+
 #noticias p{
     font-size:20px;
     color:#ed3237;
@@ -110,12 +106,13 @@
 }
 #noticias a{
     display:block;
-    height:95px;
+    height:90px;
     margin:0;
-    margin-top:5px;
+    margin-top:6px;
     padding:5px;
     background:#fff;
     text-decoration:none;
+    overflow:hidden;
 }
 #noticias a:hover{
     background:#eee;
@@ -153,45 +150,48 @@
 #guia{
     background:#2db200;
     padding:5px;
+    margin:0;
+    margin-top:5px;
 }
 #guia p{
-    font-size:20px;
     color:#ffbf12;
+    font-size:22px;
     margin:0;
     padding:5px 0 5px 0;
 }
 #guia label{
     display:block;
-    font-size:14px;
     color:#fff;
+    margin:0px;
 }
-#guia label select{
+#guia select{
     display:block;
-    width:90%;
+    margin:0px;
 }
 
 
 #proreitorias-diretorias{
     background:#fff;
     padding:5px;
+    margin:0;
+    margin-top:5px;
 }
 
 #proreitorias-diretorias p{
     font-size:20px;
     color:#ed3237;
     margin:1px;
-    padding:5px 0 5px 0;
+    padding:1px 0 1px 0;
 }
 #proreitorias-diretorias a{
     text-decoration:none;
     color:#fdb430;
-    font-size:12px;
+    font-size:16px;
     display:block;
+    margin-top:3px;
 }
 
 
-#eventos{
-}
 #eventos p{
     font-size:20px;
     color:#2db200;
@@ -201,11 +201,12 @@
 #eventos a{
     display:block;
     width:100%;
-    height:80px;
+    height:70px;
     margin:0;
     margin-top:5px;
     padding:5px;
     text-decoration:none;
+    font-size:16px;
 }
 #eventos a:hover{
     background:#fff;
@@ -256,12 +257,11 @@
     border-bottom:2px #fff solid;
 }
 #eventos a titulo{
-    font-size:12px;
+    font-size:14px;
 }
 
 
-#acesso-rapido{
-}
+
 #acesso-rapido p{
     font-size:20px;
     color:#2db200;
@@ -271,9 +271,9 @@
 #acesso-rapido a{
     display:block;
     width:100%;
-    height:55px;
+    height:60px;
     margin:0;
-    margin-top:5px;
+    margin-top:6px;
     padding:5px;
     text-decoration:none;
     background:#eee;
@@ -297,6 +297,7 @@
 
 
 #midias{
+    margin-top:5px;
     background:#2db200;
     padding:5px;
 }
@@ -305,7 +306,7 @@
     font-size:20px;
     color:#fff;
     margin:0;
-    padding:5px 0 5px 0;
+    padding:0 0 5px 0;
 }
 #midias p a{
     font-size:14px;
@@ -336,11 +337,12 @@
     padding:0;
     margin:0;
     margin-top:5px;
+    text-align:center;
 }
 #midias menu img{
     border:1px #ccc solid;
-    width:97px;
-    height:60px;
+    width:32%;
+    height:55px;
 }
 #midias menu img:hover{
     border:1px #fff solid;
