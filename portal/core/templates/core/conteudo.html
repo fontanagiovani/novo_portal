@@ -32,14 +32,14 @@
     </p>
     <autor>Assessoria IFMT</autor>
     <relacionados>
-        <div>
-            {% if conteudo.documentos %}
+        {% if conteudo.documentos %}
+            <div>
                 <p>Arquivos Relacionados</p>
                 {% for documento in conteudo.documentos %}
                     <a href="{{ documento.arquivo.url }}">{{ documento.descricao }}</a>
                 {% endfor %}
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
         <div>
             <p>Galerias Relacionadas</p>
             <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
