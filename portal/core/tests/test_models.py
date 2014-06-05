@@ -4,10 +4,10 @@ from django.utils import timezone
 from portal.core.models import Conteudo
 from portal.core.models import Midia
 from filer.models import File as FileFiler
-from model_mommy import mommy
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from PIL import Image
-import StringIO
+# from model_mommy import mommy
+# from django.core.files.uploadedfile import InMemoryUploadedFile
+# from PIL import Image
+# import StringIO
 
 
 class ConteudoTest(TestCase):
@@ -30,6 +30,7 @@ class ConteudoTest(TestCase):
         Conteudo deve apresentar o titulo como unicode
         """
         self.assertEqual(u'Título', unicode(self.obj))
+
 
 # class ConteudoMidiaTeste(TestCase):
 #     def setUp(self):
@@ -63,14 +64,13 @@ class ConteudoTest(TestCase):
 #         )
 #         self.midia_imagem.save()
 #         self.conteudo.save()
-
-    def test_primeira_imagem(self):
-        """
-        Deve retornar a primeira imagem de um conteudo
-        """
-        imagem = self.conteudo.primeira_imagem()
-        self.assertEqual(self.midia_imagem.arquivo, imagem)
-
+#
+#     def test_primeira_imagem(self):
+#         """
+#         Deve retornar a primeira imagem de um conteudo
+#         """
+#         imagem = self.conteudo.primeira_imagem()
+#         self.assertEqual(self.midia_imagem.arquivo, imagem)
 
 
 class MidiaTest(TestCase):
@@ -92,16 +92,14 @@ class MidiaTest(TestCase):
         )
 
     def test_criacao(self):
-        '''
+        """
         Midia deve possuir conteudo, descricao e arquivo
-        '''
+        """
         self.midia.save()
         self.assertIsNotNone(self.midia.pk)
 
-
     def test_unicode(self):
-        '''
+        """
         Midia deve apresentar descricao como unicode
-        '''
+        """
         self.assertEqual(u'foto1', unicode(self.midia))
-
