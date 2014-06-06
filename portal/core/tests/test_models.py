@@ -4,6 +4,7 @@ from django.utils import timezone
 from portal.core.models import Conteudo
 from portal.core.models import Midia
 from filer.models import File as FileFiler
+from django.core.urlresolvers import reverse
 # from model_mommy import mommy
 # from django.core.files.uploadedfile import InMemoryUploadedFile
 # from PIL import Image
@@ -30,6 +31,13 @@ class ConteudoTest(TestCase):
         Conteudo deve apresentar o titulo como unicode
         """
         self.assertEqual(u'Título', unicode(self.obj))
+
+    def test_get_absolute_url(self):
+        """
+        Conteudo deve ter um url de acesso direto
+        """
+        self.obj.save()
+        self.assertEqual(reverse('conteudo_detalhe', kwargs={'conteudo_id': '1'}), self.obj.get_absolute_url())
 
 
 # class ConteudoMidiaTeste(TestCase):

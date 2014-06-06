@@ -1,162 +1,100 @@
 {% extends 'core/base.html' %}
 {% load thumbnail %}
 {% block content %}
-<div class="row" id="destaque">
-    <div class="large-8 columns" id="quadro">
-        <ul class="example-orbit" data-orbit data-options="animation_speed:500;navigation_arrows:false;bullets:false;slide_number:false;swipe:false;resume_on_mouseout:true;">
-          <li  data-orbit-slide="f1">
-            <a href="http:\\globo.com"><img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" /></a>
-            <div class="orbit-caption">
-                <data><dia>08 Mai</dia> 2014</data>
-                <campus>Rondonopolis</campus>
-                <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
+    <div class="row" id="destaque">
+        <div class="large-8 columns" id="quadro">
+
+            <ul class="example-orbit" data-orbit data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+                {% for noticia in noticias_destaque %}
+                    <li  data-orbit-slide="{{ noticia.id }}">
+                        {% if noticia.primeira_imagem %}
+                            <a href="{{ noticia.get_absolute_url }}"><img src="{% thumbnail noticia.primeira_imagem 520x450 crop quality=80 %}" alt="{{ noticia.titulo }}"/></a>
+                        {% endif %}
+                        <div class="orbit-caption">
+                            <data>
+                                <dia>{{ noticia.data_publicacao|date:"d M" }}</dia>
+                                {{ noticia.data_publicacao|date:"Y" }}
+                            </data>
+                            <campus>Rondonopolis</campus>
+                            <titulo>{{ noticia.titulo }}</titulo>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div id="menu">
+                {% for noticia in noticias_destaque %}
+                    <a data-orbit-link="{{ noticia.id }}">
+                        <img src="{% thumbnail noticia.primeira_imagem 112x60 crop quality=80 %}" alt="{{ noticia.titulo }}"/>
+                    </a>
+                {% endfor %}
             </div>
-          </li>
-          <li data-orbit-slide="f2">
-            <a href="http:\\globo.com"><img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 2" /></a>
-            <div class="orbit-caption">
-              <data><dia>08 Mai</dia> 2014</data>
-                <campus>Rondonopolis</campus>
-                <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-            </div>
-          </li>
-          <li data-orbit-slide="f3">
-            <a href="http:\\globo.com"><img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 3" /></a>
-            <div class="orbit-caption">
-              <data><dia>08 Mai</dia> 2014</data>
-                <campus>Rondonopolis</campus>
-                <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-            </div>
-          </li>
-          <li data-orbit-slide="f4">
-            <a href="http:\\globo.com"><img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 3" /></a>
-            <div class="orbit-caption">
-              <data><dia>08 Mai</dia> 2014</data>
-                <campus>Rondonopolis</campus>
-                <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-            </div>
-          </li>
-          <li data-orbit-slide="f5">
-            <a href="http:\\globo.com"><img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 3" /></a>
-            <div class="orbit-caption">
-              <data><dia>08 Mai</dia> 2014</data>
-                <campus>Rondonopolis</campus>
-                <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-            </div>
-          </li>
-        </ul>
-        <div id="menu">
-            <a data-orbit-link="f1">
-              <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" />
-            </a>
-            <a data-orbit-link="f2">
-              <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" />
-            </a>
-            <a data-orbit-link="f3">
-             <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" />
-            </a>
-            <a data-orbit-link="f4">
-              <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" />
-            </a>
-            <a data-orbit-link="f5">
-             <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" alt="slide 1" />
-            </a>
+
         </div>
-    </div>
-    <div class="large-4 columns">
-        <div id="especial">
-            <p>Especial</p>
+        <div class="large-4 columns" style="padding:2px;">
+            <div id="especial" class="row">
+                <p>Especial</p>
             {% for banner in banners %}
             <div>
                 {% if banner.titulo %}
                     {% if banner.primeira_imagem %}
-                        <img src="{% thumbnail banner.primeira_imagem 120x90 crop quality=80 %}">>
+                        <img src="{% thumbnail banner.primeira_imagem 120x90 crop quality=80 %}"/>
                         {{ banner.titulo }}
                     {% endif %}
                 {% else %}
                     {% if banner.primeira_imagem %}
-                         <img src="{% thumbnail banner.primeira_imagem 260x90 crop quality=80 %}">>
+                         <img src="{% thumbnail banner.primeira_imagem 260x90 crop quality=80 %}" class="banner"/>
                     {% endif %}
                 {% endif %}
             </div>
-            <div>
-                <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-                 Biblioteca digital em software livre
-            </div>
-            <div>
-                <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" class="banner" >
-            </div>
+            {% endfor %}
+            <img src="{{ STATIC_URL }}img/exame_vestibular.jpg" id="exame_vestibular" />
+      </div>
+    </div>
+
+
+    <div class="row">
+        <div class="large-4 columns" id="noticias">
+            <p>NOTICIAS <a href="">| + Ver Mais</a></p>
+            {% for noticia in mais_noticias %}
+                <a href="{{ noticia.get_absolute_url }}">
+                    {% if noticia.primeira_imagem %}
+                        <img src="{% thumbnail noticia.primeira_imagem 100x80 crop quality=80 %}" alt="{{ noticia.titulo }}">
+                    {% endif %}
+                    <data-local>{{ noticia.data_publicacao|date:"d M" }} - Rondonopolis</data-local>
+                    <titulo>{{ noticia.titulo }}</titulo>
+                </a>
             {% endfor %}
         </div>
-        <img src="{{ STATIC_URL }}img/exame_vestibular.jpg" id="exame_vestibular" />
-    </div>
-</div>
-<div class="row">
-    <div class="large-4 columns" id="noticias">
-        <p>NOTICIAS <a href="">| + Ver Mais</a></p>
-        {% for noticia in noticias %}
-        <a href="">
-        {% if noticia.primeira_imagem %}
-    {#                Imagem: {{ midia.arquivo.pk }}#}
-                    <img src="{% thumbnail noticia.primeira_imagem 64x64 upscale quality=80 %}">
-    {#                <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >#}
-            {% endif %}
-            <data-local>{{ noticia.data_publicacao|date:"d M" }} - Rondonopolis</data-local>
-            <titulo>{{ noticia.titulo }}</titulo>
-        </a>
-        {% endfor %}
-    </div>
-    <div class="large-8 columns">
-        <div class="row">
-            <form id="guia" class="large-4 columns">
+        <div class="large-4 columns">
+            <form id="guia">
                 <p>Conheça os cursos ofertados pelo IFMT</p>
-                <label>
-                    Selecione um campus
-                    <select name="campus">
-                        <option value="01">--------</option>
-                        <option value="01">Campus 1</option>
-                        <option value="01">Campus 1</option>
-                        <option value="01">Campus 1</option>
-                        <option value="01">Campus 1</option>
-                    </select>
-                </label>
-                <label>
-                    Selecione uma tipo de Formação
-                    <select name="formacao">
-                        <option value="01">--------</option>
-                        <option value="01">Campus 1</option>
-                        <option value="01">Campus 1</option>
-                        <option value="01">Campus 1</option>
-                        <option value="01">Campus 1</option>
-                    </select>
-                </label>
-                <label>
-                    Selecione um Curso
-                    <select name="curso">
-                        <option value="01">--------</option>
-                        <option value="01">Campus 1</option>
-                        <option value="01">Campus 1</option>
-                        <option value="01">Campus 1</option>
-                        <option value="01">Campus 1</option>
-                    </select>
-                </label>
+                <label>Selecione um campus</label>
+                <select name="campus">
+                    <option value="01">--------</option>
+                    <option value="01">Campus 1</option>
+                    <option value="01">Campus 1</option>
+                    <option value="01">Campus 1</option>
+                    <option value="01">Campus 1</option>
+                </select>
+                <label>Selecione uma tipo de Formação</label>
+                <select name="formacao">
+                    <option value="01">--------</option>
+                    <option value="01">Campus 1</option>
+                    <option value="01">Campus 1</option>
+                    <option value="01">Campus 1</option>
+                    <option value="01">Campus 1</option>
+                </select>
+                <label>Selecione um Curso</label>
+                <select name="curso">
+                    <option value="01">--------</option>
+                    <option value="01">Campus 1</option>
+                    <option value="01">Campus 1</option>
+                    <option value="01">Campus 1</option>
+                    <option value="01">Campus 1</option>
+                </select>
             </form>
-
-            <div id="proreitorias-diretorias" class="large-4 columns">
-                <p>PRÓ-REITORIAS</p>
-                    <a href="">Pró-Reitoria de Administração</a>
-                    <a href="">Pró-Reitoria de Ensino</a>
-                    <a href="">Pró-Reitoria de Extenção</a>
-                    <a href="">Pró-Reitoria de Pesquisa e Inovação</a>
-                    <a href="">Pró-Reitoria de Desenvolvimento Institucional</a>
-                <p>DIRETORIAS</p>
-                    <a href="">Diretoria Sistemica de Gestão de Pessoas</a>
-                    <a href="">Diretoria Sistemica de Tecnologia da Informação</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="large-4 columns">
-                <div id="eventos">
+            <div id="eventos">
                     <p>EVENTOS <a href="">| + Ver Mais</a></p>
                     {% for evento in eventos %}
                     <a href="">
@@ -167,32 +105,43 @@
                    {% endfor %}
                 </div>
 
-                <div id="acesso-rapido">
-                     <p>ACESSO RAPIDO</p>
-                     <a href="">
-                         <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-                     </a>
-                     <a href="">
-                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-                        <titulo>Novo terminal remoto do aeroporto de Fortaleza</titulo>
-                     </a>
-                    <a href="">
-                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-                    </a>
-                    <a href="">
-                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-                    </a>
-                    <a href="">
-                        <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
-                        <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-                    </a>
-                </div>
+            <div id="acesso-rapido">
+                <p>ACESSO RAPIDO</p>
+                <a href="">
+                    <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                </a>
+                <a href="">
+                    <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                </a>
+                <a href="">
+                    <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                </a>
+                <a href="">
+                    <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                </a>
+                <a href="">
+                    <img src="{{ MEDIA_URL }}05232014_montagem_capa.jpg" >
+                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
+                </a>
             </div>
-
-            <div id="midias" class="large-4 columns">
+        </div>
+        <div class="large-4 columns" style="padding:2px;">
+            <div id="proreitorias-diretorias">
+                <p>PRÓ-REITORIAS</p>
+                <a href="">Pró-Reitoria de Administração</a>
+                <a href="">Pró-Reitoria de Ensino</a>
+                <a href="">Pró-Reitoria de Extenção</a>
+                <a href="">Pró-Reitoria de Pesquisa e Inovação</a>
+                <a href="">Pró-Reitoria de Desenvolvimento Institucional</a>
+                <p>DIRETORIAS</p>
+                <a href="">Diretoria Sistemica de Gestão de Pessoas</a>
+                <a href="">Diretoria Sistemica de Tecnologia da Informação</a>
+            </div>
+            <div id="midias">
                 <div id="galeria">
                     <p>Galerias <a href="">| + Ver Mais</a></p>
                     <grande>
@@ -218,6 +167,4 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 {% endblock content %}

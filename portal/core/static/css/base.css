@@ -87,12 +87,10 @@ BODY{
     height:38px;
 }
 
-
 #corpo{
     margin:2px;
     padding:5px;
 }
-
 
 #rodape{
     width:100%;
@@ -109,13 +107,43 @@ BODY{
     margin-left:-475px;
 }
 
+.menu-icon{
+    background:#2db200;
+}
+.off-canvas-wrap{
+    margin:-6px;
+}
 #menu-lateral{
-    display:inline-block;
-    width:50px;
-    height:1460px;
-    margin-top:-7px;
-    margin-left:-7px;
+    background: #8fc74a;
+    width:200px;
+}
+.left-off-canvas-menu ul{
     background:#8fc74a;
+    list-style-type:none;
+    margin-left:0px;
+}
+.off-canvas-list label{
+    background:#2db200;
+    color:#fff;
+}
+.off-canvas-list ul li, .off-canvas-list ul li a{
+    padding:0;
+    margin:0;
+}
+.off-canvas-list a:hover{
+    background:#fff;
+    color:#2db200;
+}
+#menu-icon{
+    padding:5px;
+    text-align:center;
+}
+#menu-icon a{
+    display:inline-block;
+    border:none;
+}
+#menu-icon a:hover{
+    background:none;
 }
 #menu-lateral #menu{
     background:#479833;
@@ -127,19 +155,16 @@ BODY{
     margin-left:8px;
     margin-top:8px;
 }
-#navegacao{
-    display:relative;
-    width:890px;
-    height:40px;
-    margin-left:43px;
-    margin-top:-1460px;
-    padding-left:10px;
+.tab-bar-section{
     background:#8fc74a;
-    line-height:40px;
-    color:#fff;
-    font-size:16px;
+    border-color:#f60;
+    width:110%;
+    height:100%;
 }
-#navegacao a{
+.tab-bar-section a{
     text-decoration:none;
     color:#fff;
+}
+.tab-bar-section a:hover{
+    color:#2db200;
 }

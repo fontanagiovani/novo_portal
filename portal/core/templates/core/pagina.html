@@ -1,17 +1,49 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<div id="menu-lateral">
-    <a href="" id="menu"><img src="{{ STATIC_URL }}img/menu-lateral/menu.png"></a>
-    <a href=""><img src="{{ STATIC_URL }}img/menu-lateral/compartilhar.png" ></a>
-    <a href=""><img src="{{ STATIC_URL }}img/menu-lateral/email.png" ></a>
-    <a href=""><img src="{{ STATIC_URL }}img/menu-lateral/imprimir.png" ></a>
-</div>
-<div id="navegacao">
-    <a href="">Portal IFMT</a> |
-    <a href="">Noticia</a>
-</div>
-<div id="conteudo">
-    {% block conteudo %}
-    {% endblock conteudo %}
+<div class="off-canvas-wrap" data-offcanvas>
+  <div class="inner-wrap">
+    <nav class="tab-bar">
+      <section class="left-small">
+        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+      </section>
+
+      <section class="right tab-bar-section" id="navegacao">
+        <a href="" class="title">Portal IFMT</a> |
+        <a href="" class="title">Noticia</a>
+      </section>
+    </nav>
+
+    <aside id="menu-lateral" class="left-off-canvas-menu">
+      <ul class="off-canvas-list">
+        <li id="menu-icon">
+            <a href=""><img src="{{ STATIC_URL }}img/menu-lateral/compartilhar.png" ></a>
+            <a href=""><img src="{{ STATIC_URL }}img/menu-lateral/email.png" ></a>
+            <a href=""><img src="{{ STATIC_URL }}img/menu-lateral/imprimir.png" ></a>
+          </li>
+          <li><label>Grupo 1</label></li>
+          <li><a href="#">Item 1</a></li>
+          <li><a href="#">Item 1</a></li>
+          <li><a href="#">Item 1</a></li>
+          <li><label>Grupo 2</label></li>
+          <li><a href="#">Item 1</a></li>
+          <li><a href="#">Item 1</a></li>
+          <li><a href="#">Item 1</a></li>
+          <li><a href="#">Item 1</a></li>
+          <li><label>Grupo 3</label></li>
+          <li><a href="#">Item 1</a></li>
+          <li><a href="#">Item 1</a></li>
+          <li><a href="#">Item 1</a></li>
+      </ul>
+    </aside>
+
+
+    <section class="main-section" id="conteudo">
+        {% block conteudo %}
+        {% endblock conteudo %}
+    </section>
+
+  <a class="exit-off-canvas"></a>
+
+  </div>
 </div>
 {% endblock content %}
