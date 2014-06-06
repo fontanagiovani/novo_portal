@@ -42,6 +42,7 @@
                     <a href=""><img src="{{ STATIC_URL }}img/sociais/y_mini.fw.png"/></a>
                     <a href=""><img src="{{ STATIC_URL }}img/sociais/i_mini.fw.png"/></a>
                 </div>
+                <!--
                 <div id="menus">
                     <a href="">Campis</a>
                     <a href="">Institucional</a>
@@ -51,6 +52,41 @@
                     <a href="">Ingresso</a>
                     <a href="">Contato</a>
                 </div>
+                -->
+                <nav class="top-bar" id="menu_section" data-topbar>
+                  <section class="top-bar-section" >
+                    <!-- Right Nav Section -->
+                    <ul class="left" id="menus" >
+                      <li><a href="#">Campis</a></li>
+                      <li class="has-dropdown">
+                        <a href="#">Institucional</a>
+                        <ul class="dropdown">
+                          <li><a href="#">First link in dropdown</a></li>
+                        </ul>
+                      </li>
+                      <li class="has-dropdown">
+                        <a href="#">Ensino</a>
+                        <ul class="dropdown">
+                          <li><a href="#">First link in dropdown</a></li>
+                        </ul>
+                      </li>
+                      <li class="has-dropdown">
+                        <a href="#">Pesquisa</a>
+                        <ul class="dropdown">
+                          <li><a href="#">First link in dropdown</a></li>
+                        </ul>
+                      </li>
+                      <li class="has-dropdown">
+                        <a href="#">Estenção</a>
+                        <ul class="dropdown">
+                          <li><a href="#">First link in dropdown</a></li>
+                        </ul>
+                      </li>
+                      <li><a href="#">Ingresso</a></li>
+                      <li><a href="#">Contato</a></li>
+                    </ul>
+                  </section>
+                </nav>
             </div>
         </div>
 
@@ -58,6 +94,7 @@
             {% block content %}
             {% endblock content %}
         </div>
+
     </div>
     <div id="rodape">
         <div id="mapa">
