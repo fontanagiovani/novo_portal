@@ -103,3 +103,4 @@ class MidiaTest(TestCase):
         Midia deve apresentar descricao como unicode
         """
         self.assertEqual(u'foto1', unicode(self.midia))
+

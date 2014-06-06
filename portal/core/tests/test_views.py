@@ -25,12 +25,27 @@ class HomeTest(TestCase):
 
 class HomeContextTest(TestCase):
     def setUp(self):
-        self.conteudo = mommy.make(Conteudo, _quantity=8, titulo=u'test1')
+        self.conteudo = mommy.make(Conteudo, _quantity=8, titulo=u'Título do conteudo')
+        self.conteudo_evento = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do evento', tipo='EVENTOS')
+        self.conteudo_banner = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do banner', tipo='BANNER')
         self.resp = self.client.get(reverse('home'))
 
     def test_conteudo_noticias(self):
         """
         A home deve conter oito noticias
         """
-        self.assertContains(self.resp, u'test1', 8)
+        self.assertContains(self.resp, u'Título do conteudo', 8)
+
+    def test_conteudo_evento(self):
+        """
+        A home deve conter tres eventos
+        """
+
+        self.assertContains(self.resp, u'Titulo do evento', 3)
+
+    # def test_conteudo_banner(self):
+    #     """
+    #     A home deve conter tres conteudos do tipo banner
+    #     """
+    #     self.assertContains(self.resp, u'Titulo do banner', 3)
 

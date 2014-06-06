@@ -4,10 +4,19 @@ from filer.fields.file import FilerFileField
 
 
 class Conteudo(models.Model):
+    CONTENT_TYPE = (
+        ('EVENTOS', 'Eventos'),
+        ('NOTICIAS', u'Notícias'),
+        ('BANNER', 'Banner'),
+        #('BANNER_DESCRICAO', u'Banner com descrição')
+
+    )
+
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     destaque = models.BooleanField(default=False)
+    tipo = models.CharField(max_length=250, choices=CONTENT_TYPE, default='NOTICIAS')
 
     class Meta:
         verbose_name = u'Conteúdo'
@@ -19,6 +28,8 @@ class Conteudo(models.Model):
     def primeira_imagem(self):
         if self.midia_set.filter(arquivo__image__isnull=False).exists():
             return self.midia_set.filter(arquivo__image__isnull=False)[0].arquivo
+
+
 
 class Midia(models.Model):
     conteudo = models.ForeignKey('Conteudo', verbose_name=u'Conteúdo')

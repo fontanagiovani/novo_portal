@@ -4,8 +4,10 @@ from django.shortcuts import render, get_object_or_404
 
 
 def home(request):
-    noticias = Conteudo.objects.all()[:8]
-    return render(request, 'core/portal.html', {'noticias': noticias})
+    noticias = Conteudo.objects.filter(tipo='NOTICIAS')[:8]
+    eventos = Conteudo.objects.filter(tipo='EVENTOS')[:3]
+    banners = Conteudo.objects.filter(tipo='BANNER')[:3]
+    return render(request, 'core/portal.html', {'noticias': noticias, 'eventos': eventos, 'banners': banners})
 
 
 # def exemplo_form_admin(request):
