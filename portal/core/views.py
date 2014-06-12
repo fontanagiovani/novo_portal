@@ -4,8 +4,8 @@ from django.shortcuts import render, get_object_or_404
 
 
 def home(request):
-    noticias_detaque = Conteudo.objects.filter(destaque=True)[:5]
-    mais_noticias = Conteudo.objects.exclude(id__in=noticias_detaque.values_list('id', flat=True))[:9]
+    noticias_detaque = Conteudo.objects.filter(destaque=True, tipo='NOTICIA')[:5]
+    mais_noticias = Conteudo.objects.filter(tipo='NOTICIA').exclude(id__in=noticias_detaque.values_list('id', flat=True))[:9]
     eventos = Conteudo.objects.filter(tipo='EVENTOS')[:3]
     banners = Conteudo.objects.filter(tipo='BANNER')[:3]
     return render(request, 'core/portal.html', {
