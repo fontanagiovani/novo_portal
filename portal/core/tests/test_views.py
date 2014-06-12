@@ -29,7 +29,7 @@ class HomeContextTest(TestCase):
         mommy.make(Conteudo, _quantity=7, titulo=u'test1', tipo='NOTICIA')
         mommy.make(Conteudo, _quantity=4, titulo=u'noticia_destaque', destaque=True, tipo='NOTICIA')
         mommy.make(Conteudo, _quantity=5, titulo=u'test1', tipo='NOTICIA')
-        self.conteudo_evento = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do evento', tipo='EVENTOS')
+        self.conteudo_evento = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do evento', tipo='EVENTO')
         self.conteudo_banner = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do banner', tipo='BANNER')
         self.resp = self.client.get(reverse('home'))
 

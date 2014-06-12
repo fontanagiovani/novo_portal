@@ -5,16 +5,16 @@ from filer.fields.file import FilerFileField
 
 class Conteudo(models.Model):
     CONTENT_TYPE = (
-        ('EVENTOS', 'Eventos'),
-        ('NOTICIAS', u'Notícias'),
+        ('EVENTO', 'Evento'),
+        ('NOTICIA', u'Notícia'),
         ('BANNER', 'Banner'),
     )
 
+    tipo = models.CharField(max_length=250, choices=CONTENT_TYPE, default='NOTICIA')
+    destaque = models.BooleanField(default=False)
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
-    destaque = models.BooleanField(default=False)
-    tipo = models.CharField(max_length=250, choices=CONTENT_TYPE, default='NOTICIAS')
 
     class Meta:
         verbose_name = u'Conteúdo'
