@@ -41,7 +41,7 @@ TEMPLATE_DEBUG = DEBUG
 
 TESTING = 'test' in sys.argv or not config('SQL_LOG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17']
 
 
 # Application definition
@@ -123,7 +123,7 @@ DATABASES = {
         'DATABASE_URL',
         default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
         cast=db_url),
-    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -188,15 +188,15 @@ if CACHE_ACTIVE:
             'OPTIONS': {
                 'ketama': True,
                 'tcp_nodelay': True,
-                },
-            'TIMEOUT': config('CACHE_TIMEOUT', default=500, cast=int),
             },
-        }
+            'TIMEOUT': config('CACHE_TIMEOUT', default=500, cast=int),
+        },
+    }
 else:  # Assume development mode
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-            }
+        }
     }
 
 
@@ -207,6 +207,7 @@ TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'templates'),
 )
+
 
 # Logging
 def skip_on_testing(record):
@@ -223,42 +224,42 @@ LOGGING = {
         'sqlformatter': {
             '()': 'sqlformatter.SqlFormatter',
             'format': '%(levelname)s %(message)s',
-            },
         },
+    },
     'filters': {
         'require_debug_true': {
             '()': 'django.utils.log.RequireDebugTrue',
-            },
+        },
         'skip_on_testing': {
             '()': 'django.utils.log.CallbackFilter',
             'callback': skip_on_testing,
-            },
         },
+    },
     'handlers': {
         'stderr': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'normal',
             'filters': ['skip_on_testing'],
-            },
+        },
         'sqlhandler': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'sqlformatter',
             'filters': ['require_debug_true', 'skip_on_testing'],
-            },
         },
+    },
     'loggers': {
         'django.db.backends': {
             'handlers': ['sqlhandler'],
             'level': 'DEBUG',
-            },
+        },
         'portal': {
             'handlers': ['stderr'],
             'level': 'INFO',
-            },
         },
-    }
+    },
+}
 
 # Summernote configuration
 SUMMERNOTE_CONFIG = {
