@@ -15,7 +15,7 @@
                                 <dia>{{ noticia.data_publicacao|date:"d M" }}</dia>
                                 {{ noticia.data_publicacao|date:"Y" }}
                             </data>
-                            <campus>Rondonopolis</campus>
+                            <campus>{{ noticia.get_campus_origem_display }}</campus>
                             <titulo>{{ noticia.titulo }}</titulo>
                         </div>
                     </li>
@@ -62,7 +62,7 @@
                     {% if noticia.primeira_imagem %}
                         <img src="{% thumbnail noticia.primeira_imagem 100x80 crop quality=80 %}" alt="{{ noticia.titulo }}">
                     {% endif %}
-                    <data-local>{{ noticia.data_publicacao|date:"d M" }} - Rondonopolis</data-local>
+                    <data-local>{{ noticia.data_publicacao|date:"d M" }} - {{ noticia.get_campus_origem_display }}</data-local>
                     <titulo>{{ noticia.titulo }}</titulo>
                 </a>
             {% endfor %}

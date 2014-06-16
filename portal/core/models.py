@@ -4,13 +4,33 @@ from filer.fields.file import FilerFileField
 
 
 class Conteudo(models.Model):
-    CONTENT_TYPE = (
+    TIPOS = (
         ('EVENTO', 'Evento'),
         ('NOTICIA', u'Notícia'),
         ('BANNER', 'Banner'),
     )
 
-    tipo = models.CharField(max_length=250, choices=CONTENT_TYPE, default='NOTICIA')
+    CAMPUS_ORIGEM = (
+        ('RTR', u'Reitoria'),
+        ('BAG', u'Campus Barra do Garças'),
+        ('BLV', u'Campus Bela Vista'),
+        ('CAS', u'Campus Cáceres'),
+        ('CFS', u'Campus Confresa'),
+        ('CBA', u'Campus Cuiabá'),
+        ('JNA', u'Campus Juína'),
+        ('CNP', u'Campus Campo Novo do Parecis'),
+        ('PLC', u'Campus Pontes e Lacerda'),
+        ('ROO', u'Campus Rondonópolis'),
+        ('SVC', u'Campus São Vicente'),
+        ('PDL', u'Campus Primavera do Leste'),
+        ('SRS', u'Campus Sorriso'),
+        ('VGD', u'Campus Várzea Grande'),
+        ('AFL', u'Campus Alta Floresta'),
+    )
+
+    tipo = models.CharField(max_length=250, choices=TIPOS, default='NOTICIA')
+    campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR',
+                                     verbose_name=u'Campus de origem')
     destaque = models.BooleanField(default=False)
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     texto = models.TextField()
