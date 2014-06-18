@@ -9,10 +9,13 @@ urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^summernote/', include('django_summernote.urls')),
                        url(r'^$', 'portal.core.views.home', name='home'),
-                       url(r'^conteudo/(?P<conteudo_id>\d+)/', 'portal.core.views.conteudo_detalhe', name='conteudo_detalhe'),
-                       # url(r'^exemplo_form_admin/', 'portal.core.views.exemplo_form_admin', name='exemplo_form_admin'),
+                       url(r'^conteudo/(?P<conteudo_id>\d+)/', 'portal.core.views.conteudo_detalhe',
+                           name='conteudo_detalhe'),
                        url(r'^thumbnail/(?P<conteudo_id>\d+)/', 'portal.core.views.thumbnail', name='thumbnail'),
-                       )
+
+                       # Noticias
+                       url(r'^noticia/(?P<noticia_id>\d+)', 'portal.conteudo.views.noticia_detalhe',
+                           name='noticia_detalhe'))
 
 # Trecho utilizado para que o django sirva os arquivos do summernote
 from django.conf import settings
