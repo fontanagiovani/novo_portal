@@ -1,0 +1,325 @@
+body{
+    font-size:20px;
+}
+/* Area de Destaque */
+#quadro ul img{
+    width:100%;
+    height:450px;
+}
+#quadro .orbit-caption{
+    position:relative;
+    background:#fff;
+    height:70px;
+    font-size:22px;
+    top:-71px;
+    color:#000;
+}
+#quadro .orbit-caption{
+    padding:0;
+    line-height:22px;;
+}
+#quadro .orbit-caption data{
+    float:left;
+    width:75px;
+    padding:3px;
+    height:70px;
+    padding-top:15px;
+    background:#ed3237;
+    text-align:center;
+    margin-right:3px;
+    color:#fff;
+}
+#quadro .orbit-caption data dia{
+    display:block;
+    border-bottom:2px #fff solid;
+}
+#quadro .orbit-caption campus{
+    display:block;
+    color:#fcca00;
+    font-size:12px;
+    padding:1px;
+}
+#quadro .orbit-caption titulo{
+    color:#2db200;
+}
+#quadro #menu {
+    position:relative;
+    background:#fff;
+    width:100%;
+    height:70px;
+    margin-top:-71px;
+    padding:4px 0 4px 0;
+    text-align:center;
+}
+#quadro #menu img{
+    width:114px;
+    height:60px;
+    margin:0;
+    padding:0;
+    border:2px #ccc solid;
+}
+#quadro #menu img:hover{
+    border:2px #2db200 solid;
+}
+
+/* Especial*/
+#especial{
+    background:#fff;
+    margin:0;
+    padding:0;
+    width:100%;
+    color:#2db200;
+}
+#especial p{
+    font-size:20px;
+    margin:0;
+    padding:5px;
+}
+#especial div{
+    display:bock;
+    width:100%;
+    height:110px;
+    padding:5px;
+}
+#especial div img{
+    float:left;
+    width:120px;
+    height:100px;
+    margin-right:5px;
+}
+#especial div .banner{
+    width:100%;
+    margin-right:5px;
+}
+#exame_vestibular{
+    margin-top:5px;
+    width:320px;
+    height:138px;
+}
+
+
+#noticias p{
+    font-size:20px;
+    color:#ed3237;
+    margin:0;
+    padding:5px 0 5px 0;
+}
+#noticias a{
+    display:block;
+    height:90px;
+    margin:0;
+    margin-top:6px;
+    padding:5px;
+    background:#fff;
+    text-decoration:none;
+    overflow:hidden;
+}
+#noticias a:hover{
+    background:#eee;
+}
+#noticias p a{
+    font-size:14px;
+    color:#333;
+    text-decoration:none;
+    display:inline-block;
+    height:auto;
+    margin:0;
+    padding:0;
+    background:none;
+}
+#noticias p a:hover{
+    background:none;
+}
+#noticias a img{
+    width:100px;
+    height:80px;
+    float:left;
+    margin-right:5px;
+}
+#noticias a data-local{
+    font-size:12px;
+    color:#2db200;
+    display:block;
+}
+#noticias a titulo{
+    font-size:16px;
+    color:#888;
+}
+
+
+#guia{
+    background:#2db200;
+    padding:5px;
+    margin:0;
+    margin-top:5px;
+}
+#guia p{
+    color:#ffbf12;
+    font-size:22px;
+    margin:0;
+    padding:5px 0 5px 0;
+}
+#guia label{
+    display:block;
+    color:#fff;
+    margin:0px;
+}
+#guia select{
+    display:block;
+    margin:0px;
+}
+
+
+#eventos p{
+    font-size:20px;
+    color:#2db200;
+    margin:0;
+    padding:5px 0 5px 0;
+}
+#eventos a{
+    display:block;
+    width:100%;
+    height:70px;
+    margin:0;
+    margin-top:5px;
+    padding:5px;
+    text-decoration:none;
+    font-size:16px;
+}
+#eventos a:hover{
+    background:#fff;
+}
+#eventos p a{
+    font-size:14px;
+    color:#333;
+    text-decoration:none;
+    display:inline-block;
+    width:50%;
+    height:auto;
+    margin:0;
+    padding:0;
+    background:none;
+}
+#eventos p a:hover{
+    background:none;
+}
+#eventos a{
+    text-decoration:none;
+    color:#fdb430;
+}
+#eventos a img{
+    width:100px;
+    height:80px;
+    float:left;
+    margin-right:5px;
+}
+#eventos a campus{
+    font-size:12px;
+    color:#ed3237;
+    display:block;
+}
+#eventos a data{
+    float:left;
+    width:58px;
+    padding:3px;
+    height:50px;
+    padding-top:7px;
+    background:#2db200;
+    text-align:center;
+    margin-right:3px;
+    color:#fff;
+}
+#eventos a data dia{
+    display:block;
+    padding-bottom:3px;
+    border-bottom:2px #fff solid;
+}
+#eventos a titulo{
+    font-size:14px;
+}
+
+#acesso-rapido p{
+    font-size:20px;
+    color:#2db200;
+    margin:0;
+    padding:5px 0 5px 0;
+}
+#acesso-rapido a{
+    float:left;
+    width:233px;
+    height:60px;
+    margin:0;
+    margin-top:6px;
+    padding:5px;
+    text-decoration:none;
+    background:#eee;
+    color:#888;
+}
+#acesso-rapido a:hover{
+    background:#2db200;
+    color:#fff;
+}
+#acesso-rapido a img{
+    float:left;
+    width:80px;
+    height:50px;
+    margin:0;
+    margin-right:5px;
+}
+
+#acesso-rapido a titulo{
+    font-size:14px;
+}
+
+
+#midias{
+    margin-top:5px;
+    background:#2db200;
+    padding:5px;
+}
+
+#midias p{
+    font-size:20px;
+    color:#fff;
+    margin:0;
+    padding:0 0 5px 0;
+}
+#midias p a{
+    font-size:14px;
+    color:#333;
+    text-decoration:none;
+    display:inline-block;
+    width:50%;
+    height:auto;
+    margin:0;
+    padding:0;
+    background:none;
+}
+#midias p a:hover{
+    background:none;
+}
+#midias grande img{
+    width:100%;
+}
+#midias grande data, #midias grande campus{
+    font-size:12px;
+    color:#fdb430;
+}
+#midias grande titulo{
+    display:block;
+    color:#fff;
+}
+#midias menu{
+    padding:0;
+    margin:0;
+    margin-top:5px;
+    text-align:center;
+}
+#midias menu img{
+    border:1px #ccc solid;
+    width:32%;
+    height:55px;
+}
+#midias menu img:hover{
+    border:1px #fff solid;
+}
