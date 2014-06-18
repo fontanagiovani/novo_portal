@@ -9,7 +9,6 @@ class HomeTest(TestCase):
     def setUp(self):
         self.resp = self.client.get(reverse('home'))
 
-
     def test_get(self):
         """
         GET / must return status code 200.
@@ -26,11 +25,11 @@ class HomeTest(TestCase):
 class HomeContextTest(TestCase):
     def setUp(self):
         # ordenacao por data e id decrescente
-        mommy.make(Conteudo, _quantity=4, titulo=u'noticia_destaque', destaque=True)
-        mommy.make(Conteudo, _quantity=7, titulo=u'test1')
-        mommy.make(Conteudo, _quantity=4, titulo=u'noticia_destaque', destaque=True)
-        mommy.make(Conteudo, _quantity=5, titulo=u'test1')
-        self.conteudo_evento = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do evento', tipo='EVENTOS')
+        mommy.make(Conteudo, _quantity=4, titulo=u'noticia_destaque', destaque=True, tipo='NOTICIA')
+        mommy.make(Conteudo, _quantity=7, titulo=u'test1', tipo='NOTICIA')
+        mommy.make(Conteudo, _quantity=4, titulo=u'noticia_destaque', destaque=True, tipo='NOTICIA')
+        mommy.make(Conteudo, _quantity=5, titulo=u'test1', tipo='NOTICIA')
+        self.conteudo_evento = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do evento', tipo='EVENTO')
         self.conteudo_banner = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do banner', tipo='BANNER')
         self.resp = self.client.get(reverse('home'))
 
@@ -38,15 +37,13 @@ class HomeContextTest(TestCase):
         """
         A home deve conter noticias listadas na parte nao destaque
         """
-        # Sao esperados 8 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
-        # Como e feita a exibicao do titulo como alt da tag img esse numero duplica, ficando 16
-        self.assertContains(self.resp, u'test1', 8)
+        # Sao esperados 9 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
+        self.assertContains(self.resp, u'test1', 9)
 
     def test_conteudo_evento(self):
         """
         A home deve conter tres eventos
         """
-
         self.assertContains(self.resp, u'Titulo do evento', 3)
 
     # def test_conteudo_banner(self):
@@ -61,7 +58,6 @@ class HomeContextTest(TestCase):
         """
         # Sao esperados 5 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
         # Como sao exibidos os thumbnails para navegacao esse numero duplica, ficando 10
-        # Como e feita a exibicao do titulo como alt da tag img esse numero duplica, ficando 20
         self.assertContains(self.resp, u'noticia_destaque', 10)
 
 

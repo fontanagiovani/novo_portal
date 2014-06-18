@@ -4,10 +4,12 @@ from django.shortcuts import render, get_object_or_404
 
 
 def home(request):
-    noticias_detaque = Conteudo.objects.filter(destaque=True)[:5]
-    mais_noticias = Conteudo.objects.exclude(id__in=noticias_detaque.values_list('id', flat=True))[:9]
-    eventos = Conteudo.objects.filter(tipo='EVENTOS')[:3]
+    noticias_detaque = Conteudo.objects.filter(destaque=True, tipo='NOTICIA')[:5]
+    mais_noticias = Conteudo.objects.filter(tipo='NOTICIA').exclude(
+        id__in=noticias_detaque.values_list('id', flat=True))[:9]
+    eventos = Conteudo.objects.filter(tipo='EVENTO')[:3]
     banners = Conteudo.objects.filter(tipo='BANNER')[:3]
+
     return render(request, 'core/portal.html', {
         'noticias_destaque': noticias_detaque,
         'mais_noticias': mais_noticias, 
@@ -18,11 +20,11 @@ def home(request):
 
 def conteudo_detalhe(request, conteudo_id):
     conteudo = get_object_or_404(Conteudo, id=conteudo_id)
+
     return render(request, 'core/conteudo.html', {'conteudo': conteudo})
 
 # def exemplo_form_admin(request):
 #     return render(request, 'core/exemplo_form_admin.html', {'form': SiteForm()})
-
 
 
 def thumbnail(request, conteudo_id):
