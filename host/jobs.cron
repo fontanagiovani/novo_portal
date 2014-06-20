@@ -1,0 +1,1 @@
+#00 03 * * * %(current)s/host/myscript.sh
