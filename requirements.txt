@@ -1,3 +1,14 @@
 # This file is here because many Platforms as a Service look for
 #	requirements.txt in the root directory of a project.
--r requirements/production.txt
+
+
+Django==1.6.4
+South==0.8.4
+dj-database-url==0.3.0
+python-decouple==2.2
+django-mptt==0.6.0
+django-summernote==0.5.12
+pytz==2014.4
+git+https://github.com/stefanfoulis/django-filer.git@db465d391e426e2a450017209913e3eea33b64de
+gunicorn==18.0
+psycopg2==2.5.2

@@ -1,5 +1,5 @@
 # Local development dependencies go here
--r base.txt
+-r requirements.txt
 
 django-debug-toolbar==1.0.1
 sqlformatter==1.0
