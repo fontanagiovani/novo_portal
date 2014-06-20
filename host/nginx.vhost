@@ -1,0 +1,48 @@
+server {
+  # This server block handles the removal of www
+  # found at http://forum.nginx.org/read.php?2,171023 specific for Nginx 0.7.65
+  listen 80;
+  server_name www.imft.edu.br;
+  rewrite ^ $scheme://imft.edu.br$request_uri? permanent;
+}
+
+server {
+    listen 80;
+    charset utf-8;
+    server_name imft.edu.br *.imft.edu.br;
+
+    root %(current)s;
+
+    location /static {
+        # if asset versioning is used
+        if ($query_string) {
+            expires max;
+        }
+
+        root %(current)s/%(package)s;
+    }
+
+    location /media {
+        # if asset versioning is used
+        if ($query_string) {
+            expires max;
+        }
+
+        root %(current)s/%(package)s;
+    }
+
+    location / {
+        if (-f $document_root/maintenance.html) {
+            return 503;
+        }
+
+        uwsgi_pass unix:%(share)s/%(project)s.sock;
+        include uwsgi_params;
+        #include /etc/nginx/bots.conf;
+    }
+
+    error_page 503 @maintenance;
+    location @maintenance {
+        rewrite ^(.*)$ /maintenance.html break;
+    }
+}
