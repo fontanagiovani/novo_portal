@@ -7,7 +7,7 @@ BODY{
     position:relative;
     width:950px;
     left:50%;
-    top:-25px;
+    top:-15px;
     margin-left:-475px;
     background:#ececfb;
 }
@@ -28,12 +28,12 @@ BODY{
 }
 #topo #links{
     float:left;
-    width:717px;
+    width:720px;
     height:100%;
     border-left:3px #999 solid;
 }
 
-#topo #links #diretos, #topo #links form, #topo #links #sociais, #topo #links #menus{
+#topo #links #diretos, #topo #links form, #topo #links #sociais{
     display:block;
     height:28px;
     padding:2px;
@@ -41,8 +41,7 @@ BODY{
 #topo #links #diretos a{
     float:right;
     margin:2px;
-    height:20px;
-    font-size:20px;
+    font-size:14px;
     color:#cacad8;
     padding-right:5px;
     border-right:1px #cacad8 solid;
@@ -53,41 +52,13 @@ BODY{
     width:300px;
     height:25px;
     border:2px #cacad8 solid;
+    color:#cacad8;
 }
 #topo #links #sociais a{
     float:right;
     text-decoration:none;
 }
-#topo #links #menus{
-    border-top:3px #999 solid;
-    position:relative;
-    width:714px;
-    padding:0;
-    padding-left:4px;
-    top:11px;
-}
-#topo #links #menus a{
-    border-right:3px #999 solid;
-    font-size:18px;
-    color:#999;
-    height:34px;
-    line-height:25px;
-    padding:3px;
-}
-#topo #links #menus a:hover, #topo #menus li:hover{
-    background:#ececfb;
-    border-bottom:2px #95ca54 solid;
-    color:#95ca54;
-}
 
-
-#topo .top-bar, #topo #menus li a, #topo #menus li ul, #menu_section{
-    background:#fff;
-}
-#topo #menus li, #topo #menus{
-    padding:0;
-    margin:0;
-}
 
 #corpo{
     margin:2px;
@@ -111,6 +82,44 @@ BODY{
 
 
 
+/* Menu topo do Site */
+
+#menu_section{
+    border-top:3px #999 solid;
+    margin:0;
+    padding:0;
+    margin-top:15px;
+    height:35px;
+}
+
+#menu_section, #menus li a, #menus li ul{
+    background:#fff;
+}
+
+#menus{
+    width:100%;
+    padding:0;
+}
+#menus li{
+    border-right:3px #999 solid;
+}
+#menus a{
+    border-bottom:2px #fff solid;
+    font-size:16px;
+    text-align:center;
+    color:#999;
+    line-height:25px;
+    padding:3px 7px 3px 7px;
+}
+
+#menus a:hover{
+    background:#ececfb;
+    border-bottom:2px #95ca54 solid;
+    color:#95ca54;
+}
+
+
+/* formata menu noticia */
 .menu-icon{
     background:#2db200;
 }

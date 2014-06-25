@@ -180,15 +180,15 @@ body{
 #proreitorias-diretorias p{
     font-size:20px;
     color:#ed3237;
-    margin:1px;
-    padding:1px 0 1px 0;
+    margin:2px;
+    padding:0;
 }
 #proreitorias-diretorias a{
     text-decoration:none;
     color:#fdb430;
-    font-size:16px;
+    font-size:15px;
     display:block;
-    margin-top:3px;
+    margin-top:9px;
 }
 
 
