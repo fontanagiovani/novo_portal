@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from django.utils import timezone
+from jinja2.nodes import Test
 from portal.core.models import Conteudo
 from portal.core.models import Midia
 from filer.models import File as FileFiler
 from django.core.urlresolvers import reverse
+
 # from model_mommy import mommy
 # from django.core.files.uploadedfile import InMemoryUploadedFile
 # from PIL import Image
@@ -111,4 +113,7 @@ class MidiaTest(TestCase):
         Midia deve apresentar descricao como unicode
         """
         self.assertEqual(u'foto1', unicode(self.midia))
+
+
+
 

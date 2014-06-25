@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     # Project apps
     'portal.core',
     'portal.conteudo',
+    'portal.banner',	
 )
 
 if DEBUG:
@@ -85,7 +86,7 @@ if DEBUG:
     # Tell nose to measure coverage on the 'foo' and 'bar' apps
     NOSE_ARGS = [
         '--with-coverage',
-        '--cover-package=portal.core',
+        '--cover-package=portal.core, portal.banner',
         '--nologcapture',
     ]
 
