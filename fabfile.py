@@ -14,5 +14,5 @@ Path(__file__).parent.chdir()
 @task
 def production():
     env.PROJECT = Project(project='portal', instance='production')
-    env.hosts = ['200.129.244.17']
+    env.hosts = ['stage.ifmt.edu.br']
     env.user = env.PROJECT.user

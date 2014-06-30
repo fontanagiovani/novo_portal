@@ -2,14 +2,14 @@ server {
   # This server block handles the removal of www
   # found at http://forum.nginx.org/read.php?2,171023 specific for Nginx 0.7.65
   listen 80;
-  server_name www.imft.edu.br;
-  rewrite ^ $scheme://imft.edu.br$request_uri? permanent;
+  server_name stage.ifmt.edu.br;
+  rewrite ^ $scheme://stage.ifmt.edu.br$request_uri? permanent;
 }
 
 server {
     listen 80;
     charset utf-8;
-    server_name imft.edu.br *.imft.edu.br;
+    server_name stage.ifmt.edu.br *.ifmt.edu.br;
 
     root %(current)s;
 
