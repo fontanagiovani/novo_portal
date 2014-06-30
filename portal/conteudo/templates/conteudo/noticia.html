@@ -1,9 +1,13 @@
 {% extends 'core/pagina.html' %}
 {% load thumbnail %}
 {% block conteudo %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'admin:conteudo_noticia_change' noticia.id %}">Editar notícia</a>
+    {% endif %}
     <data>{{ noticia.data_publicacao }}</data>
     <titulo>{{ noticia.titulo }}</titulo>
     <controle>
+
         <rede-social>
             <a href=""><img src="{{ STATIC_URL }}img/sociais/f_cubo_mini.png"/></a>
             <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png"/></a>
