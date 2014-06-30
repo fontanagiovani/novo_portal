@@ -75,19 +75,19 @@ if DEBUG:
 
     DEBUG_APPS = (
         'debug_toolbar',
-        'django_nose',
+        # 'django_nose',
         'django_extensions',
     )
 
     # Use nose to run all tests
-    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+    # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
     # Tell nose to measure coverage on the 'foo' and 'bar' apps
-    NOSE_ARGS = [
-        '--with-coverage',
-        '--cover-package=portal.core',
-        '--nologcapture',
-    ]
+    # NOSE_ARGS = [
+    #     '--with-coverage',
+    #     '--cover-package=portal.core',
+    #     '--nologcapture',
+    # ]
 
     INSTALLED_APPS = DEBUG_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + DEBUG_APPS
 else:
