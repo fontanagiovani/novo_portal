@@ -49,19 +49,19 @@ class Noticia(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo_detalhe', (), {'conteudo_id': self.id}
+        return 'noticia_detalhe', (), {'noticia_id': self.id}
 
     def primeira_imagem(self):
-        if self.midia_set.filter(arquivo__image__isnull=False).exists():
-            return self.midia_set.filter(arquivo__image__isnull=False)[0].arquivo
+        if self.anexo_set.filter(arquivo__image__isnull=False).exists():
+            return self.anexo_set.filter(arquivo__image__isnull=False)[0].arquivo
 
     def imagens(self):
-        if self.midia_set.filter(arquivo__image__isnull=False).exists():
-            return self.midia_set.filter(arquivo__image__isnull=False)
+        if self.anexo_set.filter(arquivo__image__isnull=False).exists():
+            return self.anexo_set.filter(arquivo__image__isnull=False)
 
     def documentos(self):
-        if self.midia_set.filter(arquivo__image__isnull=True).exists():
-            return self.midia_set.filter(arquivo__image__isnull=True)
+        if self.anexo_set.filter(arquivo__image__isnull=True).exists():
+            return self.anexo_set.filter(arquivo__image__isnull=True)
 
 
 class Anexo(models.Model):
