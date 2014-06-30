@@ -2,12 +2,12 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 from portal.conteudo.models import Noticia
-from portal.conteudo.models import MidiaNoticia
+from portal.conteudo.models import Anexo
 from portal.conteudo.forms import NoticiaForm
 
 
-class MidiaNoticiaInLine(admin.StackedInline):
-    model = MidiaNoticia
+class AnexoInLine(admin.StackedInline):
+    model = Anexo
     extra = 1
 
 
@@ -19,6 +19,6 @@ class NoticiaAdmin(SummernoteModelAdmin):
 
     form = NoticiaForm
 
-    inlines = (MidiaNoticiaInLine, )
+    inlines = (AnexoInLine, )
 
 admin.site.register(Noticia, NoticiaAdmin)

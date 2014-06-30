@@ -1,0 +1,33 @@
+{% extends 'core/pagina.html' %}
+{% load thumbnail %}
+{% block conteudo %}
+<titulo>Notícias</titulo>
+{% for noticia in noticias %}
+    <div class="row">
+        <div class="large-12 columns" id="noticias">
+            <a href="{{ noticia.get_absolute_url }}">
+                {% if noticia.primeira_imagem %}
+                    <img src="{% thumbnail noticia.primeira_imagem 100x80 crop quality=80 %}" alt="{{ noticia.titulo }}">
+                {% endif %}
+                <data-local>{{ noticia.data_publicacao|date:"d M" }} - {{ noticia.get_campus_origem_display }}</data-local>
+                <titulo>{{ noticia.titulo }}</titulo>
+            </a>
+        </div>
+    </div>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if noticias.has_previous %}
+            <a href="?page={{ noticias.previous_page_number }}"><< Anterior </a>-
+        {% endif %}
+
+        <span class="current">
+            Página {{ noticias.number }} de {{ noticias.paginator.num_pages }}
+        </span>
+
+        {% if noticias.has_next %}
+            -<a href="?page={{ noticias.next_page_number }}"> Próxima >></a>
+        {% endif %}
+    </span>
+</div>
+{% endblock conteudo %}

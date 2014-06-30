@@ -1,11 +1,12 @@
 # coding: utf-8
 from portal.core.models import Conteudo
 from django.shortcuts import render, get_object_or_404
+from portal.conteudo.models import Noticia
 
 
 def home(request):
-    noticias_detaque = Conteudo.objects.filter(destaque=True, tipo='NOTICIA')[:5]
-    mais_noticias = Conteudo.objects.filter(tipo='NOTICIA').exclude(
+    noticias_detaque = Noticia.objects.filter(destaque=True)[:5]
+    mais_noticias = Noticia.objects.all().exclude(
         id__in=noticias_detaque.values_list('id', flat=True))[:9]
     eventos = Conteudo.objects.filter(tipo='EVENTO')[:3]
     banners = Conteudo.objects.filter(tipo='BANNER')[:3]

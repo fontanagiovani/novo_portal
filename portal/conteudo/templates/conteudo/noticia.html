@@ -1,9 +1,13 @@
 {% extends 'core/pagina.html' %}
 {% load thumbnail %}
 {% block conteudo %}
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'admin:conteudo_noticia_change' noticia.id %}" target="_blank">Editar notícia</a></p>
+    {% endif %}
     <data>{{ noticia.data_publicacao }}</data>
     <titulo>{{ noticia.titulo }}</titulo>
     <controle>
+
         <rede-social>
             <a href=""><img src="{{ STATIC_URL }}img/sociais/f_cubo_mini.png"/></a>
             <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png"/></a>
@@ -36,27 +40,27 @@
             <div>
                 <p>Arquivos Relacionados</p>
                 {% for documento in noticia.documentos %}
-                    <a href="{{ documento.arquivo.url }}">{{ documento.descricao }}</a>
+                    <a href="{{ documento.arquivo.url }}" target="_blank">{{ documento.descricao }}</a>
                 {% endfor %}
             </div>
         {% endif %}
-        <div>
-            <p>Galerias Relacionadas</p>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-        </div>
-        <div>
-            <p>Videos Relacionados</p>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-        </div>
-        <div>
-            <p>Tópicos Relacionados</p>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>
-        </div>
+{#        <div>#}
+{#            <p>Galerias Relacionadas</p>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#        </div>#}
+{#        <div>#}
+{#            <p>Videos Relacionados</p>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#        </div>#}
+{#        <div>#}
+{#            <p>Tópicos Relacionados</p>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#        </div>#}
     </relacionados>
 {% endblock conteudo %}
