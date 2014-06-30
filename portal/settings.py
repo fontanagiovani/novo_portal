@@ -268,17 +268,17 @@ SUMMERNOTE_CONFIG = {
     'width': '100%',
 
     # Set editor language/locale
-    # 'lang': 'en-US',
+    'lang': 'pt-BR',
 
     # Customize toolbar buttons
-    # 'toolbar': [
-    #     ['style', ['style']],
-    #     ['font', ['bold', 'italic', 'underline', 'clear']],
-    #     ['para', ['ul', 'ol']],
-    #     ['table', ['table']],
-    #     ['insert', ['link', 'video']],
-    #     ['misc', ['codeview']]
-    # ],
+    'toolbar': [
+        # ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'clear']],
+        # ['para', ['ul', 'ol']],
+        ['table', ['table']],
+        ['insert', ['link', ]], #'video']],
+        ['misc', ['codeview']]
+    ],
 
     # Set `upload_to` function for attachments.
     # 'attachment_upload_to': my_custom_upload_to_func(),
