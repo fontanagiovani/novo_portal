@@ -64,35 +64,10 @@ class Noticia(models.Model):
             return self.midia_set.filter(arquivo__image__isnull=True)
 
 
-class Banner(models.Model):
-    titulo = models.CharField(max_length=250, verbose_name=u'Título')
-
-
-class Evento(Noticia):
-    class Meta:
-        verbose_name = u'Evento'
-        verbose_name_plural = u'Eventos'
-
-
-class Midia(models.Model):
+class Anexo(models.Model):
     descricao = models.TextField(verbose_name=u'Descrição')
     arquivo = FilerFileField(related_name='arquivos')
-
-    class Meta:
-        verbose_name = u'Mídia'
-        verbose_name_plural = u'Mídias'
+    noticia = models.ForeignKey('Noticia', verbose_name=u'Notícia')
 
     def __unicode__(self):
         return self.descricao
-
-
-class MidiaNoticia(Midia):
-    noticia = models.ForeignKey('Noticia', verbose_name=u'Notícia')
-
-
-class MidiaBanner(Midia):
-    banner = models.ForeignKey('Banner', verbose_name=u'Banner')
-
-
-class MidiaEvento(Midia):
-    evento = models.ForeignKey('Evento', verbose_name=u'Evento')
