@@ -5,7 +5,7 @@ from model_mommy import mommy
 from portal.conteudo.models import Noticia
 
 
-class ConteudoDetalheTest(TestCase):
+class NoticiaDetalheTest(TestCase):
     def setUp(self):
         self.noticia = mommy.make(Noticia,
                                   titulo='titulo_teste',
@@ -32,3 +32,29 @@ class ConteudoDetalheTest(TestCase):
         self.assertContains(self.resp, 'titulo_teste')
         self.assertContains(self.resp, u'texto_teste')
         self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
+
+
+class NoticiaListaTest(TestCase):
+    def setUp(self):
+        self.noticias = mommy.make(Noticia,
+                                   titulo='titulo_teste',
+                                   _quantity=50)
+        self.resp = self.client.get(reverse('noticias_lista'))
+
+    def test_get(self):
+        """
+        GET /noticias/ deve retornar status code 200
+        """
+        self.assertEqual(200, self.resp.status_code)
+
+    def test_template(self):
+        """
+        Noticias lista deve renderizar o template lista.html
+        """
+        self.assertTemplateUsed(self.resp, 'conteudo/lista.html')
+
+    def test_html(self):
+        """
+        HTML deve conter o 20 titulos, que e a quantidade para paginacao
+        """
+        self.assertContains(self.resp, 'titulo_teste', 20)
