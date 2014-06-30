@@ -8,7 +8,7 @@ from portal.conteudo.forms import NoticiaForm
 
 class MidiaNoticiaInLine(admin.StackedInline):
     model = MidiaNoticia
-    extra = 0
+    extra = 1
 
 
 class NoticiaAdmin(SummernoteModelAdmin):
