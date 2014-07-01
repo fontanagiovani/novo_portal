@@ -12,7 +12,7 @@ class AnexoInLine(admin.StackedInline):
 
 
 class NoticiaAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'destaque', 'prioridade_destaque')
+    list_display = ('titulo', 'data_publicacao', 'destaque', 'get_prioridade_destaque')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     list_filter = ('destaque', )
@@ -20,5 +20,10 @@ class NoticiaAdmin(SummernoteModelAdmin):
     form = NoticiaForm
 
     inlines = (AnexoInLine, )
+
+    def get_prioridade_destaque(self, obj):
+        if obj.destaque:
+            return obj.get_prioridade_destaque_display()
+    get_prioridade_destaque.short_description = 'Prioridade de destaque'
 
 admin.site.register(Noticia, NoticiaAdmin)
