@@ -6,14 +6,11 @@ from portal.conteudo.models import Noticia
 
 def home(request):
     noticias_detaque = Noticia.objects.filter(destaque=True)[:5]
-    # [o.id for o in <unwanted objects>]
-    # noticias_detaque.values_list('id', flat=True)
     noticias_detaque = sorted(noticias_detaque, key=lambda o: o.prioridade_destaque)
+
     mais_noticias = Noticia.objects.all().exclude(
         id__in=[obj.id for obj in noticias_detaque])[:9]
-    # mais_noticias = Noticia.objects.all().exclude(
-    #     id__in=noticias_detaque.values_list('id', flat=True))[:9]
-    # noticias_detaque = sorted(noticias_detaque, key=lambda o: o.prioridade_destaque)
+
     eventos = Conteudo.objects.filter(tipo='EVENTO')[:3]
     banners = Conteudo.objects.filter(tipo='BANNER')[:3]
 
