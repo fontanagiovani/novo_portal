@@ -15,7 +15,7 @@ class NoticiaAdmin(SummernoteModelAdmin):
     list_display = ('titulo', 'data_publicacao', 'destaque', 'prioridade_destaque')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
-    list_filter = ('destaque', )
+    list_filter = ('destaque', 'prioridade_destaque')
 
     form = NoticiaForm
 
