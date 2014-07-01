@@ -28,12 +28,13 @@ class Noticia(models.Model):
         ('3', u'3 - Média'),
         ('4', u'4 - Baixa-Média'),
         ('5', u'5 - Baixa'),
+        ('6', u'Nenhuma')
     )
 
     campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR',
                                      verbose_name=u'Campus de origem')
     destaque = models.BooleanField(default=False)
-    prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='5',
+    prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',
                                            verbose_name=u'Prioridade de destaque')
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     texto = models.TextField()
