@@ -50,7 +50,7 @@ class Noticia(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'noticia_detalhe', (), {'noticia_id': self.id}
+        return 'conteudo:noticia_detalhe', (), {'noticia_id': self.id}
 
     def primeira_imagem(self):
         if self.anexo_set.filter(arquivo__image__isnull=False).exists():
@@ -89,4 +89,4 @@ class Pagina(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'pagina_detalhe', (), {'pagina_id': self.id}
+        return 'conteudo:pagina_detalhe', (), {'pagina_id': self.id}

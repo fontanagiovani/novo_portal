@@ -11,7 +11,7 @@ class NoticiaDetalheTest(TestCase):
                                   titulo='titulo_teste',
                                   texto=u'texto_teste',
                                   data_publicacao='2014-06-05 10:16:00')
-        self.resp = self.client.get(reverse('noticia_detalhe', kwargs={'noticia_id': self.noticia.id}))
+        self.resp = self.client.get(reverse('conteudo:noticia_detalhe', kwargs={'noticia_id': self.noticia.id}))
 
     def test_get(self):
         """
@@ -39,7 +39,7 @@ class NoticiaListaTest(TestCase):
         self.noticias = mommy.make(Noticia,
                                    titulo='titulo_teste',
                                    _quantity=50)
-        self.resp = self.client.get(reverse('noticias_lista'))
+        self.resp = self.client.get(reverse('conteudo:noticias_lista'))
 
     def test_get(self):
         """

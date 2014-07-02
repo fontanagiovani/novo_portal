@@ -35,7 +35,7 @@ class NoticiaTest(TestCase):
         Noticia deve ter um url de acesso direto
         """
         self.obj.save()
-        self.assertEqual(reverse('noticia_detalhe', kwargs={'noticia_id': '1'}), self.obj.get_absolute_url())
+        self.assertEqual(reverse('conteudo:noticia_detalhe', kwargs={'noticia_id': self.obj.id}), self.obj.get_absolute_url())
 
 
 class MidiaTest(TestCase):
@@ -92,4 +92,5 @@ class PaginaTest(TestCase):
         Noticia deve ter um url de acesso direto
         """
         self.pagina.save()
-        self.assertEqual(reverse('pagina_detalhe', kwargs={'pagina_id': '1'}), self.pagina.get_absolute_url())
+        self.assertEqual(reverse('conteudo:pagina_detalhe', kwargs={'pagina_id': self.pagina.id}),
+                         self.pagina.get_absolute_url())
