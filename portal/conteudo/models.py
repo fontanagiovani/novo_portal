@@ -72,3 +72,17 @@ class Anexo(models.Model):
 
     def __unicode__(self):
         return self.descricao
+
+
+class Pagina(models.Model):
+    titulo = models.CharField(max_length=250, verbose_name=u'Título')
+    texto = models.TextField()
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+
+    class Meta:
+        verbose_name = u'Página'
+        verbose_name_plural = u'Páginas'
+        ordering = ('-data_publicacao', '-id')
+
+    def __unicode__(self):
+        return self.titulo

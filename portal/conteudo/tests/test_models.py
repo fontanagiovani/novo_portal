@@ -3,9 +3,10 @@ from django.test import TestCase
 from django.utils import timezone
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Anexo
+from portal.conteudo.models import Pagina
 from filer.models import File as FileFiler
 from django.core.urlresolvers import reverse
-# from model_mommy import mommy
+from model_mommy import mommy
 
 
 class NoticiaTest(TestCase):
@@ -68,3 +69,14 @@ class MidiaTest(TestCase):
         """
         self.assertEqual(u'foto1', unicode(self.anexo))
 
+
+class PaginaTest(TestCase):
+    def setUp(self):
+        self.pagina = mommy.prepare(Pagina)
+
+    def test_criacao(self):
+        """
+        Pagina deve conter titulo, texto, data_publicacao
+        """
+        self.pagina.save()
+        self.assertIsNotNone(self.pagina.pk)
