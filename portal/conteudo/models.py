@@ -53,19 +53,19 @@ class Noticia(models.Model):
         return 'conteudo:noticia_detalhe', (), {'noticia_id': self.id}
 
     def primeira_imagem(self):
-        if self.anexo_set.filter(arquivo__image__isnull=False).exists():
-            return self.anexo_set.filter(arquivo__image__isnull=False)[0].arquivo
+        if self.anexonoticia_set.filter(arquivo__image__isnull=False).exists():
+            return self.anexonoticia_set.filter(arquivo__image__isnull=False)[0].arquivo
 
     def imagens(self):
-        if self.anexo_set.filter(arquivo__image__isnull=False).exists():
-            return self.anexo_set.filter(arquivo__image__isnull=False)
+        if self.anexonoticia_set.filter(arquivo__image__isnull=False).exists():
+            return self.anexonoticia_set.filter(arquivo__image__isnull=False)
 
     def documentos(self):
-        if self.anexo_set.filter(arquivo__image__isnull=True).exists():
-            return self.anexo_set.filter(arquivo__image__isnull=True)
+        if self.anexonoticia_set.filter(arquivo__image__isnull=True).exists():
+            return self.anexonoticia_set.filter(arquivo__image__isnull=True)
 
 
-class Anexo(models.Model):
+class AnexoNoticia(models.Model):
     descricao = models.TextField(verbose_name=u'Descrição')
     arquivo = FilerFileField(related_name='anexos_noticia')
     noticia = models.ForeignKey('Noticia', verbose_name=u'Notícia')

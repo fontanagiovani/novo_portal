@@ -2,7 +2,7 @@
 from django.test import TestCase
 from django.utils import timezone
 from portal.conteudo.models import Noticia
-from portal.conteudo.models import Anexo
+from portal.conteudo.models import AnexoNoticia
 from portal.conteudo.models import AnexoPagina
 from portal.conteudo.models import Pagina
 from filer.models import File as FileFiler
@@ -51,7 +51,7 @@ class AnexoTest(TestCase):
         arquivo = FileFiler()
         arquivo.save()
 
-        self.anexo = Anexo(
+        self.anexo = AnexoNoticia(
             noticia=self.noticia,
             descricao=u'foto1',
             arquivo=arquivo,
