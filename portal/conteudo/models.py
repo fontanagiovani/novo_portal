@@ -70,6 +70,10 @@ class AnexoNoticia(models.Model):
     arquivo = FilerFileField(related_name='anexos_noticia')
     noticia = models.ForeignKey('Noticia', verbose_name=u'Notícia')
 
+    class Meta:
+        verbose_name = u'Anexo de notícia'
+        verbose_name_plural = u'Anexos de notícia'
+
     def __unicode__(self):
         return self.descricao
 
@@ -96,6 +100,10 @@ class AnexoPagina(models.Model):
     descricao = models.TextField(verbose_name=u'Descrição')
     arquivo = FilerFileField(related_name='anexos_pagina')
     pagina = models.ForeignKey('Pagina', verbose_name=u'Página')
+
+    class Meta:
+        verbose_name = u'Anexo de página'
+        verbose_name_plural = u'Anexos de página'
 
     def __unicode__(self):
         return self.descricao
