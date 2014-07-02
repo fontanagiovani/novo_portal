@@ -86,3 +86,7 @@ class Pagina(models.Model):
 
     def __unicode__(self):
         return self.titulo
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'pagina_detalhe', (), {'pagina_id': self.id}

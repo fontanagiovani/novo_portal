@@ -24,3 +24,6 @@ def noticias_lista(request):
         noticias = paginator.page(paginator.num_pages)
 
     return render(request, 'conteudo/lista.html', {'noticias': noticias})
+
+def pagina_detalhe(request):
+    pass

@@ -72,7 +72,7 @@ class MidiaTest(TestCase):
 
 class PaginaTest(TestCase):
     def setUp(self):
-        self.pagina = mommy.prepare(Pagina)
+        self.pagina = mommy.prepare(Pagina, titulo=u'Título')
 
     def test_criacao(self):
         """
@@ -80,3 +80,16 @@ class PaginaTest(TestCase):
         """
         self.pagina.save()
         self.assertIsNotNone(self.pagina.pk)
+
+    def test_unicode(self):
+        """
+        Noticia deve apresentar o titulo como unicode
+        """
+        self.assertEqual(u'Título', unicode(self.pagina))
+
+    def test_get_absolute_url(self):
+        """
+        Noticia deve ter um url de acesso direto
+        """
+        self.pagina.save()
+        self.assertEqual(reverse('pagina_detalhe', kwargs={'pagina_id': '1'}), self.pagina.get_absolute_url())

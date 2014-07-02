@@ -17,6 +17,10 @@ urlpatterns = patterns('',
                        url(r'^noticia/(?P<noticia_id>\d+)/', 'portal.conteudo.views.noticia_detalhe',
                            name='noticia_detalhe'),
                        url(r'^noticias/', 'portal.conteudo.views.noticias_lista', name='noticias_lista'),
+
+                       # Paginas
+                       url(r'^pagina/(?P<pagina_id>\d+)/', 'portal.conteudo.views.pagina_detalhe',
+                           name='pagina_detalhe'),
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do summernote
