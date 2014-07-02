@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.utils import timezone
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Anexo
+from portal.conteudo.models import AnexoPagina
 from portal.conteudo.models import Pagina
 from filer.models import File as FileFiler
 from django.core.urlresolvers import reverse
@@ -38,7 +39,7 @@ class NoticiaTest(TestCase):
         self.assertEqual(reverse('conteudo:noticia_detalhe', kwargs={'noticia_id': self.obj.id}), self.obj.get_absolute_url())
 
 
-class MidiaTest(TestCase):
+class AnexoTest(TestCase):
     def setUp(self):
         self.noticia = Noticia(
             titulo=u'Título',
@@ -94,3 +95,35 @@ class PaginaTest(TestCase):
         self.pagina.save()
         self.assertEqual(reverse('conteudo:pagina_detalhe', kwargs={'pagina_id': self.pagina.id}),
                          self.pagina.get_absolute_url())
+
+
+class AnexoPaginaTest(TestCase):
+    def setUp(self):
+        self.pagina = Pagina(
+            titulo=u'Título',
+            texto=u'seu texto aqui!!!',
+            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
+        )
+        self.pagina.save()
+
+        arquivo = FileFiler()
+        arquivo.save()
+
+        self.anexo = AnexoPagina(
+            pagina=self.pagina,
+            descricao=u'foto1',
+            arquivo=arquivo,
+        )
+
+    def test_criacao(self):
+        """
+        Anexo deve possuir conteudo, descricao e arquivo
+        """
+        self.anexo.save()
+        self.assertIsNotNone(self.anexo.pk)
+
+    def test_unicode(self):
+        """
+        Anexo deve apresentar descricao como unicode
+        """
+        self.assertEqual(u'foto1', unicode(self.anexo))

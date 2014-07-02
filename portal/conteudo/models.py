@@ -67,7 +67,7 @@ class Noticia(models.Model):
 
 class Anexo(models.Model):
     descricao = models.TextField(verbose_name=u'Descrição')
-    arquivo = FilerFileField(related_name='arquivos')
+    arquivo = FilerFileField(related_name='anexos_noticia')
     noticia = models.ForeignKey('Noticia', verbose_name=u'Notícia')
 
     def __unicode__(self):
@@ -90,3 +90,12 @@ class Pagina(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return 'conteudo:pagina_detalhe', (), {'pagina_id': self.id}
+
+
+class AnexoPagina(models.Model):
+    descricao = models.TextField(verbose_name=u'Descrição')
+    arquivo = FilerFileField(related_name='anexos_pagina')
+    pagina = models.ForeignKey('Pagina', verbose_name=u'Página')
+
+    def __unicode__(self):
+        return self.descricao
