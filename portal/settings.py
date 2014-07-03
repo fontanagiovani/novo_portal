@@ -68,6 +68,7 @@ INSTALLED_APPS = (
     'portal.core',
     'portal.conteudo',
     'portal.banner',
+    'portal.cursos',
 )
 
 if DEBUG:

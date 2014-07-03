@@ -1,0 +1,20 @@
+{% extends 'cursos/base.html' %}
+{% block content %}
+
+<div id="accordion">
+{% for g in grupo %}
+    <h3>{{ g.formacao.nome }}</h3>
+    <div>
+        <form name="form" method="post">
+            Campus <select name="campus">
+                <option>Cuiabá</option>
+                <option>Campo Novo do Parecis</option>
+            </select>
+        </form>
+        <p>
+            {{ g.nome }}
+        </p>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}
