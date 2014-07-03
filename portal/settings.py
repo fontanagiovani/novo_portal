@@ -67,7 +67,7 @@ INSTALLED_APPS = (
     # Project apps
     'portal.core',
     'portal.conteudo',
-    'portal.banner',	
+    'portal.banner',
 )
 
 if DEBUG:
