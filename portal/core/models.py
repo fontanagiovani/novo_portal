@@ -74,6 +74,7 @@ class Midia(models.Model):
     def __unicode__(self):
         return self.descricao
 
+
 class Menu(MPTTModel):
     class Meta:
         ordering = ('titulo',)
@@ -85,3 +86,4 @@ class Menu(MPTTModel):
 
     def __unicode__(self):
         return self.titulo
+

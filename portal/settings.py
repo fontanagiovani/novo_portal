@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     # Project apps
     'portal.core',
     'portal.conteudo',
+    'portal.banner',	
 )
 
 if DEBUG:
@@ -83,6 +84,7 @@ if DEBUG:
     # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
     # Tell nose to measure coverage on the 'foo' and 'bar' apps
+
     # NOSE_ARGS = [
     #     '--with-coverage',
     #     '--cover-package=portal.core',
