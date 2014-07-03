@@ -8,8 +8,8 @@ from django.contrib.admin.options import ModelAdmin
 
 
 class BannerAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'descricao', 'data_publicacao', 'arquivo')
-    search_fields = ('titulo', 'descricao', 'data_publicacao')
+    list_display = ('titulo', 'data_publicacao', 'arquivo')
+    search_fields = ('titulo', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
 
 

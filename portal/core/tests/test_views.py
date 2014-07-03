@@ -30,12 +30,11 @@ class HomeContextTest(TestCase):
         mommy.make(Conteudo, _quantity=4, titulo=u'noticia_destaque', destaque=True, tipo='NOTICIA')
         mommy.make(Conteudo, _quantity=5, titulo=u'test1', tipo='NOTICIA')
         self.conteudo_evento = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do evento', tipo='EVENTO')
-        self.conteudo_banner = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do banner', tipo='BANNER')
         self.resp = self.client.get(reverse('home'))
 
     def test_conteudo_mais_noticias(self):
         """
-        A home deve conter noticias listadas na parte nao destaque
+        A home deve conter noticias listadas na parte nao destaque+
         """
         # Sao esperados 9 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
         self.assertContains(self.resp, u'test1', 9)

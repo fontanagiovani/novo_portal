@@ -5,9 +5,8 @@ from filer.fields.file import FilerFileField
 
 
 class Banner(models.Model):
-    titulo=models.CharField(max_length=250, verbose_name=u'Título', blank=True)
+    titulo=models.CharField(max_length=250, verbose_name=u'Título', null=True, blank=True)
     data_publicacao=models.DateTimeField(verbose_name=u'Data de publicação')
-    descricao=models.CharField(max_length=250, verbose_name=u'Descrição', default='') #deve ser alterado para not blank
     arquivo=FilerFileField(related_name='midia_banner')
 
     class Meta:
@@ -16,4 +15,4 @@ class Banner(models.Model):
         ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
-      return self.descricao
+      return self.arquivo.name
