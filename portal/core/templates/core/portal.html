@@ -56,7 +56,7 @@
 
     <div class="row">
         <div class="large-4 columns" id="noticias">
-            <p>NOTICIAS <a href="">| + Ver Mais</a></p>
+            <p>NOTICIAS <a href="{% url 'noticias_lista' %}">| + Ver Mais</a></p>
             {% for noticia in mais_noticias %}
                 <a href="{{ noticia.get_absolute_url }}">
                     {% if noticia.primeira_imagem %}

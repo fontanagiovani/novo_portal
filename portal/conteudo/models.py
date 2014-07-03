@@ -28,12 +28,13 @@ class Noticia(models.Model):
         ('3', u'3 - Média'),
         ('4', u'4 - Baixa-Média'),
         ('5', u'5 - Baixa'),
+        ('6', u'Nenhuma')
     )
 
     campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR',
                                      verbose_name=u'Campus de origem')
     destaque = models.BooleanField(default=False)
-    prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='5',
+    prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',
                                            verbose_name=u'Prioridade de destaque')
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     texto = models.TextField()
@@ -49,50 +50,25 @@ class Noticia(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo_detalhe', (), {'conteudo_id': self.id}
+        return 'noticia_detalhe', (), {'noticia_id': self.id}
 
     def primeira_imagem(self):
-        if self.midia_set.filter(arquivo__image__isnull=False).exists():
-            return self.midia_set.filter(arquivo__image__isnull=False)[0].arquivo
+        if self.anexo_set.filter(arquivo__image__isnull=False).exists():
+            return self.anexo_set.filter(arquivo__image__isnull=False)[0].arquivo
 
     def imagens(self):
-        if self.midia_set.filter(arquivo__image__isnull=False).exists():
-            return self.midia_set.filter(arquivo__image__isnull=False)
+        if self.anexo_set.filter(arquivo__image__isnull=False).exists():
+            return self.anexo_set.filter(arquivo__image__isnull=False)
 
     def documentos(self):
-        if self.midia_set.filter(arquivo__image__isnull=True).exists():
-            return self.midia_set.filter(arquivo__image__isnull=True)
+        if self.anexo_set.filter(arquivo__image__isnull=True).exists():
+            return self.anexo_set.filter(arquivo__image__isnull=True)
 
 
-class Banner(models.Model):
-    titulo = models.CharField(max_length=250, verbose_name=u'Título')
-
-
-class Evento(Noticia):
-    class Meta:
-        verbose_name = u'Evento'
-        verbose_name_plural = u'Eventos'
-
-
-class Midia(models.Model):
+class Anexo(models.Model):
     descricao = models.TextField(verbose_name=u'Descrição')
     arquivo = FilerFileField(related_name='arquivos')
-
-    class Meta:
-        verbose_name = u'Mídia'
-        verbose_name_plural = u'Mídias'
+    noticia = models.ForeignKey('Noticia', verbose_name=u'Notícia')
 
     def __unicode__(self):
         return self.descricao
-
-
-class MidiaNoticia(Midia):
-    noticia = models.ForeignKey('Noticia', verbose_name=u'Notícia')
-
-
-class MidiaBanner(Midia):
-    banner = models.ForeignKey('Banner', verbose_name=u'Banner')
-
-
-class MidiaEvento(Midia):
-    evento = models.ForeignKey('Evento', verbose_name=u'Evento')

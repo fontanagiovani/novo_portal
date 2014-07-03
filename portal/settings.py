@@ -75,19 +75,19 @@ if DEBUG:
 
     DEBUG_APPS = (
         'debug_toolbar',
-        'django_nose',
+        # 'django_nose',
         'django_extensions',
     )
 
     # Use nose to run all tests
-    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+    # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
     # Tell nose to measure coverage on the 'foo' and 'bar' apps
-    NOSE_ARGS = [
-        '--with-coverage',
-        '--cover-package=portal.core',
-        '--nologcapture',
-    ]
+    # NOSE_ARGS = [
+    #     '--with-coverage',
+    #     '--cover-package=portal.core',
+    #     '--nologcapture',
+    # ]
 
     INSTALLED_APPS = DEBUG_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + DEBUG_APPS
 else:
@@ -268,17 +268,17 @@ SUMMERNOTE_CONFIG = {
     'width': '100%',
 
     # Set editor language/locale
-    # 'lang': 'en-US',
+    'lang': 'pt-BR',
 
     # Customize toolbar buttons
-    # 'toolbar': [
-    #     ['style', ['style']],
-    #     ['font', ['bold', 'italic', 'underline', 'clear']],
-    #     ['para', ['ul', 'ol']],
-    #     ['table', ['table']],
-    #     ['insert', ['link', 'video']],
-    #     ['misc', ['codeview']]
-    # ],
+    'toolbar': [
+        # ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'clear']],
+        # ['para', ['ul', 'ol']],
+        ['table', ['table']],
+        ['insert', ['link', ]], #'video']],
+        ['misc', ['codeview']]
+    ],
 
     # Set `upload_to` function for attachments.
     # 'attachment_upload_to': my_custom_upload_to_func(),

@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from model_mommy import mommy
 from portal.core.models import Conteudo
+from portal.conteudo.models import Noticia
 
 
 class HomeTest(TestCase):
@@ -25,10 +26,10 @@ class HomeTest(TestCase):
 class HomeContextTest(TestCase):
     def setUp(self):
         # ordenacao por data e id decrescente
-        mommy.make(Conteudo, _quantity=4, titulo=u'noticia_destaque', destaque=True, tipo='NOTICIA')
-        mommy.make(Conteudo, _quantity=7, titulo=u'test1', tipo='NOTICIA')
-        mommy.make(Conteudo, _quantity=4, titulo=u'noticia_destaque', destaque=True, tipo='NOTICIA')
-        mommy.make(Conteudo, _quantity=5, titulo=u'test1', tipo='NOTICIA')
+        mommy.make(Noticia, _quantity=4, titulo=u'noticia_destaque', destaque=True)
+        mommy.make(Noticia, _quantity=7, titulo=u'test1')
+        mommy.make(Noticia, _quantity=4, titulo=u'noticia_destaque', destaque=True)
+        mommy.make(Noticia, _quantity=5, titulo=u'test1')
         self.conteudo_evento = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do evento', tipo='EVENTO')
         self.conteudo_banner = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do banner', tipo='BANNER')
         self.resp = self.client.get(reverse('home'))
