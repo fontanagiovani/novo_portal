@@ -3,6 +3,7 @@ from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 from portal.core.models import Conteudo
 from portal.core.models import Midia
+from portal.core.models import Menu
 
 
 class MidiaInLine(admin.StackedInline):
@@ -19,3 +20,10 @@ class ConteudoAdmin(SummernoteModelAdmin):
     inlines = (MidiaInLine, )
 
 admin.site.register(Conteudo, ConteudoAdmin)
+
+class MenuAdmin(admin.ModelAdmin):
+    list_display = ('titulo','parent')
+    search_fields = ('titulo',)
+    prepopulated_fields = {'slug':('titulo',)}
+
+admin.site.register(Menu,MenuAdmin)
