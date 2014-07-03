@@ -15,7 +15,7 @@ def server(hostname=None, fqdn=None, email=None):
     '''
     Setup a new server: server_setup:hostname,fqdn,email
 
-    Example: server:stage,stage.ifmt.edu.br,portal@imft.edu.br
+    Example: server:stage,stage.ifmt.edu.br,portal@ifmt.edu.br
     '''
     hostname = hostname or env.PROJECT.instance
     fqdn = fqdn or env.host_string
