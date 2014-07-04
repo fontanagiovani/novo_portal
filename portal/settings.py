@@ -278,7 +278,7 @@ SUMMERNOTE_CONFIG = {
         ['font', ['bold', 'italic', 'underline', 'clear']],
         # ['para', ['ul', 'ol']],
         ['table', ['table']],
-        ['insert', ['link', ]], #'video']],
+        ['insert', ['link', 'picture', 'video']],
         ['misc', ['codeview']]
     ],
 
