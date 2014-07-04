@@ -32,10 +32,14 @@ class AnexoPaginaInLine(admin.StackedInline):
 
 
 class PaginaAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao')
+    list_display = ('titulo', 'data_publicacao', 'get_link')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
 
     inlines = (AnexoPaginaInLine, )
+
+    def get_link(self, obj):
+        return obj.get_absolute_url()
+    get_link.short_description = u'Link da página'
 
 admin.site.register(Pagina, PaginaAdmin)
