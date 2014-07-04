@@ -2,6 +2,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from portal.conteudo.models import Noticia
+from portal.conteudo.models import Pagina
 
 
 def noticia_detalhe(request, noticia_id):
@@ -25,5 +26,8 @@ def noticias_lista(request):
 
     return render(request, 'conteudo/lista.html', {'noticias': noticias})
 
-def pagina_detalhe(request):
-    pass
+
+def pagina_detalhe(request, pagina_id):
+    pagina = get_object_or_404(Pagina, id=pagina_id)
+
+    return render(request, 'conteudo/pagina.html', {'pagina': pagina})
