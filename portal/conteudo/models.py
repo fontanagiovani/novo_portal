@@ -50,25 +50,60 @@ class Noticia(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'noticia_detalhe', (), {'noticia_id': self.id}
+        return 'conteudo:noticia_detalhe', (), {'noticia_id': self.id}
 
     def primeira_imagem(self):
-        if self.anexo_set.filter(arquivo__image__isnull=False).exists():
-            return self.anexo_set.filter(arquivo__image__isnull=False)[0].arquivo
+        if self.anexonoticia_set.filter(arquivo__image__isnull=False).exists():
+            return self.anexonoticia_set.filter(arquivo__image__isnull=False)[0].arquivo
 
     def imagens(self):
-        if self.anexo_set.filter(arquivo__image__isnull=False).exists():
-            return self.anexo_set.filter(arquivo__image__isnull=False)
+        if self.anexonoticia_set.filter(arquivo__image__isnull=False).exists():
+            return self.anexonoticia_set.filter(arquivo__image__isnull=False)
 
     def documentos(self):
-        if self.anexo_set.filter(arquivo__image__isnull=True).exists():
-            return self.anexo_set.filter(arquivo__image__isnull=True)
+        if self.anexonoticia_set.filter(arquivo__image__isnull=True).exists():
+            return self.anexonoticia_set.filter(arquivo__image__isnull=True)
 
 
-class Anexo(models.Model):
+class AnexoNoticia(models.Model):
     descricao = models.TextField(verbose_name=u'Descrição')
-    arquivo = FilerFileField(related_name='arquivos')
+    arquivo = FilerFileField(related_name='anexos_noticia')
     noticia = models.ForeignKey('Noticia', verbose_name=u'Notícia')
+
+    class Meta:
+        verbose_name = u'Anexo de notícia'
+        verbose_name_plural = u'Anexos de notícia'
+
+    def __unicode__(self):
+        return self.descricao
+
+
+class Pagina(models.Model):
+    titulo = models.CharField(max_length=250, verbose_name=u'Título')
+    texto = models.TextField()
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+
+    class Meta:
+        verbose_name = u'Página'
+        verbose_name_plural = u'Páginas'
+        ordering = ('-data_publicacao', '-id')
+
+    def __unicode__(self):
+        return self.titulo
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'conteudo:pagina_detalhe', (), {'pagina_id': self.id}
+
+
+class AnexoPagina(models.Model):
+    descricao = models.TextField(verbose_name=u'Descrição')
+    arquivo = FilerFileField(related_name='anexos_pagina')
+    pagina = models.ForeignKey('Pagina', verbose_name=u'Página')
+
+    class Meta:
+        verbose_name = u'Anexo de página'
+        verbose_name_plural = u'Anexos de página'
 
     def __unicode__(self):
         return self.descricao
