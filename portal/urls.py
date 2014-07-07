@@ -10,9 +10,9 @@ urlpatterns = patterns('',
                        url(r'^summernote/', include('django_summernote.urls')),
                        url(r'^conteudo/', include('portal.conteudo.urls', namespace='conteudo')),
                        url(r'^$', 'portal.core.views.home', name='home'),
-                       url(r'^conteudo/(?P<conteudo_id>\d+)/', 'portal.core.views.conteudo_detalhe',
-                           name='conteudo_detalhe'),
-                       url(r'^thumbnail/(?P<conteudo_id>\d+)/', 'portal.core.views.thumbnail', name='thumbnail'),
+                       # url(r'^conteudo/(?P<conteudo_id>\d+)/', 'portal.core.views.conteudo_detalhe',
+                       #     name='conteudo_detalhe'),
+                       # url(r'^thumbnail/(?P<conteudo_id>\d+)/', 'portal.core.views.thumbnail', name='thumbnail'),
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do summernote

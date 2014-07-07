@@ -1,0 +1,35 @@
+{% extends 'core/pagina.html' %}
+{% load thumbnail %}
+{% block conteudo %}
+<titulo>Eventos</titulo>
+{% for evento in eventos %}
+    <div class="row">
+        <div class="large-12 columns" id="eventos">
+            <a href="{{ evento.get_absolute_url }}">
+                <data><dia>{{ evento.data_inicio|date:"d M" }}</dia> {{ evento.data_inicio|date:"Y" }}</data>
+{#                Vermelho#}
+                <data><dia>{{ evento.data_fim|date:"d M" }}</dia> {{ evento.data_fim|date:"Y" }}</data>
+{#                <data-local>Início: {{ evento.data_inicio }} / Término: {{ evento.data_fim }}#}
+{#                    - {{ evento.get_campus_origem_display }} - Local: {{ evento.local }}</data-local>#}
+                <campus>{{ evento.campus_origem }} - Local: {{ evento.local }}</campus>
+                <titulo>{{ evento.titulo }}</titulo>
+            </a>
+        </div>
+    </div>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if eventos.has_previous %}
+            <a href="?page={{ eventos.previous_page_number }}"><< Anterior </a>-
+        {% endif %}
+
+        <span class="current">
+            Página {{ eventos.number }} de {{ eventos.paginator.num_pages }}
+        </span>
+
+        {% if eventos.has_next %}
+            -<a href="?page={{ eventos.next_page_number }}"> Próxima >></a>
+        {% endif %}
+    </span>
+</div>
+{% endblock conteudo %}

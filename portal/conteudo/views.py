@@ -38,3 +38,19 @@ def evento_detalhe(request, evento_id):
     evento = get_object_or_404(Evento, id=evento_id)
 
     return render(request, 'conteudo/evento.html', {'evento': evento})
+
+
+def eventos_lista(request):
+    paginator = Paginator(Evento.objects.all(), 20)
+
+    page = request.GET.get('page')
+    try:
+        eventos = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        eventos = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        eventos = paginator.page(paginator.num_pages)
+
+    return render(request, 'conteudo/eventos_lista.html', {'eventos': eventos})

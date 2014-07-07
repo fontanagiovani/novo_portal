@@ -11,6 +11,8 @@ class Migration(SchemaMigration):
         # Adding model 'Evento'
         db.create_table(u'conteudo_evento', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('campus_origem', self.gf('django.db.models.fields.CharField')(default='RTR', max_length=250)),
+            ('local', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('titulo', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('texto', self.gf('django.db.models.fields.TextField')()),
             ('data_publicacao', self.gf('django.db.models.fields.DateTimeField')()),
@@ -97,10 +99,12 @@ class Migration(SchemaMigration):
         },
         u'conteudo.evento': {
             'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Evento'},
+            'campus_origem': ('django.db.models.fields.CharField', [], {'default': "'RTR'", 'max_length': '250'}),
             'data_fim': ('django.db.models.fields.DateTimeField', [], {}),
             'data_inicio': ('django.db.models.fields.DateTimeField', [], {}),
             'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'local': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'texto': ('django.db.models.fields.TextField', [], {}),
             'titulo': ('django.db.models.fields.CharField', [], {'max_length': '250'})
         },

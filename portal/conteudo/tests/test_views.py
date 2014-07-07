@@ -118,3 +118,29 @@ class EventoDetalheTest(TestCase):
         self.assertContains(self.resp, 'titulo_teste')
         self.assertContains(self.resp, u'texto_teste')
         self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
+
+
+class EventoListaTest(TestCase):
+    def setUp(self):
+        self.eventos = mommy.make(Evento,
+                                  titulo='titulo_teste',
+                                  _quantity=50)
+        self.resp = self.client.get(reverse('conteudo:eventos_lista'))
+
+    def test_get(self):
+        """
+        GET /conteudo/eventos/ deve retornar status code 200
+        """
+        self.assertEqual(200, self.resp.status_code)
+
+    def test_template(self):
+        """
+        Eventos lista deve renderizar o template lista.html
+        """
+        self.assertTemplateUsed(self.resp, 'conteudo/eventos_lista.html')
+
+    def test_html(self):
+        """
+        HTML deve conter o 20 titulos, que e a quantidade para paginacao
+        """
+        self.assertContains(self.resp, 'titulo_teste', 20)
