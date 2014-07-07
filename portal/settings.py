@@ -129,6 +129,9 @@ DATABASES = {
         cast=db_url),
 }
 
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -136,9 +139,9 @@ LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Cuiaba'
 
-# USE_I18N = True
+USE_I18N = True
 
-# USE_L10N = True
+USE_L10N = True
 
 USE_TZ = True
 
