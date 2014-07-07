@@ -53,7 +53,7 @@ class NoticiaListaTest(TestCase):
         """
         Noticias lista deve renderizar o template lista.html
         """
-        self.assertTemplateUsed(self.resp, 'conteudo/lista.html')
+        self.assertTemplateUsed(self.resp, 'conteudo/noticias_lista.html')
 
     def test_html(self):
         """

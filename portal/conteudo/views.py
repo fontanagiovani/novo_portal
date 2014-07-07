@@ -25,7 +25,7 @@ def noticias_lista(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         noticias = paginator.page(paginator.num_pages)
 
-    return render(request, 'conteudo/lista.html', {'noticias': noticias})
+    return render(request, 'conteudo/noticias_lista.html', {'noticias': noticias})
 
 
 def pagina_detalhe(request, pagina_id):
