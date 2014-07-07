@@ -12,4 +12,7 @@ urlpatterns = patterns('portal.conteudo.views',
                        # Eventos
                        url(r'^evento/(?P<evento_id>\d+)/$', 'evento_detalhe', name='evento_detalhe'),
                        url(r'^eventos/$', 'eventos_lista', name='eventos_lista'),
+
+                       url(r'^video/(?P<video_id>\d+)/$', 'video_detalhe', name='video_detalhe'),
+                       url(r'^videos/$', 'videos_lista', name='videos_lista'),
                        )

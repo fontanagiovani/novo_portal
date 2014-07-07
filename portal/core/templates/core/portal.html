@@ -158,13 +158,15 @@
                     </menu>
                 </div>
                 <div id="video">
-                    <p>Videos <a href="">| + Ver Mais</a></p>
-                    <grande>
-                        <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg"/>
-                        <data><dia>08 Mai</dia> 2014</data>
-                        <campus>Rondonopolis</campus>
-                        <titulo>Novo terminal remoto do aeroporto de Fortaleza entra em operação</titulo>
-                    </grande>
+                    <p>Videos <a href="{% url 'conteudo:videos_lista' %}">| + Ver Mais</a></p>
+                    {% for video in videos %}
+                    <a href="{{ video.get_absolute_url }}" id="grande">
+                        <img src="//i1.ytimg.com/vi/{{ video.video }}/mqdefault.jpg"/>
+                        <data><dia>{{ video.data_publicacao|date:"d M" }}</dia> {{ video.data_publicacao|date:"Y" }}</data>
+                        <campus>{{ video.get_campus_origem_display }}</campus>
+                        <titulo>{{ video.titulo }}</titulo>
+                    </a>
+                    {% endfor %}
                 </div>
             </div>
         </div>

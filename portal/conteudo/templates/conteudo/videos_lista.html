@@ -1,0 +1,31 @@
+{% extends 'core/pagina.html' %}
+{% load thumbnail %}
+{% block conteudo %}
+<titulo>Videos</titulo>
+{% for video in videos %}
+    <div class="row">
+        <div class="large-12 columns" id="noticias">
+            <a href="{{ video.get_absolute_url }}">
+                <img src="//i1.ytimg.com/vi/{{ video.video }}/mqdefault.jpg" width="100" height="80" alt="{{ video.titulo}}"/>
+                <data-local>{{ video.data_publicacao|date:"d M" }} - {{ video.get_campus_origem_display }}</data-local>
+                <titulo>{{ video.titulo }}</titulo>
+            </a>
+        </div>
+    </div>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if videos.has_previous %}
+            <a href="?page={{ videos.previous_page_number }}"><< Anterior </a>-
+        {% endif %}
+
+        <span class="current">
+            Página {{ videos.number }} de {{ videos.paginator.num_pages }}
+        </span>
+
+        {% if videos.has_next %}
+            -<a href="?page={{ videos.next_page_number }}"> Próxima >></a>
+        {% endif %}
+    </span>
+</div>
+{% endblock conteudo %}

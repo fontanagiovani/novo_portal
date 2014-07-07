@@ -68,5 +68,6 @@ class VideoAdmin(SummernoteModelAdmin):
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     list_filter = ('campus_origem', 'data_publicacao')
+    prepopulated_fields = {'slug':('titulo',)}
 
 admin.site.register(Video, VideoAdmin)

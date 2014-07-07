@@ -3,6 +3,7 @@ from portal.banner.models import Banner
 from django.shortcuts import render, get_object_or_404
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
+from portal.conteudo.models import Video
 
 
 def home(request):
@@ -15,11 +16,14 @@ def home(request):
 
     banners = Banner.objects.all()[:3]
 
+    videos = Video.objects.all()[:1]
+
     return render(request, 'core/portal.html', {
         'noticias_destaque': noticias_detaque,
         'mais_noticias': mais_noticias,
         'eventos': eventos,
         'banners': banners,
+        'videos': videos,
     })
 
 

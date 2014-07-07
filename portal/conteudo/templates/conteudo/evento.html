@@ -4,9 +4,6 @@
     {% if user.is_authenticated %}
         <p><a href="{% url 'admin:conteudo_evento_change' evento.id %}" target="_blank">Editar página</a></p>
     {% endif %}
-    <data>{{ evento.data_publicacao }}</data>
-    <data>Início do evento: {{ evento.data_inicio }}</data>
-    <data>Término do evento: {{ evento.data_fim }}</data>
     <titulo>{{ evento.titulo }}</titulo>
     <controle>
 
@@ -20,6 +17,11 @@
             <a href="">A-</a>
         </letra>
     </controle>
+
+    <data>{{ evento.data_publicacao }}</data>
+    <data>Início do evento: {{ evento.data_inicio }}</data>
+    <data>Término do evento: {{ evento.data_fim }}</data>
+
     <p id="texto">
         <!--
         Para paginas de Video

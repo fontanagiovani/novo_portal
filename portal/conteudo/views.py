@@ -4,6 +4,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
+from portal.conteudo.models import Video
 
 
 def noticia_detalhe(request, noticia_id):
@@ -54,3 +55,24 @@ def eventos_lista(request):
         eventos = paginator.page(paginator.num_pages)
 
     return render(request, 'conteudo/eventos_lista.html', {'eventos': eventos})
+
+def video_detalhe(request, video_id):
+    video = get_object_or_404(Video, id=video_id)
+
+    return render(request, 'conteudo/video.html', {'video': video})
+
+
+def videos_lista(request):
+    paginator = Paginator(Video.objects.all(), 20)
+
+    page = request.GET.get('page')
+    try:
+        videos = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        videos = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        videos = paginator.page(paginator.num_pages)
+
+    return render(request, 'conteudo/videos_lista.html', {'videos': videos})

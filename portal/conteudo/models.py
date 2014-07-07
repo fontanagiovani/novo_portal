@@ -155,6 +155,7 @@ class Video(models.Model):
     video = models.CharField(max_length=250, verbose_name=u'Id do Video')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+    fonte = models.CharField(max_length=250, blank=True, verbose_name=u'Fonte ou Autoria ')
 
     class Meta:
         verbose_name = u'Vídeo'
@@ -163,3 +164,7 @@ class Video(models.Model):
 
     def __unicode__(self):
         return self.titulo
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'conteudo:video_detalhe', (), {'video_id': self.id}

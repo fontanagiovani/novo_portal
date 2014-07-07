@@ -1,0 +1,59 @@
+{% extends 'core/pagina.html' %}
+{% load thumbnail %}
+{% block conteudo %}
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'admin:conteudo_video_change' video.id %}" target="_blank">Editar notícia</a></p>
+    {% endif %}
+
+    <data>{{ video.data_publicacao }} - {{ video.get_campus_origem_display }}</data>
+    <titulo>{{ video.titulo }}</titulo>
+    <controle>
+
+        <rede-social>
+            <a href=""><img src="{{ STATIC_URL }}img/sociais/f_cubo_mini.png"/></a>
+            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png"/></a>
+            <a href=""><img src="{{ STATIC_URL }}img/sociais/t_cubo_mini.png"/></a>
+        </rede-social>
+        <letra>
+            <a href="">A+</a>
+            <a href="">A-</a>
+        </letra>
+    </controle>
+    <p id="texto">
+
+        <iframe width="640" height="480" src="//www.youtube.com/embed/{{ video.video }}" frameborder="0" allowfullscreen></iframe>
+
+        {% autoescape off %}
+            {{ video.texto }}
+        {% endautoescape %}
+    </p>
+    <autor>{{ video.fonte }}</autor>
+    <relacionados>
+        {% if video.documentos %}
+            <div>
+                <p>Arquivos Relacionados</p>
+                {% for documento in video.documentos %}
+                    <a href="{{ documento.arquivo.url }}" target="_blank">{{ documento.descricao }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+{#        <div>#}
+{#            <p>Galerias Relacionadas</p>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#        </div>#}
+{#        <div>#}
+{#            <p>Videos Relacionados</p>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#        </div>#}
+{#        <div>#}
+{#            <p>Tópicos Relacionados</p>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+{#        </div>#}
+    </relacionados>
+{% endblock conteudo %}

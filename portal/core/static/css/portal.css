@@ -322,14 +322,14 @@ body{
 #midias p a:hover{
     background:none;
 }
-#midias grande img{
+#midias #grande img{
     width:100%;
 }
-#midias grande data, #midias grande campus{
+#midias #grande data, #midias #grande campus{
     font-size:12px;
     color:#fdb430;
 }
-#midias grande titulo{
+#midias #grande titulo{
     display:block;
     color:#fff;
 }
