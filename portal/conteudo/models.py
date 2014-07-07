@@ -2,25 +2,26 @@
 from django.db import models
 from filer.fields.file import FilerFileField
 
+CAMPUS_ORIGEM = (
+    ('RTR', u'Reitoria'),
+    ('BAG', u'Campus Barra do Garças'),
+    ('BLV', u'Campus Bela Vista'),
+    ('CAS', u'Campus Cáceres'),
+    ('CFS', u'Campus Confresa'),
+    ('CBA', u'Campus Cuiabá'),
+    ('JNA', u'Campus Juína'),
+    ('CNP', u'Campus Campo Novo do Parecis'),
+    ('PLC', u'Campus Pontes e Lacerda'),
+    ('ROO', u'Campus Rondonópolis'),
+    ('SVC', u'Campus São Vicente'),
+    ('PDL', u'Campus Primavera do Leste'),
+    ('SRS', u'Campus Sorriso'),
+    ('VGD', u'Campus Várzea Grande'),
+    ('AFL', u'Campus Alta Floresta'),
+)
+
 
 class Noticia(models.Model):
-    CAMPUS_ORIGEM = (
-        ('RTR', u'Reitoria'),
-        ('BAG', u'Campus Barra do Garças'),
-        ('BLV', u'Campus Bela Vista'),
-        ('CAS', u'Campus Cáceres'),
-        ('CFS', u'Campus Confresa'),
-        ('CBA', u'Campus Cuiabá'),
-        ('JNA', u'Campus Juína'),
-        ('CNP', u'Campus Campo Novo do Parecis'),
-        ('PLC', u'Campus Pontes e Lacerda'),
-        ('ROO', u'Campus Rondonópolis'),
-        ('SVC', u'Campus São Vicente'),
-        ('PDL', u'Campus Primavera do Leste'),
-        ('SRS', u'Campus Sorriso'),
-        ('VGD', u'Campus Várzea Grande'),
-        ('AFL', u'Campus Alta Floresta'),
-    )
 
     PRIORIDADE_DESTAQUE = (
         ('1', u'1 - Alta'),
@@ -111,23 +112,6 @@ class AnexoPagina(models.Model):
 
 
 class Evento(models.Model):
-    CAMPUS_ORIGEM = (
-        ('RTR', u'Reitoria'),
-        ('BAG', u'Campus Barra do Garças'),
-        ('BLV', u'Campus Bela Vista'),
-        ('CAS', u'Campus Cáceres'),
-        ('CFS', u'Campus Confresa'),
-        ('CBA', u'Campus Cuiabá'),
-        ('JNA', u'Campus Juína'),
-        ('CNP', u'Campus Campo Novo do Parecis'),
-        ('PLC', u'Campus Pontes e Lacerda'),
-        ('ROO', u'Campus Rondonópolis'),
-        ('SVC', u'Campus São Vicente'),
-        ('PDL', u'Campus Primavera do Leste'),
-        ('SRS', u'Campus Sorriso'),
-        ('VGD', u'Campus Várzea Grande'),
-        ('AFL', u'Campus Alta Floresta'),
-    )
 
     campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR',
                                      verbose_name=u'Campus de origem')
@@ -162,3 +146,20 @@ class AnexoEvento(models.Model):
 
     def __unicode__(self):
         return self.descricao
+
+class Video(models.Model):
+
+    campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR', verbose_name=u'Campus de origem')
+    titulo = models.CharField(max_length=250, verbose_name=u'Título')
+    slug = models.SlugField(max_length=250, verbose_name=u'Slug')
+    video = models.CharField(max_length=250, verbose_name=u'Id do Video')
+    texto = models.TextField()
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+
+    class Meta:
+        verbose_name = u'Vídeo'
+        verbose_name_plural = u'Vídeos'
+        ordering = ('-data_publicacao', '-id')
+
+    def __unicode__(self):
+        return self.titulo

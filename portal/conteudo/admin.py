@@ -4,10 +4,12 @@ from django_summernote.admin import SummernoteModelAdmin
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
+from portal.conteudo.models import Video
 from portal.conteudo.models import AnexoNoticia
 from portal.conteudo.models import AnexoPagina
 from portal.conteudo.models import AnexoEvento
 from portal.conteudo.forms import NoticiaForm
+
 
 
 class AnexoNoticiaInLine(admin.StackedInline):
@@ -60,3 +62,11 @@ class EventoAdmin(SummernoteModelAdmin):
     inlines = (AnexoEventoInLine, )
 
 admin.site.register(Evento, EventoAdmin)
+
+class VideoAdmin(SummernoteModelAdmin):
+    list_display = ('titulo', 'data_publicacao')
+    search_fields = ('titulo', 'texto', 'data_publicacao')
+    date_hierarchy = 'data_publicacao'
+    list_filter = ('campus_origem', 'data_publicacao')
+
+admin.site.register(Video, VideoAdmin)
