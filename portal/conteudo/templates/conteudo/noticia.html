@@ -28,7 +28,8 @@
         -->
         <!-- Para noticia de texto, essa imagem não aparece para os outros tipos -->
         {% for imagem in noticia.imagens %}
-            <img src="{% thumbnail imagem.arquivo 250x250 upscale quality=80 %}" alt="{{ imagem.descricao }}"/>
+
+        <img src="{% thumbnail imagem.arquivo 250x250 upscale quality=80 %}" alt="{{ imagem.descricao }}"/>
         {% endfor %}
         {% autoescape off %}
             {{ noticia.texto }}

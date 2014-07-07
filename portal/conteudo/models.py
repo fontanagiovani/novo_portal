@@ -39,7 +39,7 @@ class Noticia(models.Model):
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
-    fonte = models.CharField(max_length=250, verbose_name=u'Fonte ou Autoria')
+    fonte = models.CharField(max_length=250, verbose_name=u'Fonte ou Autoria ')
 
     class Meta:
         verbose_name = u'Notícia'
