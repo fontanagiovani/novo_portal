@@ -3,8 +3,10 @@ from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Pagina
+from portal.conteudo.models import Evento
 from portal.conteudo.models import AnexoNoticia
 from portal.conteudo.models import AnexoPagina
+from portal.conteudo.models import AnexoEvento
 from portal.conteudo.forms import NoticiaForm
 
 
@@ -43,3 +45,18 @@ class PaginaAdmin(SummernoteModelAdmin):
     get_link.short_description = u'Link da página'
 
 admin.site.register(Pagina, PaginaAdmin)
+
+
+class AnexoEventoInLine(admin.StackedInline):
+    model = AnexoEvento
+    extra = 1
+
+
+class EventoAdmin(SummernoteModelAdmin):
+    list_display = ('titulo', 'data_publicacao', 'data_inicio', 'data_fim')
+    search_fields = ('titulo', 'texto', 'data_publicacao', 'data_inicio', 'data_fim')
+    date_hierarchy = 'data_publicacao'
+
+    inlines = (AnexoEventoInLine, )
+
+admin.site.register(Evento, EventoAdmin)
