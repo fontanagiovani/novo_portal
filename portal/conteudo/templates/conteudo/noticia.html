@@ -28,13 +28,13 @@
         -->
         <!-- Para noticia de texto, essa imagem não aparece para os outros tipos -->
         {% for imagem in noticia.imagens %}
-            <img src="{% thumbnail imagem.arquivo 100x100 upscale quality=80 %}" alt="{{ imagem.descricao }}"/>
+            <img src="{% thumbnail imagem.arquivo 250x250 upscale quality=80 %}" alt="{{ imagem.descricao }}"/>
         {% endfor %}
         {% autoescape off %}
             {{ noticia.texto }}
         {% endautoescape %}
     </p>
-    <autor>Assessoria IFMT</autor>
+    <autor>{{ noticia.fonte }}</autor>
     <relacionados>
         {% if noticia.documentos %}
             <div>
