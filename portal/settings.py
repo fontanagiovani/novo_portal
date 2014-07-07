@@ -14,6 +14,7 @@ import sys
 from decouple import config
 from dj_database_url import parse as db_url
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -41,7 +42,7 @@ TEMPLATE_DEBUG = DEBUG
 
 TESTING = 'test' in sys.argv or not config('SQL_LOG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17']
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17', '.herokuapp.com']
 
 
 # Application definition
@@ -150,6 +151,10 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 # Usado pelo grappelli
 # STATICFILES_FINDERS = (

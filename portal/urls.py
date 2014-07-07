@@ -18,8 +18,8 @@ urlpatterns = patterns('',
 # Trecho utilizado para que o django sirva os arquivos do summernote
 from django.conf import settings
 
-if settings.DEBUG:
+# if settings.DEBUG:
     # static files (images, css, javascript, etc.)
-    urlpatterns += patterns('',
-                            (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-                                'document_root': settings.MEDIA_ROOT}))
+urlpatterns += patterns('',
+                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                            'document_root': settings.MEDIA_ROOT}))
