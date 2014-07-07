@@ -96,15 +96,15 @@
                 </select>
             </form>
             <div id="eventos">
-                    <p>EVENTOS <a href="">| + Ver Mais</a></p>
-                    <!--{% for evento in eventos %}-->
-                    <!--<a href="">-->
-                        <!--<data><dia>{{ evento.data_publicacao|date:"d M" }}</dia> {{ evento.data_publicacao|date:"Y" }}</data>-->
-                        <!--<campus>Rondonopolis</campus>-->
-                        <!--<titulo>{{ evento.titulo }}</titulo>-->
-                    <!--</a>-->
-                   <!--{% endfor %}-->
-             </div>
+                <p>EVENTOS <a href="{% url 'conteudo:eventos_lista' %}">| + Ver Mais</a></p>
+                {% for evento in eventos %}
+                    <a href="{{ evento.get_absolute_url }}">
+                    <data><dia>{{ evento.data_inicio|date:"d M" }}</dia> {{ evento.data_publicacao|date:"Y" }}</data>
+                    <campus>{{ evento.campus_origem }}</campus>
+                    <titulo>{{ evento.titulo }}</titulo>
+                    </a>
+                {% endfor %}
+            </div>
 
             <div id="acesso-rapido">
                 <p>ACESSO RAPIDO</p>

@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from model_mommy import mommy
 from portal.conteudo.models import Noticia
+from portal.conteudo.models import Evento
 
 
 class HomeTest(TestCase):
@@ -29,7 +30,7 @@ class HomeContextTest(TestCase):
         mommy.make(Noticia, _quantity=7, titulo=u'test1')
         mommy.make(Noticia, _quantity=4, titulo=u'noticia_destaque', destaque=True)
         mommy.make(Noticia, _quantity=5, titulo=u'test1')
-        # self.conteudo_evento = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do evento', tipo='EVENTO')
+        mommy.make(Evento, _quantity=3, titulo=u'Titulo do evento')
         self.resp = self.client.get(reverse('home'))
 
     def test_conteudo_mais_noticias(self):
@@ -39,11 +40,11 @@ class HomeContextTest(TestCase):
         # Sao esperados 9 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
         self.assertContains(self.resp, u'test1', 9)
 
-    # def test_conteudo_evento(self):
-    #     """
-    #     A home deve conter tres eventos
-    #     """
-    #     self.assertContains(self.resp, u'Titulo do evento', 3)
+    def test_conteudo_evento(self):
+        """
+        A home deve conter tres eventos
+        """
+        self.assertContains(self.resp, u'Titulo do evento', 3)
 
     # def test_conteudo_banner(self):
     #     """
