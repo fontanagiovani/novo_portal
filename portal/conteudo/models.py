@@ -108,3 +108,36 @@ class AnexoPagina(models.Model):
 
     def __unicode__(self):
         return self.descricao
+
+
+class Evento(models.Model):
+    titulo = models.CharField(max_length=250, verbose_name=u'Título')
+    texto = models.TextField()
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+    data_inicio = models.DateTimeField(verbose_name=u'Data de início')
+    data_fim = models.DateTimeField(verbose_name=u'Data de término')
+
+    class Meta:
+        verbose_name = u'Evento'
+        verbose_name_plural = u'Eventos'
+        ordering = ('-data_publicacao', '-id')
+
+    def __unicode__(self):
+        return self.titulo
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'conteudo:evento_detalhe', (), {'evento_id': self.id}
+
+
+class AnexoEvento(models.Model):
+    descricao = models.TextField(verbose_name=u'Descrição')
+    arquivo = FilerFileField(related_name='anexos_evento')
+    evento = models.ForeignKey('Evento')
+
+    class Meta:
+        verbose_name = u'Anexo de evento'
+        verbose_name_plural = u'Anexos de evento'
+
+    def __unicode__(self):
+        return self.descricao

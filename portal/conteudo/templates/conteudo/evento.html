@@ -1,0 +1,68 @@
+{% extends 'core/pagina.html' %}
+{% load thumbnail %}
+{% block conteudo %}
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'admin:conteudo_evento_change' evento.id %}" target="_blank">Editar página</a></p>
+    {% endif %}
+    <data>{{ evento.data_publicacao }}</data>
+    <data>Início do evento: {{ evento.data_inicio }}</data>
+    <data>Término do evento: {{ evento.data_fim }}</data>
+    <titulo>{{ evento.titulo }}</titulo>
+    <controle>
+
+        <rede-social>
+            <a href=""><img src="{{ STATIC_URL }}img/sociais/f_cubo_mini.png"/></a>
+            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png"/></a>
+            <a href=""><img src="{{ STATIC_URL }}img/sociais/t_cubo_mini.png"/></a>
+        </rede-social>
+        <letra>
+            <a href="">A+</a>
+            <a href="">A-</a>
+        </letra>
+    </controle>
+    <p id="texto">
+        <!--
+        Para paginas de Video
+        <iframe width="640" height="480" src="//www.youtube.com/embed/RBMxHUCtqn0" frameborder="0" allowfullscreen></iframe>
+
+        Para pagina de Galeria, essa imagem é só para ilustrar onde pode focar a grade da galeria ou a galeria em si.
+        <img src="{{ STATIC_URL }}img/logo_ifmt.png" id="galeria" alt="IFMT">
+        -->
+        <!-- Para pagina de texto, essa imagem não aparece para os outros tipos -->
+        {#        {% for imagem in pagina.imagens %}#}
+        {#            <img src="{% thumbnail imagem.arquivo 100x100 upscale quality=80 %}" alt="{{ imagem.descricao }}"/>#}
+        {#        {% endfor %}#}
+        {% autoescape off %}
+            {{ evento.texto }}
+        {% endautoescape %}
+    </p>
+    {% if evento.anexoevento_set.exists %}
+        <relacionados>
+
+            <div>
+                <p>Arquivos Relacionados</p>
+                {% for anexo in evento.anexoevento_set.all %}
+                    <a href="{{ anexo.arquivo.url }}" target="_blank">{{ anexo.descricao }}</a>
+                {% endfor %}
+            </div>
+            {#        <div>#}
+            {#            <p>Galerias Relacionadas</p>#}
+            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+            {#        </div>#}
+            {#        <div>#}
+            {#            <p>Videos Relacionados</p>#}
+            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+            {#        </div>#}
+            {#        <div>#}
+            {#            <p>Tópicos Relacionados</p>#}
+            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
+            {#        </div>#}
+        </relacionados>
+    {% endif %}
+{% endblock conteudo %}

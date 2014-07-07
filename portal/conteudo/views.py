@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Pagina
+from portal.conteudo.models import Evento
 
 
 def noticia_detalhe(request, noticia_id):
@@ -31,3 +32,9 @@ def pagina_detalhe(request, pagina_id):
     pagina = get_object_or_404(Pagina, id=pagina_id)
 
     return render(request, 'conteudo/pagina.html', {'pagina': pagina})
+
+
+def evento_detalhe(request, evento_id):
+    evento = get_object_or_404(Evento, id=evento_id)
+
+    return render(request, 'conteudo/evento.html', {'evento': evento})

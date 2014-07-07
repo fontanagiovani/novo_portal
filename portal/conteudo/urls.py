@@ -8,4 +8,7 @@ urlpatterns = patterns('portal.conteudo.views',
 
                        # Paginas
                        url(r'^pagina/(?P<pagina_id>\d+)/$', 'pagina_detalhe', name='pagina_detalhe'),
+
+                       # Eventos
+                       url(r'^evento/(?P<evento_id>\d+)/$', 'evento_detalhe', name='evento_detalhe'),
                        )
