@@ -1,5 +1,5 @@
 # coding: utf-8
-from portal.banner.models import Banner
+from portal.banner.models import Banner, BannerAcessoRapido
 from django.shortcuts import render, get_object_or_404
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
@@ -16,6 +16,8 @@ def home(request):
 
     banners = Banner.objects.all()[:3]
 
+    acesso_rapido = BannerAcessoRapido.objects.all()[:5]
+
     videos = Video.objects.all()[:1]
 
     return render(request, 'core/portal.html', {
@@ -23,6 +25,7 @@ def home(request):
         'mais_noticias': mais_noticias,
         'eventos': eventos,
         'banners': banners,
+        'acesso_rapido': acesso_rapido,
         'videos': videos,
     })
 

@@ -60,6 +60,11 @@ class HomeContextTest(TestCase):
         # Como sao exibidos os thumbnails para navegacao esse numero duplica, ficando 10
         self.assertContains(self.resp, u'noticia_destaque', 10)
 
+    # def test_banner(self):
+    #     """
+    #     A home de conter tres banners
+    #     """
+
 
 # class ConteudoDetalheTest(TestCase):
 #     def setUp(self):
