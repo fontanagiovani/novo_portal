@@ -5,6 +5,8 @@ from portal.conteudo.models import Noticia
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
 from portal.conteudo.models import Video
+from portal.conteudo.models import Galeria
+
 
 
 def noticia_detalhe(request, noticia_id):
@@ -76,3 +78,25 @@ def videos_lista(request):
         videos = paginator.page(paginator.num_pages)
 
     return render(request, 'conteudo/videos_lista.html', {'videos': videos})
+
+
+def galeria_detalhe(request, galeria_id):
+    galeria = get_object_or_404(Galeria, id=galeria_id)
+
+    return render(request, 'conteudo/galeria.html', {'galeria': galeria})
+
+
+def galerias_lista(request):
+    paginator = Paginator(Galeria.objects.all(), 20)
+
+    page = request.GET.get('page')
+    try:
+        galerias = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        galerias = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        galerias = paginator.page(paginator.num_pages)
+
+    return render(request, 'conteudo/galerias_lista.html', {'galerias': galerias})

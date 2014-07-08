@@ -325,11 +325,16 @@ body{
 #midias #grande img{
     width:100%;
 }
-#midias #grande data, #midias #grande campus{
+#midias .orbit-caption{
+    padding:0;
+    padding-left:3px;
+}
+#midias #grande data, #midias #grande campus, #midias .orbit-caption data, #midias .orbit-caption campus{
     font-size:12px;
     color:#fdb430;
+    margin:0;
 }
-#midias #grande titulo{
+#midias #grande titulo, #midias .orbit-caption titulo{
     display:block;
     color:#fff;
 }
