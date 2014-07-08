@@ -5,12 +5,12 @@ from portal.conteudo.models import Noticia
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
 from portal.conteudo.models import Video
+from portal.conteudo.models import Galeria
+from portal.conteudo.models import ImagemGaleria
 from portal.conteudo.models import AnexoNoticia
 from portal.conteudo.models import AnexoPagina
 from portal.conteudo.models import AnexoEvento
 from portal.conteudo.forms import NoticiaForm
-
-
 
 class AnexoNoticiaInLine(admin.StackedInline):
     model = AnexoNoticia
@@ -71,3 +71,19 @@ class VideoAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug':('titulo',)}
 
 admin.site.register(Video, VideoAdmin)
+
+class ImagemGaleriaInline(admin.TabularInline):
+    model = ImagemGaleria
+    extra = 5
+
+
+class GaleriaAdmin(SummernoteModelAdmin):
+    list_display = ('titulo', 'data_publicacao',)
+    search_fields = ('titulo', 'texto', 'data_publicacao')
+    date_hierarchy = 'data_publicacao'
+    list_filter = ('campus_origem', 'data_publicacao')
+    prepopulated_fields = {'slug':('titulo',)}
+
+    inlines = (ImagemGaleriaInline, )
+
+admin.site.register(Galeria, GaleriaAdmin)

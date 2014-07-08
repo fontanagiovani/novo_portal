@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from filer.fields.file import FilerFileField
+from filer.fields.image import FilerImageField
 
 CAMPUS_ORIGEM = (
     ('RTR', u'Reitoria'),
@@ -168,3 +169,45 @@ class Video(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return 'conteudo:video_detalhe', (), {'video_id': self.id}
+
+class Galeria(models.Model):
+
+    campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR', verbose_name=u'Campus de origem')
+    titulo = models.CharField(max_length=250, verbose_name=u'Título')
+    slug = models.SlugField(max_length=250, verbose_name=u'Slug')
+    texto = models.TextField()
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+    fonte = models.CharField(max_length=250, blank=True, verbose_name=u'Fonte ou Autoria ')
+
+    class Meta:
+        verbose_name = u'Galeria'
+        verbose_name_plural = u'Galerias'
+        ordering = ('-data_publicacao', '-id')
+
+    def __unicode__(self):
+        return self.titulo
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'conteudo:galeria_detalhe', (), {'galeria_id': self.id}
+
+    def primeira_imagem(self):
+        if self.imagemgaleria_set.filter(arquivo__image__isnull=False).exists():
+            return self.imagemgaleria_set.filter(arquivo__image__isnull=False)[0].arquivo
+
+    def imagens(self):
+        if self.imagemgaleria_set.filter(arquivo__image__isnull=False).exists():
+            return self.imagemgaleria_set.filter(arquivo__image__isnull=False)
+
+
+class ImagemGaleria(models.Model):
+    descricao = models.CharField(max_length=250, verbose_name=u'Descrição')
+    imagem = FilerImageField(related_name='Imagem Galeria')
+    galeria = models.ForeignKey('Galeria', verbose_name=u'Galeria')
+
+    class Meta:
+        verbose_name = u'Anexo de página'
+        verbose_name_plural = u'Anexos de página'
+
+    def __unicode__(self):
+        return self.descricao
