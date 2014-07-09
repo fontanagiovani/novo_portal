@@ -108,26 +108,36 @@
 
             <div id="acesso-rapido">
                 <p>ACESSO RAPIDO</p>
-                <a href="">
-                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >
-                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-                </a>
-                <a href="">
-                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >
-                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-                </a>
-                <a href="">
-                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >
-                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-                </a>
-                <a href="">
-                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >
-                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-                </a>
-                <a href="">
-                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >
-                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>
-                </a>
+                {% for ac_rap in acesso_rapido %}
+                    <div>
+                        {% if ac_rap.titulo %}
+                           <img src="{% thumbnail ac_rap.midia_image 100x60 crop quality=80 %}"/>
+                            {{ ac_rap.titulo }}
+                        {% endif %}
+                    </div>
+
+                {% endfor %}
+
+{#                <a href="">#}
+{#                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >#}
+{#                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>#}
+{#                </a>#}
+{#                <a href="">#}
+{#                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >#}
+{#                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>#}
+{#                </a>#}
+{#                <a href="">#}
+{#                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >#}
+{#                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>#}
+{#                </a>#}
+{#                <a href="">#}
+{#                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >#}
+{#                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>#}
+{#                </a>#}
+{#                <a href="">#}
+{#                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >#}
+{#                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>#}
+{#                </a>#}
             </div>
         </div>
         <div class="large-4 columns" style="padding:2px;">
