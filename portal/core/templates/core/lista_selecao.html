@@ -1,0 +1,28 @@
+{% extends 'core/pagina.html' %}
+{% block conteudo %}
+<titulo>Vestibulares e Seleções | Vestibulares</titulo>
+<filtros>
+    <a href="">Abertos</a>
+    <a href="">Em Andamento</a>
+    <a href="">Finalizado</a>
+    <select>
+        <option>Ano: 2014</option>
+        <option>2013</option>
+        <option>2012</option>
+    </select>
+</filtros>
+<table cellspacing="0">
+    <tr>
+        <th class="data">Abertura</th>
+        <th class="data">Status</th>
+        <th>Editais</th>
+    </tr>
+    {% for item in lista %}
+    <tr>
+        <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.data_abertura_edital|date:"d M Y" }}</a></td>
+        <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.get_status_display }}</a></td>
+        <td><a href="{{ item.url }}" target="_blank">{{ item.titulo }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock conteudo %}

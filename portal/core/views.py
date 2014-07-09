@@ -5,6 +5,7 @@ from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
 from portal.conteudo.models import Video
 from portal.conteudo.models import Galeria
+from portal.core.models import Selecao
 
 
 def home(request):
@@ -34,6 +35,10 @@ def home(request):
         'galerias':galerias,
     })
 
+def selecao(request):
+    lista = Selecao.objects.all()
+
+    return render(request, 'core/lista_selecao.html',{'lista':lista})
 
 # def conteudo_detalhe(request, conteudo_id):
 #     conteudo = get_object_or_404(Conteudo, id=conteudo_id)
