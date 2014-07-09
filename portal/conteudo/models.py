@@ -192,12 +192,12 @@ class Galeria(models.Model):
         return 'conteudo:galeria_detalhe', (), {'galeria_id': self.id}
 
     def primeira_imagem(self):
-        if self.imagemgaleria_set.filter(arquivo__image__isnull=False).exists():
-            return self.imagemgaleria_set.filter(arquivo__image__isnull=False)[0].arquivo
+        if self.imagemgaleria_set.all().exists():
+            return self.imagemgaleria_set.all()[0].imagem
 
     def imagens(self):
-        if self.imagemgaleria_set.filter(arquivo__image__isnull=False).exists():
-            return self.imagemgaleria_set.filter(arquivo__image__isnull=False)
+        if self.imagemgaleria_set.all().exists():
+            return self.imagemgaleria_set.all()
 
 
 class ImagemGaleria(models.Model):

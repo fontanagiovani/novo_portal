@@ -1,0 +1,33 @@
+{% extends 'core/pagina.html' %}
+{% load thumbnail %}
+{% block conteudo %}
+<titulo>Galerias</titulo>
+{% for galeria in galerias %}
+    <div class="row">
+        <div class="large-12 columns" id="noticias">
+            <a href="{{ galeria.get_absolute_url }}">
+                {% if galeria.primeira_imagem %}
+                    <img src="{% thumbnail galeria.primeira_imagem 100x80 crop quality=80 %}" alt="{{ galeria.titulo }}">
+                {% endif %}
+                <data-local>{{ galeria.data_publicacao|date:"d M" }} - {{ galeria.get_campus_origem_display }}</data-local>
+                <titulo>{{ galeria.titulo }}</titulo>
+            </a>
+        </div>
+    </div>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if galerias.has_previous %}
+            <a href="?page={{ galerias.previous_page_number }}"><< Anterior </a>-
+        {% endif %}
+
+        <span class="current">
+            Página {{ galerias.number }} de {{ galerias.paginator.num_pages }}
+        </span>
+
+        {% if galerias.has_next %}
+            -<a href="?page={{ galerias.next_page_number }}"> Próxima >></a>
+        {% endif %}
+    </span>
+</div>
+{% endblock conteudo %}
