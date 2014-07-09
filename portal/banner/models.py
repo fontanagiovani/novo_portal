@@ -21,7 +21,9 @@ class Banner(models.Model):
 class BannerAcessoRapido(models.Model):
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+    url = models.URLField(max_length=200, verbose_name=u'URL')
     midia_image = FilerImageField(verbose_name=u'Mídia', related_name='ar_banner')
+
 
     class Meta:
         verbose_name = u'Banner de acesso rápido'

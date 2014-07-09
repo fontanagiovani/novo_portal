@@ -111,11 +111,10 @@
                 {% for ac_rap in acesso_rapido %}
                     <div>
                         {% if ac_rap.titulo %}
-                           <img src="{% thumbnail ac_rap.midia_image 100x60 crop quality=80 %}"/>
+                           <img src="{% thumbnail ac_rap.midia_image 80x50 crop quality=80 %}"/>
                             {{ ac_rap.titulo }}
                         {% endif %}
                     </div>
-
                 {% endfor %}
 
 {#                <a href="">#}
