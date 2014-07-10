@@ -36,15 +36,9 @@
                 <p>Destaques</p>
                  {% for banner in banners %}
                     <div>
-                        {% if banner.titulo %}
-
-                                <img src="{% thumbnail banner.arquivo 120x90 crop quality=80 %}"/>
-                                {{ banner.titulo }}
-
-                        {% else %}
-                                <img src="{% thumbnail banner.arquivo 260x90 crop quality=80 %}" class="banner"/>
-                        {% endif %}
-
+                        <a href="{{ banner.url }}">
+                        <img src="{% thumbnail banner.arquivo 120x90 crop quality=80 %}"/>
+                        </a>
                     </div>
                  {% endfor %}
             </div>
@@ -109,8 +103,10 @@
                 {% for ac_rap in acesso_rapido %}
                     <div>
                         {% if ac_rap.titulo %}
-                           <img src="{% thumbnail ac_rap.midia_image 80x50 crop quality=80 %}"/>
-                            {{ ac_rap.titulo }}
+                           <a href="{{ ac_rap.url }}">
+                             <img src="{% thumbnail ac_rap.midia_image 80x50 crop quality=80 %}"/>
+                             <titulo>{{ ac_rap.titulo }}</titulo>
+                            </a>
                         {% endif %}
                     </div>
                 {% endfor %}

@@ -5,8 +5,9 @@ from filer.fields.image import FilerImageField
 
 
 class Banner(models.Model):
-    titulo = models.CharField(max_length=250, verbose_name=u'Título')
+    titulo = models.CharField(max_length=250, verbose_name=u'Título', default='')
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+    url = models.URLField(help_text=u'Insira http://', verbose_name=u'URL', null=True, blank=True)
     arquivo = FilerImageField(related_name='midia_banner', default=None)
 
     class Meta:
@@ -21,7 +22,7 @@ class Banner(models.Model):
 class BannerAcessoRapido(models.Model):
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
-    url = models.URLField(help_text=u'Insira http://', max_length=200, verbose_name=u'URL')
+    url = models.URLField(help_text=u'Insira http://', verbose_name=u'URL')
     midia_image = FilerImageField(verbose_name=u'Mídia', related_name='ar_banner', default=None)
 
 
