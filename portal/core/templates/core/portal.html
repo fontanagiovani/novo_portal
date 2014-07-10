@@ -37,14 +37,12 @@
                  {% for banner in banners %}
                     <div>
                         {% if banner.titulo %}
-                            {% if banner.primeira_imagem %}
-                                <img src="{% thumbnail banner.primeira_imagem 120x90 crop quality=80 %}"/>
+
+                                <img src="{% thumbnail banner.arquivo 120x90 crop quality=80 %}"/>
                                 {{ banner.titulo }}
-                            {% endif %}
+
                         {% else %}
-                            {% if banner.primeira_imagem %}
-                                 <img src="{% thumbnail banner.primeira_imagem 260x90 crop quality=80 %}" class="banner"/>
-                            {% endif %}
+                                <img src="{% thumbnail banner.arquivo 260x90 crop quality=80 %}" class="banner"/>
                         {% endif %}
 
                     </div>
