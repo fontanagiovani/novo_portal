@@ -30,26 +30,35 @@ class BannerTest(TestCase):
 
     def test_unicode(self):
         """
-            Banner deve apresentar o nome da midia como unicode
+            Banner deve apresentar o titulo como unicode
         """
         self.assertEqual(u'BannerTesteTitulo', unicode(self.banner))
 
-#
-# class AcessoRapidoTest(TestCase):
-#     def setUp(self):
-#         midia_image = FilerImageField(name='bannerAcessoRapido')
-#         # midia_image.save()
-#
-#         self.banner = BannerAcessoRapido(
-#             titulo=u'Titulo Banner Acesso Rapido',
-#             data_publicacao=timezone.now(),
-#             midia_image=midia_image,
-#
-#         )
-#
-#     def test_criacao(self):
-#         """
-#             Banner de acesso rapido deve conter título, data de publicacao e arquivo de imagem
-#         """
-#         self.banner.save()
-#         self.assertIsNotNone(self.banner.pk)
+
+class AcessoRapidoTest(TestCase):
+    def setUp(self):
+        img_path = 'portal/banner/static/img/images.jpeg'
+        img_name = 'imagemBanner'
+        with open(img_path) as img:
+            file_obj = File(img, name=img_name)
+            midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
+
+        self.banner_acr = BannerAcessoRapido(
+            titulo=u'Titulo Banner Acesso Rapido',
+            data_publicacao=timezone.now(),
+            midia_image=midia_image,
+
+        )
+
+    def test_criacao(self):
+        """
+            Banner de acesso rapido deve conter título, data de publicacao e arquivo de imagem
+        """
+        self.banner_acr.save()
+        self.assertIsNotNone(self.banner_acr.pk)
+
+    def test_unicode(self):
+        """
+            Banner de acesso rápido deve apresentar o titulo como unicode
+        """
+        self.assertEqual(u'Titulo Banner Acesso Rapido', unicode(self.banner_acr))
