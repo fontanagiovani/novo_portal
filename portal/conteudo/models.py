@@ -42,6 +42,9 @@ class Noticia(models.Model):
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     fonte = models.CharField(max_length=250, verbose_name=u'Fonte ou Autoria ')
+    galerias = models.ManyToManyField('Galeria')
+    videos = models.ManyToManyField('Video')
+    tags = models.ManyToManyField('Tag')
 
     class Meta:
         verbose_name = u'Notícia'
@@ -211,3 +214,12 @@ class ImagemGaleria(models.Model):
 
     def __unicode__(self):
         return self.descricao
+
+class Tag(models.Model):
+
+    palavra = models.CharField(max_length=150)
+
+    def __unicode__(self):
+        return self.palavra
+
+
