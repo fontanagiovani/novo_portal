@@ -15,7 +15,7 @@ class Banner(models.Model):
         ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
-      return self.arquivo.titulo
+      return self.titulo
 
 
 class BannerAcessoRapido(models.Model):
