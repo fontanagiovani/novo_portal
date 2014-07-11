@@ -219,7 +219,7 @@ class GaleriaDetalheTest(TestCase):
 
     def test_template(self):
         """
-        Evento detalhe deve renderizar o template evento.html
+        Evento detalhe deve renderizar  o template evento.html
         """
         self.assertTemplateUsed(self.resp, 'conteudo/galeria.html')
 

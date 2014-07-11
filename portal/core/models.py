@@ -55,7 +55,6 @@ class Selecao(models.Model):
 
     tipo = models.CharField(max_length=4, choices=TIPO_BASE)
     titulo = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, blank=True, unique=True)
     url  =  models.CharField(max_length=250, blank=True,)
     status = models.CharField(max_length=3, choices=STATUS)
     data_abertura_edital = models.DateTimeField(verbose_name=u'Data de Abertura do Edital')

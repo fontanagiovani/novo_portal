@@ -49,7 +49,7 @@ def selecao(request):
     if ano:
         lista = lista.filter(data_abertura_edital__year=ano)
 
-    return render(request, 'core/lista_selecao.html',{'lista':lista})
+    return render(request, 'core/selecao_lista.html',{'lista':lista})
 
 # def conteudo_detalhe(request, conteudo_id):
 #     conteudo = get_object_or_404(Conteudo, id=conteudo_id)
