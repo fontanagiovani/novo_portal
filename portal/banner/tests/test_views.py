@@ -17,14 +17,14 @@ class HomeBannerContextTest(TestCase):
             file_obj = File(img, name=img_name)
             midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
 
-        self.banner = mommy.make(Banner, _quantity=3, titulo=u'Titulo do banner', arquivo=midia_image)
+        self.banner = mommy.make(Banner, _quantity=3, arquivo=midia_image)
         self.resp = self.client.get(reverse('home'))
 
     def test_banner(self):
         """
          A Home deve conter três banners
         """
-        self.assertContains(self.resp, u'Titulo do banner', 3)
+        self.assertContains(self.resp, u'imagembanner', 3)
 
 
 class HomeAcessoRapidoContextTest(TestCase):
