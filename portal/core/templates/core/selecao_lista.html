@@ -1,33 +1,65 @@
 {% extends 'core/pagina.html' %}
-{% block conteudo %}
-<titulo>Vestibulares e Seleções | Vestibulares</titulo>
-<lista>
-    <filtros>
-        <a href="?status=ABT">Abertos</a>
-        <a href="?status=AND">Em Andamento</a>
-        <a href="?status=FNZ">Finalizado</a>
-        <ul class="menu">
-            <li><a href="?ano=2014">2014</a>
-                <ul>
-                   <li><a href="?ano=2013">2013</a></li>
-                   <li><a href="?ano=2012">2012</a></li>
+
+   {% block navegacao %}
+        <a href="{% url 'selecao' %}" class="title">Seleção</a>
+   {% endblock navegacao %}
+
+   {% block menulateral %}
+          <li><label>Vestibulares e Seleção</label></li>
+          <li><a href="?tipo=VEST&{{ status }}{{ ano }}">Vestibulares</a></li>
+          <li><a href="?tipo=SISU&{{ status }}{{ ano }}">SISU</a></li>
+          <li><a href="?tipo=STEC&{{ status }}{{ ano }}">SISUTEC</a></li>
+          <li><a href="?tipo=EXSE&{{ status }}{{ ano }}">Exames de Seleção</a></li>
+          <li><a href="?tipo=PRSE&{{ status }}{{ ano }}">Processo Seletivo</a></li>
+          <li><a href="?tipo=TREX&{{ status }}{{ ano }}">Transferência Externa</a></li>
+          <li><label>Concursos Publicos</label></li>
+          <li><a href="?tipo=DOCE&{{ status }}{{ ano }}">Docentes</a></li>
+          <li><a href="?tipo=TEAD&{{ status }}{{ ano }}">Técnicos-administrativos</a></li>
+          <li><a href="?tipo=AMBS&{{ status }}{{ ano }}">Concurso Misto</a></li>
+          <li><label>Processos Seletivos</label></li>
+          <li><a href="?tipo=PRTE&{{ status }}{{ ano }}">Professores substitutos e/ou temporários</a></li>
+          <li><a href="?tipo=PEAD&{{ status }}{{ ano }}">Processos Seletivos - EAD</a></li>
+          <li><a href="?tipo=PPRO&{{ status }}{{ ano }}">Processsos Seletivos - PRONATEC</a></li>
+          <li><a href="?tipo=ROID&{{ status }}{{ ano }}">Remoção Interna - Docentes</a></li>
+          <li><a href="?tipo=ROIT&{{ status }}{{ ano }}">Remoção Interna - TAEs</a></li>
+   {% endblock menulateral %}
+
+
+   {% block conteudo %}
+        <titulo>{{ titulo }} | Vestibulares</titulo>
+        <lista>
+            <filtros>
+                <a href="?{{ tipo }}status=ABT{{ ano }}">Abertos</a>
+                <a href="?{{ tipo }}status=AND{{ ano }}">Em Andamento</a>
+                <a href="?{{ tipo }}status=FNZ{{ ano }}">Finalizado</a>
+                <ul class="menu">
+                    <li><a href="?{{ tipo }}{{ status }}ano=2014">2014</a>
+                        <ul>
+                           <li><a href="?{{ tipo }}{{ status }}ano=2013">2013</a></li>
+                           <li><a href="?{{ tipo }}{{ status }}ano=2012">2012</a></li>
+                        </ul>
+                    </li>
                 </ul>
-            </li>
-        </ul>
-    </filtros>
-    <table cellspacing="0">
-        <tr>
-            <th class="data">Abertura</th>
-            <th class="data">Status</th>
-            <th>Editais</th>
-        </tr>
-        {% for item in lista %}
-        <tr>
-            <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.data_abertura_edital|date:"d M Y" }}</a></td>
-            <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.get_status_display }}</a></td>
-            <td><a href="{{ item.url }}" target="_blank">{{ item.titulo }}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-</lista>
-{% endblock conteudo %}
+            </filtros>
+            <table cellspacing="0">
+                <tr>
+                    <th class="data">Abertura</th>
+                    <th class="data">Tipo</th>
+                    <th class="data">Status</th>
+                    <th>Editais</th>
+                </tr>
+                {% if lista %}
+                    {% for item in lista %}
+                    <tr>
+                        <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.data_abertura_edital|date:"d M Y" }}</a></td>
+                        <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.get_tipo_display }}</a></td>
+                        <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.get_status_display }}</a></td>
+                        <td><a href="{{ item.url }}" target="_blank">{{ item.titulo }}</a></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="4"><center>Listagem Vazia</center></td></tr>
+                {% endif %}
+            </table>
+        </lista>
+   {% endblock conteudo %}

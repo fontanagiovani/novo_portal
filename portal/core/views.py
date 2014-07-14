@@ -1,4 +1,5 @@
 # coding: utf-8
+import datetime
 from portal.banner.models import Banner, BannerAcessoRapido
 from django.shortcuts import render, get_object_or_404
 from portal.conteudo.models import Noticia
@@ -44,12 +45,32 @@ def selecao(request):
 
     if tipo:
         lista = lista.filter(tipo=tipo)
+        tipo = 'tipo='+tipo+'&'
+    else:
+        tipo =''
+
     if status:
         lista = lista.filter(status=status)
+        status = 'status='+status+'&'
+    else:
+        status = ''
+
     if ano:
         lista = lista.filter(data_abertura_edital__year=ano)
+        ano = 'ano='+ano
+        if tipo is not '' or status is not '':
+            ano = '&'+ano
+    else:
+        #ano = datetime.date.today().year
+        ano = ''
 
-    return render(request, 'core/selecao_lista.html',{'lista':lista})
+
+    return render(request, 'core/selecao_lista.html',{
+        'lista':lista,
+        'ano':ano,
+        'status':status,
+        'tipo':tipo,
+    })
 
 # def conteudo_detalhe(request, conteudo_id):
 #     conteudo = get_object_or_404(Conteudo, id=conteudo_id)

@@ -3,7 +3,6 @@ from django.contrib import admin
 from portal.core.models import Menu
 from portal.core.models import Selecao
 
-
 class MenuAdmin(admin.ModelAdmin):
     list_display = ('titulo','parent')
     search_fields = ('titulo',)
