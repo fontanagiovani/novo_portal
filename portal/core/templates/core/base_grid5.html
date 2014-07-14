@@ -1,0 +1,884 @@
+{% load thumbnail %}
+<!DOCTYPE html> <!--[if IE 9]><html class="lt-ie10" lang="pt-br" > <![endif]-->
+<html class="no-js" lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFMT - Instituto Federal de Mato Grosso</title>
+    <!-- If you are using the CSS version, only link these 2 files, you may add app.css to use for your overrides if you like -->
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-icons/foundation-icons.css"/>
+    <!-- If you are using the gem version, you need this only -->
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
+    <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
+</head>
+<body> <!-- body content here -->
+
+{#Container geral do portal#}
+<div class="row collapse">
+
+{#Container para o cabeçalho#}
+<div class="row padding-bottom">
+
+<div class="row">
+
+    {#Container para a logo do IFMT#}
+    <div class="medium-4 columns small-only-text-center temp-logo">
+        <a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/logo_ifmt.png" alt="IFMT" id="logo"></a>
+    </div>
+
+    {#Container para a parte direita do cabeçalho#}
+    <div class="medium-8 columns temp-cabecalho-direita">
+
+        {#Social#}
+        <div class="row">
+            <div class="small-12 social">
+                <a href=""><i class="fi-social-instagram"></i></a>
+                <a href=""><i class="fi-social-youtube"></i></a>
+                <a href=""><i class="fi-social-twitter"></i></a>
+                <a href=""><i class="fi-social-google-plus"></i></a>
+                <a href=""><i class="fi-social-facebook"></i></a>
+            </div>
+        </div>
+        {#Fim da div social#}
+
+        {#Form de busca#}
+        <div class="row">
+            <form action="" method="post">
+                <div class="row collapse">
+                    <div class="small-10 medium-7 medium-offset-4 large-6 large-offset-5 columns">
+                        <input type="text" placeholder="Buscar notícias, eventos e mais...">
+                    </div>
+                    <div class="small-2 medium-1 columns">
+                        <a href="#" class="button postfix no-margin fundo-verde"><i
+                                class="fi-magnifying-glass lupa"></i></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {#Fim da div de busca#}
+
+        {#Links úteis#}
+        <div class="row collapse">
+            <div class="small-12 columns text-right">
+                <ul class="links-uteis no-margin">
+                    <li><a href="{% url 'home' %}">IFMT Portal |</a></li>
+                    <li><a href="">Ouvidoria |</a></li>
+                    <li><a href="">Imprensa</a></li>
+                </ul>
+            </div>
+        </div>
+        {#Fim da div links úteis#}
+
+    </div>
+    {#Fim da div menu topo#}
+</div>
+{#Menu topo#}
+<div class="row">
+<div class="medium-12 columns">
+<div class="contain-to-grid sticky">
+<nav class="top-bar" id="menu_section" data-topbar>
+
+<ul class="title-area">
+    <li class="name">
+        <h1><a href="/"><img src="{{ STATIC_URL }}img/logo-ifmt-branco.png" alt="IFMT"></a></h1>
+        {#      <h1><a href="#">My Site</a></h1>#}
+    </li>
+    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+</ul>
+
+<section class="top-bar-section">
+<!-- Right Nav Section -->
+<ul class="left" id="menus">
+<li class="has-dropdown">
+    <a href="#" class="geral">Câmpus</a>
+    <ul class="dropdown">
+        <li><a href="#">Imagem dos Câmpus</a></li>
+    </ul>
+</li>
+<li class="has-dropdown">
+    <a href="#" class="geral">Institucional</a>
+    <ul class="dropdown n1">
+        <li class="has-dropdown">
+            <a href="#">Sobre o IFMT</a>
+            <ul class="dropdown n2">
+                <li><a href="">Missão e Visão</a></li>
+                <li><a href="">Histórico</a></li>
+                <li><a href="">Reitoria do IFMT</a></li>
+                <li><a href="">Câmpus do IFMT</a></li>
+                <li><a href="">Legislação</a></li>
+                <li class="has-dropdown">
+                    <a href="#">Organograma</a>
+                    <ul class="dropdown">
+                        <li><a href="">Reitoria</a></li>
+                        <li><a href="">Pró-Reitorias</a></li>
+                        <li><a href="">Câmpus</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Estrutura Adminstrativa</a></li>
+                <li><a href="">Contatos</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Colegiados</a>
+            <ul class="dropdown n2">
+                <li><a href="">CONSUP</a></li>
+                <li><a href="">CODIR</a></li>
+                <li><a href="">COPLAN</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Comissões</a>
+            <ul class="dropdown n2">
+                <li><a href="">Comissão Interna de Supervisão</a></li>
+                <li><a href="">Comissão Permanente de Avaliação de Documentos</a></li>
+                <li><a href="">Comissão Permanente de Fiscalização de Supervisão de Obras</a></li>
+                <li><a href="">Comissão Permanente de Licitação</a></li>
+                <li><a href="">Comissão Permanente de Pessoal Docente</a></li>
+                <li><a href="">Comissão Permanente de Sustentabilidade</a></li>
+                <li><a href="">Comissão Própria de Avaliação</a></li>
+            </ul>
+        </li>
+        <li><a href="">Notícias</a></li>
+        <li class="has-dropdown">
+            <a href="#">Documentos Institucionais</a>
+            <ul class="dropdown n2">
+                <li><a href="">Plano de Desenvolvimento Institucional (PDI)</a></li>
+                <li><a href="">Projeto Pedagógico Institucional (PPI)</a></li>
+                <li><a href="">Estatuto do IFMT</a></li>
+                <li><a href="">Organização Didática</a></li>
+                <li><a href="">Regimentos</a></li>
+                <li><a href="">Regulamentos</a></li>
+                <li><a href="">Boletim de Serviços</a></li>
+                <li><a href="">Portarias</a></li>
+                <li><a href="">Resoluções</a></li>
+                <li><a href="">Instruções Normativas</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Seleções de Concursos</a>
+            <ul class="dropdown n2">
+                <li><a href="">Cursos Superiores</a></li>
+                <li><a href="">Cursos Técnicos de Nível Médio</a></li>
+                <li><a href="">Concursos Públicos</a></li>
+            </ul>
+        </li>
+        <li><a href="">DGTI</a></li>
+        <li class="has-dropdown">
+            <a href="#">DSGP</a>
+            <ul class="dropdown n2">
+                <li class="has-dropdown">
+                    <a href="#">A DSGP</a>
+                    <ul class="dropdown">
+                        <li><a href="">A Diretoria</a></li>
+                        <li><a href="">Departamentos</a></li>
+                        <li><a href="">Coordenações</a></li>
+                        <li><a href="">Notícias</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown">
+                    <a href="#">Servidor</a>
+                    <ul class="dropdown">
+                        <li><a href="">Manual de Procedimentos</a></li>
+                        <li><a href="">Manual do Servidor</a></li>
+                        <li><a href="">Licença para Tratamento de Saúde</a></li>
+                        <li><a href="">Licença por Motivo de Doença em Pessoa da Família</a></li>
+                        <li><a href="">Contracheque</a></li>
+                        <li><a href="">Ações de Qualidade de Vida</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown">
+                    <a href="#">Formulários</a>
+                    <ul class="dropdown">
+                        <li><a href="">GEAP</a></li>
+                        <li><a href="">Solicitações</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown">
+                    <a href="#">Serviços</a>
+                    <ul class="dropdown">
+                        <li><a href="">Editais - Capacitação</a></li>
+                        <li><a href="">Editais - Contratação Temporários</a></li>
+                        <li><a href="">Documentos</a></li>
+                        <li><a href="">Boletins de Serviço</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown">
+                    <a href="#">Sistemas</a>
+                    <ul class="dropdown">
+                        <li><a href="">SUAP</a></li>
+                        <li><a href="">SIGA</a></li>
+                        <li><a href="">SIAPENET</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Seleção de Concursos</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Concursos Públicos</a>
+            <ul class="dropdown n2">
+                <li><a href="">Cursos Superiores</a></li>
+                <li><a href="">Cursos Técnicos de Nível Médio</a></li>
+                <li><a href="">Concursos Públicos</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Imprensa</a>
+            <ul class="dropdown n2">
+                <li><a href="">Notícias</a></li>
+                <li><a href="">Multimídia</a></li>
+                <li><a href="">Informativo IFMT</a></li>
+                <li><a href="">Jornal IFMT</a></li>
+                <li><a href="">Identidade Visual</a></li>
+                <li><a href="">Manual de Uso da Marca IFMT</a></li>
+                <li><a href="">Agende um Entrevista</a></li>
+            </ul>
+        </li>
+    </ul>
+</li>
+<li class="has-dropdown">
+    <a href="#" class="geral">Ensino</a>
+    <ul class="dropdown n1">
+        <li class="has-dropdown">
+            <a href="#">Institucional</a>
+            <ul class="dropdown n2">
+                <li><a href="">Apresentação</a></li>
+                <li><a href="">Estrutura</a></li>
+                <li><a href="">Documentos Padrões</a></li>
+                <li><a href="">Comissões</a></li>
+            </ul>
+        </li>
+        <li><a href="">Guia de Cursos</a></li>
+        <li class="has-dropdown">
+            <a href="#">Calendário Acadêmico</a>
+            <ul class="dropdown n2">
+                <li><a href="">Calendário Referência</a></li>
+                <li><a href="">Calendário dos Câmpus</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Assistência Estudantil</a>
+            <ul class="dropdown n2">
+                <li><a href="">Regulamento Geral</a></li>
+                <li><a href="">Regulamento dos Câmpus</a></li>
+            </ul>
+        </li>
+        <li><a href="">NAPNE/IFMT</a></li>
+        <li class="has-dropdown">
+            <a href="#">Seleções e Concursos</a>
+            <ul class="dropdown n2">
+                <li><a href="">Cursos Superiores</a></li>
+                <li><a href="">Cursos de Pós-Graduação</a></li>
+                <li><a href="">Cursos de Nível Médio</a></li>
+                <li><a href="">Concursos Públicos</a></li>
+            </ul>
+        </li>
+    </ul>
+</li>
+<li class="has-dropdown">
+    <a href="#" class="geral">Pesquisa</a>
+    <ul class="dropdown n1">
+        <li class="has-dropdown">
+            <a href="#">Conheça a PROPES</a>
+            <ul class="dropdown n2">
+                <li><a href="">Apresentação</a></li>
+                <li><a href="">Missão, Visão e Valores</a></li>
+                <li><a href="">Metas do Ano</a></li>
+                <li><a href="">Organograma</a></li>
+                <li><a href="">Quem é Quem</a></li>
+                <li><a href="">Endereços e Contatos</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Pesquisa</a>
+            <ul class="dropdown n2">
+                <li><a href="">Editais</a></li>
+                <li><a href="">Projetos de Pesquisa</a></li>
+                <li class="has-dropdown">
+                    <a href="#">Iniciação Científica</a>
+                    <ul class="dropdown n3">
+                        <li><a href="">Programas de Agências Externas</a></li>
+                        <li><a href="">Programa Institucional do IFMT</a></li>
+                        <li><a href="">Bolsista Voluntarios</a></li>
+                        <li><a href="">Calendário Anual</a></li>
+                        <li><a href="">Comitê Assessor</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Grupos de Pesquisa</a></li>
+                <li><a href="">Pesquisadores</a></li>
+                <li><a href="">Documentos</a></li>
+                <li class="has-dropdown">
+                    <a href="#">Comitê de Ética na Pesquisa</a>
+                    <ul class="dropdown n3">
+                        <li class="has-dropdown">
+                            <a href="">Animal</a>
+                            <ul class="dropdown n4">
+                                <li><a href="">Legislação</a></li>
+                                <li><a href="">Regulamentos</a></li>
+                                <li><a href="">Membros</a></li>
+                                <li><a href="">Calendário de Reuniões</a></li>
+                                <li><a href="">Formulários</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-dropdown">
+                            <a href="">Humana</a>
+                            <ul class="dropdown n4">
+                                <li><a href="">Legislação</a></li>
+                                <li><a href="">Regulamentos</a></li>
+                                <li><a href="">Membros</a></li>
+                                <li><a href="">Calendário de Reuniões</a></li>
+                                <li><a href="">Formulários</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="has-dropdown">
+                    <a href="#">Câmara de Pesquisa</a>
+                    <ul class="dropdown n3">
+                        <li><a href="">Regulamentos</a></li>
+                        <li><a href="">Membros</a></li>
+                        <li><a href="">Calendário de Reuniões</a></li>
+                        <li><a href="">Decisões/Atas</a></li>
+                    </ul>
+                </li>
+                <li class="has-dropdown">
+                    <a href="#">Eventos</a>
+                    <ul class="dropdown n3">
+                        <li><a href="">Jornada de Pesquisa e Extensão nos Câmpus</a></li>
+                        <li><a href="">Workshop de Pesquisa e Extensão</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Sites Recomendados</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Pós-Graduação</a>
+            <ul class="dropdown n2">
+                <li class="has-dropdown">
+                    <a href="#">Latu Sensu</a>
+                    {#                    <ul class="dropdown n3">#}
+                    {#                        <li><a href="">Curso 1</a></li>#}
+                    {#                        <li><a href="">Curso 2</a></li>#}
+                    {#                        <li><a href="">Curso 3</a></li>#}
+                    {#                    </ul>#}
+                </li>
+                <li class="has-dropdown">
+                    <a href="#">Strictu Sensu</a>
+                    {#                    <ul class="dropdown n3">#}
+                    {#                        <li><a href="">Curso 1</a></li>#}
+                    {#                        <li><a href="">Curso 2</a></li>#}
+                    {#                        <li><a href="">Curso 3</a></li>#}
+                    {#                    </ul>#}
+                </li>
+                <li><a href="">Regulamento de Pós-Graduação</a></li>
+                <li><a href="">Câmaras e Comissões</a></li>
+                <li><a href="">Legislação</a></li>
+                <li class="has-dropdown">
+                    <a href="#">Capacitação de Servidores</a>
+                    <ul class="dropdown n3">
+                        <li><a href="">Convênios</a></li>
+                        <li><a href="">Servidores Afastados</a></li>
+                        <li><a href="">Regulamentos</a></li>
+                        <li><a href="">Editais</a></li>
+                        <li><a href="">Formulários</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Inovação Tecnológica</a>
+            <ul class="dropdown n2">
+                <li><a href="">Apresentação</a></li>
+                <li><a href="">Missão, Visão e Valores</a></li>
+                <li><a href="">Projetos de Inovação Tecnológica</a></li>
+                <li><a href="">Regulamentos</a></li>
+                <li><a href="">Legislação</a></li>
+                <li><a href="">Parceiros</a></li>
+                <li><a href="">Documentos e Formulários</a></li>
+            </ul>
+        </li>
+        <li><a href="">Relatórios de Gestão</a></li>
+    </ul>
+</li>
+<li class="has-dropdown">
+    <a href="#" class="geral">Extensão</a>
+    <ul class="dropdown n1">
+        <li class="has-dropdown">
+            <a href="#">A PROEX</a>
+            <ul class="dropdown n2">
+                <li><a href="">Apresentação</a></li>
+                <li><a href="">Estrutura</a></li>
+                <li><a href="">Documentos Padrões</a></li>
+                <li><a href="">Comissões</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Arte e Cultura</a>
+            <ul class="dropdown n2">
+                <li><a href="">Artes Plásticas</a></li>
+                <li><a href="">Artesanato</a></li>
+                <li><a href="">Artes Visuais</a></li>
+                <li><a href="">Festival de Literatura</a></li>
+                <li><a href="">Manifestações Cenográficas</a></li>
+                <li><a href="">Manifestações Musicais</a></li>
+                <li><a href="">Mostra de Arte e Cultura</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Convênios</a>
+            <ul class="dropdown n2">
+                <li><a href="">Estágio e Emprego</a></li>
+                <li><a href="">Serviços Tecnológicos</a></li>
+                <li><a href="">Outras Ações de Extenção</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Desporto</a>
+            <ul class="dropdown n2">
+                <li><a href="">Jogos Interclasses</a></li>
+                <li><a href="">JIFs IFMT</a></li>
+                <li><a href="">JIFs Centro-Oeste</a></li>
+                <li><a href="">JIFs Nacional</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Estágio</a>
+            <ul class="dropdown n2">
+                <li><a href="">Estágio Curricular Obrigatório</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Eventos</a>
+            <ul class="dropdown n2">
+                <li><a href="">Jornadas de Pesquisa e Extensão nos Câmpus</a></li>
+                <li><a href="">Workshop de Pesquisa e Extensão</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Ex-Alunos</a>
+            <ul class="dropdown n2">
+                <li><a href="">Egressos</a></li>
+                <li><a href="">Desistentes</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Inovação Tecnológica</a>
+            <ul class="dropdown n2">
+                <li><a href="">Incubadora de Empresas</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Legislação</a>
+            <ul class="dropdown n2">
+                <li><a href="">PRONATEC</a></li>
+                <li><a href="">Mulheres Mil</a></li>
+                <li><a href="">Certific</a></li>
+                <li><a href="">Estágio</a></li>
+                <li><a href="">Inovação</a></li>
+                <li><a href="">Resoluções</a></li>
+                <li><a href="">Portarias</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Publicações</a>
+            <ul class="dropdown n2">
+                <li><a href="">Ações de Extensão</a></li>
+                <li><a href="">Manual de Estágio</a></li>
+                <li><a href="">Cartilha de Empreendedorismo</a></li>
+                <li><a href="">Livro Pronatec</a></li>
+                <li><a href="">Livro Mulheres Mil</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Projetos de Extensão</a>
+            <ul class="dropdown n2">
+                <li><a href="">Editais da Reitoria</a></li>
+                <li><a href="">Editais de Campi</a></li>
+                <li><a href="">Editais Externos</a></li>
+                <li><a href="">Ações Independentes de Edital</a></li>
+            </ul>
+        </li>
+        <li class="has-dropdown">
+            <a href="#">Projetos Especiais do MEC</a>
+            <ul class="dropdown n2">
+                <li><a href="">Pronatec</a></li>
+                <li><a href="">Mulheres Mil</a></li>
+                <li><a href="">Certific</a></li>
+                <li><a href="">Pronilo</a></li>
+            </ul>
+        </li>
+    </ul>
+</li>
+<li><a href="#">Ingresso</a></li>
+<li><a href="#">Contato</a></li>
+</ul>
+</section>
+</nav>
+</div>
+</div>
+</div>
+{#Fim da div menu#}
+
+</div>
+{#Fim da div para o cabeçalho#}
+
+{#Container para as notícias de destaque e banners especiais#}
+<div class="row padding-bottom">
+
+    {#Container para as notícias de destaque#}
+    <div class="medium-8 columns temp-noticias-destaque">
+        <ul class="example-orbit" data-orbit
+            data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+            {% for noticia in noticias_destaque %}
+                <li data-orbit-slide="{{ noticia.id }}">
+                    {% if noticia.primeira_imagem %}
+                        <a href="{{ noticia.get_absolute_url }}"><img
+                                src="{% thumbnail noticia.primeira_imagem 800x520 crop quality=80 %}"
+                                alt="{{ noticia.titulo }}"/></a>
+                    {% endif %}
+                    <div class="orbit-caption">
+                        <a href="{{ evento.get_absolute_url }}">
+                            <div class="small-2 columns text-center no-padding mes-ano fundo-vermelho">
+                                {{ noticia.data_publicacao|date:"d M" }}
+                                {{ noticia.data_publicacao|date:"Y" }}
+                            </div>
+
+                            <div class="small-10 columns">
+                                <div class="data-local branco negrito">
+                                    {{ noticia.get_campus_origem_display }}
+                                </div>
+                                <p class="no-margin branco">{{ noticia.titulo }}</p>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <ul class="small-block-grid-5 padding-top">
+            {% for noticia in noticias_destaque %}
+                <li>
+                    <a data-orbit-link="{{ noticia.id }}">
+                        <img src="{% thumbnail noticia.primeira_imagem 112x60 crop quality=80 %}"
+                             alt="{{ noticia.titulo }}"/>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {#Container para os banners especiais#}
+    <div class="medium-4 columns temp-banners-especiais">
+        {% for banner in banners %}
+            <div class="row collapse padding-bottom itens-cinza-claro">
+                <a href="">
+                    <div class="row collapse">
+                        <div class="small-2 medium-5 columns">
+                            <img src="{% thumbnail banner.arquivo 200x200 crop quality=80 %}"/>
+                        </div>
+                        <div class="small-10 medium-7 columns">
+                            <div class="padding-left">
+                                <p>{{ banner.titulo }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+        <div class="row collapse padding-bottom itens-cinza-claro">
+            <a href="">
+                <div class="row collapse">
+                    <img src="{{ STATIC_URL }}img/exame_vestibular.jpg"/>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</div>
+{#Fim da div para as notícias de destaque e banners especiais#}
+
+{#Container central para as 3 colunas#}
+<div class="row">
+
+{#Container para mais notícias#}
+<div class="medium-4 columns temp-noticias-mais padding-bottom">
+    <div class="row">
+        <h1><a href="{% url 'conteudo:noticias_lista' %}"><i class="fi-plus"></i> NOTÍCIAS</a></h1>
+    </div>
+    {% for noticia in mais_noticias %}
+        <div class="row collapse padding-bottom-duplo itens-cinza-claro">
+            {% if noticia.primeira_imagem %}
+                <a href="{{ noticia.get_absolute_url }}">
+                    <div class="row collapse">
+                        <div class="small-2 medium-3 columns">
+                            <img src="{% thumbnail noticia.primeira_imagem 100x100 crop quality=80 %}"
+                                 alt="{{ noticia.titulo }}">
+                        </div>
+                        <div class="small-10 medium-9 columns">
+                            <div class="data-local padding-left">{{ noticia.data_publicacao|date:"d M" }}
+                                - {{ noticia.get_campus_origem_display }}</div>
+                            <p class="no-margin padding-left">{{ noticia.titulo }}</p>
+                        </div>
+                    </div>
+                </a>
+            {% else %}
+                <div class="small-12 columns">
+                    <a href="{{ noticia.get_absolute_url }}">
+                        <div class="row">
+                            <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}
+                                - {{ noticia.get_campus_origem_display }}</div>
+                            <p class="no-margin">{{ noticia.titulo }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{#Fim da div mais notícias#}
+
+{#Container para eventos e guia de curso#}
+<div class="medium-4 columns temp-eventos padding-bottom cinza">
+    <div class="row padding-bottom">
+        <form>
+            <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
+            <label>Selecione um campus</label>
+            <select name="campus">
+                <option value="01">--------</option>
+                <option value="01">Campus 1</option>
+                <option value="01">Campus 1</option>
+                <option value="01">Campus 1</option>
+                <option value="01">Campus 1</option>
+            </select>
+            <label>Selecione uma tipo de Formação</label>
+            <select name="formacao">
+                <option value="01">--------</option>
+                <option value="01">Campus 1</option>
+                <option value="01">Campus 1</option>
+                <option value="01">Campus 1</option>
+                <option value="01">Campus 1</option>
+            </select>
+            <label>Selecione um Curso</label>
+            <select name="curso">
+                <option value="01">--------</option>
+                <option value="01">Campus 1</option>
+                <option value="01">Campus 1</option>
+                <option value="01">Campus 1</option>
+                <option value="01">Campus 1</option>
+            </select>
+        </form>
+    </div>
+    {#Fim da div eventos e guia de curso#}
+
+    {#Eventos#}
+    <div class="row padding-bottom">
+        <h1><a href="{% url 'conteudo:eventos_lista' %}"><i class="fi-plus"></i> EVENTOS</a></h1>
+        {% for evento in eventos %}
+            <div class="row itens-cinza-medio padding-bottom">
+                <a href="{{ evento.get_absolute_url }}">
+                    <div class="row">
+                        <div class="small-3 columns text-center no-padding">
+                            <p class="mes-ano fundo-verde no-margin">
+                                {{ evento.data_inicio|date:"d M" }}
+                                {{ evento.data_publicacao|date:"Y" }}
+                            </p>
+                        </div>
+
+                        <div class="small-9 columns no-padding padding-left">
+                            <div class="data-local">
+                                {{ evento.campus_origem }}
+                            </div>
+                            <p>{{ evento.titulo }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    {#Fim da div eventos#}
+
+    {#Acesso rápido#}
+    <div class="row">
+        <h1><i class="fi-list-thumbnails"></i> ACESSO RÁPIDO</h1>
+
+        <div class="row collapse padding-bottom itens-cinza-medio">
+            <a href="">
+                <div class="row collapse">
+                    <div class="small-2 medium-5 columns">
+                        <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg">
+                    </div>
+                    <div class="small-10 medium-7 columns">
+                        <p class="padding-left">Novo terminal remoto do aeroporto de Fortaleza</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="row collapse padding-bottom itens-cinza-medio">
+            <a href="">
+                <div class="row collapse">
+                    <div class="small-2 medium-5 columns">
+                        <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg">
+                    </div>
+                    <div class="small-10 medium-7 columns">
+                        <p class="padding-left">Novo terminal remoto do aeroporto de Fortaleza</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="row collapse padding-bottom itens-cinza-medio">
+            <a href="">
+                <div class="row collapse">
+                    <div class="small-2 medium-5 columns">
+                        <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg">
+                    </div>
+                    <div class="small-10 medium-7 columns">
+                        <p class="padding-left">Novo terminal remoto do aeroporto de Fortaleza</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="row collapse padding-bottom itens-cinza-medio">
+            <a href="">
+                <div class="row collapse">
+                    <div class="small-2 medium-5 columns">
+                        <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg">
+                    </div>
+                    <div class="small-10 medium-7 columns">
+                        <p class="padding-left">Novo terminal remoto do aeroporto de Fortaleza</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="row collapse padding-bottom itens-cinza-medio">
+            <a href="">
+                <div class="row collapse">
+                    <div class="small-2 medium-5 columns">
+                        <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg">
+                    </div>
+                    <div class="small-10 medium-7 columns">
+                        <p class="padding-left">Novo terminal remoto do aeroporto de Fortaleza</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    {#Fim da div acesso rápido#}
+
+</div>
+{#Fim da div para eventos e guia de curso#}
+
+{#Container para coluna à direita#}
+<div class="medium-4 columns temp-galerias padding-bottom">
+
+    {#Pró-reitorias e diretorias#}
+    <div class="row">
+        <div class="row padding-bottom">
+            <h1><i class="fi-torsos-all"></i> PRÓ-REITORIAS</h1>
+
+            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Pró-Reitoria de Administração</a></p>
+
+            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Pró-Reitoria de Ensino</a></p>
+
+            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Pró-Reitoria de Extensão</a></p>
+
+            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Pró-Reitoria de Pesquisa e Inovação</a></p>
+
+            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Pró-Reitoria de Desenvolvimento Institucional</a>
+            </p>
+        </div>
+
+        <div class="row padding-bottom">
+            <h1><i class="fi-torsos-all"></i> DIRETORIAS</h1>
+
+            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Diretoria Sistemica de Gestão de Pessoas</a>
+            </p>
+
+            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Diretoria Sistemica de Tecnologia da
+                Informação</a>
+            </p>
+        </div>
+    </div>
+    {#Fim da div pró-reitorias e diretorias#}
+
+    {#Galeria de fotos#}
+    <div class="row">
+        <h1><a href=""><i class="fi-plus"></i> GALERIAS</a></h1>
+
+        <div class="row">
+            <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg"/>
+        </div>
+        <div class="row">
+            <div class="data-local">14 Jul - Rondonópolis</div>
+            <p>Novo terminal remoto do aeroporto de Fortaleza entra em operação</p>
+        </div>
+
+        <ul class="small-block-grid-3 padding-top">
+            <li>
+                <a data-orbit-link="{{ noticia.id }}">
+                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg">
+                </a>
+            </li>
+            <li>
+                <a data-orbit-link="{{ noticia.id }}">
+                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg">
+                </a>
+            </li>
+            <li>
+                <a data-orbit-link="{{ noticia.id }}">
+                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg">
+                </a>
+            </li>
+        </ul>
+    </div>
+    {#Fim da div galeria de fotos#}
+
+    {#Vídeos#}
+    <div class="row padding-bottom">
+        <h1><a href="{% url 'conteudo:videos_lista' %}"><i class="fi-plus"></i> VÍDEOS</a></h1>
+        {% for video in videos %}
+            <div class="row">
+                <a href="{{ video.get_absolute_url }}">
+                    <img src="//i1.ytimg.com/vi/{{ video.video }}/sddefault.jpg"/>
+                </a>
+            </div>
+
+            <div class="row">
+                <a href="{{ video.get_absolute_url }}">
+                    <div class="data-local">{{ video.data_publicacao|date:"d M" }}
+                        - {{ video.get_campus_origem_display }}</div>
+                    <p>{{ video.titulo }}</p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    {#Fim da div vídeos#}
+
+</div>
+{#Fim da div da coluna à direita#}
+</div>
+{#Fim da div central para as 3 colunas#}
+
+{#------------------------------------------------#}
+
+<div class="row">{#Container rodapé#}
+
+    <div class="medium-12 columns temp-rodape">{#Container para rodapé#}
+    </div>
+
+</div>
+{#Fim da div rodapé#}
+
+</div>
+{#Fim da div geral do portal#}
+
+<script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
+<script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+<script> $(document).foundation(); </script>
+</body>
+</html>

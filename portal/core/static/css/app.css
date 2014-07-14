@@ -1,0 +1,188 @@
+.temp-logo {
+    /*height: 10em;*/
+    /*border: 0.3125em solid #008000;*/
+    /*background-color: #008000;*/
+}
+
+.temp-cabecalho-direita {
+    /*height: 10em;*/
+    /*border: 0.3125em solid #0000ff;*/
+    /*background-color: #0000ff;*/
+}
+
+.temp-noticias-destaque {
+    /*height: 30em;*/
+    /*border: 0.3125em solid #ffe761;*/
+    /*background-color: #ffe761;*/
+}
+
+.temp-banners-especiais {
+    /*height: 30em;*/
+    /*border: 0.3125em solid #fd971f;*/
+    /*background-color: #fd971f;*/
+}
+
+.temp-noticias-mais {
+    /*height: 40em;*/
+    /*border: 0.3125em solid #0077cc;*/
+    /*background-color: #0077cc;*/
+}
+
+.temp-eventos {
+    /*height: 40em;*/
+    /*border: 0.3125em solid #636363;*/
+    /*background-color: #636363;*/
+}
+
+.temp-galerias {
+    /*height: 40em;*/
+    /*border: 0.3125em solid #d59392;*/
+    /*background-color: #d59392;*/
+}
+
+.temp-rodape {
+    height: 20em;
+    border: 0.3125em solid #80bf40;
+    /*background-color: #80bf40;*/
+}
+
+.temp-social {
+    font-size: 2em;
+    /*border: 0.3125em solid #80bf40;*/
+    text-align: right;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+input[type="text"], select, form {
+    margin: 0;
+}
+
+.lupa {
+    font-size: 1.8em;
+}
+
+.social {
+    font-size: 2em;
+    text-align: right;
+}
+
+/*.verde {*/
+    /*color: #2FB72B;*/
+/*}*/
+
+/*.verde:hover {*/
+    /*color: #0b7e0a;*/
+/*}*/
+
+.fundo-verde {
+    background-color: #2db200;
+    color: white;
+    border-radius: 0.1em;
+}
+
+.fundo-vermelho {
+    background-color: #DA251D;
+    color: white;
+    border-radius: 0.1em;
+}
+
+/*.fundo-verde:hover{*/
+    /*background-color: #0b7e0a;*/
+/*}*/
+
+/*a {*/
+    /*color: #1D83DA;*/
+/*}*/
+
+/*a:hover {*/
+    /*color: #2A9E26;*/
+/*}*/
+/*a:focus {*/
+    /*color: #1f5a1e;*/
+/*}*/
+
+.links-uteis {
+    list-style: none;
+}
+
+.links-uteis li {
+    display: inline;
+}
+
+.padding-top-bottom {
+    padding-top: 0.625em;
+    padding-bottom: 0.625em;
+}
+
+.padding-top {
+    padding-top: 0.625em;
+}
+
+.padding-bottom {
+    padding-bottom: 0.625em;
+}
+
+.padding-left {
+    padding-left: 0.625em;
+}
+
+.padding-bottom-duplo {
+    padding-bottom: 1.25em;
+}
+
+.data-local {
+    color: #DA251D;
+}
+
+.mes-ano {
+    padding-top: 0.625em;
+    padding-bottom: 0.625em;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+p {
+    line-height: 1.2em;
+    margin-bottom: 0;
+}
+
+.branco {
+    color: white;
+}
+
+.cinza {
+    background-color: #e4e4e4;
+}
+
+.negrito {
+    font-weight: bold;
+}
+
+.itens-cinza-medio a:hover div {
+    background-color: #d6d6d6;
+}
+
+.itens-cinza-claro a:hover div {
+    background-color: #f8f8f8;
+}
+
+
+/*cores:*/
+/*vermelho: C4260E*/
+/*amarelo: CEBF7C*/
+/*verde: 38B74E*/
+/*azul: A3B2CE*/
+/*preto: 000000*/
+
+/*vermelho: DA251D*/
+/*verde: 69B92D*/
+/*pastel-do-eldio: FCF393*/
