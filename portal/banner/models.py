@@ -1,6 +1,7 @@
 #coding: utf-8
 from django.db import models
 from filer.fields.image import FilerImageField
+from filer.models import Image
 
 
 
@@ -18,6 +19,15 @@ class Banner(models.Model):
     def __unicode__(self):
       return self.titulo
 
+#     def delete(self, *args, **kwargs):
+#         if kwargs.pop('include_images', False):
+#             for field in self._meta.fields:
+#                 if type(field) == Image:
+#                     image = self.__getattribute__(field.name)
+#                     if image.name != '':
+#                         image.storage.delete(image.name)
+#         super(Image, self).delete(*args, **kwargs)
+# #models.ImageField:
 
 class BannerAcessoRapido(models.Model):
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
