@@ -14,9 +14,6 @@ class Campus(models.Model):
     def __unicode__(self):
         return self.nome
 
-    def get_grupo_curso(self):
-        return Grupo_Cursos.objects.filter(self.curso_set.all())
-
 
 class Formacao(models.Model):
     nome = models.CharField(max_length=100, verbose_name=u'Nome da Formação')
