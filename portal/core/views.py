@@ -39,7 +39,7 @@ def grid(request):
 
     videos = Video.objects.all()[:1]
 
-    return render(request, 'core/portal_grid.html', {
+    return render(request, 'core/portal.html', {
         'noticias_destaque': noticias_detaque,
         'mais_noticias': mais_noticias,
         'eventos': eventos,
