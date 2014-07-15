@@ -15,7 +15,13 @@
 
 
    {% block conteudo %}
-        <titulo>{{ titulo }} | Vestibulares</titulo>
+        <titulo>
+            {% if titulo %}
+                {{ titulo.titulo }} | {{ titulo.parent }}
+            {% else %}
+                Seleções
+            {% endif %}
+        </titulo>
         <lista>
             <filtros>
                 <a href="?{{ tipo }}status=ABT{{ ano }}">Abertos</a>
@@ -41,7 +47,7 @@
                     {% for item in lista %}
                     <tr>
                         <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.data_abertura_edital|date:"d M Y" }}</a></td>
-                        <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.get_tipo_display }}</a></td>
+                        <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.tipo.titulo }}</a></td>
                         <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.get_status_display }}</a></td>
                         <td><a href="{{ item.url }}" target="_blank">{{ item.titulo }}</a></td>
                     </tr>

@@ -35,13 +35,16 @@ def home(request):
 
 def selecao(request):
     lista = Selecao.objects.all()
+    menu = TipoSelecao.objects.all()
 
+    id=0
     tipo = request.GET.get('tipo')
     status = request.GET.get('status')
     ano = request.GET.get('ano')
 
     if tipo:
         lista = lista.filter(tipo=tipo)
+        id=tipo
         tipo = 'tipo='+tipo+'&'
     else:
         tipo =''
@@ -61,8 +64,6 @@ def selecao(request):
         #ano = datetime.date.today().year
         ano = ''
 
-    menu = TipoSelecao.objects.all()
-
 
     return render(request, 'core/selecao_lista.html',{
         'lista':lista,
@@ -70,6 +71,7 @@ def selecao(request):
         'status':status,
         'tipo':tipo,
         'nodes':menu,
+        'titulo':menu.get(id=id)
     })
 
 # def conteudo_detalhe(request, conteudo_id):

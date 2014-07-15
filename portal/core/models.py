@@ -28,30 +28,30 @@ class TipoSelecao(MPTTModel):
 
 class Selecao(models.Model):
 
-    TIPO_BASE = (
-        ('Vestibulares e Seleção',(
-            ('VEST',u'Vestibulares'),
-            ('SISU',u'SISU'),
-            ('STEC',u'SISUTEC'),
-            ('EXSE',u'Exames de Seleção'),
-            ('PRSE',u'Processo Seletivo'),
-            ('TREX',u'Transferência Externa')
-            )
-        ),
-        ('Concursos Publicos',(
-            ('DOCE',u'Docentes'),
-            ('TEAD',u'Técnicos-administrativos'),
-            )
-        ),
-        ('Processos Seletivos',(
-            ('PRTE',u'Professores substitutos e/ou temporários'),
-            ('PEAD',u'Processos Seletivos - EAD'),
-            ('PPRO',u'Processsos Seletivos - PRONATEC'),
-            ('ROID',u'Remoção Interna - Docentes'),
-            ('ROIT',u'Remoção Interna - TAEs')
-            )
-        )
-    )
+    # TIPO_BASE = (
+    #     ('Vestibulares e Seleção',(
+    #         ('VEST',u'Vestibulares'),
+    #         ('SISU',u'SISU'),
+    #         ('STEC',u'SISUTEC'),
+    #         ('EXSE',u'Exames de Seleção'),
+    #         ('PRSE',u'Processo Seletivo'),
+    #         ('TREX',u'Transferência Externa')
+    #         )
+    #     ),
+    #     ('Concursos Publicos',(
+    #         ('DOCE',u'Docentes'),
+    #         ('TEAD',u'Técnicos-administrativos'),
+    #         )
+    #     ),
+    #     ('Processos Seletivos',(
+    #         ('PRTE',u'Professores substitutos e/ou temporários'),
+    #         ('PEAD',u'Processos Seletivos - EAD'),
+    #         ('PPRO',u'Processsos Seletivos - PRONATEC'),
+    #         ('ROID',u'Remoção Interna - Docentes'),
+    #         ('ROIT',u'Remoção Interna - TAEs')
+    #         )
+    #     )
+    # )
 
     STATUS = (
         ('ABT','Aberto'),
@@ -62,9 +62,9 @@ class Selecao(models.Model):
     class Meta:
         ordering = ('titulo','status','data_abertura_edital')
 
-    tipo = models.CharField(max_length=4, choices=TIPO_BASE)
+    tipo = TreeForeignKey('TipoSelecao')
     titulo = models.CharField(max_length=100)
-    url  =  models.CharField(max_length=250, blank=True,)
+    url  =  models.CharField(max_length=250,)
     status = models.CharField(max_length=3, choices=STATUS)
     data_abertura_edital = models.DateTimeField(verbose_name=u'Data de Abertura do Edital')
     data_abertura_inscricoes = models.DateTimeField(verbose_name=u'Data de Abertura de Inscrições')
