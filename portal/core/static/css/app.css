@@ -24,6 +24,10 @@ p {
     margin: 0;
 }
 
+.margin-bottom {
+    margin-bottom: 0.625em;
+}
+
 .padding-top-bottom {
     padding-top: 0.625em;
     padding-bottom: 0.625em;
@@ -47,14 +51,18 @@ p {
 
 .fundo-verde {
     background-color: #2db200;
-    color: white;
+    color: #FFFFFF;
     border-radius: 0.1em;
 }
 
 .fundo-vermelho {
     background-color: #DA251D;
-    color: white;
+    color: #FFFFFF;
     border-radius: 0.1em;
+}
+
+.fundo-cinza {
+    background-color: #e4e4e4;
 }
 
 .lupa {
@@ -90,10 +98,6 @@ p {
 
 .branco {
     color: white;
-}
-
-.fundo-cinza {
-    background-color: #e4e4e4;
 }
 
 .negrito {
