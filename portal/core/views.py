@@ -37,14 +37,15 @@ def selecao(request):
     lista = Selecao.objects.all()
     menu = TipoSelecao.objects.all()
 
-    id=0
+
+    titulo = 0
     tipo = request.GET.get('tipo')
     status = request.GET.get('status')
     ano = request.GET.get('ano')
 
     if tipo:
         lista = lista.filter(tipo=tipo)
-        id=tipo
+        titulo = menu.get(id=tipo)
         tipo = 'tipo='+tipo+'&'
     else:
         tipo =''
@@ -71,7 +72,7 @@ def selecao(request):
         'status':status,
         'tipo':tipo,
         'nodes':menu,
-        'titulo':menu.get(id=id)
+        'titulo':titulo
     })
 
 # def conteudo_detalhe(request, conteudo_id):
