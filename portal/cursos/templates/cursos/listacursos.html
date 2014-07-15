@@ -6,7 +6,7 @@
     <h3>{{ f.formacao__nome }}</h3>
     <div>
     {% for c in campi %}
-        {% if %}
+        {% if c.formacao__id = f.formacao__id%}
             <p>{{ c.campus__nome }}</p>
         {% endif %}
         {% for g in grupo_cursos %}
