@@ -2,18 +2,19 @@
 {% block content %}
 
 <div id="accordion">
-{% for g in grupo %}
-    <h3>{{ g.formacao.nome }}</h3>
+{% for f in formacao %}
+    <h3>{{ f.formacao__nome }}</h3>
     <div>
-        <form name="form" method="post">
-            Campus <select name="campus">
-                <option>Cuiabá</option>
-                <option>Campo Novo do Parecis</option>
-            </select>
-        </form>
-        <p>
-            {{ g.nome }}
-        </p>
+    {% for c in campi %}
+        {% if %}
+            <p>{{ c.campus__nome }}</p>
+        {% endif %}
+        {% for g in grupo_cursos %}
+            {% if g.campus__id = c.campus__id and g.formacao__id = f.formacao__id %}
+                <blockquote><a href="#">{{ g.grupo__nome }}</a></blockquote>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
     </div>
 {% endfor %}
 </div>

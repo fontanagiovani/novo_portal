@@ -14,6 +14,9 @@ class Campus(models.Model):
     def __unicode__(self):
         return self.nome
 
+    def get_grupo_curso(self):
+        return Grupo_Cursos.objects.filter(self.curso_set.all())
+
 
 class Formacao(models.Model):
     nome = models.CharField(max_length=100, verbose_name=u'Nome da Formação')
@@ -36,7 +39,6 @@ class Formacao(models.Model):
 
 class Grupo_Cursos(models.Model):
     nome = models.CharField(max_length=80, verbose_name=u'Nome Genérico para Curso', help_text=u'Ex.: Licenciatura em Matemática')
-    formacao = models.ForeignKey(Formacao, verbose_name=u'Tipo de Formação')
     descricao = models.TextField(verbose_name=u'Descrição sobre o curso')
 
     class Meta:
@@ -55,7 +57,8 @@ class Curso(models.Model):
         ('INT', u'Integral'),
     )
     nome = models.CharField(max_length=100, verbose_name=u'Nome do Curso', help_text=u'Ex.: Licenciatura em Matemática Noturno')
-    campus = models.ForeignKey(Campus)
+    formacao = models.ForeignKey(Formacao, verbose_name=u'Tipo de Formação')
+    campus = models.ForeignKey(Campus, verbose_name=u'Campus')
     turno = models.CharField(max_length=3, choices=TURNO, verbose_name=u'Turno do Curso')
     email = models.EmailField(verbose_name=u'email')
     url = models.URLField()
@@ -67,3 +70,19 @@ class Curso(models.Model):
 
     def __unicode__(self):
         return u'{0} - {1}'.format(self.nome, self.campus)
+
+    # |---------|
+    # |Formacao |
+    # |---------|
+    #     |1
+    #     |
+    #     |n
+    # |------| n     1|-------------|n
+    # |Curso |--------|Grupo_Cursos |
+    # |------|        |-------------|
+    #     |n
+    #     |
+    #     |1
+    # |-------|
+    # |Campus |
+    # |-------|
