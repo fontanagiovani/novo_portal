@@ -2,11 +2,8 @@
 import datetime
 from portal.banner.models import Banner, BannerAcessoRapido
 from django.shortcuts import render, get_object_or_404
-from portal.conteudo.models import Noticia
-from portal.conteudo.models import Evento
-from portal.conteudo.models import Video
-from portal.conteudo.models import Galeria
-from portal.core.models import Selecao
+from portal.conteudo.models import Noticia, Evento, Video, Galeria
+from portal.core.models import Selecao,TipoSelecao
 
 
 def home(request):
@@ -64,12 +61,15 @@ def selecao(request):
         #ano = datetime.date.today().year
         ano = ''
 
+    menu = TipoSelecao.objects.all()
+
 
     return render(request, 'core/selecao_lista.html',{
         'lista':lista,
         'ano':ano,
         'status':status,
         'tipo':tipo,
+        'nodes':menu,
     })
 
 # def conteudo_detalhe(request, conteudo_id):

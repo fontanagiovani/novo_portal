@@ -15,6 +15,16 @@ class Menu(MPTTModel):
     def __unicode__(self):
         return self.titulo
 
+class TipoSelecao(MPTTModel):
+    class Meta:
+        ordering = ('titulo',)
+
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Tipo pai')
+    titulo = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True)
+
+    def __unicode__(self):
+        return self.titulo
 
 class Selecao(models.Model):
 
@@ -31,7 +41,6 @@ class Selecao(models.Model):
         ('Concursos Publicos',(
             ('DOCE',u'Docentes'),
             ('TEAD',u'Técnicos-administrativos'),
-            ('AMBS',u'Concurso Misto')
             )
         ),
         ('Processos Seletivos',(

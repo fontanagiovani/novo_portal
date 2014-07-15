@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from model_mommy import mommy
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
-from portal.core.models import Selecao
+from portal.core.models import Selecao, TipoSelecao
 
 class HomeTest(TestCase):
     def setUp(self):
@@ -62,9 +62,8 @@ class HomeContextTest(TestCase):
 
 class SelecaoTest(TestCase):
     def setUp(self):
-        self.eventos = mommy.make(Selecao,
-                                  titulo='titulo_teste',
-                                  _quantity=50)
+        self.selecao = mommy.make(Selecao,titulo='titulo_teste', _quantity=50)
+        self.menuselecao = mommy.make(TipoSelecao, titulo=u'test1', _quantity=7)
         self.resp = self.client.get(reverse('selecao'))
 
     def test_get(self):
@@ -78,3 +77,6 @@ class SelecaoTest(TestCase):
         Eventos lista deve renderizar o template selecao_lista.html
         """
         self.assertTemplateUsed(self.resp, 'core/selecao_lista.html')
+
+    def test_menu_selecao(self):
+         self.assertContains(self.resp, u'test1', 7)

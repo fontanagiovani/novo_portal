@@ -1,27 +1,16 @@
 {% extends 'core/pagina.html' %}
-
    {% block navegacao %}
         <a href="{% url 'selecao' %}" class="title">Seleção</a>
    {% endblock navegacao %}
 
    {% block menulateral %}
-          <li><label>Vestibulares e Seleção</label></li>
-          <li><a href="?tipo=VEST&{{ status }}{{ ano }}">Vestibulares</a></li>
-          <li><a href="?tipo=SISU&{{ status }}{{ ano }}">SISU</a></li>
-          <li><a href="?tipo=STEC&{{ status }}{{ ano }}">SISUTEC</a></li>
-          <li><a href="?tipo=EXSE&{{ status }}{{ ano }}">Exames de Seleção</a></li>
-          <li><a href="?tipo=PRSE&{{ status }}{{ ano }}">Processo Seletivo</a></li>
-          <li><a href="?tipo=TREX&{{ status }}{{ ano }}">Transferência Externa</a></li>
-          <li><label>Concursos Publicos</label></li>
-          <li><a href="?tipo=DOCE&{{ status }}{{ ano }}">Docentes</a></li>
-          <li><a href="?tipo=TEAD&{{ status }}{{ ano }}">Técnicos-administrativos</a></li>
-          <li><a href="?tipo=AMBS&{{ status }}{{ ano }}">Concurso Misto</a></li>
-          <li><label>Processos Seletivos</label></li>
-          <li><a href="?tipo=PRTE&{{ status }}{{ ano }}">Professores substitutos e/ou temporários</a></li>
-          <li><a href="?tipo=PEAD&{{ status }}{{ ano }}">Processos Seletivos - EAD</a></li>
-          <li><a href="?tipo=PPRO&{{ status }}{{ ano }}">Processsos Seletivos - PRONATEC</a></li>
-          <li><a href="?tipo=ROID&{{ status }}{{ ano }}">Remoção Interna - Docentes</a></li>
-          <li><a href="?tipo=ROIT&{{ status }}{{ ano }}">Remoção Interna - TAEs</a></li>
+        {%for label in nodes %}
+            {% if label.parent %}
+                <li><a href="?tipo={{ label.id }}{{ status }}{{ ano }}">{{ label.titulo }}</a></li>
+            {% else %}
+                <li><label>{{ label.titulo }}</label></li>
+            {% endif%}
+        {% endfor %}
    {% endblock menulateral %}
 
 

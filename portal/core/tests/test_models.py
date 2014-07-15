@@ -12,6 +12,27 @@ from model_mommy import mommy
 class SelecaoTest(TestCase):
     def setUp(self):
         self.obj = Selecao(
+            parent = None,
+            titulo=u'Título',
+            slug='titulo'
+        )
+
+    def test_criacao(self):
+        """
+        Video deve conter parent, titulo,Slug,
+        """
+        self.obj.save()
+        self.assertIsNotNone(self.obj.pk)
+
+    def test_unicode(self):
+        """
+        Video deve apresentar o titulo como unicode
+        """
+        self.assertEqual(u'Título', unicode(self.obj))
+
+class SelecaoTest(TestCase):
+    def setUp(self):
+        self.obj = Selecao(
             status = 'AND',
             tipo = 'AMBS',
             titulo=u'Título',
@@ -34,6 +55,7 @@ class SelecaoTest(TestCase):
         Video deve apresentar o titulo como unicode
         """
         self.assertEqual(u'Título', unicode(self.obj))
+
 
 
 
