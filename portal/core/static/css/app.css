@@ -1,0 +1,136 @@
+.temp-rodape {
+    height: 20em;
+    border: 0.3125em solid #80bf40;
+}
+
+input[type="text"], select, form {
+    margin: 0;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+p {
+    line-height: 1.2em;
+    margin-bottom: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.margin-bottom {
+    margin-bottom: 0.625em;
+}
+
+.padding-top-bottom {
+    padding-top: 0.625em;
+    padding-bottom: 0.625em;
+}
+
+.padding-top {
+    padding-top: 0.625em;
+}
+
+.padding-bottom {
+    padding-bottom: 0.625em;
+}
+
+.padding-left {
+    padding-left: 0.625em;
+}
+
+.padding-bottom-duplo {
+    padding-bottom: 1.25em;
+}
+
+.fundo-verde {
+    background-color: #2db200;
+    color: #FFFFFF;
+    border-radius: 0.1em;
+}
+
+.fundo-vermelho {
+    background-color: #DA251D;
+    color: #FFFFFF;
+    border-radius: 0.1em;
+}
+
+.fundo-cinza {
+    background-color: #e4e4e4;
+}
+
+.lupa {
+    font-size: 1.8em;
+}
+
+.social {
+    font-size: 2em;
+    text-align: right;
+}
+
+.links-uteis {
+    list-style: none;
+}
+
+.links-uteis li {
+    display: inline;
+}
+
+.data-local {
+    color: #DA251D;
+}
+
+.mes-ano {
+    padding-top: 0.625em;
+    padding-bottom: 0.625em;
+}
+
+.marcador-circulo {
+    list-style-type: circle;
+    margin-bottom: 0;
+}
+
+.marcador-circulo li {
+    padding-bottom: 0.625em;
+}
+
+.branco {
+    color: white;
+}
+
+.negrito {
+    font-weight: bold;
+}
+
+.hover-cinza-medio div:hover {
+    background-color: #d6d6d6;
+}
+
+.hover-cinza-claro:hover {
+    background-color: #f8f8f8;
+}
+
+/*.fundo-verde:hover{*/
+    /*background-color: #0b7e0a;*/
+/*}*/
+
+/*a {*/
+    /*color: #1D83DA;*/
+/*}*/
+
+/*a:hover {*/
+    /*color: #2A9E26;*/
+/*}*/
+/*a:focus {*/
+    /*color: #1f5a1e;*/
+/*}*/
+
+/*cores da logo do IFMT:*/
+/*vermelho: DA251D*/
+/*verde: 69B92D*/

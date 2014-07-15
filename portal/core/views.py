@@ -75,6 +75,26 @@ def selecao(request):
         'titulo':titulo
     })
 
+def grid(request):
+    noticias_detaque = sorted(Noticia.objects.filter(destaque=True)[:5], key=lambda o: o.prioridade_destaque)
+
+    mais_noticias = Noticia.objects.all().exclude(
+        id__in=[obj.id for obj in noticias_detaque])[:9]
+
+    eventos = Evento.objects.all()[:3]
+
+    banners = Banner.objects.all()[:3]
+
+    videos = Video.objects.all()[:1]
+
+    return render(request, 'core/portal.html', {
+        'noticias_destaque': noticias_detaque,
+        'mais_noticias': mais_noticias,
+        'eventos': eventos,
+        'banners': banners,
+        'videos': videos,
+    })
+
 # def conteudo_detalhe(request, conteudo_id):
 #     conteudo = get_object_or_404(Conteudo, id=conteudo_id)
 #
