@@ -21,15 +21,15 @@
 {#Container para o cabeçalho#}
 <div class="row padding-bottom">
 
-<div class="row">
+<div class="row padding-top-bottom">
 
     {#Container para a logo do IFMT#}
-    <div class="medium-4 columns small-only-text-center temp-logo">
+    <div class="small-4 medium-4 columns small-only-text-center">
         <a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/logo_ifmt.png" alt="IFMT" id="logo"></a>
     </div>
 
     {#Container para a parte direita do cabeçalho#}
-    <div class="medium-8 columns temp-cabecalho-direita">
+    <div class="small-8 medium-8 columns">
 
         {#Social#}
         <div class="row">
@@ -528,7 +528,7 @@
 <div class="row padding-bottom">
 
     {#Container para as notícias de destaque#}
-    <div class="medium-8 columns temp-noticias-destaque">
+    <div class="medium-8 columns">
         <ul class="example-orbit" data-orbit
             data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
             {% for noticia in noticias_destaque %}
@@ -570,9 +570,9 @@
     </div>
 
     {#Container para os banners especiais#}
-    <div class="medium-4 columns temp-banners-especiais">
+    <div class="medium-4 columns">
         {% for banner in banners %}
-            <div class="row collapse padding-bottom itens-cinza-claro">
+            <div class="row collapse padding-bottom hover-cinza-claro">
                 <a href="">
                     <div class="row collapse">
                         <div class="small-2 medium-5 columns">
@@ -587,7 +587,7 @@
                 </a>
             </div>
         {% endfor %}
-        <div class="row collapse padding-bottom itens-cinza-claro">
+        <div class="row collapse padding-bottom hover-cinza-claro">
             <a href="">
                 <div class="row collapse">
                     <img src="{{ STATIC_URL }}img/exame_vestibular.jpg"/>
@@ -603,12 +603,12 @@
 <div class="row">
 
 {#Container para mais notícias#}
-<div class="medium-4 columns temp-noticias-mais padding-bottom">
+<div class="medium-4 columns padding-bottom">
     <div class="row">
         <h1><a href="{% url 'conteudo:noticias_lista' %}"><i class="fi-plus"></i> NOTÍCIAS</a></h1>
     </div>
     {% for noticia in mais_noticias %}
-        <div class="row collapse padding-bottom-duplo itens-cinza-claro">
+        <div class="row collapse padding-bottom-duplo hover-cinza-claro">
             {% if noticia.primeira_imagem %}
                 <a href="{{ noticia.get_absolute_url }}">
                     <div class="row collapse">
@@ -640,7 +640,7 @@
 {#Fim da div mais notícias#}
 
 {#Container para eventos e guia de curso#}
-<div class="medium-4 columns temp-eventos padding-bottom cinza">
+<div class="medium-4 columns padding-bottom fundo-cinza">
     <div class="row padding-bottom">
         <form>
             <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
@@ -676,7 +676,7 @@
     <div class="row padding-bottom">
         <h1><a href="{% url 'conteudo:eventos_lista' %}"><i class="fi-plus"></i> EVENTOS</a></h1>
         {% for evento in eventos %}
-            <div class="row itens-cinza-medio padding-bottom">
+            <div class="row padding-bottom hover-cinza-medio">
                 <a href="{{ evento.get_absolute_url }}">
                     <div class="row">
                         <div class="small-3 columns text-center no-padding">
@@ -688,7 +688,7 @@
 
                         <div class="small-9 columns no-padding padding-left">
                             <div class="data-local">
-                                {{ evento.campus_origem }}
+                                {{ evento.get_campus_origem_display }}
                             </div>
                             <p>{{ evento.titulo }}</p>
                         </div>
@@ -703,7 +703,7 @@
     <div class="row">
         <h1><i class="fi-list-thumbnails"></i> ACESSO RÁPIDO</h1>
 
-        <div class="row collapse padding-bottom itens-cinza-medio">
+        <div class="row collapse padding-bottom hover-cinza-medio">
             <a href="">
                 <div class="row collapse">
                     <div class="small-2 medium-5 columns">
@@ -716,7 +716,7 @@
             </a>
         </div>
 
-        <div class="row collapse padding-bottom itens-cinza-medio">
+        <div class="row collapse padding-bottom hover-cinza-medio">
             <a href="">
                 <div class="row collapse">
                     <div class="small-2 medium-5 columns">
@@ -729,7 +729,7 @@
             </a>
         </div>
 
-        <div class="row collapse padding-bottom itens-cinza-medio">
+        <div class="row collapse padding-bottom hover-cinza-medio">
             <a href="">
                 <div class="row collapse">
                     <div class="small-2 medium-5 columns">
@@ -742,7 +742,7 @@
             </a>
         </div>
 
-        <div class="row collapse padding-bottom itens-cinza-medio">
+        <div class="row collapse padding-bottom hover-cinza-medio">
             <a href="">
                 <div class="row collapse">
                     <div class="small-2 medium-5 columns">
@@ -755,7 +755,7 @@
             </a>
         </div>
 
-        <div class="row collapse padding-bottom itens-cinza-medio">
+        <div class="row collapse padding-bottom hover-cinza-medio">
             <a href="">
                 <div class="row collapse">
                     <div class="small-2 medium-5 columns">
@@ -774,34 +774,27 @@
 {#Fim da div para eventos e guia de curso#}
 
 {#Container para coluna à direita#}
-<div class="medium-4 columns temp-galerias padding-bottom">
+<div class="medium-4 columns padding-bottom">
 
     {#Pró-reitorias e diretorias#}
     <div class="row">
         <div class="row padding-bottom">
             <h1><i class="fi-torsos-all"></i> PRÓ-REITORIAS</h1>
-
-            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Pró-Reitoria de Administração</a></p>
-
-            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Pró-Reitoria de Ensino</a></p>
-
-            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Pró-Reitoria de Extensão</a></p>
-
-            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Pró-Reitoria de Pesquisa e Inovação</a></p>
-
-            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Pró-Reitoria de Desenvolvimento Institucional</a>
-            </p>
+            <ul class="marcador-circulo">
+                <li><a href="">Pró-Reitoria de Desenvolvimento Institucional</a></li>
+                <li><a href="">Pró-Reitoria de Ensino</a></li>
+                <li><a href="">Pró-Reitoria de Extensão</a></li>
+                <li><a href="">Pró-Reitoria de Pesquisa e Inovação</a></li>
+                <li><a href="">Pró-Reitoria de Desenvolvimento Institucional</a></li>
+            </ul>
         </div>
 
         <div class="row padding-bottom">
             <h1><i class="fi-torsos-all"></i> DIRETORIAS</h1>
-
-            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Diretoria Sistemica de Gestão de Pessoas</a>
-            </p>
-
-            <p class="no-margin"><a href=""><i class="fi-arrow-right"></i> Diretoria Sistemica de Tecnologia da
-                Informação</a>
-            </p>
+            <ul class="marcador-circulo">
+                <li><a href="">Diretoria Sistemica de Gestão de Pessoas</a></li>
+                <li><a href="">Diretoria Sistemica de Tecnologia da Informação</a></li>
+            </ul>
         </div>
     </div>
     {#Fim da div pró-reitorias e diretorias#}
@@ -839,10 +832,15 @@
     {#Fim da div galeria de fotos#}
 
     {#Vídeos#}
-    <div class="row padding-bottom">
+    <div class="row">
         <h1><a href="{% url 'conteudo:videos_lista' %}"><i class="fi-plus"></i> VÍDEOS</a></h1>
         {% for video in videos %}
             <div class="row">
+{#                <div class="flex-video">#}
+{#                    <iframe src="//www.youtube.com/embed/{{ video.video }}" frameborder="0"#}
+{#                            allowfullscreen></iframe>#}
+{#                </div>#}
+
                 <a href="{{ video.get_absolute_url }}">
                     <img src="//i1.ytimg.com/vi/{{ video.video }}/sddefault.jpg"/>
                 </a>
