@@ -238,7 +238,7 @@
                         <li data-orbit-slide="{{ galeria.id }}">
                             {% if galeria.primeira_imagem %}
                                 <a href="{{ galeria.get_absolute_url }}"><img
-                                        src="{% thumbnail galeria.primeira_imagem 300x170 crop quality=80 %}"
+                                        src="{% thumbnail galeria.primeira_imagem 640x480 crop quality=80 %}"
                                         alt="{{ galeria.titulo }}"/></a>
                             {% endif %}
 
