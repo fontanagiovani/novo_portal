@@ -1,21 +1,9 @@
 {% extends 'cursos/base.html' %}
 {% block content %}
-
-<div id="accordion">
-{% for f in formacao %}
-    <h3>{{ f.formacao__nome }}</h3>
-    <div>
-    {% for c in campi %}
-        {% if c.formacao__id = f.formacao__id%}
-            <p>{{ c.campus__nome }}</p>
-        {% endif %}
-        {% for g in grupo_cursos %}
-            {% if g.campus__id = c.campus__id and g.formacao__id = f.formacao__id %}
-                <blockquote><a href="#">{{ g.grupo__nome }}</a></blockquote>
-            {% endif %}
-        {% endfor %}
+    <p><h2>{{ grupo.nome }}</h2></p>
+    <p>Descrição: {{ grupo.descricao }}</p>
+    <hr />
+    {% for c in cursos %}
+        <p><a href="{% url 'exibecurso' c.id %}">{{ c.nome }}</a></p>
     {% endfor %}
-    </div>
-{% endfor %}
-</div>
 {% endblock %}

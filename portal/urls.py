@@ -11,7 +11,9 @@ urlpatterns = patterns('',
                        url(r'^conteudo/', include('portal.conteudo.urls', namespace='conteudo')),
                        url(r'^selecao/', 'portal.core.views.selecao', name='selecao'),
                        url(r'^$', 'portal.core.views.home', name='home'),
-                       url(r'^cursos/', 'portal.cursos.views.listatudo', name='listatudo'),
+                       url(r'^guiadecursos/', 'portal.cursos.views.listagrupodecursos', name='listagrupodecursos'),
+                       url(r'^cursos/(?P<grupo_id>\d+)/$', 'portal.cursos.views.listacursosdogrupo', name='listacursosdogrupo'),
+                       url(r'^curso/(?P<curso_id>\d+)/$', 'portal.cursos.views.exibecurso', name='exibecurso'),
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do summernote
