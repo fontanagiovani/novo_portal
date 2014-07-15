@@ -96,6 +96,10 @@ p {
     margin-bottom: 0;
 }
 
+.marcador-circulo li {
+    padding-bottom: 0.625em;
+}
+
 .branco {
     color: white;
 }
