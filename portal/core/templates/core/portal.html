@@ -131,7 +131,7 @@
                     <option value="01">Campus 1</option>
                 </select>
                 <label>Selecione uma tipo de Formação</label>
-                <select name="formacao">
+                <select name="formacao" id="formacao" onchange="get_cursos();">
                     <option value="01">--------</option>
                     <option value="01">Campus 1</option>
                     <option value="01">Campus 1</option>
@@ -141,11 +141,9 @@
                 <label>Selecione um Curso</label>
                 <select name="curso">
                     <option value="01">--------</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
                 </select>
+                <br />
+                <input type="button" name="buscar" value="Buscar">
             </form>
         </div>
         {#Fim da div eventos e guia de curso#}
