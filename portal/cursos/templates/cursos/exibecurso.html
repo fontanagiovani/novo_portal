@@ -1,7 +1,9 @@
 {% extends 'cursos/base.html' %}
 {% block content %}
 
-{{ curso.nome }}
-{{ curso.turno }}
+<p>Curso: {{ curso.nome }}</p>
+<p>Turno: {{ curso.get_turno_display }}</p>
+<p>Contato: {{ curso.email }}</p>
+<p>Site do curso: <a href="{{ curso.url }}">{{ curso.url }}</a></p>
 
 {% endblock %}
