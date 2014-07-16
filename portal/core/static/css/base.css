@@ -1,155 +1,136 @@
-/* estrutura geral */
-BODY{
-    background:#ddd;
-    font-family:Calibri,Verdana, Arial;
-}
-#palco{
-    position:relative;
-    width:950px;
-    left:50%;
-    top:-15px;
-    margin-left:-475px;
-    background:#ececfb;
+.temp-rodape {
+    height: 20em;
+    border: 0.3125em solid #80bf40;
 }
 
-
-#topo{
-    display:block;
-    background:#fff;
-    width:100%;
-    height:150px;
-}
-#topo #logo{
-    float:left;
-    width:230px;
-    height:130px;
-    margin-left:0;
-    vertical-align: middle;
-}
-#topo #links{
-    float:left;
-    width:720px;
-    height:100%;
-    border-left:3px #999 solid;
+input[type="text"], select, form {
+    margin: 0;
 }
 
-#topo #links #diretos, #topo #links form, #topo #links #sociais{
-    display:block;
-    height:28px;
-    padding:2px;
-}
-#topo #links #diretos a{
-    float:right;
-    margin:2px;
-    font-size:14px;
-    color:#cacad8;
-    padding-right:5px;
-    border-right:1px #cacad8 solid;
-    text-decoration:none;
-}
-#topo #links form input{
-    float:right;
-    width:300px;
-    height:25px;
-    border:2px #cacad8 solid;
-    color:#cacad8;
-}
-#topo #links #sociais a{
-    float:right;
-    text-decoration:none;
+h1 {
+    font-size: 1.5em;
 }
 
-
-#corpo{
-    margin:2px;
-    padding:5px;
+p {
+    line-height: 1.2em;
+    margin-bottom: 0;
 }
 
-#rodape{
-    width:100%;
-    height:250px;
-    background:#479833;
-    margin-top:-25px;
-}
-#rodape #mapa{
-    position:relative;
-    width:950px;
-    height:250px;
-    left:50%;
-    top:0;
-    margin-left:-475px;
+.no-padding {
+    padding: 0;
 }
 
-
-
-/* formata menu noticia */
-.menu-icon{
-    background:#2db200;
-}
-.off-canvas-wrap{
-    margin:-6px;
-}
-#menu-lateral{
-    background: #8fc74a;
-
-}
-.left-off-canvas-menu ul{
-    background:#8fc74a;
-    list-style-type:none;
-    margin-left:0px;
-}
-#menu-lateral label{
-    background:#2db200;
-    color:#fff;
-    border:none;
+.no-margin {
+    margin: 0;
 }
 
-#menu-ul a{
-    margin:2px 10px 0 10px;
-    padding:2px;
-    border-bottom:1px #fff solid;
-}
-#menu-ul a:hover, #menu-ul li:hover{
-    background:#fff;
-    color:#2db200;
-}
-#menu-ul li{
-    margin-bottom:2px;
+.margin-bottom {
+    margin-bottom: 0.625em;
 }
 
+.padding-top-bottom {
+    padding-top: 0.625em;
+    padding-bottom: 0.625em;
+}
 
+.padding-top {
+    padding-top: 0.625em;
+}
 
-#menu-icon{
-    padding:5px;
-    text-align:center;
+.padding-bottom {
+    padding-bottom: 0.625em;
 }
-#menu-icon a{
-    display:inline-block;
-    border:none;
+
+.padding-left {
+    padding-left: 0.625em;
 }
-#menu-icon a:hover, #menu-ul #menu-icon:hover{
-    background:none;
+
+.padding-bottom-duplo {
+    padding-bottom: 1.25em;
 }
-#menu-lateral #menu{
-    background:#479833;
-    display:block;
-    width:50px;
-    height:40px;
+
+.fundo-verde {
+    background-color: #2db200;
+    color: #FFFFFF;
+    border-radius: 0.1em;
 }
-#menu-lateral img{
-    margin-left:8px;
-    margin-top:8px;
+
+.fundo-vermelho {
+    background-color: #DA251D;
+    color: #FFFFFF;
+    border-radius: 0.1em;
 }
-.tab-bar-section{
-    background:#8fc74a;
-    border-color:#f60;
-    width:110%;
-    height:100%;
+
+.fundo-cinza {
+    background-color: #e4e4e4;
 }
-.tab-bar-section a{
-    text-decoration:none;
-    color:#fff;
+
+.lupa {
+    font-size: 1.8em;
 }
-.tab-bar-section a:hover{
-    color:#2db200;
+
+.social {
+    font-size: 2em;
+    text-align: right;
 }
+
+.links-uteis {
+    list-style: none;
+}
+
+.links-uteis li {
+    display: inline;
+}
+
+.data-local {
+    color: #DA251D;
+}
+
+.mes-ano {
+    padding-top: 0.625em;
+    padding-bottom: 0.625em;
+}
+
+.marcador-circulo {
+    list-style-type: circle;
+    margin-bottom: 0;
+}
+
+.marcador-circulo li {
+    padding-bottom: 0.625em;
+}
+
+.branco {
+    color: white;
+}
+
+.negrito {
+    font-weight: bold;
+}
+
+.hover-cinza-medio div:hover {
+    background-color: #d6d6d6;
+}
+
+.hover-cinza-claro:hover {
+    background-color: #f8f8f8;
+}
+
+/*.fundo-verde:hover{*/
+    /*background-color: #0b7e0a;*/
+/*}*/
+
+/*a {*/
+    /*color: #1D83DA;*/
+/*}*/
+
+/*a:hover {*/
+    /*color: #2A9E26;*/
+/*}*/
+/*a:focus {*/
+    /*color: #1f5a1e;*/
+/*}*/
+
+/*cores da logo do IFMT:*/
+/*vermelho: DA251D*/
+/*verde: 69B92D*/

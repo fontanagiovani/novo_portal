@@ -2,9 +2,6 @@
 <html class="no-js" lang="pt-br">
 <head>
     <meta charset="utf-8">
-    <!-- CSS do Portal -->
-{#    <link href="{{ STATIC_URL }}/css/portal.css" rel="stylesheet" type="text/css" />#}
-{#    <link href="{{ STATIC_URL }}/css/conteudo.css" rel="stylesheet" type="text/css" />#}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFMT - Instituto Federal de Mato Grosso</title>
@@ -13,9 +10,11 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-icons/foundation-icons.css"/>
 
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/lista_filtros.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/campus.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css">
+
+    {#Bloco para estilos personalizados para templates específicos#}
+    {% block stylesheet %}
+    {% endblock %}
 
     <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
 </head>
@@ -548,5 +547,10 @@
 <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
 <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
 <script> $(document).foundation(); </script>
+
+{#Bloco para javascript personalizado para templates específicos#}
+{% block javascript %}
+{% endblock %}
+
 </body>
 </html>
