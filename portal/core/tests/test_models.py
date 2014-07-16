@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from django.utils import timezone
-from portal.core.models import Selecao
+from portal.core.models import Selecao,TipoSelecao
 from django.core.files import File
 from filer.models import Image
 from filer.models import File as FileFiler
 from django.core.urlresolvers import reverse
 from model_mommy import mommy
+from mptt.models import *
 
 
-class SelecaoTest(TestCase):
+class TipoSelecaoTest(TestCase):
     def setUp(self):
-        self.obj = Selecao(
+        self.obj = TipoSelecao(
             parent = None,
             titulo=u'Título',
             slug='titulo'
@@ -32,10 +33,17 @@ class SelecaoTest(TestCase):
 
 class SelecaoTest(TestCase):
     def setUp(self):
+        self.tipo = TipoSelecao(
+            parent = None,
+            titulo=u'Título',
+            slug='titulo'
+        )
+        self.tipo.save()
+
         self.obj = Selecao(
             status = 'AND',
-            tipo = 'AMBS',
             titulo=u'Título',
+            tipo = self.tipo,
             url=u'Url de destino',
             data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
             data_abertura_edital = timezone.now(),  # '2014-03-21 17:59:00',
