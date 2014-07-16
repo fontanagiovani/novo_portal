@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
 from portal.cursos.models import Curso, Campus, Grupo_Cursos, Formacao
 
