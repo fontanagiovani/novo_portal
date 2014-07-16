@@ -62,7 +62,13 @@ class HomeContextTest(TestCase):
 
 class SelecaoTest(TestCase):
     def setUp(self):
-        self.selecao = mommy.make(Selecao,titulo='titulo_teste', _quantity=50)
+        self.tipo = TipoSelecao(
+            parent = None,
+            titulo=u'Título',
+            slug='titulo'
+        )
+        self.tipo.save()
+        self.selecao = mommy.make(Selecao,titulo='titulo_teste', tipo=self.tipo, _quantity=50)
         self.menuselecao = mommy.make(TipoSelecao, titulo=u'test1', _quantity=7)
         self.resp = self.client.get(reverse('selecao'))
 
