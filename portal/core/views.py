@@ -1,9 +1,8 @@
 # coding: utf-8
-import datetime
 from portal.banner.models import Banner, BannerAcessoRapido
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from portal.conteudo.models import Noticia, Evento, Video, Galeria
-from portal.core.models import Selecao,TipoSelecao
+from portal.core.models import Selecao, TipoSelecao
 
 
 def home(request):
@@ -22,7 +21,6 @@ def home(request):
 
     galerias = Galeria.objects.all()[:3]
 
-
     return render(request, 'core/portal.html', {
         'noticias_destaque': noticias_detaque,
         'mais_noticias': mais_noticias,
@@ -30,13 +28,13 @@ def home(request):
         'banners': banners,
         'acesso_rapido': acesso_rapido,
         'videos': videos,
-        'galerias':galerias,
+        'galerias': galerias,
     })
+
 
 def selecao(request):
     lista = Selecao.objects.all()
     menu = TipoSelecao.objects.all()
-
 
     titulo = 0
     tipo = request.GET.get('tipo')
@@ -46,44 +44,30 @@ def selecao(request):
     if tipo:
         lista = lista.filter(tipo=tipo)
         titulo = menu.get(id=tipo)
-        tipo = 'tipo='+tipo+'&'
+        tipo = 'tipo=' + tipo + '&'
     else:
-        tipo =''
+        tipo = ''
 
     if status:
         lista = lista.filter(status=status)
-        status = 'status='+status+'&'
+        status = 'status=' + status + '&'
     else:
         status = ''
 
     if ano:
         lista = lista.filter(data_abertura_edital__year=ano)
-        ano = 'ano='+ano
+        ano = 'ano=' + ano
         if tipo is not '' or status is not '':
-            ano = '&'+ano
+            ano = '&' + ano
     else:
-        #ano = datetime.date.today().year
+        # ano = datetime.date.today().year
         ano = ''
 
-
-    return render(request, 'core/selecao_lista.html',{
-        'lista':lista,
-        'ano':ano,
-        'status':status,
-        'tipo':tipo,
-        'nodes':menu,
-        'titulo':titulo
+    return render(request, 'core/selecao_lista.html', {
+        'lista': lista,
+        'ano': ano,
+        'status': status,
+        'tipo': tipo,
+        'nodes': menu,
+        'titulo': titulo
     })
-
-# def conteudo_detalhe(request, conteudo_id):
-#     conteudo = get_object_or_404(Conteudo, id=conteudo_id)
-#
-#     return render(request, 'core/conteudo.html', {'conteudo': conteudo})
-
-# def exemplo_form_admin(request):
-#     return render(request, 'core/exemplo_form_admin.html', {'form': SiteForm()})
-
-
-# def thumbnail(request, conteudo_id):
-#     conteudo = get_object_or_404(Conteudo, pk=conteudo_id)
-#     return render(request, 'core/thumbnail.html', {'conteudo': conteudo})

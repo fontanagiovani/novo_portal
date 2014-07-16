@@ -1,67 +1,127 @@
 {% extends 'core/base.html' %}
 {% load thumbnail %}
-{% block content %}
-    <div class="row" id="destaque">
-        <div class="large-8 columns" id="quadro">
 
-            <ul class="example-orbit" data-orbit data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+{% block content %}
+    {#Container para as notícias de destaque e banners especiais#}
+    <div class="row padding-bottom">
+
+        {#Container para as notícias de destaque#}
+        <div class="medium-8 columns">
+            <ul class="example-orbit" data-orbit
+                data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
                 {% for noticia in noticias_destaque %}
-                    <li  data-orbit-slide="{{ noticia.id }}">
+                    <li data-orbit-slide="{{ noticia.id }}">
                         {% if noticia.primeira_imagem %}
-                            <a href="{{ noticia.get_absolute_url }}"><img src="{% thumbnail noticia.primeira_imagem 520x450 crop quality=80 %}" alt="{{ noticia.titulo }}"/></a>
+                            <a href="{{ noticia.get_absolute_url }}"><img
+                                    src="{% thumbnail noticia.primeira_imagem 800x520 crop quality=80 %}"
+                                    alt="{{ noticia.titulo }}"/></a>
                         {% endif %}
                         <div class="orbit-caption">
-                            <data>
-                                <dia>{{ noticia.data_publicacao|date:"d M" }}</dia>
-                                {{ noticia.data_publicacao|date:"Y" }}
-                            </data>
-                            <campus>{{ noticia.get_campus_origem_display }}</campus>
-                            <titulo>{{ noticia.titulo }}</titulo>
+                            <a href="{{ noticia.get_absolute_url }}">
+                                <div class="small-2 columns text-center no-padding mes-ano fundo-vermelho">
+                                    {{ noticia.data_publicacao|date:"d M" }}
+                                    {{ noticia.data_publicacao|date:"Y" }}
+                                </div>
+
+                                <div class="small-10 columns">
+                                    <div class="data-local branco negrito">
+                                        {{ noticia.get_campus_origem_display }}
+                                    </div>
+                                    <p class="no-margin branco">{{ noticia.titulo }}</p>
+                                </div>
+                            </a>
                         </div>
                     </li>
                 {% endfor %}
             </ul>
 
-            <div id="menu">
+            <ul class="small-block-grid-5 padding-top">
                 {% for noticia in noticias_destaque %}
-                    <a data-orbit-link="{{ noticia.id }}">
-                        <img src="{% thumbnail noticia.primeira_imagem 112x60 crop quality=80 %}" alt="{{ noticia.titulo }}"/>
-                    </a>
-                {% endfor %}
-            </div>
-
-        </div>
-        <div class="large-4 columns" style="padding:2px;">
-            <div id="especial" class="row">
-                <p>Destaques</p>
-                 {% for banner in banners %}
-                    <div>
-                        <a href="{{ banner.url }}">
-                        <img src="{% thumbnail banner.arquivo 120x90 crop quality=80 %}"/>
+                    <li>
+                        <a data-orbit-link="{{ noticia.id }}">
+                            <img src="{% thumbnail noticia.primeira_imagem 112x60 crop quality=80 %}"
+                                 alt="{{ noticia.titulo }}"/>
                         </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {#Container para os banners especiais#}
+        <div class="medium-4 columns">
+            {% for banner in banners %}
+                <div class="row collapse padding-bottom hover-cinza-claro">
+                    <a href="{{ banner.url }}">
+                        <div class="row collapse">
+                            <div class="small-2 medium-5 columns">
+                                <img src="{% thumbnail banner.arquivo 120x90 crop quality=80 %}"/>
+                            </div>
+                            <div class="small-10 medium-7 columns">
+                                <div class="padding-left">
+                                    <p>{{ banner.titulo }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+            <div class="row collapse padding-bottom hover-cinza-claro">
+                <a href="">
+                    <div class="row collapse">
+                        <img src="{{ STATIC_URL }}img/exame_vestibular.jpg"/>
                     </div>
-                 {% endfor %}
+                </a>
+
             </div>
-            <img src="{{ STATIC_URL }}img/exame_vestibular.jpg" id="exame_vestibular" />
         </div>
     </div>
+    {#Fim da div para as notícias de destaque e banners especiais#}
 
+    {#Container central para as 3 colunas#}
     <div class="row">
-        <div class="large-4 columns" id="noticias">
-            <p>NOTICIAS <a href="{% url 'conteudo:noticias_lista' %}">| + Ver Mais</a></p>
-            {% for noticia in mais_noticias %}
-                <a href="{{ noticia.get_absolute_url }}">
-                    {% if noticia.primeira_imagem %}
-                        <img src="{% thumbnail noticia.primeira_imagem 100x80 crop quality=80 %}" alt="{{ noticia.titulo }}">
-                    {% endif %}
-                    <data-local>{{ noticia.data_publicacao|date:"d M" }} - {{ noticia.get_campus_origem_display }}</data-local>
-                    <titulo>{{ noticia.titulo }}</titulo>
-                </a>
-            {% endfor %}
+
+    {#Container para mais notícias#}
+    <div class="medium-4 columns padding-bottom">
+        <div class="row">
+            <h1><a href="{% url 'conteudo:noticias_lista' %}"><i class="fi-plus"></i> NOTÍCIAS</a></h1>
         </div>
-        <div class="large-4 columns">
-            <form id="guia">
-                <p>Conheça os cursos ofertados pelo IFMT</p>
+        {% for noticia in mais_noticias %}
+            <div class="row collapse padding-bottom-duplo hover-cinza-claro">
+                {% if noticia.primeira_imagem %}
+                    <a href="{{ noticia.get_absolute_url }}">
+                        <div class="row collapse">
+                            <div class="small-2 medium-3 columns">
+                                <img src="{% thumbnail noticia.primeira_imagem 100x100 crop quality=80 %}"
+                                     alt="{{ noticia.titulo }}">
+                            </div>
+                            <div class="small-10 medium-9 columns">
+                                <div class="data-local padding-left">{{ noticia.data_publicacao|date:"d M" }}
+                                    - {{ noticia.get_campus_origem_display }}</div>
+                                <p class="no-margin padding-left">{{ noticia.titulo }}</p>
+                            </div>
+                        </div>
+                    </a>
+                {% else %}
+                    <div class="small-12 columns">
+                        <a href="{{ noticia.get_absolute_url }}">
+                            <div class="row">
+                                <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}
+                                    - {{ noticia.get_campus_origem_display }}</div>
+                                <p class="no-margin">{{ noticia.titulo }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    {#Fim da div mais notícias#}
+
+    {#Container para eventos e guia de curso#}
+    <div class="medium-4 columns fundo-cinza">
+        <div class="row padding-bottom">
+            <form>
+                <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
                 <label>Selecione um campus</label>
                 <select name="campus">
                     <option value="01">--------</option>
@@ -71,7 +131,7 @@
                     <option value="01">Campus 1</option>
                 </select>
                 <label>Selecione uma tipo de Formação</label>
-                <select name="formacao">
+                <select name="formacao" id="formacao" onchange="get_cursos();">
                     <option value="01">--------</option>
                     <option value="01">Campus 1</option>
                     <option value="01">Campus 1</option>
@@ -81,107 +141,167 @@
                 <label>Selecione um Curso</label>
                 <select name="curso">
                     <option value="01">--------</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
                 </select>
+                <br />
+                <input type="button" name="buscar" value="Buscar">
             </form>
-            <div id="eventos">
-                <p>EVENTOS <a href="{% url 'conteudo:eventos_lista' %}">| + Ver Mais</a></p>
-                {% for evento in eventos %}
+        </div>
+        {#Fim da div eventos e guia de curso#}
+
+        {#Eventos#}
+        <div class="row padding-bottom">
+            <h1><a href="{% url 'conteudo:eventos_lista' %}"><i class="fi-plus"></i> EVENTOS</a></h1>
+            {% for evento in eventos %}
+                <div class="row padding-bottom hover-cinza-medio">
                     <a href="{{ evento.get_absolute_url }}">
-                    <data><dia>{{ evento.data_inicio|date:"d M" }}</dia> {{ evento.data_publicacao|date:"Y" }}</data>
-                    <campus>{{ evento.campus_origem }}</campus>
-                    <titulo>{{ evento.titulo }}</titulo>
-                    </a>
-                {% endfor %}
-            </div>
+                        <div class="row">
+                            <div class="small-3 columns text-center no-padding">
+                                <p class="mes-ano fundo-verde no-margin">
+                                    {{ evento.data_inicio|date:"d M" }}
+                                    {{ evento.data_publicacao|date:"Y" }}
+                                </p>
+                            </div>
 
-            <div id="acesso-rapido">
-                <p>ACESSO RAPIDO</p>
-                {% for ac_rap in acesso_rapido %}
-                    <div>
-                        {% if ac_rap.titulo %}
-                           <a href="{{ ac_rap.url }}">
-                             <img src="{% thumbnail ac_rap.midia_image 80x50 crop quality=80 %}"/>
-                             <titulo>{{ ac_rap.titulo }}</titulo>
-                            </a>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-
-{#                <a href="">#}
-{#                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >#}
-{#                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>#}
-{#                </a>#}
-{#                <a href="">#}
-{#                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >#}
-{#                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>#}
-{#                </a>#}
-{#                <a href="">#}
-{#                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >#}
-{#                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>#}
-{#                </a>#}
-{#                <a href="">#}
-{#                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >#}
-{#                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>#}
-{#                </a>#}
-{#                <a href="">#}
-{#                    <img src="{{ STATIC_URL }}teste/05232014_montagem_capa.jpg" >#}
-{#                    <titulo>Novo terminal remoto do aeroporto de Fortaleza </titulo>#}
-{#                </a>#}
-            </div>
-        </div>
-        <div class="large-4 columns" style="padding:2px;">
-            <div id="proreitorias-diretorias">
-                <p>PRÓ-REITORIAS</p>
-                <a href="">Pró-Reitoria de Administração</a>
-                <a href="">Pró-Reitoria de Ensino</a>
-                <a href="">Pró-Reitoria de Extensão</a>
-                <a href="">Pró-Reitoria de Pesquisa e Inovação</a>
-                <a href="">Pró-Reitoria de Desenvolvimento Institucional</a>
-                <p>DIRETORIAS</p>
-                <a href="">Diretoria Sistemica de Gestão de Pessoas</a>
-                <a href="">Diretoria Sistemica de Tecnologia da Informação</a>
-            </div>
-            <div id="midias">
-                <div id="galeria">
-                    <p>Galerias <a href="{% url 'conteudo:galerias_lista' %}">| + Ver Mais</a></p>
-                    <ul class="example-orbit" data-orbit data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
-                        {% for galeria in galerias %}
-                            <li  data-orbit-slide="{{ galeria.id }}">
-                                {% if galeria.primeira_imagem %}
-                                    <a href="{{ galeria.get_absolute_url }}"><img src="{% thumbnail galeria.primeira_imagem 300x170 crop quality=80 %}" alt="{{ galeria.titulo }}"/></a>
-                                {% endif %}
-                                <div class="orbit-caption">
-                                    <data><dia>{{ galeria.data_publicacao|date:"d M" }}</dia>{{ galeria.data_publicacao|date:"Y" }}</data>
-                                    <campus>{{ galeria.get_campus_origem_display }}</campus>
-                                    <titulo>{{ galeria.titulo }}</titulo>
+                            <div class="small-9 columns no-padding padding-left">
+                                <div class="data-local">
+                                    {{ evento.get_campus_origem_display }}
                                 </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <menu>
-                        {% for galeria in galerias %}
-                            <a data-orbit-link="{{ galeria.id }}">
-                                <img src="{% thumbnail galeria.primeira_imagem 112x60 crop quality=80 %}" alt="{{ galeria.titulo }}"/>
-                            </a>
-                        {% endfor %}
-                    <menu>
-                </div>
-                <div id="video">
-                    <p>Videos <a href="{% url 'conteudo:videos_lista' %}">| + Ver Mais</a></p>
-                    {% for video in videos %}
-                    <a href="{{ video.get_absolute_url }}" id="grande">
-                        <img src="//i1.ytimg.com/vi/{{ video.video }}/mqdefault.jpg"/>
-                        <data><dia>{{ video.data_publicacao|date:"d M" }}</dia> {{ video.data_publicacao|date:"Y" }}</data>
-                        <campus>{{ video.get_campus_origem_display }}</campus>
-                        <titulo>{{ video.titulo }}</titulo>
+                                <p>{{ evento.titulo }}</p>
+                            </div>
+                        </div>
                     </a>
-                    {% endfor %}
                 </div>
-            </div>
+            {% endfor %}
         </div>
+        {#Fim da div eventos#}
+
+        {#Acesso rápido#}
+        <div class="row">
+            <h1><i class="fi-list-thumbnails"></i> ACESSO RÁPIDO</h1>
+            {% for ac_rap in acesso_rapido %}
+                <div class="row collapse padding-bottom hover-cinza-medio">
+                    <a href="{{ ac_rap.url }}">
+                        <div class="row collapse">
+                            <div class="small-2 medium-5 columns">
+                                <img src="{% thumbnail ac_rap.midia_image 80x50 crop quality=80 %}">
+                            </div>
+                            <div class="small-10 medium-7 columns">
+                                <p class="padding-left">{{ ac_rap.titulo }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        {#Fim da div acesso rápido#}
+
     </div>
-{% endblock content %}
+    {#Fim da div para eventos e guia de curso#}
+
+    {#Container para coluna à direita#}
+    <div class="medium-4 columns padding-bottom">
+
+        {#Pró-reitorias e diretorias#}
+        <div class="row">
+            <div class="row">
+                <h1><i class="fi-torsos-all"></i> PRÓ-REITORIAS</h1>
+                <ul class="marcador-circulo">
+                    <li><p><a href="">Pró-Reitoria de Desenvolvimento Institucional</a></p></li>
+                    <li><p><a href="">Pró-Reitoria de Ensino</a></p></li>
+                    <li><p><a href="">Pró-Reitoria de Extensão</a></p></li>
+                    <li><p><a href="">Pró-Reitoria de Pesquisa e Inovação</a></p></li>
+                    <li><p><a href="">Pró-Reitoria de Desenvolvimento Institucional</a></p></li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <h1><i class="fi-torsos-all"></i> DIRETORIAS</h1>
+                <ul class="marcador-circulo">
+                    <li><p><a href="">Diretoria Sistemica de Gestão de Pessoas</a></p></li>
+                    <li><p><a href="">Diretoria Sistemica de Tecnologia da Informação</a></p></li>
+                </ul>
+            </div>
+
+        </div>
+        {#Fim da div pró-reitorias e diretorias#}
+
+        {#Galeria de fotos#}
+        <div class="row">
+            <h1><a href="{% url 'conteudo:galerias_lista' %}"><i class="fi-plus"></i> GALERIAS</a></h1>
+
+            <div class="row">
+                <ul class="example-orbit" data-orbit
+                    data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+                    {% for galeria in galerias %}
+                        <li data-orbit-slide="{{ galeria.id }}">
+                            {% if galeria.primeira_imagem %}
+                                <a href="{{ galeria.get_absolute_url }}"><img
+                                        src="{% thumbnail galeria.primeira_imagem 640x480 crop quality=80 %}"
+                                        alt="{{ galeria.titulo }}"/></a>
+                            {% endif %}
+
+                            <div class="orbit-caption">
+                                <a href="{{ galeria.get_absolute_url }}">
+                                    <div class="small-3 columns text-center no-padding mes-ano fundo-vermelho">
+                                        {{ galeria.data_publicacao|date:"d M" }}
+                                        {{ galeria.data_publicacao|date:"Y" }}
+                                    </div>
+
+                                    <div class="small-9 columns">
+                                        <div class="data-local branco negrito">
+                                            {{ galeria.get_campus_origem_display }}
+                                        </div>
+                                        <p class="no-margin branco">{{ galeria.titulo }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <ul class="small-block-grid-3 padding-top">
+                {% for galeria in galerias %}
+                    <li>
+                        <a data-orbit-link="{{ galeria.id }}">
+                            <img src="{% thumbnail galeria.primeira_imagem 112x60 crop quality=80 %}"
+                                 alt="{{ galeria.titulo }}"/>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {#Fim da div galeria de fotos#}
+
+        {#Vídeos#}
+        <div class="row">
+            <h1><a href="{% url 'conteudo:videos_lista' %}"><i class="fi-plus"></i> VÍDEOS</a></h1>
+            {% for video in videos %}
+                <div class="row">
+                    {#                <div class="flex-video">#}
+                    {#                    <iframe src="//www.youtube.com/embed/{{ video.video }}" frameborder="0"#}
+                    {#                            allowfullscreen></iframe>#}
+                    {#                </div>#}
+
+                    <a href="{{ video.get_absolute_url }}">
+                        <img src="//i1.ytimg.com/vi/{{ video.video }}/sddefault.jpg"/>
+                    </a>
+                </div>
+
+                <div class="row">
+                    <a href="{{ video.get_absolute_url }}">
+                        <div class="data-local">{{ video.data_publicacao|date:"d M" }}
+                            - {{ video.get_campus_origem_display }}</div>
+                        <p>{{ video.titulo }}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        {#Fim da div vídeos#}
+
+    </div>
+    {#Fim da div da coluna à direita#}
+    </div>
+    {#Fim da div central para as 3 colunas#}
+
+{% endblock %}
