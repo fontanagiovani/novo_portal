@@ -50,13 +50,15 @@
         {#Container para os banners especiais#}
         <div class="medium-4 columns">
             {% for banner in banners %}
-                <div class="row collapse padding-bottom hover-cinza-claro">
+                <div class="row collapse padding-bottom">
                     <a href="{{ banner.url }}">
-                        <div class="row collapse">
-                            <div class="small-2 medium-5 columns">
-                                <img src="{% thumbnail banner.arquivo 120x90 crop quality=80 %}"/>
+                        <div class="row collapse hover-cinza-claro">
+                            <div class="small-2 medium-12 columns">
+                                <img src="{% thumbnail banner.arquivo 600x200 crop quality=80 %}"
+                                     data-tooltip class="has-tip"
+                                     title="{{ banner.titulo }}"/>
                             </div>
-                            <div class="small-10 medium-7 columns">
+                            <div class="small-10 columns show-for-small-only">
                                 <div class="padding-left">
                                     <p>{{ banner.titulo }}</p>
                                 </div>
@@ -64,10 +66,11 @@
                         </div>
                     </a>
                 </div>
+
             {% endfor %}
-            <div class="row collapse padding-bottom hover-cinza-claro">
+            <div class="row collapse padding-bottom">
                 <a href="">
-                    <div class="row collapse">
+                    <div class="row collapse hover-cinza-claro">
                         <img src="{{ STATIC_URL }}img/exame_vestibular.jpg"/>
                     </div>
                 </a>
@@ -142,7 +145,7 @@
                 <select name="curso">
                     <option value="01">--------</option>
                 </select>
-                <br />
+                <br/>
                 <input type="button" name="buscar" value="Buscar">
             </form>
         </div>
@@ -242,12 +245,12 @@
 
                             <div class="orbit-caption">
                                 <a href="{{ galeria.get_absolute_url }}">
-                                    <div class="small-2 columns text-center no-padding mes-ano fundo-vermelho">
+                                    <div class="small-3 columns text-center no-padding mes-ano fundo-vermelho">
                                         {{ galeria.data_publicacao|date:"d M" }}
                                         {{ galeria.data_publicacao|date:"Y" }}
                                     </div>
 
-                                    <div class="small-10 columns">
+                                    <div class="small-9 columns">
                                         <div class="data-local branco negrito">
                                             {{ galeria.get_campus_origem_display }}
                                         </div>
