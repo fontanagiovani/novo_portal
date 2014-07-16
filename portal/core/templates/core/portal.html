@@ -123,30 +123,42 @@
     {#Container para eventos e guia de curso#}
     <div class="medium-4 columns fundo-cinza">
         <div class="row padding-bottom">
+            <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
             <form>
-                <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
-                <label>Selecione um campus</label>
-                <select name="campus">
-                    <option value="01">--------</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
-                </select>
-                <label>Selecione uma tipo de Formação</label>
-                <select name="formacao" id="formacao" onchange="get_cursos();">
-                    <option value="01">--------</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
-                    <option value="01">Campus 1</option>
-                </select>
-                <label>Selecione um Curso</label>
-                <select name="curso">
-                    <option value="01">--------</option>
-                </select>
-                <br/>
-                <input type="button" name="buscar" value="Buscar">
+                <div class="row collapse padding-bottom">
+                    <div class="medium-12 columns">
+                        <label>Selecione um Câmpus
+                            <select>
+                                <option value="1">--------</option>
+                                <option value="2">Câmpus 1</option>
+                                <option value="3">Câmpus 2</option>
+                                <option value="4">Câmpus 3</option>
+                                <option value="5">Câmpus 4</option>
+                            </select>
+                        </label>
+
+                        <label>Selecione uma tipo de formação
+                            <select>
+                                <option value="1">--------</option>
+                                <option value="2">Formação 1</option>
+                                <option value="3">Formação 2</option>
+                                <option value="4">Formação 3</option>
+                                <option value="5">Formação 4</option>
+                            </select>
+                        </label>
+
+                        <label>Selecione um curso
+                            <select>
+                                <option value="1">--------</option>
+                                <option value="2">Curso 1</option>
+                                <option value="3">Curso 2</option>
+                                <option value="4">Curso 3</option>
+                                <option value="5">Curso 4</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <a href="#" class="button small expand no-margin">Buscar</a>
             </form>
         </div>
         {#Fim da div eventos e guia de curso#}

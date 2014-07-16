@@ -41,6 +41,10 @@ p {
     padding-bottom: 0.625em;
 }
 
+.padding-bottom-small {
+    padding-bottom: 0.3125em;
+}
+
 .padding-left {
     padding-left: 0.625em;
 }
@@ -80,6 +84,11 @@ p {
 
 .links-uteis li {
     display: inline;
+}
+
+.separador-direita {
+    border-right: 0.0625em solid;
+    padding-right: 0.3125em;
 }
 
 .data-local {
