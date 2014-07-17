@@ -15,6 +15,7 @@ from filer.models import Image
 from filer.models import File as FileFiler
 from django.core.urlresolvers import reverse
 from model_mommy import mommy
+from portal.core.tests.util import del_midia_filer
 
 
 class NoticiaTest(TestCase):
@@ -202,6 +203,7 @@ class AnexoEventoTest(TestCase):
         """
         self.assertEqual(u'foto1', unicode(self.anexo))
 
+
 class VideoTest(TestCase):
     def setUp(self):
         self.obj = Video(
@@ -234,6 +236,7 @@ class VideoTest(TestCase):
         self.assertEqual(reverse('conteudo:video_detalhe', kwargs={'video_id': self.obj.id}),
                          self.obj.get_absolute_url())
 
+
 class GaleriaTest(TestCase):
     def setUp(self):
         self.obj = Galeria(
@@ -265,6 +268,7 @@ class GaleriaTest(TestCase):
         self.assertEqual(reverse('conteudo:galeria_detalhe', kwargs={'galeria_id': self.obj.id}),
                          self.obj.get_absolute_url())
 
+
 class ImagemGaleriaTest(TestCase):
     def setUp(self):
         self.galeria = Galeria(
@@ -276,11 +280,11 @@ class ImagemGaleriaTest(TestCase):
         )
         self.galeria.save()
 
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagemBanner'
-        with open(img_path) as img:
-            file_obj = File(img, name=img_name)
-            midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
+        self.img_path = 'portal/banner/static/img/images.jpeg'
+        self.img_name = 'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
 
         self.anexo = ImagemGaleria(
             galeria=self.galeria,
@@ -300,3 +304,8 @@ class ImagemGaleriaTest(TestCase):
         Anexo deve apresentar descricao como unicode
         """
         self.assertEqual(u'foto1', unicode(self.anexo))
+
+    def tearDown(self):
+        del_midia_filer(self.img_name)
+        import ipdb
+        ipdb.set_trace()

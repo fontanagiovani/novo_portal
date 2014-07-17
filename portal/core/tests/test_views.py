@@ -63,7 +63,7 @@ class HomeContextTest(TestCase):
 class SelecaoTest(TestCase):
     def setUp(self):
         self.tipo = TipoSelecao(
-            parent = None,
+            parent=None,
             titulo=u'Título',
             slug='titulo'
         )

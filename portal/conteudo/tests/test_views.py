@@ -147,6 +147,7 @@ class EventoListaTest(TestCase):
         """
         self.assertContains(self.resp, 'titulo_teste', 20)
 
+
 class VideoDetalheTest(TestCase):
     def setUp(self):
         self.video = mommy.make(Video,

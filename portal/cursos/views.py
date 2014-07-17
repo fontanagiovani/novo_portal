@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
 from portal.cursos.models import Curso, Campus, Grupo_Cursos, Formacao
 
@@ -11,10 +12,10 @@ def listagrupodecursos(request):
     return render(request, 'cursos/listagrupodecursos.html', {'formacao': formacao,'grupo_cursos': grupo_cursos, 'campi': campi})
 
 
-def listacursosdogrupo(request, grupo_id):
+def listacursosdogrupo(request, campus_id, grupo_id):
     grupo = get_object_or_404(Grupo_Cursos, id=grupo_id)
-    cursos = Curso.objects.filter(grupo=grupo)
-    return render(request, 'cursos/listacursos.html', {'grupo':grupo ,'cursos': cursos})
+    cursos = Curso.objects.filter(campus=campus_id, grupo=grupo_id)
+    return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos})
 
 
 def exibecurso(request, curso_id):

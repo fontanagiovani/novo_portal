@@ -11,7 +11,7 @@
         {% endif %}
         {% for g in grupo_cursos %}
             {% if g.campus__id = c.campus__id and g.formacao__id = f.formacao__id %}
-                <blockquote><a href="{% url 'listacursosdogrupo' g.grupo__id %}">{{ g.grupo__nome }}</a></blockquote>
+                <blockquote><a href="{% url 'listacursosdogrupo' g.campus__id g.grupo__id %}">{{ g.grupo__nome }}</a></blockquote>
             {% endif %}
         {% endfor %}
     {% endfor %}
