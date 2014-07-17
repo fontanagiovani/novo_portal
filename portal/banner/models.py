@@ -1,8 +1,6 @@
 #coding: utf-8
 from django.db import models
 from filer.fields.image import FilerImageField
-from filer.models import Image
-
 
 
 class Banner(models.Model):
@@ -17,7 +15,7 @@ class Banner(models.Model):
         ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
-      return self.titulo
+        return self.titulo
 
 #     def delete(self, *args, **kwargs):
 #         if kwargs.pop('include_images', False):
@@ -29,12 +27,12 @@ class Banner(models.Model):
 #         super(Image, self).delete(*args, **kwargs)
 # #models.ImageField:
 
+
 class BannerAcessoRapido(models.Model):
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     url = models.URLField(help_text=u'Insira http://', verbose_name=u'URL')
     midia_image = FilerImageField(verbose_name=u'Mídia', related_name='ar_banner', default=None)
-
 
     class Meta:
         verbose_name = u'Banner de acesso rápido'
@@ -42,7 +40,4 @@ class BannerAcessoRapido(models.Model):
         ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
-      return self.titulo
-
-
-
+        return self.titulo

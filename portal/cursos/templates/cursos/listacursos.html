@@ -1,0 +1,9 @@
+{% extends 'cursos/base.html' %}
+{% block content %}
+    <p><h2>{{ grupo.nome }}</h2></p>
+    <p>Descrição: {{ grupo.descricao }}</p>
+    <hr />
+    {% for c in cursos %}
+        <p><a href="{% url 'exibecurso' c.id %}">{{ c.nome }}</a></p>
+    {% endfor %}
+{% endblock %}

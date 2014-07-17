@@ -60,23 +60,29 @@ class HomeContextTest(TestCase):
         # Como sao exibidos os thumbnails para navegacao esse numero duplica, ficando 10
         self.assertContains(self.resp, u'noticia_destaque', 10)
 
-# class SelecaoTest(TestCase):
-#     def setUp(self):
-#         self.selecao = mommy.make(Selecao,titulo='titulo_teste', _quantity=50)
-#         self.menuselecao = mommy.make(TipoSelecao, titulo=u'test1', _quantity=7)
-#         self.resp = self.client.get(reverse('selecao'))
-#
-#     def test_get(self):
-#         """
-#         GET /selecao/ deve retornar status code 200
-#         """
-#         self.assertEqual(200, self.resp.status_code)
-#
-#     def test_template(self):
-#         """
-#         Eventos lista deve renderizar o template selecao_lista.html
-#         """
-#         self.assertTemplateUsed(self.resp, 'core/selecao_lista.html')
-#
-#     def test_menu_selecao(self):
-#          self.assertContains(self.resp, u'test1', 7)
+class SelecaoTest(TestCase):
+    def setUp(self):
+        self.tipo = TipoSelecao(
+            parent=None,
+            titulo=u'Título',
+            slug='titulo'
+        )
+        self.tipo.save()
+        self.selecao = mommy.make(Selecao,titulo='titulo_teste', tipo=self.tipo, _quantity=50)
+        self.menuselecao = mommy.make(TipoSelecao, titulo=u'test1', _quantity=7)
+        self.resp = self.client.get(reverse('selecao'))
+
+    def test_get(self):
+        """
+        GET /selecao/ deve retornar status code 200
+        """
+        self.assertEqual(200, self.resp.status_code)
+
+    def test_template(self):
+        """
+        Eventos lista deve renderizar o template selecao_lista.html
+        """
+        self.assertTemplateUsed(self.resp, 'core/selecao_lista.html')
+
+    def test_menu_selecao(self):
+         self.assertContains(self.resp, u'test1', 7)
