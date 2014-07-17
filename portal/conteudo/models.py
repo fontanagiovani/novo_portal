@@ -21,8 +21,26 @@ CAMPUS_ORIGEM = (
     ('AFL', u'Campus Alta Floresta'),
 )
 
+class Conteudo(models.Model):
 
-class Noticia(models.Model):
+    campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR', verbose_name=u'Campus de origem')
+    titulo = models.CharField(max_length=250, verbose_name=u'Título')
+    slug = models.SlugField(max_length=250, verbose_name=u'Slug')
+    texto = models.TextField()
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+    fonte = models.CharField(max_length=250, blank=True, verbose_name=u'Fonte ou Autoria ')
+    galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
+    videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
+    tags = models.ManyToManyField('Tag', verbose_name=u'Tags Relacionadas', blank=True)
+
+    class Meta:
+        abstract = True
+        ordering = ('-data_publicacao', '-id')
+
+    def __unicode__(self):
+        return self.titulo
+
+class Noticia(Conteudo):
 
     PRIORIDADE_DESTAQUE = (
         ('1', u'1 - Alta'),
@@ -33,18 +51,8 @@ class Noticia(models.Model):
         ('6', u'Nenhuma')
     )
 
-    campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR',
-                                     verbose_name=u'Campus de origem')
     destaque = models.BooleanField(default=False)
-    prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',
-                                           verbose_name=u'Prioridade de destaque')
-    titulo = models.CharField(max_length=250, verbose_name=u'Título')
-    texto = models.TextField()
-    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
-    fonte = models.CharField(max_length=250, verbose_name=u'Fonte ou Autoria ')
-    galerias = models.ManyToManyField('Galeria')
-    videos = models.ManyToManyField('Video')
-    tags = models.ManyToManyField('Tag')
+    prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',verbose_name=u'Prioridade de destaque')
 
     class Meta:
         verbose_name = u'Notícia'
@@ -84,15 +92,11 @@ class AnexoNoticia(models.Model):
         return self.descricao
 
 
-class Pagina(models.Model):
-    titulo = models.CharField(max_length=250, verbose_name=u'Título')
-    texto = models.TextField()
-    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+class Pagina(Conteudo):
 
     class Meta:
         verbose_name = u'Página'
         verbose_name_plural = u'Páginas'
-        ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
         return self.titulo
@@ -115,14 +119,9 @@ class AnexoPagina(models.Model):
         return self.descricao
 
 
-class Evento(models.Model):
+class Evento(Conteudo):
 
-    campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR',
-                                     verbose_name=u'Campus de origem')
     local = models.CharField(max_length=250)
-    titulo = models.CharField(max_length=250, verbose_name=u'Título')
-    texto = models.TextField()
-    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     data_inicio = models.DateTimeField(verbose_name=u'Data de início')
     data_fim = models.DateTimeField(verbose_name=u'Data de término')
 
@@ -151,20 +150,13 @@ class AnexoEvento(models.Model):
     def __unicode__(self):
         return self.descricao
 
-class Video(models.Model):
+class Video(Conteudo):
 
-    campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR', verbose_name=u'Campus de origem')
-    titulo = models.CharField(max_length=250, verbose_name=u'Título')
-    slug = models.SlugField(max_length=250, verbose_name=u'Slug')
-    video = models.CharField(max_length=250, verbose_name=u'Id do Video')
-    texto = models.TextField()
-    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
-    fonte = models.CharField(max_length=250, blank=True, verbose_name=u'Fonte ou Autoria ')
+    id_video_youtube = models.CharField(max_length=250, verbose_name=u'Id do Video')
 
     class Meta:
         verbose_name = u'Vídeo'
         verbose_name_plural = u'Vídeos'
-        ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
         return self.titulo
@@ -173,14 +165,7 @@ class Video(models.Model):
     def get_absolute_url(self):
         return 'conteudo:video_detalhe', (), {'video_id': self.id}
 
-class Galeria(models.Model):
-
-    campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR', verbose_name=u'Campus de origem')
-    titulo = models.CharField(max_length=250, verbose_name=u'Título')
-    slug = models.SlugField(max_length=250, verbose_name=u'Slug')
-    texto = models.TextField()
-    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
-    fonte = models.CharField(max_length=250, blank=True, verbose_name=u'Fonte ou Autoria ')
+class Galeria(Conteudo):
 
     class Meta:
         verbose_name = u'Galeria'

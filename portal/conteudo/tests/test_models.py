@@ -209,7 +209,7 @@ class VideoTest(TestCase):
             titulo=u'Título',
             slug='titulo',
             texto=u'seu texto aqui!!!',
-            video=u'ID_do_video',
+            id_video_youtube=u'ID_do_video',
             data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
         )
 

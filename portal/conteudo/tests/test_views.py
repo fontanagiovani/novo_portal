@@ -152,7 +152,7 @@ class VideoDetalheTest(TestCase):
         self.video = mommy.make(Video,
                                  titulo='titulo_teste',
                                  texto=u'texto_teste',
-                                 video=u'ID_teste',
+                                 id_video_youtube=u'ID_teste',
                                  data_publicacao='2014-06-05 10:16:00')
         self.resp = self.client.get(reverse('conteudo:video_detalhe', kwargs={'video_id': self.video.id}))
 
