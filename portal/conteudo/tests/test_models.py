@@ -307,5 +307,3 @@ class ImagemGaleriaTest(TestCase):
 
     def tearDown(self):
         del_midia_filer(self.img_name)
-        import ipdb
-        ipdb.set_trace()

@@ -37,8 +37,6 @@ class BannerTest(TestCase):
 
     def tearDown(self):
         del_midia_filer(self.img_name)
-        import ipdb
-        ipdb.set_trace()
 
 
 class AcessoRapidoTest(TestCase):
@@ -71,5 +69,3 @@ class AcessoRapidoTest(TestCase):
 
     def tearDown(self):
         del_midia_filer(self.img_name)
-        import ipdb
-        ipdb.set_trace()
