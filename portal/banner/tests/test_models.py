@@ -5,15 +5,16 @@ from django.core.files import File
 from filer.models import Image
 from portal.banner.models import BannerAcessoRapido
 from django.utils import timezone
+from portal.core.tests.util import del_midia_filer
 
 
 class BannerTest(TestCase):
     def setUp(self):
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagemBanner'
-        with open(img_path) as img:
-            file_obj = File(img, name=img_name)
-            midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
+        self.img_path = 'portal/banner/static/img/images.jpeg'
+        self.img_name = 'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
 
         self.banner = Banner(
             titulo=u'BannerTesteTitulo',
@@ -34,14 +35,19 @@ class BannerTest(TestCase):
         """
         self.assertEqual(u'BannerTesteTitulo', unicode(self.banner))
 
+    def tearDown(self):
+        del_midia_filer(self.img_name)
+        import ipdb
+        ipdb.set_trace()
+
 
 class AcessoRapidoTest(TestCase):
     def setUp(self):
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagemBanner'
-        with open(img_path) as img:
-            file_obj = File(img, name=img_name)
-            midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
+        self.img_path = 'portal/banner/static/img/images.jpeg'
+        self.img_name = 'imagemBanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
 
         self.banner_acr = BannerAcessoRapido(
             titulo=u'Titulo Banner Acesso Rapido',
@@ -62,3 +68,8 @@ class AcessoRapidoTest(TestCase):
             Banner de acesso rápido deve apresentar o titulo como unicode
         """
         self.assertEqual(u'Titulo Banner Acesso Rapido', unicode(self.banner_acr))
+
+    def tearDown(self):
+        del_midia_filer(self.img_name)
+        import ipdb
+        ipdb.set_trace()
