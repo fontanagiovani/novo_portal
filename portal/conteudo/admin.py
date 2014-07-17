@@ -22,6 +22,7 @@ class NoticiaAdmin(SummernoteModelAdmin):
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     list_filter = ('destaque', 'prioridade_destaque')
+    prepopulated_fields = {'slug':('titulo',)}
 
     form = NoticiaForm
 
@@ -39,6 +40,7 @@ class PaginaAdmin(SummernoteModelAdmin):
     list_display = ('titulo', 'data_publicacao', 'get_link')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
+    prepopulated_fields = {'slug':('titulo',)}
 
     inlines = (AnexoPaginaInLine, )
 
