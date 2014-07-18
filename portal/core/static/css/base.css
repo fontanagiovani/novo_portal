@@ -11,7 +11,19 @@ h1 {
     font-size: 1.5em;
 }
 
-p {
+h2 {
+    font-size: 1.3em;
+}
+
+/*p {*/
+    /*text-align: justify;*/
+/*}*/
+
+.justificado {
+    text-align: justify;
+}
+
+.espacamento-medio {
     line-height: 1.2em;
     margin-bottom: 0;
 }
@@ -53,6 +65,11 @@ p {
     padding-bottom: 1.25em;
 }
 
+.padding-all {
+    /*padding: 0.625em 0.625em 0.625em 0.625em;*/
+    padding: 0.625em;
+}
+
 .fundo-verde {
     background-color: #2db200;
     color: #FFFFFF;
@@ -74,8 +91,15 @@ p {
 }
 
 .social {
-    font-size: 2em;
     text-align: right;
+}
+
+.texto-tamanho-medio {
+    font-size: 2em;
+}
+
+.alinhamento-direita {
+    float: right;
 }
 
 .links-uteis {
@@ -93,11 +117,6 @@ p {
 
 .data-local {
     color: #DA251D;
-}
-
-.mes-ano {
-    padding-top: 0.625em;
-    padding-bottom: 0.625em;
 }
 
 .marcador-circulo {
