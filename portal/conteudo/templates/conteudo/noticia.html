@@ -1,16 +1,11 @@
 {% extends 'core/detalhe.html' %}
 {% load thumbnail %}
 
-{% block sessao %}
-    Notícias
-{% endblock %}
-
 {% block breadcrumbs %}
     <li><a href="{% url 'conteudo:noticias_lista' %}">Notícias</a></li>
     <li class="current"><a href="#">{{ noticia.titulo|truncatewords:"4" }}</a></li>
 {% endblock %}
 
-{% block edicao %}
     {% if user.is_authenticated %}
         <div class="row padding-top">
             <div class="medium-12 columns text-right">
@@ -20,7 +15,6 @@
             </div>
         </div>
     {% endif %}
-{% endblock %}
 
 {% block conteudo %}
     <div class="row padding-bottom">
