@@ -1,0 +1,42 @@
+p {
+    text-align: justify;
+}
+
+.compartilhar {
+    list-style: none;
+}
+
+.compartilhar li {
+    display: inline;
+    padding-right: 0.3em;
+}
+
+.th {
+    margin: 0.25em 0.25em 0.25em 0.25em;
+}
+
+.alinhamento-vertical {
+    vertical-align: middle;
+}
+
+
+#custom-tweet-button a {
+
+    display: block;
+
+    padding: 2px 5px 2px 20px;
+
+    background: url('https://twitter.com/favicons/favicon.ico') 1px center no-repeat;
+
+    border: 1px solid #ccc;
+}
+
+
+
+
+    /*<div id="custom-tweet-button">*/
+
+      /*<a href="https://twitter.com/share?url=https%3A%2F%2Fdev.twitter.com%2Fpages%2Ftweet-button" target="_blank">Tweet</a>*/
+
+    /*</div>*/
+

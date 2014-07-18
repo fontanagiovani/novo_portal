@@ -18,7 +18,7 @@
                         {% endif %}
                         <div class="orbit-caption">
                             <a href="{{ noticia.get_absolute_url }}">
-                                <div class="small-2 columns text-center no-padding mes-ano fundo-vermelho">
+                                <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho">
                                     {{ noticia.data_publicacao|date:"d M" }}
                                     {{ noticia.data_publicacao|date:"Y" }}
                                 </div>
@@ -27,7 +27,7 @@
                                     <div class="data-local branco negrito">
                                         {{ noticia.get_campus_origem_display }}
                                     </div>
-                                    <p class="no-margin branco">{{ noticia.titulo }}</p>
+                                    <p class="no-margin espacamento-medio branco">{{ noticia.titulo }}</p>
                                 </div>
                             </a>
                         </div>
@@ -60,7 +60,7 @@
                             </div>
                             <div class="small-10 columns show-for-small-only">
                                 <div class="padding-left">
-                                    <p>{{ banner.titulo }}</p>
+                                    <p class="espacamento-medio">{{ banner.titulo }}</p>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +100,7 @@
                             <div class="small-10 medium-9 columns">
                                 <div class="data-local padding-left">{{ noticia.data_publicacao|date:"d M" }}
                                     - {{ noticia.get_campus_origem_display }}</div>
-                                <p class="no-margin padding-left">{{ noticia.titulo }}</p>
+                                <p class="no-margin padding-left espacamento-medio">{{ noticia.titulo }}</p>
                             </div>
                         </div>
                     </a>
@@ -110,7 +110,7 @@
                             <div class="row">
                                 <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}
                                     - {{ noticia.get_campus_origem_display }}</div>
-                                <p class="no-margin">{{ noticia.titulo }}</p>
+                                <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
                             </div>
                         </a>
                     </div>
@@ -124,6 +124,7 @@
     <div class="medium-4 columns fundo-cinza">
         <div class="row padding-bottom">
             <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
+
             <form>
                 <div class="row collapse padding-bottom">
                     <div class="medium-12 columns">
@@ -171,7 +172,7 @@
                     <a href="{{ evento.get_absolute_url }}">
                         <div class="row">
                             <div class="small-3 columns text-center no-padding">
-                                <p class="mes-ano fundo-verde no-margin">
+                                <p class="padding-top-bottom fundo-verde no-margin espacamento-medio">
                                     {{ evento.data_inicio|date:"d M" }}
                                     {{ evento.data_publicacao|date:"Y" }}
                                 </p>
@@ -181,7 +182,7 @@
                                 <div class="data-local">
                                     {{ evento.get_campus_origem_display }}
                                 </div>
-                                <p>{{ evento.titulo }}</p>
+                                <p class="espacamento-medio">{{ evento.titulo }}</p>
                             </div>
                         </div>
                     </a>
@@ -198,10 +199,10 @@
                     <a href="{{ ac_rap.url }}">
                         <div class="row collapse">
                             <div class="small-2 medium-5 columns">
-                                <img src="{% thumbnail ac_rap.midia_image 80x50 crop quality=80 %}">
+                                <img src="{% thumbnail ac_rap.midia_image 150x100 crop quality=80 %}">
                             </div>
                             <div class="small-10 medium-7 columns">
-                                <p class="padding-left">{{ ac_rap.titulo }}</p>
+                                <p class="padding-left espacamento-medio">{{ ac_rap.titulo }}</p>
                             </div>
                         </div>
                     </a>
@@ -221,19 +222,22 @@
             <div class="row">
                 <h1><i class="fi-torsos-all"></i> PRÓ-REITORIAS</h1>
                 <ul class="marcador-circulo">
-                    <li><p><a href="">Pró-Reitoria de Desenvolvimento Institucional</a></p></li>
-                    <li><p><a href="">Pró-Reitoria de Ensino</a></p></li>
-                    <li><p><a href="">Pró-Reitoria de Extensão</a></p></li>
-                    <li><p><a href="">Pró-Reitoria de Pesquisa e Inovação</a></p></li>
-                    <li><p><a href="">Pró-Reitoria de Desenvolvimento Institucional</a></p></li>
+                    <li><p class="espacamento-medio"><a href="">Pró-Reitoria de Desenvolvimento Institucional</a></p>
+                    </li>
+                    <li><p class="espacamento-medio"><a href="">Pró-Reitoria de Ensino</a></p></li>
+                    <li><p class="espacamento-medio"><a href="">Pró-Reitoria de Extensão</a></p></li>
+                    <li><p class="espacamento-medio"><a href="">Pró-Reitoria de Pesquisa e Inovação</a></p></li>
+                    <li><p class="espacamento-medio"><a href="">Pró-Reitoria de Desenvolvimento Institucional</a></p>
+                    </li>
                 </ul>
             </div>
 
             <div class="row">
                 <h1><i class="fi-torsos-all"></i> DIRETORIAS</h1>
                 <ul class="marcador-circulo">
-                    <li><p><a href="">Diretoria Sistemica de Gestão de Pessoas</a></p></li>
-                    <li><p><a href="">Diretoria Sistemica de Tecnologia da Informação</a></p></li>
+                    <li><p class="espacamento-medio"><a href="">Diretoria Sistemica de Gestão de Pessoas</a></p></li>
+                    <li><p class="espacamento-medio"><a href="">Diretoria Sistemica de Tecnologia da Informação</a></p>
+                    </li>
                 </ul>
             </div>
 
@@ -257,7 +261,7 @@
 
                             <div class="orbit-caption">
                                 <a href="{{ galeria.get_absolute_url }}">
-                                    <div class="small-3 columns text-center no-padding mes-ano fundo-vermelho">
+                                    <div class="small-3 columns text-center no-padding padding-top-bottom fundo-vermelho">
                                         {{ galeria.data_publicacao|date:"d M" }}
                                         {{ galeria.data_publicacao|date:"Y" }}
                                     </div>
@@ -266,7 +270,7 @@
                                         <div class="data-local branco negrito">
                                             {{ galeria.get_campus_origem_display }}
                                         </div>
-                                        <p class="no-margin branco">{{ galeria.titulo }}</p>
+                                        <p class="no-margin espacamento-medio branco">{{ galeria.titulo }}</p>
                                     </div>
                                 </a>
                             </div>
@@ -307,7 +311,7 @@
                     <a href="{{ video.get_absolute_url }}">
                         <div class="data-local">{{ video.data_publicacao|date:"d M" }}
                             - {{ video.get_campus_origem_display }}</div>
-                        <p>{{ video.titulo }}</p>
+                        <p class="espacamento-medio">{{ video.titulo }}</p>
                     </a>
                 </div>
             {% endfor %}
