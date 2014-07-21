@@ -8,7 +8,6 @@ from portal.conteudo.models import Video
 from portal.conteudo.models import Galeria
 
 
-
 def noticia_detalhe(request, noticia_id):
     noticia = get_object_or_404(Noticia, id=noticia_id)
 
@@ -57,6 +56,7 @@ def eventos_lista(request):
         eventos = paginator.page(paginator.num_pages)
 
     return render(request, 'conteudo/eventos_lista.html', {'eventos': eventos})
+
 
 def video_detalhe(request, video_id):
     video = get_object_or_404(Video, id=video_id)
