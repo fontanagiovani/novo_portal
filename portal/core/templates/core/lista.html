@@ -15,68 +15,19 @@
             <div class="small-12 columns">
                 <ul class="breadcrumbs no-margin">
                     <li><a href="{% url 'home' %}">Portal</a></li>
-                    <li class="current"><a href="{% url 'conteudo:noticias_lista' %}">Notícias</a></li>
+                    {% block breadcrumb %}
+                    {% endblock %}
                 </ul>
             </div>
         </div>
         {#Fim da row para breadcrumb#}
 
-        <div class="row padding-top-bottom">
-            <div class="small-12 columns">
-                <h1>NOTÍCIAS</h1>
-
-                <div class="row">
-                    {% for noticia in noticias %}
-                        <div class="row padding-bottom-duplo">
-                            <div class="row hover-cinza-claro">
-                                <a href="{{ noticia.get_absolute_url }}">
-                                    <div class="row">
-
-                                        <div class="small-2 medium-1 columns no-padding">
-                                            {% if noticia.primeira_imagem %}
-                                                <img
-                                                        src="{% thumbnail noticia.primeira_imagem 200x200 crop quality=80 %}"
-                                                        alt="{{ noticia.titulo }}">
-                                            {% endif %}
-                                        </div>
-
-                                        <div class="small-10 medium-11 columns">
-                                            <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}
-                                                - {{ noticia.get_campus_origem_display }}</div>
-                                            <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
-                                        </div>
-                                        {#                                        {% else %}#}
-                                        {#                                            <div class="small-12 columns no-padding padding-left">#}
-                                        {#                                                <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}#}
-                                        {#                                                    - {{ noticia.get_campus_origem_display }}</div>#}
-                                        {#                                                <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>#}
-                                        {#                                            </div>#}
-
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+        {% block listagem %}
+        {% endblock %}
     </div>
     {#Fim da div row para a página de listagem#}
 
-    {#Início da paginação#}
-    <div class="pagination-centered">
-        <ul class="pagination">
-            {% if noticias.has_previous %}
-                <li class="arrow"><a href="?page={{ noticias.previous_page_number }}">&laquo;</a></li>
-            {% endif %}
-
-            <li class="current"><a href="">Página {{ noticias.number }} de {{ noticias.paginator.num_pages }}</a></li>
-
-            {% if noticias.has_next %}
-                <li class="arrow"><a href="?page={{ noticias.next_page_number }}">&raquo;</a></li>
-            {% endif %}
-        </ul>
-    </div>
-    {#Fim da paginação#}
+    {% block paginacao %}
+    {% endblock %}
 
 {% endblock %}
