@@ -57,8 +57,8 @@ def selecao(request):
     if ano:
         lista = lista.filter(data_abertura_edital__year=ano)
         ano = 'ano=' + ano
-        if tipo is not '' or status is not '':
-            ano = '&' + ano
+        # if tipo or status :
+        #     ano = '&' + ano
     else:
         # ano = datetime.date.today().year
         ano = ''
