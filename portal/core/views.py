@@ -9,7 +9,7 @@ def home(request):
     noticias_detaque = sorted(Noticia.objects.filter(destaque=True)[:5], key=lambda o: o.prioridade_destaque)
 
     mais_noticias = Noticia.objects.all().exclude(
-        id__in=[obj.id for obj in noticias_detaque])[:9]
+        id__in=[obj.id for obj in noticias_detaque])[:10]
 
     eventos = Evento.objects.all()[:3]
 

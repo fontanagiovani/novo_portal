@@ -38,7 +38,7 @@ class HomeContextTest(TestCase):
         A home deve conter noticias listadas na parte nao destaque+
         """
         # Sao esperados 9 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
-        self.assertContains(self.resp, u'test1', 9)
+        self.assertContains(self.resp, u'test1', 10)
 
     def test_conteudo_evento(self):
         """
