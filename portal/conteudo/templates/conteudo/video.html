@@ -25,7 +25,9 @@
         </div>
         <div class="row">
 
-            <iframe width="640" height="480" src="//www.youtube.com/embed/{{ video.id_video_youtube }}" frameborder="0" allowfullscreen></iframe>
+            <div class="flex-video widescreen vimeo">
+                <iframe width="640" height="480" src="//www.youtube.com/embed/{{ video.id_video_youtube }}" frameborder="0" allowfullscreen></iframe>
+            </div>
 
             {% autoescape off %}
                 <article>
