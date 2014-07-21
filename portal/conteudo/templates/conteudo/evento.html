@@ -73,7 +73,7 @@
         <div class="medium-4 columns">
             {% if evento.galerias.all %}
                 <h2 class="fundo-vermelho padding-top-bottom text-center">Galerias relacionados</h2>
-                {% for galeria in noticia.galerias.all %}
+                {% for galeria in evento.galerias.all %}
                     <div class="row padding-bottom">
                         <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
                                 class="fi-photo texto-tamanho-medio alinhamento-vertical">
@@ -87,7 +87,7 @@
         <div class="medium-4 columns">
             {% if evento.videos.all %}
                 <h2 class="fundo-vermelho padding-top-bottom text-center">Vídeos relacionados</h2>
-                {% for video in noticia.videos.all %}
+                {% for video in evento.videos.all %}
                     <div class="row padding-bottom">
                         <a href="{{ video.get_absolute_url }}" target="_blank"><i
                                 class="fi-play-video texto-tamanho-medio alinhamento-vertical">
