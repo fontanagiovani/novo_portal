@@ -1,70 +1,101 @@
-{% extends 'core/pagina.html' %}
+{% extends 'core/detalhe.html' %}
 {% load thumbnail %}
-{% block conteudo %}
+
+{% block breadcrumbs %}
+    <li><a href="{% url 'conteudo:eventos_lista' %}">Eventos</a></li>
+    <li class="current"><a href="#">{{ evento.titulo|truncatewords:"4" }}</a></li>
+{% endblock %}
+
     {% if user.is_authenticated %}
-        <p><a href="{% url 'admin:conteudo_evento_change' evento.id %}" target="_blank">Editar página</a></p>
-    {% endif %}
-    <titulo>{{ evento.titulo }}</titulo>
-    <controle>
-
-        <rede-social>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/f_cubo_mini.png"/></a>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png"/></a>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/t_cubo_mini.png"/></a>
-        </rede-social>
-        <letra>
-            <a href="">A+</a>
-            <a href="">A-</a>
-        </letra>
-    </controle>
-
-    <data>{{ evento.data_publicacao }}</data>
-    <data>Início do evento: {{ evento.data_inicio }}</data>
-    <data>Término do evento: {{ evento.data_fim }}</data>
-
-    <p id="texto">
-        <!--
-        Para paginas de Video
-        <iframe width="640" height="480" src="//www.youtube.com/embed/RBMxHUCtqn0" frameborder="0" allowfullscreen></iframe>
-
-        Para pagina de Galeria, essa imagem é só para ilustrar onde pode focar a grade da galeria ou a galeria em si.
-        <img src="{{ STATIC_URL }}img/logo_ifmt.png" id="galeria" alt="IFMT">
-        -->
-        <!-- Para pagina de texto, essa imagem não aparece para os outros tipos -->
-        {#        {% for imagem in pagina.imagens %}#}
-        {#            <img src="{% thumbnail imagem.arquivo 100x100 upscale quality=80 %}" alt="{{ imagem.descricao }}"/>#}
-        {#        {% endfor %}#}
-        {% autoescape off %}
-            {{ evento.texto }}
-        {% endautoescape %}
-    </p>
-    {% if evento.anexoevento_set.exists %}
-        <relacionados>
-
-            <div>
-                <p>Arquivos Relacionados</p>
-                {% for anexo in evento.anexoevento_set.all %}
-                    <a href="{{ anexo.arquivo.url }}" target="_blank">{{ anexo.descricao }}</a>
-                {% endfor %}
+        <div class="row padding-top">
+            <div class="medium-12 columns text-right">
+                <a href="{% url 'admin:conteudo_evento_change' evento.id %}" target="_blank">
+                    <i class="fi-page-edit"></i> Editar evento
+                </a>
             </div>
-            {#        <div>#}
-            {#            <p>Galerias Relacionadas</p>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#        </div>#}
-            {#        <div>#}
-            {#            <p>Videos Relacionados</p>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#        </div>#}
-            {#        <div>#}
-            {#            <p>Tópicos Relacionados</p>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#        </div>#}
-        </relacionados>
+        </div>
     {% endif %}
+
+{% block conteudo %}
+    <div class="row padding-bottom">
+        <div class="row">
+            <h1 class="justificado" id="titulo">{{ evento.titulo }}</h1>
+
+            <p class="padding-top-bottom">{{ evento.data_publicacao }}</p>
+        </div>
+        <div class="row">
+            {% if evento.imagens %}
+                <div class="medium-10 columns no-padding">
+            {% endif %}
+
+            {% autoescape off %}
+                <article>
+                    {{ evento.texto }}
+                </article>
+            {% endautoescape %}
+
+            <p>{{ evento.fonte }}</p>
+            </div>
+            {% if evento.imagens %}
+                <div class="medium-2 columns">
+                    <div class="row">
+                        <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-1" data-clearing>
+                            {% for imagem in evento.imagens %}
+                                <li>
+                                    <a class="th" href="{% thumbnail imagem.arquivo 1000x800 upscale quality=80 %}">
+                                        <img data-caption="{{ imagem.descricao }}"
+                                             src="{% thumbnail imagem.arquivo 200x200 crop quality=80 %}">
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="medium-4 columns">
+            {% if evento.documentos %}
+                <h2 class="fundo-vermelho padding-top-bottom text-center">Arquivos relacionados</h2>
+                {% for documento in evento.documentos %}
+                    <div class="row padding-bottom">
+                        <a href="{{ documento.arquivo.url }}" target="_blank"><i
+                                class="fi-download texto-tamanho-medio alinhamento-vertical">
+                        </i>{{ documento.descricao }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="medium-4 columns">
+            {% if evento.galerias.all %}
+                <h2 class="fundo-vermelho padding-top-bottom text-center">Galerias relacionados</h2>
+                {% for galeria in noticia.galerias.all %}
+                    <div class="row padding-bottom">
+                        <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
+                                class="fi-photo texto-tamanho-medio alinhamento-vertical">
+                        </i>{{ galeria.titulo }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="medium-4 columns">
+            {% if evento.videos.all %}
+                <h2 class="fundo-vermelho padding-top-bottom text-center">Vídeos relacionados</h2>
+                {% for video in noticia.videos.all %}
+                    <div class="row padding-bottom">
+                        <a href="{{ video.get_absolute_url }}" target="_blank"><i
+                                class="fi-play-video texto-tamanho-medio alinhamento-vertical">
+                        </i>{{ video.titulo }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock conteudo %}
