@@ -30,19 +30,20 @@
                 {% endif %}
             </h1>
         </div>
+
         <div class="row">
             <dl class="sub-nav">
-              <dt>Estado:</dt>
-              <dd {% if not status %} class="active" {% endif %}><a href="{% url 'selecao' %}">Todos</a></dd>
-              <dd {% ifequal status 'status=ABT&' %} class="active" {% endifequal %}><a href="?{{ tipo }}status=ABT&{{ ano }}">Abertos</a></dd>
-              <dd {% ifequal status 'status=AND&' %} class="active" {% endifequal %}><a href="?{{ tipo }}status=AND&{{ ano }}">Em Andamento</a></dd>
-              <dd {% ifequal status 'status=FNZ&' %} class="active" {% endifequal %}><a href="?{{ tipo }}status=FNZ&{{ ano }}">Finalizado</a></dd>
+                <dt>Estado:</dt>
+                <dd {% if not status %} class="active" {% endif %}><a href="{% url 'selecao' %}">Todos</a></dd>
+                <dd {% ifequal status 'status=ABT&' %} class="active" {% endifequal %}><a href="?{{ tipo }}status=ABT&{{ ano }}">Abertos</a></dd>
+                <dd {% ifequal status 'status=AND&' %} class="active" {% endifequal %}><a href="?{{ tipo }}status=AND&{{ ano }}">Em Andamento</a></dd>
+                <dd {% ifequal status 'status=FNZ&' %} class="active" {% endifequal %}><a href="?{{ tipo }}status=FNZ&{{ ano }}">Finalizado</a></dd>
             </dl>
             <dl class="sub-nav">
-              <dt>Ano:</dt>
-              <dd {% ifequal ano 'ano=2014' %} class="active" {% endifequal %}><a href="?{{ tipo }}{{ status }}ano=2014">Atual - 2014</a></dd>
-              <dd {% ifequal ano 'ano=2013' %} class="active" {% endifequal %}><a href="?{{ tipo }}{{ status }}ano=2013">2013</a></dd>
-              <dd {% ifequal ano 'ano=2012' %} class="active" {% endifequal %}><a href="?{{ tipo }}{{ status }}ano=2012">2012</a></dd>
+                <dt>Ano:</dt>
+                <dd {% ifequal ano 'ano=2014' %} class="active" {% endifequal %}><a href="?{{ tipo }}{{ status }}ano=2014">Atual - 2014</a></dd>
+                <dd {% ifequal ano 'ano=2013' %} class="active" {% endifequal %}><a href="?{{ tipo }}{{ status }}ano=2013">2013</a></dd>
+                <dd {% ifequal ano 'ano=2012' %} class="active" {% endifequal %}><a href="?{{ tipo }}{{ status }}ano=2012">2012</a></dd>
             </dl>
             <table>
                 <thead>
