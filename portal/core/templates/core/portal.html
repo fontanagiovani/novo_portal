@@ -85,36 +85,36 @@
 
     {#Container para mais notícias#}
     <div class="medium-4 columns padding-bottom">
-        <div class="row">
-            <h1><a href="{% url 'conteudo:noticias_lista' %}"><i class="fi-plus"></i> NOTÍCIAS</a></h1>
-        </div>
+        <h1><a href="{% url 'conteudo:noticias_lista' %}"><i class="fi-plus"></i> NOTÍCIAS</a></h1>
         {% for noticia in mais_noticias %}
-            <div class="row collapse padding-bottom-duplo hover-cinza-claro">
-                {% if noticia.primeira_imagem %}
-                    <a href="{{ noticia.get_absolute_url }}">
-                        <div class="row collapse">
-                            <div class="small-2 medium-3 columns">
-                                <img src="{% thumbnail noticia.primeira_imagem 100x100 crop quality=80 %}"
-                                     alt="{{ noticia.titulo }}">
-                            </div>
-                            <div class="small-10 medium-9 columns">
-                                <div class="data-local padding-left">{{ noticia.data_publicacao|date:"d M" }}
-                                    - {{ noticia.get_campus_origem_display }}</div>
-                                <p class="no-margin padding-left espacamento-medio">{{ noticia.titulo }}</p>
-                            </div>
-                        </div>
-                    </a>
-                {% else %}
-                    <div class="small-12 columns">
+            <div class="row padding-bottom-duplo">
+                <div class="row collapse hover-cinza-claro">
+                    {% if noticia.primeira_imagem %}
                         <a href="{{ noticia.get_absolute_url }}">
-                            <div class="row">
-                                <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}
-                                    - {{ noticia.get_campus_origem_display }}</div>
-                                <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
+                            <div class="row collapse">
+                                <div class="small-2 medium-3 columns">
+                                    <img src="{% thumbnail noticia.primeira_imagem 100x100 crop quality=80 %}"
+                                         alt="{{ noticia.titulo }}">
+                                </div>
+                                <div class="small-10 medium-9 columns">
+                                    <div class="data-local padding-left">{{ noticia.data_publicacao|date:"d M" }}
+                                        - {{ noticia.get_campus_origem_display }}</div>
+                                    <p class="no-margin padding-left espacamento-medio">{{ noticia.titulo }}</p>
+                                </div>
                             </div>
                         </a>
-                    </div>
-                {% endif %}
+                    {% else %}
+                        <div class="small-12 columns">
+                            <a href="{{ noticia.get_absolute_url }}">
+                                <div class="row">
+                                    <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}
+                                        - {{ noticia.get_campus_origem_display }}</div>
+                                    <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         {% endfor %}
     </div>
