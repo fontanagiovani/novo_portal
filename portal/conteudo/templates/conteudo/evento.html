@@ -6,22 +6,33 @@
     <li class="current"><a href="#">{{ evento.titulo|truncatewords:"4" }}</a></li>
 {% endblock %}
 
-    {% if user.is_authenticated %}
-        <div class="row padding-top">
-            <div class="medium-12 columns text-right">
-                <a href="{% url 'admin:conteudo_evento_change' evento.id %}" target="_blank">
-                    <i class="fi-page-edit"></i> Editar evento
-                </a>
-            </div>
+{% if user.is_authenticated %}
+    <div class="row padding-top">
+        <div class="medium-12 columns text-right">
+            <a href="{% url 'admin:conteudo_evento_change' evento.id %}" target="_blank">
+                <i class="fi-page-edit"></i> Editar evento
+            </a>
         </div>
-    {% endif %}
+    </div>
+{% endif %}
 
 {% block conteudo %}
     <div class="row padding-bottom">
         <div class="row">
             <h1 class="justificado" id="titulo">{{ evento.titulo }}</h1>
 
+            <div class="row padding-bottom">
+                <div class="medium-6 columns fundo-verde">
+                    <p class="text-center no-margin padding-top-bottom">Início: {{ evento.data_inicio }}</p>
+                </div>
+
+                <div class="medium-6 columns fundo-vermelho">
+                    <p class="text-center no-margin padding-top-bottom">Término: {{ evento.data_fim }}</p>
+                </div>
+            </div>
+
             <p class="padding-top-bottom">{{ evento.data_publicacao }}</p>
+
         </div>
         <div class="row">
             {% if evento.imagens %}
