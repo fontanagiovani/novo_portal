@@ -1,5 +1,5 @@
 .temp-rodape {
-    height: 20em;
+    /*height: 20em;*/
     border: 0.3125em solid #80bf40;
 }
 
@@ -14,10 +14,6 @@ h1 {
 h2 {
     font-size: 1.3em;
 }
-
-/*p {*/
-    /*text-align: justify;*/
-/*}*/
 
 .justificado {
     text-align: justify;
@@ -69,6 +65,10 @@ h2 {
     padding-bottom: 1.25em;
 }
 
+.padding-top-duplo {
+    padding-top: 1.25em;
+}
+
 .padding-all {
     /*padding: 0.625em 0.625em 0.625em 0.625em;*/
     padding: 0.625em;
@@ -90,6 +90,10 @@ h2 {
     background-color: #e4e4e4;
 }
 
+.fundo-cinza-claro {
+    background-color: #f8f8f8;
+}
+
 .lupa {
     font-size: 1.8em;
 }
@@ -102,15 +106,19 @@ h2 {
     font-size: 2em;
 }
 
+.texto-tamanho-pequeno {
+    font-size: 0.9em;
+}
+
 .alinhamento-direita {
     float: right;
 }
 
-.links-uteis {
+.sem-marcador {
     list-style: none;
 }
 
-.links-uteis li {
+.sem-marcador li {
     display: inline;
 }
 
