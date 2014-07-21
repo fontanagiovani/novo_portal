@@ -22,6 +22,7 @@
             <h1 class="justificado" id="titulo">{{ evento.titulo }}</h1>
 
             <p class="padding-top-bottom">{{ evento.data_publicacao }}</p>
+            <p> Data/Horário:&nbsp {{ evento.data_inicio }} até {{ evento.data_fim }}</p>
         </div>
         <div class="row">
             {% if evento.imagens %}
