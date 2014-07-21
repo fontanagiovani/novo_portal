@@ -14,6 +14,7 @@ import sys
 from decouple import config
 from dj_database_url import parse as db_url
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -41,7 +42,7 @@ TEMPLATE_DEBUG = DEBUG
 
 TESTING = 'test' in sys.argv or not config('SQL_LOG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17']
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17', '.herokuapp.com']
 
 
 # Application definition
@@ -67,6 +68,8 @@ INSTALLED_APPS = (
     # Project apps
     'portal.core',
     'portal.conteudo',
+    'portal.banner',
+    'portal.cursos',
 )
 
 if DEBUG:
@@ -75,19 +78,20 @@ if DEBUG:
 
     DEBUG_APPS = (
         'debug_toolbar',
-        'django_nose',
+        # 'django_nose',
         'django_extensions',
     )
 
     # Use nose to run all tests
-    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+    # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
     # Tell nose to measure coverage on the 'foo' and 'bar' apps
-    NOSE_ARGS = [
-        '--with-coverage',
-        '--cover-package=portal.core',
-        '--nologcapture',
-    ]
+
+    # NOSE_ARGS = [
+    #     '--with-coverage',
+    #     '--cover-package=portal.core',
+    #     '--nologcapture',
+    # ]
 
     INSTALLED_APPS = DEBUG_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + DEBUG_APPS
 else:
@@ -148,6 +152,13 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+FILER_PUBLIC = os.path.join(MEDIA_ROOT, 'filer_public')
+FILER_PUBLIC_THUMBNAIL = os.path.join(MEDIA_ROOT, 'filer_public_thumbnails/filer_public')
+
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 # Usado pelo grappelli
 # STATICFILES_FINDERS = (
@@ -268,17 +279,20 @@ SUMMERNOTE_CONFIG = {
     'width': '100%',
 
     # Set editor language/locale
-    # 'lang': 'en-US',
+    'lang': 'pt-BR',
 
     # Customize toolbar buttons
-    # 'toolbar': [
-    #     ['style', ['style']],
-    #     ['font', ['bold', 'italic', 'underline', 'clear']],
-    #     ['para', ['ul', 'ol']],
-    #     ['table', ['table']],
-    #     ['insert', ['link', 'video']],
-    #     ['misc', ['codeview']]
-    # ],
+    'toolbar': [
+        # ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'clear']],
+        # ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
+        #           'strikethrough', 'clear']],
+        # ['para', ['ul', 'ol']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['misc', ['codeview']]
+    ],
 
     # Set `upload_to` function for attachments.
     # 'attachment_upload_to': my_custom_upload_to_func(),

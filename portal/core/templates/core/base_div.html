@@ -1,0 +1,115 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+  <head>
+    <title>Portal IFMT:: </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ STATIC_URL }}/css/base.css" rel="stylesheet" type="text/css" />
+    <link href="{{ STATIC_URL }}/css/menu_top.css" rel="stylesheet" type="text/css" />
+    <!-- CSS do Campus -->
+    <link href="{{ STATIC_URL }}/css/campus.css" rel="stylesheet" type="text/css" />
+    <!-- CSS do Portal -->
+    <link href="{{ STATIC_URL }}/css/portal.css" rel="stylesheet" type="text/css" />
+    <link href="{{ STATIC_URL }}/css/conteudo.css" rel="stylesheet" type="text/css" />
+    <!-- Css Foundation -->
+    <!-- If you are using CSS version, only link these 2 files, you may add app.css to use for your overrides if you like. -->
+    <link href="{{ STATIC_URL }}css/normalize.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/foundation.css" rel="stylesheet">
+
+    <!-- If you are using the gem version, you need this only -->
+    <!-- <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet"> -->
+
+    <!-- Js Foundation-->
+    <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
+
+  </head>
+  
+  <body>
+    <div id="palco">
+
+        <div id="topo">
+            <img src="{{ STATIC_URL }}img/logo_ifmt.png" alt="IFMT" id="logo">
+            <div id="links">
+                <div id="diretos">
+                    <a href="">IFMT Portal</a>
+                    <a href="">Ouvidoria</a>
+                    <a href="">Imprensa</a>
+                </div>
+                <form action="" method="post">
+                   <input name="busca" value="Buscar..."/>
+                </form>
+                <div id="sociais">
+                    <a href=""><img src="{{ STATIC_URL }}img/sociais/f_mini.fw.png"/></a>
+                    <a href=""><img src="{{ STATIC_URL }}img/sociais/g_mini.fw.png"/></a>
+                    <a href=""><img src="{{ STATIC_URL }}img/sociais/t_mini.fw.png"/></a>
+                    <a href=""><img src="{{ STATIC_URL }}img/sociais/y_mini.fw.png"/></a>
+                    <a href=""><img src="{{ STATIC_URL }}img/sociais/i_mini.fw.png"/></a>
+                </div>
+                <ul id="menus" >
+                    <li><a href="#" class="geral">Câmpus</a></li>
+                    <li><a href="#" class="geral">Institucional</a></li>
+                    <li><a href="#" class="geral">Ensino</a></li>
+                    <li><a href="#" class="geral">Pesquisa</a></li>
+                    <li><a href="#" class="geral">Extensão</a></li>
+                    <li><a href="#" class="geral">Ingresso</a></li>
+                    <li><a href="#" class="geral">Contato</a></li>
+                </ul>
+                <div id="conteniner-menus">
+                    <ul id="n1">
+                        <span>Institucional</span>
+                        <li class="has-dropdown"><a href="#">Sobre o IFMT</a> </li>
+                        <li class="has-dropdown"><a href="#">Colegiados</a></li>
+                        <li class="has-dropdown"><a href="#">Comissões</a></li>
+                        <li><a href="">Notícias</a></li>
+                        <li class="has-dropdown"><a href="#">Documentos Institucionais</a></li>
+                        <li class="has-dropdown"><a href="#">Seleções de Concursos</a></li>
+                        <li><a href="">DGTI</a></li>
+                        <li class="has-dropdown"><a href="#">DSGP</a></li>
+                    </ul>
+                    <ul id="n2">
+                        <span>Sobre o IFMT</span>
+                        <li><a href="">Missão e Visão</a></li>
+                        <li><a href="">Histórico</a></li>
+                        <li><a href="">Reitoria do IFMT</a></li>
+                        <li><a href="">Campi do IFMT</a></li>
+                        <li><a href="">Legislação</a></li>
+                        <li class="has-dropdown"><a href="#">Organograma</a></li>
+                        <li><a href="">Estrutura Adminstrativa</a></li>
+                        <li><a href="">Contatos</a></li>
+                    </ul>
+                    <ul id="n3">
+                        <span>Organograma</span>
+                        <li><a href="">Reitoria</a></li>
+                        <li><a href="">Pró-Reitorias</a></li>
+                        <li><a href="">Campi</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="corpo">
+            {% block content %}
+            {% endblock content %}
+        </div>
+
+    </div>
+    <div id="rodape">
+        <div id="mapa">
+
+        </div>
+    </div>
+
+    <!-- js Foundation Orbit -->
+    <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
+    <script src="{{ STATIC_URL }}js/foundation/foundation.js"></script>
+    <script src="{{ STATIC_URL }}js/foundation/foundation.orbit.js"></script>
+    <!-- js Foundation -->
+    <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
+    <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+  </body>
+</html>

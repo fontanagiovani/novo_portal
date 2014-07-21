@@ -1,0 +1,74 @@
+{% extends 'core/detalhe.html' %}
+{% block breadcrumbs %}
+    <li><a href="{% url 'selecao' %}">Seleção</a></li>
+    <li class="current"><a href="#">
+        {% if titulo %}
+            {{ titulo.parent }}
+        {% endif %}
+    </a></li>
+{% endblock %}
+
+   {% block menulateral %}
+        {%for label in nodes %}
+            {% if label.parent %}
+                <li><a href="?tipo={{ label.id }}{{ status }}{{ ano }}">{{ label.titulo }}</a></li>
+            {% else %}
+                <li><label>{{ label.titulo }}</label></li>
+            {% endif%}
+        {% endfor %}
+   {% endblock menulateral %}
+
+
+   {% block conteudo %}
+    <div class="row padding-bottom">
+        <div class="row">
+            <h1 class="justificado" id="titulo">
+                {% if titulo %}
+                    {{ titulo.titulo }} | {{ titulo.parent }}
+                {% else %}
+                    Seleções
+                {% endif %}
+            </h1>
+        </div>
+
+        <div class="row">
+            <dl class="sub-nav">
+                <dt>Estado:</dt>
+                <dd {% if not status %} class="active" {% endif %}><a href="{% url 'selecao' %}">Todos</a></dd>
+                <dd {% ifequal status 'status=ABT&' %} class="active" {% endifequal %}><a href="?{{ tipo }}status=ABT&{{ ano }}">Abertos</a></dd>
+                <dd {% ifequal status 'status=AND&' %} class="active" {% endifequal %}><a href="?{{ tipo }}status=AND&{{ ano }}">Em Andamento</a></dd>
+                <dd {% ifequal status 'status=FNZ&' %} class="active" {% endifequal %}><a href="?{{ tipo }}status=FNZ&{{ ano }}">Finalizado</a></dd>
+            </dl>
+            <dl class="sub-nav">
+                <dt>Ano:</dt>
+                <dd {% ifequal ano 'ano=2014' %} class="active" {% endifequal %}><a href="?{{ tipo }}{{ status }}ano=2014">Atual - 2014</a></dd>
+                <dd {% ifequal ano 'ano=2013' %} class="active" {% endifequal %}><a href="?{{ tipo }}{{ status }}ano=2013">2013</a></dd>
+                <dd {% ifequal ano 'ano=2012' %} class="active" {% endifequal %}><a href="?{{ tipo }}{{ status }}ano=2012">2012</a></dd>
+            </dl>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="data">Abertura</th>
+                        <th class="data">Tipo</th>
+                        <th class="data">Status</th>
+                        <th>Editais</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if lista %}
+                        {% for item in lista %}
+                        <tr>
+                            <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.data_abertura_edital|date:"d M Y" }}</a></td>
+                            <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.tipo.titulo }}</a></td>
+                            <td class="data"><a href="{{ item.url }}" target="_blank">{{ item.get_status_display }}</a></td>
+                            <td><a href="{{ item.url }}" target="_blank">{{ item.titulo }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="4"><center>Listagem Vazia</center></td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+   {% endblock conteudo %}

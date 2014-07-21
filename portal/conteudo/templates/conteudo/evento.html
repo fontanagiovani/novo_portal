@@ -1,0 +1,112 @@
+{% extends 'core/detalhe.html' %}
+{% load thumbnail %}
+
+{% block breadcrumbs %}
+    <li><a href="{% url 'conteudo:eventos_lista' %}">Eventos</a></li>
+    <li class="current"><a href="#">{{ evento.titulo|truncatewords:"4" }}</a></li>
+{% endblock %}
+
+{% if user.is_authenticated %}
+    <div class="row padding-top">
+        <div class="medium-12 columns text-right">
+            <a href="{% url 'admin:conteudo_evento_change' evento.id %}" target="_blank">
+                <i class="fi-page-edit"></i> Editar evento
+            </a>
+        </div>
+    </div>
+{% endif %}
+
+{% block conteudo %}
+    <div class="row padding-bottom">
+        <div class="row">
+            <h1 class="justificado" id="titulo">{{ evento.titulo }}</h1>
+
+            <div class="row padding-bottom">
+                <div class="medium-6 columns fundo-verde">
+                    <p class="text-center no-margin padding-top-bottom">Início: {{ evento.data_inicio }}</p>
+                </div>
+
+                <div class="medium-6 columns fundo-vermelho">
+                    <p class="text-center no-margin padding-top-bottom">Término: {{ evento.data_fim }}</p>
+                </div>
+            </div>
+
+            <p class="padding-top-bottom">{{ evento.data_publicacao }}</p>
+            
+        </div>
+        <div class="row">
+            {% if evento.imagens %}
+                <div class="medium-10 columns no-padding">
+            {% endif %}
+
+            {% autoescape off %}
+                <article>
+                    {{ evento.texto }}
+                </article>
+            {% endautoescape %}
+
+            <p>{{ evento.fonte }}</p>
+            </div>
+            {% if evento.imagens %}
+                <div class="medium-2 columns">
+                    <div class="row">
+                        <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-1" data-clearing>
+                            {% for imagem in evento.imagens %}
+                                <li>
+                                    <a class="th" href="{% thumbnail imagem.arquivo 1000x800 upscale quality=80 %}">
+                                        <img data-caption="{{ imagem.descricao }}"
+                                             src="{% thumbnail imagem.arquivo 200x200 crop quality=80 %}">
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="medium-4 columns">
+            {% if evento.documentos %}
+                <h2 class="fundo-vermelho padding-top-bottom text-center">Arquivos relacionados</h2>
+                {% for documento in evento.documentos %}
+                    <div class="row padding-bottom">
+                        <a href="{{ documento.arquivo.url }}" target="_blank"><i
+                                class="fi-download texto-tamanho-medio alinhamento-vertical">
+                        </i>{{ documento.descricao }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="medium-4 columns">
+            {% if evento.galerias.all %}
+                <h2 class="fundo-vermelho padding-top-bottom text-center">Galerias relacionados</h2>
+                {% for galeria in evento.galerias.all %}
+                    <div class="row padding-bottom">
+                        <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
+                                class="fi-photo texto-tamanho-medio alinhamento-vertical">
+                        </i>{{ galeria.titulo }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="medium-4 columns">
+            {% if evento.videos.all %}
+                <h2 class="fundo-vermelho padding-top-bottom text-center">Vídeos relacionados</h2>
+                {% for video in evento.videos.all %}
+                    <div class="row padding-bottom">
+                        <a href="{{ video.get_absolute_url }}" target="_blank"><i
+                                class="fi-play-video texto-tamanho-medio alinhamento-vertical">
+                        </i>{{ video.titulo }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock conteudo %}

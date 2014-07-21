@@ -1,68 +1,33 @@
-{% extends 'core/pagina.html' %}
-{% block conteudo %}
-<titulo>Vestibulares e Seleções | Vestibulares</titulo>
-<filtros>
-    <a href="">Abertos</a>
-    <a href="">Em Andamento</a>
-    <a href="">Finalizado</a>
-    <select>
-        <option>Ano: 2014</option>
-        <option>2013</option>
-        <option>2012</option>
-    </select>
-</filtros>
-<table cellspacing="0">
-    <tr>
-        <th class="data">Inscrições ate</th>
-        <th>Editais</th>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-</table>
-{% endblock conteudo %}
+{% extends 'core/base.html' %}
+{% load thumbnail %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/pagina.css">
+{% endblock %}
+
+{% block content %}
+
+    {#Container para a página de listagem#}
+    <div class="row">
+
+        {#Container para breadcrumb#}
+        <div class="row">
+            <div class="small-12 columns">
+                <ul class="breadcrumbs no-margin">
+                    <li><a href="{% url 'home' %}">Portal</a></li>
+                    {% block breadcrumb %}
+                    {% endblock %}
+                </ul>
+            </div>
+        </div>
+        {#Fim da row para breadcrumb#}
+
+        {% block listagem %}
+        {% endblock %}
+    </div>
+    {#Fim da div row para a página de listagem#}
+
+    {% block paginacao %}
+    {% endblock %}
+
+{% endblock %}

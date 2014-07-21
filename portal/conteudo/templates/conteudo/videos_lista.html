@@ -1,0 +1,56 @@
+{% extends 'core/lista.html' %}
+{% load thumbnail %}
+
+{% block breadcrumb %}
+    <li class="current"><a href="{% url 'conteudo:galerias_lista' %}">Vídeos</a></li>
+{% endblock %}
+
+{% block listagem %}
+    <div class="row padding-top-bottom">
+        <div class="small-12 columns">
+            <h1>VÍDEOS</h1>
+
+            <div class="row">
+                {% for video in videos %}
+                    <div class="row padding-bottom-duplo">
+                        <div class="row hover-cinza-claro">
+                            <a href="{{ video.get_absolute_url }}">
+                                <div class="row">
+
+                                    <div class="small-2 medium-1 columns no-padding">
+                                        <img src="//i1.ytimg.com/vi/{{ video.id_video_youtube }}/sddefault.jpg"
+                                             alt="{{ video.titulo }}"/>
+                                    </div>
+
+                                    <div class="small-10 medium-11 columns">
+                                        <div class="data-local">{{ video.data_publicacao|date:"d M" }}
+                                            - {{ video.get_campus_origem_display }}</div>
+                                        <p class="no-margin espacamento-medio">{{ video.titulo }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block paginacao %}
+    {#Início da paginação#}
+    <div class="pagination-centered">
+        <ul class="pagination">
+            {% if videos.has_previous %}
+                <li class="arrow"><a href="?page={{ videos.previous_page_number }}">&laquo;</a></li>
+            {% endif %}
+
+            <li class="current"><a href="">Página {{ videos.number }} de {{ videos.paginator.num_pages }}</a></li>
+
+            {% if videos.has_next %}
+                <li class="arrow"><a href="?page={{ videos.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {#Fim da paginação#}
+{% endblock %}

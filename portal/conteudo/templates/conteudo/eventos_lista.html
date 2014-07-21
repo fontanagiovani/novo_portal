@@ -1,0 +1,64 @@
+{% extends 'core/lista.html' %}
+{% load thumbnail %}
+
+{% block breadcrumb %}
+    <li class="current"><a href="{% url 'conteudo:eventos_lista' %}">Eventos</a></li>
+{% endblock %}
+
+{% block listagem %}
+    <div class="row padding-top-bottom">
+        <div class="small-12 columns">
+            <h1>EVENTOS</h1>
+
+            <div class="row">
+                {% for evento in eventos %}
+                    <div class="row padding-bottom-duplo">
+                        <div class="row hover-cinza-claro">
+                            <a href="{{ evento.get_absolute_url }}">
+                                <div class="row">
+                                    <div class="small-2 medium-1 columns no-padding">
+                                        <p class="padding-top-bottom fundo-verde no-margin espacamento-medio text-center">
+                                            {{ evento.data_inicio|date:"d M" }}
+                                            {{ evento.data_inicio|date:"Y" }}
+                                        </p>
+                                    </div>
+
+                                    <div class="small-2 medium-1 columns no-padding">
+                                        <p class="padding-top-bottom fundo-vermelho no-margin espacamento-medio text-center">
+                                            {{ evento.data_fim|date:"d M" }}
+                                            {{ evento.data_fim|date:"Y" }}
+                                        </p>
+                                    </div>
+
+                                    <div class="small-8 medium-10 columns">
+                                        <div class="data-local">
+                                            {{ evento.get_campus_origem_display }}</div>
+                                        <p class="no-margin espacamento-medio">{{ evento.titulo }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block paginacao %}
+    {#Início da paginação#}
+    <div class="pagination-centered">
+        <ul class="pagination">
+            {% if eventos.has_previous %}
+                <li class="arrow"><a href="?page={{ eventos.previous_page_number }}">&laquo;</a></li>
+            {% endif %}
+
+            <li class="current"><a href="">Página {{ eventos.number }} de {{ eventos.paginator.num_pages }}</a></li>
+
+            {% if eventos.has_next %}
+                <li class="arrow"><a href="?page={{ eventos.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {#Fim da paginação#}
+{% endblock %}

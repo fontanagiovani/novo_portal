@@ -1,74 +1,75 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from filer.fields.file import FilerFileField
+from mptt.models import MPTTModel, TreeForeignKey
 
 
-class Conteudo(models.Model):
-    TIPOS = (
-        ('EVENTO', 'Evento'),
-        ('NOTICIA', u'Notícia'),
-        ('BANNER', 'Banner'),
-    )
-
-    CAMPUS_ORIGEM = (
-        ('RTR', u'Reitoria'),
-        ('BAG', u'Campus Barra do Garças'),
-        ('BLV', u'Campus Bela Vista'),
-        ('CAS', u'Campus Cáceres'),
-        ('CFS', u'Campus Confresa'),
-        ('CBA', u'Campus Cuiabá'),
-        ('JNA', u'Campus Juína'),
-        ('CNP', u'Campus Campo Novo do Parecis'),
-        ('PLC', u'Campus Pontes e Lacerda'),
-        ('ROO', u'Campus Rondonópolis'),
-        ('SVC', u'Campus São Vicente'),
-        ('PDL', u'Campus Primavera do Leste'),
-        ('SRS', u'Campus Sorriso'),
-        ('VGD', u'Campus Várzea Grande'),
-        ('AFL', u'Campus Alta Floresta'),
-    )
-
-    tipo = models.CharField(max_length=250, choices=TIPOS, default='NOTICIA')
-    campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR',
-                                     verbose_name=u'Campus de origem')
-    destaque = models.BooleanField(default=False)
-    titulo = models.CharField(max_length=250, verbose_name=u'Título')
-    texto = models.TextField()
-    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
-
+class Menu(MPTTModel):
     class Meta:
-        verbose_name = u'Conteúdo'
-        verbose_name_plural = u'Conteúdos'
-        ordering = ('-data_publicacao', '-id')
+        ordering = ('titulo',)
+
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Nivel 1')
+    titulo = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, blank=True, unique=True)
+    url = models.CharField(max_length=250, blank=True,)
 
     def __unicode__(self):
         return self.titulo
 
-    @models.permalink
-    def get_absolute_url(self):
-        return 'conteudo_detalhe', (), {'conteudo_id': self.id}
-
-    def primeira_imagem(self):
-        if self.midia_set.filter(arquivo__image__isnull=False).exists():
-            return self.midia_set.filter(arquivo__image__isnull=False)[0].arquivo
-
-    def imagens(self):
-        if self.midia_set.filter(arquivo__image__isnull=False).exists():
-            return self.midia_set.filter(arquivo__image__isnull=False)
-
-    def documentos(self):
-        if self.midia_set.filter(arquivo__image__isnull=True).exists():
-            return self.midia_set.filter(arquivo__image__isnull=True)
-
-
-class Midia(models.Model):
-    conteudo = models.ForeignKey('Conteudo', verbose_name=u'Conteúdo')
-    descricao = models.TextField(verbose_name=u'Descrição')
-    arquivo = FilerFileField(related_name='arquivos_midia')
-
+class TipoSelecao(MPTTModel):
     class Meta:
-        verbose_name = u'Mídia'
-        verbose_name_plural = u'Mídias'
+        ordering = ('titulo',)
+
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Tipo pai')
+    titulo = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True)
 
     def __unicode__(self):
-        return self.descricao
+        return self.titulo
+
+class Selecao(models.Model):
+
+    # TIPO_BASE = (
+    #     ('Vestibulares e Seleção',(
+    #         ('VEST',u'Vestibulares'),
+    #         ('SISU',u'SISU'),
+    #         ('STEC',u'SISUTEC'),
+    #         ('EXSE',u'Exames de Seleção'),
+    #         ('PRSE',u'Processo Seletivo'),
+    #         ('TREX',u'Transferência Externa')
+    #         )
+    #     ),
+    #     ('Concursos Publicos',(
+    #         ('DOCE',u'Docentes'),
+    #         ('TEAD',u'Técnicos-administrativos'),
+    #         )
+    #     ),
+    #     ('Processos Seletivos',(
+    #         ('PRTE',u'Professores substitutos e/ou temporários'),
+    #         ('PEAD',u'Processos Seletivos - EAD'),
+    #         ('PPRO',u'Processsos Seletivos - PRONATEC'),
+    #         ('ROID',u'Remoção Interna - Docentes'),
+    #         ('ROIT',u'Remoção Interna - TAEs')
+    #         )
+    #     )
+    # )
+
+    STATUS = (
+        ('ABT','Aberto'),
+        ('AND','Em Andamento'),
+        ('FNZ','Finalizado')
+    )
+
+    class Meta:
+        ordering = ('titulo','status','data_abertura_edital')
+
+    tipo = TreeForeignKey('TipoSelecao')
+    titulo = models.CharField(max_length=100)
+    url  =  models.CharField(max_length=250,)
+    status = models.CharField(max_length=3, choices=STATUS)
+    data_abertura_edital = models.DateTimeField(verbose_name=u'Data de Abertura do Edital')
+    data_abertura_inscricoes = models.DateTimeField(verbose_name=u'Data de Abertura de Inscrições')
+    data_encerramento_inscricoes = models.DateTimeField(verbose_name=u'Data de Fechamento das Incrições')
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
+
+    def __unicode__(self):
+        return self.titulo

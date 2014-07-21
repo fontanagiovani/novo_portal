@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from django_summernote.admin import SummernoteModelAdmin
-from portal.core.models import Conteudo
-from portal.core.models import Midia
+from portal.core.models import Menu
+from portal.core.models import Selecao,TipoSelecao
 
+class MenuAdmin(admin.ModelAdmin):
+    list_display = ('titulo','parent')
+    search_fields = ('titulo',)
+    prepopulated_fields = {'slug':('titulo',)}
 
-class MidiaInLine(admin.StackedInline):
-    model = Midia
-    extra = 0
+admin.site.register(Menu,MenuAdmin)
 
+class TipoSelecaoAdmin(admin.ModelAdmin):
+    list_display = ('titulo','parent')
+    search_fields = ('titulo',)
+    prepopulated_fields = {'slug':('titulo',)}
 
-class ConteudoAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'tipo', 'destaque')
-    search_fields = ('titulo', 'texto', 'data_publicacao')
-    date_hierarchy = 'data_publicacao'
-    list_filter = ('tipo', 'destaque')
+admin.site.register(TipoSelecao,TipoSelecaoAdmin)
 
-    inlines = (MidiaInLine, )
+class SelecaoAdmin(admin.ModelAdmin):
+    list_display = ('titulo','tipo','status','data_abertura_edital','data_abertura_inscricoes','data_encerramento_inscricoes',)
+    search_fields = ('titulo','tipo','status','data_abertura_edital','data_abertura_inscricoes','data_encerramento_inscricoes',)
+    date_hierarchy = 'data_abertura_edital'
+    list_filter = ('status', 'tipo')
 
-admin.site.register(Conteudo, ConteudoAdmin)
+admin.site.register(Selecao,SelecaoAdmin)

@@ -1,4 +1,4 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base_old.html' %}
 {% block content %}
 <div class="off-canvas-wrap" data-offcanvas>
   <div class="inner-wrap">
@@ -8,8 +8,9 @@
       </section>
 
       <section class="right tab-bar-section" id="navegacao">
-        <a href="" class="title">Portal IFMT</a> |
-        <a href="" class="title">Noticia</a>
+        <a href="/" class="title">Portal IFMT</a> |
+        {% block navegacao %}
+        {% endblock navegacao %}
       </section>
     </nav>
 
@@ -20,19 +21,8 @@
             <a href=""><img src="{{ STATIC_URL }}img/menu-lateral/email.png" ></a>
             <a href=""><img src="{{ STATIC_URL }}img/menu-lateral/imprimir.png" ></a>
           </li>
-          <li><label>Grupo 1</label></li>
-          <li><a href="#">Item 1</a></li>
-          <li><a href="#">Item 1</a></li>
-          <li><a href="#">Item 1</a></li>
-          <li><label>Grupo 2</label></li>
-          <li><a href="#">Item 1</a></li>
-          <li><a href="#">Item 1</a></li>
-          <li><a href="#">Item 1</a></li>
-          <li><a href="#">Item 1</a></li>
-          <li><label>Grupo 3</label></li>
-          <li><a href="#">Item 1</a></li>
-          <li><a href="#">Item 1</a></li>
-          <li><a href="#">Item 1</a></li>
+          {% block menulateral %}
+          {% endblock menulateral %}
       </ul>
     </aside>
 

@@ -2,8 +2,9 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from model_mommy import mommy
-from portal.core.models import Conteudo
-
+from portal.conteudo.models import Noticia
+from portal.conteudo.models import Evento
+from portal.core.models import Selecao, TipoSelecao
 
 class HomeTest(TestCase):
     def setUp(self):
@@ -25,17 +26,16 @@ class HomeTest(TestCase):
 class HomeContextTest(TestCase):
     def setUp(self):
         # ordenacao por data e id decrescente
-        mommy.make(Conteudo, _quantity=4, titulo=u'noticia_destaque', destaque=True, tipo='NOTICIA')
-        mommy.make(Conteudo, _quantity=7, titulo=u'test1', tipo='NOTICIA')
-        mommy.make(Conteudo, _quantity=4, titulo=u'noticia_destaque', destaque=True, tipo='NOTICIA')
-        mommy.make(Conteudo, _quantity=5, titulo=u'test1', tipo='NOTICIA')
-        self.conteudo_evento = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do evento', tipo='EVENTO')
-        self.conteudo_banner = mommy.make(Conteudo, _quantity=3, titulo=u'Titulo do banner', tipo='BANNER')
+        mommy.make(Noticia, _quantity=4, titulo=u'noticia_destaque', destaque=True)
+        mommy.make(Noticia, _quantity=7, titulo=u'test1')
+        mommy.make(Noticia, _quantity=4, titulo=u'noticia_destaque', destaque=True)
+        mommy.make(Noticia, _quantity=5, titulo=u'test1')
+        mommy.make(Evento, _quantity=3, titulo=u'Titulo do evento')
         self.resp = self.client.get(reverse('home'))
 
     def test_conteudo_mais_noticias(self):
         """
-        A home deve conter noticias listadas na parte nao destaque
+        A home deve conter noticias listadas na parte nao destaque+
         """
         # Sao esperados 9 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
         self.assertContains(self.resp, u'test1', 9)
@@ -60,32 +60,29 @@ class HomeContextTest(TestCase):
         # Como sao exibidos os thumbnails para navegacao esse numero duplica, ficando 10
         self.assertContains(self.resp, u'noticia_destaque', 10)
 
-
-class ConteudoDetalheTest(TestCase):
+class SelecaoTest(TestCase):
     def setUp(self):
-        self.conteudo = mommy.make(Conteudo,
-                                   titulo='titulo_teste',
-                                   texto=u'texto_teste',
-                                   data_publicacao='2014-06-05 10:16:00'
-                                   )
-        self.resp = self.client.get(reverse('conteudo_detalhe', kwargs={'conteudo_id': self.conteudo.id}))
+        self.tipo = TipoSelecao(
+            parent=None,
+            titulo=u'Título',
+            slug='titulo'
+        )
+        self.tipo.save()
+        self.selecao = mommy.make(Selecao,titulo='titulo_teste', tipo=self.tipo, _quantity=50)
+        self.menuselecao = mommy.make(TipoSelecao, titulo=u'test1', _quantity=7)
+        self.resp = self.client.get(reverse('selecao'))
 
     def test_get(self):
         """
-        GET /conteudo/1/ deve retorno status code 200
+        GET /selecao/ deve retornar status code 200
         """
         self.assertEqual(200, self.resp.status_code)
 
     def test_template(self):
         """
-        Conteudo detalhe deve renderizar o template conteudo.html
+        Eventos lista deve renderizar o template selecao_lista.html
         """
-        self.assertTemplateUsed(self.resp, 'core/conteudo.html')
+        self.assertTemplateUsed(self.resp, 'core/selecao_lista.html')
 
-    def test_html(self):
-        """
-        HTML deve conter o titulo, data, texto
-        """
-        self.assertContains(self.resp, 'titulo_teste')
-        self.assertContains(self.resp, u'texto_teste')
-        self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
+    def test_menu_selecao(self):
+         self.assertContains(self.resp, u'test1', 7)

@@ -1,114 +1,69 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from django.utils import timezone
-from portal.core.models import Conteudo
-from portal.core.models import Midia
+from portal.core.models import Selecao,TipoSelecao
+from django.core.files import File
+from filer.models import Image
 from filer.models import File as FileFiler
 from django.core.urlresolvers import reverse
-# from model_mommy import mommy
-# from django.core.files.uploadedfile import InMemoryUploadedFile
-# from PIL import Image
-# import StringIO
+from model_mommy import mommy
+from mptt.models import *
 
 
-class ConteudoTest(TestCase):
+class TipoSelecaoTest(TestCase):
     def setUp(self):
-        self.obj = Conteudo(
+        self.obj = TipoSelecao(
+            parent = None,
             titulo=u'Título',
-            texto=u'seu texto aqui!!!',
-            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
+            slug='titulo'
         )
 
     def test_criacao(self):
         """
-        conteudo deve conter titulo, texto, data_publicacao
+        Video deve conter parent, titulo,Slug,
         """
         self.obj.save()
         self.assertIsNotNone(self.obj.pk)
 
     def test_unicode(self):
         """
-        Conteudo deve apresentar o titulo como unicode
+        Video deve apresentar o titulo como unicode
         """
         self.assertEqual(u'Título', unicode(self.obj))
 
-    def test_get_absolute_url(self):
-        """
-        Conteudo deve ter um url de acesso direto
-        """
-        self.obj.save()
-        self.assertEqual(reverse('conteudo_detalhe', kwargs={'conteudo_id': '1'}), self.obj.get_absolute_url())
-
-
-# class ConteudoMidiaTeste(TestCase):
-#     def setUp(self):
-#         self.conteudo = mommy.make(Conteudo, )
-#
-#         io = StringIO.StringIO()
-#         io.write('foo')
-#         text_file = InMemoryUploadedFile(io, None, 'foo.txt', 'text', io.len, None)
-#         text_file.seek(0)
-#         arquivo = FileFiler(file=text_file)
-#         arquivo.save()
-#         self.midia_texto = Midia(
-#             conteudo=self.conteudo,
-#             descricao=u'foto1',
-#             arquivo=arquivo
-#         )
-#         self.midia_texto.save()
-#
-#         size = (200,200)
-#         color = (255,0,0,0)
-#         image = Image.new("RGBA", size, color)
-#         image.save(io, format='JPEG')
-#         image_file = InMemoryUploadedFile(io, None, 'foo.jpg', 'jpeg', io.len, None)
-#         image_file.seek(0)
-#         arquivo = FileFiler(file=image_file)
-#         arquivo.save()
-#         self.midia_imagem = Midia(
-#             conteudo=self.conteudo,
-#             descricao=u'foto1',
-#             arquivo=arquivo
-#         )
-#         self.midia_imagem.save()
-#         self.conteudo.save()
-#
-#     def test_primeira_imagem(self):
-#         """
-#         Deve retornar a primeira imagem de um conteudo
-#         """
-#         imagem = self.conteudo.primeira_imagem()
-#         self.assertEqual(self.midia_imagem.arquivo, imagem)
-
-
-class MidiaTest(TestCase):
+class SelecaoTest(TestCase):
     def setUp(self):
-        self.conteudo = Conteudo(
+        self.tipo = TipoSelecao(
+            parent = None,
             titulo=u'Título',
-            texto=u'seu texto aqui!!!',
-            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
+            slug='titulo'
         )
-        self.conteudo.save()
+        self.tipo.save()
 
-        arquivo = FileFiler()
-        arquivo.save()
-
-        self.midia = Midia(
-            conteudo=self.conteudo,
-            descricao=u'foto1',
-            arquivo=arquivo
+        self.obj = Selecao(
+            status = 'AND',
+            titulo=u'Título',
+            tipo = self.tipo,
+            url=u'Url de destino',
+            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
+            data_abertura_edital = timezone.now(),  # '2014-03-21 17:59:00',
+            data_abertura_inscricoes = timezone.now(),  # '2014-03-21 17:59:00',
+            data_encerramento_inscricoes = timezone.now(),  # '2014-03-21 17:59:00',
         )
 
     def test_criacao(self):
         """
-        Midia deve possuir conteudo, descricao e arquivo
+        Video deve conter status,tipo, titulo,url, data de punlicação, abertura de edital, de incrições e encerramento de inscrições
         """
-        self.midia.save()
-        self.assertIsNotNone(self.midia.pk)
+        self.obj.save()
+        self.assertIsNotNone(self.obj.pk)
 
     def test_unicode(self):
         """
-        Midia deve apresentar descricao como unicode
+        Video deve apresentar o titulo como unicode
         """
-        self.assertEqual(u'foto1', unicode(self.midia))
+        self.assertEqual(u'Título', unicode(self.obj))
+
+
+
 
