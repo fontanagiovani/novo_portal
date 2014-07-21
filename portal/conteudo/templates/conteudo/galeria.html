@@ -24,9 +24,9 @@
             <p class="padding-top-bottom">{{ galeria.data_publicacao }}</p>
         </div>
         <div class="row">
-            <ul class="clearing-thumbs" data-clearing>
+            <ul class="clearing-thumbs small-block-grid-2 medium-block-grid-6" data-clearing>
                 {% for imagem in galeria.imagens %}
-                    <li><a href="{% thumbnail imagem.imagem 1200x1200 upscale quality=100 %}"><img src="{% thumbnail imagem.imagem 100x100 upscale quality=80 %}" data-caption="{{ imagem.descricao }}"/></a></li>
+                    <li><a class="th" href="{% thumbnail imagem.imagem 1000x800 upscale quality=100 %}"><img src="{% thumbnail imagem.imagem 300x300 upscale quality=80 %}" data-caption="{{ imagem.descricao }}"/></a></li>
                 {% endfor %}
             </ul>
             {% autoescape off %}
@@ -40,9 +40,9 @@
     </div>
     <div class="row">
         <div class="medium-4 columns">
-            {% if noticia.documentos %}
+            {% if galeria.documentos %}
                 <h2 class="fundo-vermelho padding-top-bottom text-center">Arquivos relacionados</h2>
-                {% for documento in noticia.documentos %}
+                {% for documento in galeria.documentos %}
                     <div class="row padding-bottom">
                         <a href="{{ documento.arquivo.url }}" target="_blank"><i
                                 class="fi-download texto-tamanho-medio alinhamento-vertical">
@@ -54,9 +54,9 @@
         </div>
 
         <div class="medium-4 columns">
-            {% if noticia.galerias.all %}
+            {% if galeria.galerias.all %}
                 <h2 class="fundo-vermelho padding-top-bottom text-center">Galerias relacionados</h2>
-                {% for galeria in noticia.galerias.all %}
+                {% for galeria in galeria.galerias.all %}
                     <div class="row padding-bottom">
                         <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
                                 class="fi-photo texto-tamanho-medio alinhamento-vertical">
@@ -68,9 +68,9 @@
         </div>
 
         <div class="medium-4 columns">
-            {% if noticia.videos.all %}
+            {% if galeria.videos.all %}
                 <h2 class="fundo-vermelho padding-top-bottom text-center">Vídeos relacionados</h2>
-                {% for video in noticia.videos.all %}
+                {% for video in galeria.videos.all %}
                     <div class="row padding-bottom">
                         <a href="{{ video.get_absolute_url }}" target="_blank"><i
                                 class="fi-play-video texto-tamanho-medio alinhamento-vertical">
