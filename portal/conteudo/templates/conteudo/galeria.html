@@ -3,7 +3,7 @@
 
 {% block breadcrumbs %}
     <li><a href="{% url 'conteudo:galerias_lista' %}">Galeria</a></li>
-    <li class="current"><a href="#">{{ galeria.titulo|truncatewords:"4" }}</a></li>
+    <li class="current"><a href="#">{{ galeria.titulo|truncatewords:"3" }}</a></li>
 {% endblock %}
 
 {% if user.is_authenticated %}

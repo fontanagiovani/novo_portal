@@ -3,7 +3,7 @@
 
 {% block breadcrumbs %}
     <li><a href="{% url 'conteudo:noticias_lista' %}">Notícias</a></li>
-    <li class="current"><a href="#">{{ noticia.titulo|truncatewords:"4" }}</a></li>
+    <li class="current"><a href="#">{{ noticia.titulo|truncatewords:"3" }}</a></li>
 {% endblock %}
 
     {% if user.is_authenticated %}
