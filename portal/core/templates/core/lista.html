@@ -1,68 +1,77 @@
-{% extends 'core/pagina.html' %}
+{% extends 'core/base.html' %}
+{% load thumbnail %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/pagina.css">
+{% endblock %}
+
+{% block content %}
+
+    {#Container para a página de listagem#}
+    <div class="row">
+
+        {#Container para breadcrumb#}
+        <div class="row">
+            <div class="small-12 columns">
+                <ul class="breadcrumbs no-margin">
+                    <li><a href="{% url 'home' %}">Portal</a></li>
+                    <li class="current"><a href="{% url 'conteudo:noticias_lista' %}">Notícias</a></li>
+                </ul>
+            </div>
+        </div>
+        {#Fim da row para breadcrumb#}
+
+        <div class="row padding-top-bottom">
+            <div class="small-12 columns">
+                <h1>NOTÍCIAS</h1>
+                {% for noticia in noticias %}
+                    <div class="row collapse padding-bottom-duplo hover-cinza-claro">
+                        {% if noticia.primeira_imagem %}
+                            <a href="{{ noticia.get_absolute_url }}">
+                                <div class="row collapse">
+                                    <div class="small-2 medium-1 columns">
+                                        <img class="float-left"
+                                             src="{% thumbnail noticia.primeira_imagem 200x200 crop quality=80 %}"
+                                             alt="{{ noticia.titulo }}">
+                                    </div>
+                                    <div class="small-10 medium-11 columns">
+                                        <div class="data-local padding-left">{{ noticia.data_publicacao|date:"d M" }}
+                                            - {{ noticia.get_campus_origem_display }}</div>
+                                        <p class="no-margin padding-left espacamento-medio padding-right">{{ noticia.titulo }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        {% else %}
+                            <div class="small-12 columns">
+                                <a href="{{ noticia.get_absolute_url }}">
+                                    <div class="row">
+                                        <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}
+                                            - {{ noticia.get_campus_origem_display }}</div>
+                                        <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {#Fim da div row para a página de listagem#}
+{% endblock %}
+
+
+{#==========================================================#}
 {% block conteudo %}
-<titulo>Vestibulares e Seleções | Vestibulares</titulo>
-<filtros>
-    <a href="">Abertos</a>
-    <a href="">Em Andamento</a>
-    <a href="">Finalizado</a>
-    <select>
-        <option>Ano: 2014</option>
-        <option>2013</option>
-        <option>2012</option>
-    </select>
-</filtros>
-<table cellspacing="0">
-    <tr>
-        <th class="data">Inscrições ate</th>
-        <th>Editais</th>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-    <tr>
-        <td class="data"><a href="">26/Mai/2014</a></td>
-        <td><a href="">Processo Seletivo Simplificado - Professor Substituto - edital 126/2014</a></td>
-    </tr>
-</table>
+    <titulo>Vestibulares e Seleções | Vestibulares</titulo>
+    <filtros>
+        <a href="">Abertos</a>
+        <a href="">Em Andamento</a>
+        <a href="">Finalizado</a>
+        <select>
+            <option>Ano: 2014</option>
+            <option>2013</option>
+            <option>2012</option>
+        </select>
+    </filtros>
 {% endblock conteudo %}
