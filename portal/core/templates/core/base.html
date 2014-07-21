@@ -67,7 +67,7 @@
         {#Links úteis#}
         <div class="row collapse">
             <div class="small-12 columns text-right">
-                <ul class="links-uteis no-margin">
+                <ul class="sem-marcador no-margin">
                     <li class="separador-direita"><a href="{% url 'home' %}">IFMT Portal</a></li>
                     <li class="separador-direita"><a href="">Ouvidoria</a></li>
                     <li><a href="">Imprensa</a></li>
@@ -75,7 +75,6 @@
             </div>
         </div>
         {#Fim da div links úteis#}
-
     </div>
     {#Fim da div menu topo#}
 </div>
@@ -516,7 +515,7 @@
         </li>
     </ul>
 </li>
-<li><a href="{% url 'selecao'%}">Ingresso</a></li>
+<li><a href="{% url 'selecao' %}">Ingresso</a></li>
 <li><a href="#">Contato</a></li>
 </ul>
 </section>
@@ -533,11 +532,117 @@
 {% endblock %}
 
 
-<div class="row">{#Container rodapé#}
+<div class="row padding-top-duplo">{#Container rodapé#}
 
-    <div class="medium-12 columns temp-rodape">{#Container para rodapé#}
+    <div class="medium-12 columns fundo-cinza-claro">{#Container para rodapé#}
+        <div class="row collapse">
+            <div class="medium-3 columns">
+                <div class="row">
+                    <h6>INSTITUCIONAL</h6>
+                    <ul class="sem-marcador">
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Sobre o IFMT</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Colegiados</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Comissões</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Notícias</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Documentos Institucionais</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Seleções de Concursos</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">DGTI</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">DSGP</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Concursos Públicos</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Imprensa</a></p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="medium-3 columns">
+                <div class="row">
+                    <h6>PRÓ-REITORIAS</h6>
+                    <ul class="sem-marcador">
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Desenvolvimento Institucional</a></p>
+                        </li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Ensino</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Extensão</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Pesquisa e Inovação</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Desenvolvimento Institucional</a></p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <h6>DIRETORIAS</h6>
+                    <ul class="sem-marcador">
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Gestão de Pessoas</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Tecnologia da Informação</a></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="medium-3 columns">
+                <div class="row">
+                    <h6>CÂMPUS</h6>
+                    <ul class="sem-marcador">
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Alta Floresta</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Barra do Garças</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Bela Vista</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Cáceres</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Confresa</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Cuiabá</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Juína</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Campo Novo do Parecis</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Pontes e Lacerda</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Rondonópolis</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">São Vicente</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Primavera do Leste</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Sorriso</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Várzea Grande</a></p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="medium-3 columns">
+                <div class="row">
+                    <h6>CONTEÚDOS</h6>
+                    <ul class="sem-marcador">
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Eventos</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Galerias de fotos</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Notícias</a></p></li>
+                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Vídeos</a></p></li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <h6>CONTATOS</h6>
+                    {#                    <ul class="sem-marcador">#}
+                    {#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Gestão de Pessoas</a></p></li>#}
+                    {#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Tecnologia da Informação</a></p>#}
+                    {#                        </li>#}
+                    {#                    </ul>#}
+                </div>
+
+                <div class="row">
+                    <h6>SOCIAL</h6>
+
+                    <div class="row">
+                        <div class="small-12 texto-tamanho-medio">
+                            <a href=""><i class="fi-social-instagram"></i></a>
+                            <a href=""><i class="fi-social-youtube"></i></a>
+                            <a href="https://twitter.com/ifmt" target="_blank"><i class="fi-social-twitter"></i></a>
+                            <a href=""><i class="fi-social-google-plus"></i></a>
+                            <a href="https://www.facebook.com/IFMT.Oficial" target="_blank"><i
+                                    class="fi-social-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row padding-top-duplo">
+            <p class="text-right no-margin">Instituto Federal de Educação, Ciência e Tecnologia de Mato Grosso</p>
+            <p class="text-right no-margin">Avenida Sen. Filinto Müller , 953 - CEP: 78043-400</p>
+            <p class="text-right no-margin">Telefone: (65) 3616-4100</p>
+            <p class="text-right no-margin">Cuiabá / MT</p>
+        </div>
     </div>
-
 </div>
 {#Fim da div rodapé#}
 
