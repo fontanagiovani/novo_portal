@@ -110,6 +110,10 @@ h2 {
     font-size: 0.9em;
 }
 
+.texto-tamanho-xsmall {
+    font-size: 0.8em;
+}
+
 .alinhamento-direita {
     float: right;
 }
