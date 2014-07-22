@@ -52,7 +52,7 @@
             {% if eventos.has_previous %}
                 <li class="arrow"><a href="?page={{ eventos.previous_page_number }}">&laquo;</a></li>
             {% endif %}
-            {% if noticias.number != 1 %}
+            {% if eventos.number != 1 %}
                 <li class="current"><a href="">Página {{ eventos.number }} de {{ eventos.paginator.num_pages }}</a></li>
             {% endif %}
             {% if eventos.has_next %}
