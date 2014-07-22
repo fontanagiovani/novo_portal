@@ -15,6 +15,7 @@
 /.coverage
 /.env
 /.idea
+/media
 /staticfiles
 .floo
 .flooignore
