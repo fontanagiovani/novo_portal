@@ -16,6 +16,5 @@
 /.env
 /.idea
 /staticfiles
-/media
 .floo
 .flooignore
