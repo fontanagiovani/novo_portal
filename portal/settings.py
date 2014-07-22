@@ -174,6 +174,8 @@ FILER_PUBLIC_THUMBNAIL = os.path.join(MEDIA_ROOT, 'filer_public_thumbnails/filer
 # Usando pelo django-filer
 FILER_ENABLE_PERMISSIONS = True
 
+FILER_DUMP_PAYLOAD = True
+
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
