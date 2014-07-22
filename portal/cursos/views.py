@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
 from portal.cursos.models import Curso, Campus, Grupo_Cursos, Formacao
-from django.http import Http404
+from django.http import HttpRequest
 
 # Create your views here.
 
@@ -26,6 +26,14 @@ def exibecurso(request, curso_id):
 
 def guiadecursoportal(request):
     if request.method == 'POST':
-        if (request.POST.get('cursos')) and (request.POST.get('campi') > 0) and (request.POST.get('cursos') > 0):
-            return listacursosdogrupo(request.POST.get('campi'), request.POST.get('cursos'))
-    raise Http404
+        # if request.POST.get('campi') > 0 and request.POST.get('cursos') > 0:
+        #     print 'passou pelo request'
+        #     return listacursosdogrupo(request.POST.get('campi'), request.POST.get('cursos'))
+        print "==== passou pelo post ===="
+        return listagrupodecursos(request)
+    elif request.method == 'GET':
+        print "==== passou pelo GET ===="
+        return listagrupodecursos(request)
+    else:
+        print request.POST
+        return listagrupodecursos(request)

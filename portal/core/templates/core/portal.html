@@ -125,7 +125,7 @@
         <div class="row padding-bottom">
             <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
 
-            <form action="{% url 'guiadecursoportal' %}">{% csrf_token %}
+            <form method="post" action="{% url 'guiadecursoportal' %}">{% csrf_token %}
                 <div class="row collapse padding-bottom">
                     <div class="medium-12 columns">
                         <label>Selecione uma tipo de formação
