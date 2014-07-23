@@ -1,66 +1,101 @@
-{% extends 'core/pagina.html' %}
+{% extends 'core/detalhe.html' %}
 {% load thumbnail %}
-{% block conteudo %}
+
+{% block breadcrumbs %}
+    <li><a href="{% url 'conteudo:noticias_lista' %}">Páginas</a></li>
+    <li class="current"><a href="#">{{ pagina.titulo|truncatewords:"3" }}</a></li>
+{% endblock %}
+
     {% if user.is_authenticated %}
-        <p><a href="{% url 'admin:conteudo_pagina_change' pagina.id %}" target="_blank">Editar página</a></p>
-    {% endif %}
-    <data>{{ pagina.data_publicacao }}</data>
-    <titulo>{{ pagina.titulo }}</titulo>
-    <controle>
-
-        <rede-social>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/f_cubo_mini.png"/></a>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png"/></a>
-            <a href=""><img src="{{ STATIC_URL }}img/sociais/t_cubo_mini.png"/></a>
-        </rede-social>
-        <letra>
-            <a href="">A+</a>
-            <a href="">A-</a>
-        </letra>
-    </controle>
-    <p id="texto">
-        <!--
-        Para paginas de Video
-        <iframe width="640" height="480" src="//www.youtube.com/embed/RBMxHUCtqn0" frameborder="0" allowfullscreen></iframe>
-
-        Para pagina de Galeria, essa imagem é só para ilustrar onde pode focar a grade da galeria ou a galeria em si.
-        <img src="{{ STATIC_URL }}img/logo_ifmt.png" id="galeria" alt="IFMT">
-        -->
-        <!-- Para pagina de texto, essa imagem não aparece para os outros tipos -->
-        {#        {% for imagem in pagina.imagens %}#}
-        {#            <img src="{% thumbnail imagem.arquivo 100x100 upscale quality=80 %}" alt="{{ imagem.descricao }}"/>#}
-        {#        {% endfor %}#}
-        {% autoescape off %}
-            {{ pagina.texto }}
-        {% endautoescape %}
-    </p>
-    {% if pagina.anexopagina_set.exists %}
-        <relacionados>
-
-            <div>
-                <p>Arquivos Relacionados</p>
-                {% for anexo in pagina.anexopagina_set.all %}
-                    <a href="{{ anexo.arquivo.url }}" target="_blank">{{ anexo.descricao }}</a>
-                {% endfor %}
+        <div class="row padding-top">
+            <div class="medium-12 columns text-right">
+                <a href="{% url 'admin:conteudo_pagina_change' pagina.id %}" target="_blank">
+                    <i class="fi-page-edit"></i> Editar Página
+                </a>
             </div>
-            {#        <div>#}
-            {#            <p>Galerias Relacionadas</p>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#        </div>#}
-            {#        <div>#}
-            {#            <p>Videos Relacionados</p>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#        </div>#}
-            {#        <div>#}
-            {#            <p>Tópicos Relacionados</p>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#            <a href=""><img src="{{ STATIC_URL }}img/sociais/g_cubo_mini.png" />EDITAL n.º 032.2014-2 - Ensino Médio Integrado - Bela Vista.pdf</a>#}
-            {#        </div>#}
-        </relacionados>
+        </div>
     {% endif %}
+
+{% block conteudo %}
+    <div class="row padding-bottom">
+        <div class="row">
+            <h1 class="justificado" id="titulo">{{ pagina.titulo }}</h1>
+
+            <p class="padding-top-bottom">{{ pagina.data_publicacao }}</p>
+        </div>
+        <div class="row">
+            {% if pagina.imagens %}
+                <div class="medium-10 columns no-padding">
+            {% endif %}
+
+            {% autoescape off %}
+                <article>
+                    {{ pagina.texto }}
+                </article>
+            {% endautoescape %}
+
+            <p>{{ pagina.fonte }}</p>
+            </div>
+            {% if pagina.imagens %}
+                <div class="medium-2 columns">
+                    <div class="row">
+                        <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-1" data-clearing>
+                            {% for imagem in pagina.imagens %}
+                                <li>
+                                    <a class="th" href="{% thumbnail imagem.arquivo 1000x800 upscale quality=80 %}">
+                                        <img data-caption="{{ imagem.descricao }}"
+                                             src="{% thumbnail imagem.arquivo 200x200 crop quality=80 %}">
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="medium-4 columns">
+            {% if pagina.documentos %}
+                <h2 class="fundo-vermelho padding-top-bottom text-center">Arquivos relacionados</h2>
+                {% for documento in pagina.documentos %}
+                    <div class="row padding-bottom">
+                        <a href="{{ documento.arquivo.url }}" target="_blank"><i
+                                class="fi-download texto-tamanho-medio alinhamento-vertical">
+                        </i>{{ documento.descricao }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="medium-4 columns">
+            {% if pagina.galerias.all %}
+                <h2 class="fundo-vermelho padding-top-bottom text-center">Galerias relacionados</h2>
+                {% for galeria in pagina.galerias.all %}
+                    <div class="row padding-bottom">
+                        <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
+                                class="fi-photo texto-tamanho-medio alinhamento-vertical">
+                        </i>{{ galeria.titulo }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="medium-4 columns">
+            {% if pagina.videos.all %}
+                <h2 class="fundo-vermelho padding-top-bottom text-center">Vídeos relacionados</h2>
+                {% for video in pagina.videos.all %}
+                    <div class="row padding-bottom">
+                        <a href="{{ video.get_absolute_url }}" target="_blank"><i
+                                class="fi-play-video texto-tamanho-medio alinhamento-vertical">
+                        </i>{{ video.titulo }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock conteudo %}
