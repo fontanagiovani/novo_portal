@@ -32,6 +32,7 @@ class Conteudo(models.Model):
     galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
     videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
     tags = models.ManyToManyField('Tag', verbose_name=u'Tags Relacionadas', blank=True)
+    #anexo2 = models.ManyToManyField('filer.File', verbose_name='Documentos Relacionados')
 
     class Meta:
         abstract = True
