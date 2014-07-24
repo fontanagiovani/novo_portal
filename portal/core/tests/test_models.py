@@ -89,11 +89,11 @@ class MenuTest(TestCase):
         Menu deve apresentar o titulo como unicode
         """
         self.assertEqual(u'TituloMenu', unicode(self.menu))
-    #
-    # def test_ordem_default_value_is_null(self):
-    #     """
-    #
-    #     """
-    #     pass
+
+    def test_ordem_default_value_is_null(self):
+        """
+        o campo ordem deve ter default null
+        """
+        self.assertEqual(None, self.menu.ordem)
 
 

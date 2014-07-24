@@ -26,6 +26,17 @@ class Menu(MPTTModel):
     def __unicode__(self):
         return self.titulo
 
+    def parent_show(self):
+        if self.parent == None:
+            return ""
+        return self.parent
+
+    def ordem_menu(self):
+        if self.parent == None:
+            return self.ordem
+        return ""
+
+
 
 class TipoSelecao(MPTTModel):
     class Meta:
