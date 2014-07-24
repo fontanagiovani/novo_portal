@@ -21,6 +21,7 @@ CAMPUS_ORIGEM = (
     ('AFL', u'Campus Alta Floresta'),
 )
 
+
 class Conteudo(models.Model):
 
     campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR', verbose_name=u'Campus de origem')
@@ -40,6 +41,7 @@ class Conteudo(models.Model):
 
     def __unicode__(self):
         return self.titulo
+
 
 class Noticia(Conteudo):
 
@@ -151,6 +153,7 @@ class AnexoEvento(models.Model):
     def __unicode__(self):
         return self.descricao
 
+
 class Video(Conteudo):
 
     id_video_youtube = models.CharField(max_length=250, verbose_name=u'Id do Video')
@@ -165,6 +168,7 @@ class Video(Conteudo):
     @models.permalink
     def get_absolute_url(self):
         return 'conteudo:video_detalhe', (), {'video_id': self.id}
+
 
 class Galeria(Conteudo):
 
@@ -207,5 +211,4 @@ class Tag(models.Model):
 
     def __unicode__(self):
         return self.palavra
-
 
