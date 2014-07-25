@@ -1,9 +1,12 @@
-{% extends 'cursos/base.html' %}
+{% extends 'core/lista.html' %}
 {% block content %}
+    <div class="row padding-top-bottom">
+        <div class="small-12 columns">
 
-<p>Curso: {{ curso.nome }}</p>
-<p>Turno: {{ curso.get_turno_display }}</p>
-<p>Contato: {{ curso.email }}</p>
-<p>Site do curso: <a href="{{ curso.url }}">{{ curso.url }}</a></p>
-
+            <p>Curso: {{ curso.nome }}</p>
+            <p>Turno: {{ curso.get_turno_display }}</p>
+            <p>Contato: {{ curso.email }}</p>
+            <p>Site do curso: <a href="{{ curso.url }}">{{ curso.url }}</a></p>
+        </div>
+    </div>
 {% endblock %}

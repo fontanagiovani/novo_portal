@@ -1,21 +1,76 @@
-{% extends 'cursos/base.html' %}
+{% extends 'core/lista.html' %}
 {% block content %}
-
-<div id="accordion">
-{% for f in formacao %}
-    <h3>{{ f.formacao__nome }}</h3>
-    <div>
-    {% for c in campi %}
-        {% if c.formacao__id = f.formacao__id%}
-            <p>{{ c.campus__nome }}</p>
-        {% endif %}
-        {% for g in grupo_cursos %}
-            {% if g.campus__id = c.campus__id and g.formacao__id = f.formacao__id %}
-                <blockquote><a href="{% url 'listacursosdogrupo' g.campus__id g.grupo__id %}">{{ g.grupo__nome }}</a></blockquote>
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
+    <div class="row padding-top-bottom">
+        <div class="small-12 columns">
+            <table width="100%" id="tab">
+                <thead>
+                <tr>
+                    <th>Formação</th>
+                    <th>Campus</th>
+                    <th>Cursos</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for g in grupo_cursos %}
+                <tr>
+                    <td>{{ g.formacao__nome }}</td>
+                    <td>{{ g.campus__nome }}</td>
+                    <td><a href="{% url 'listacursosdogrupo' g.campus__id g.grupo__id %}">{{ g.grupo__nome }}</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-{% endfor %}
-</div>
+    <hr />
+{% endblock %}
+{% block javascript %}
+    <script>
+        function AdicionarFiltro(tabela, coluna) {
+            var cols = $("#" + tabela + " thead tr:first-child th").length;
+            if ($("#" + tabela + " thead tr").length == 1) {
+                var linhaFiltro = "<tr>";
+                for (var i = 0; i < cols; i++) {
+                    linhaFiltro += "<th></th>";
+                }
+                linhaFiltro += "</tr>";
+
+                $("#" + tabela + " thead").append(linhaFiltro);
+            }
+
+            var colFiltrar = $("#" + tabela + " thead tr:nth-child(2) th:nth-child(" + coluna + ")");
+
+            $(colFiltrar).html("<select id='filtroColuna_" + coluna.toString() + "'> </select>");
+
+            var valores = new Array();
+
+            $("#" + tabela + " tbody tr").each(function () {
+                var txt = $(this).children("td:nth-child(" + coluna + ")").text();
+                if (valores.indexOf(txt) < 0) {
+                    valores.push(txt);
+                }
+            });
+            $("#filtroColuna_" + coluna.toString()).append("<option>TODOS</option>")
+            for (elemento in valores) {
+                $("#filtroColuna_" + coluna.toString()).append("<option>" + valores[elemento] + "</option>");
+            }
+
+            $("#filtroColuna_" + coluna.toString()).change(function () {
+                var filtro = $(this).val();
+                $("#" + tabela + " tbody tr").show();
+                if (filtro != "TODOS") {
+                    $("#" + tabela + " tbody tr").each(function () {
+                        var txt = $(this).children("td:nth-child(" + coluna + ")").text();
+                        if (txt != filtro) {
+                            $(this).hide();
+                        }
+                    });
+                }
+            });
+
+        };
+        AdicionarFiltro("tab", 1);
+        AdicionarFiltro("tab", 2);
+        AdicionarFiltro("tab", 3);
+    </script>
 {% endblock %}

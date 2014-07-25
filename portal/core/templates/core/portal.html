@@ -125,11 +125,11 @@
         <div class="row padding-bottom">
             <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
 
-            <form method="post" action="{% url 'guiadecursoportal' %}">{% csrf_token %}
+            <form method="post" id="guiadecursoportal" name="guiadecursoportal" action="{% url 'guiadecursoportal' %}">{% csrf_token %}
                 <div class="row collapse padding-bottom">
                     <div class="medium-12 columns">
                         <label>Selecione uma tipo de formação
-                            <select id="formacao">
+                            <select id="formacao" name="formacao">
                                 <option value="0">--------</option>
                                 {% for f in formacao %}
                                     <option value="{{ f.formacao__id }}">{{ f.formacao__nome }}</option>
@@ -137,12 +137,12 @@
                             </select>
                         </label>
                         <label>Selecione um Câmpus
-                            <select id="campi">
+                            <select id="campi" name="campi">
                                 <option value="0">--------</option>
                             </select>
                         </label>
                         <label>Selecione um curso
-                            <select id="cursos">
+                            <select id="cursos" name="cursos">
                                 <option value="0">--------</option>
                             </select>
                         </label>

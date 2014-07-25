@@ -9,7 +9,7 @@ from django.http import HttpRequest
 def listagrupodecursos(request):
     formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
     campi = Curso.objects.select_related('Campus').values('campus__id', 'formacao__id', 'campus__nome').distinct()
-    grupo_cursos = Curso.objects.select_related('Grupo_Cursos').values('formacao__id', 'campus__id', 'grupo__id', 'grupo__nome').distinct()
+    grupo_cursos = Curso.objects.select_related('Grupo_Cursos').values('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').distinct()
     return render(request, 'cursos/listagrupodecursos.html', {'formacao': formacao,'grupo_cursos': grupo_cursos, 'campi': campi})
 
 
@@ -26,14 +26,11 @@ def exibecurso(request, curso_id):
 
 def guiadecursoportal(request):
     if request.method == 'POST':
-        # if request.POST.get('campi') > 0 and request.POST.get('cursos') > 0:
-        #     print 'passou pelo request'
-        #     return listacursosdogrupo(request.POST.get('campi'), request.POST.get('cursos'))
-        print "==== passou pelo post ===="
-        return listagrupodecursos(request)
+        if int(request.POST.get('campi')) > 0 and int(request.POST.get('cursos')) > 0:
+            return listacursosdogrupo(request, request.POST.get('campi'), request.POST.get('cursos'))
+        else:
+            return listagrupodecursos(request)
     elif request.method == 'GET':
-        print "==== passou pelo GET ===="
         return listagrupodecursos(request)
     else:
-        print request.POST
         return listagrupodecursos(request)
