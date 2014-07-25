@@ -37,7 +37,6 @@ class Menu(MPTTModel):
         return ""
 
 
-
 class TipoSelecao(MPTTModel):
     class Meta:
         ordering = ('titulo',)
