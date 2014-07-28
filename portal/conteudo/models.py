@@ -2,6 +2,7 @@
 from django.db import models
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
+from taggit.managers import TaggableManager
 
 CAMPUS_ORIGEM = (
     ('RTR', u'Reitoria'),
@@ -32,7 +33,7 @@ class Conteudo(models.Model):
     fonte = models.CharField(max_length=250, blank=True, verbose_name=u'Fonte ou Autoria ')
     galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
     videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
-    tags = models.ManyToManyField('Tag', verbose_name=u'Tags Relacionadas', blank=True)
+    tags = TaggableManager(blank=True)
     #anexo2 = models.ManyToManyField('filer.File', verbose_name='Documentos Relacionados')
 
     class Meta:
@@ -204,11 +205,4 @@ class ImagemGaleria(models.Model):
 
     def __unicode__(self):
         return self.descricao
-
-class Tag(models.Model):
-
-    palavra = models.CharField(max_length=150)
-
-    def __unicode__(self):
-        return self.palavra
 
