@@ -4,7 +4,8 @@ from django.core.urlresolvers import reverse
 from model_mommy import mommy
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
-from portal.core.models import Selecao, TipoSelecao
+from portal.core.models import Selecao, TipoSelecao, Menu
+
 
 class HomeTest(TestCase):
     def setUp(self):
@@ -60,6 +61,7 @@ class HomeContextTest(TestCase):
         # Como sao exibidos os thumbnails para navegacao esse numero duplica, ficando 10
         self.assertContains(self.resp, u'noticia_destaque', 10)
 
+
 class SelecaoTest(TestCase):
     def setUp(self):
         self.tipo = TipoSelecao(
@@ -68,7 +70,7 @@ class SelecaoTest(TestCase):
             slug='titulo'
         )
         self.tipo.save()
-        self.selecao = mommy.make(Selecao,titulo='titulo_teste', tipo=self.tipo, _quantity=50)
+        self.selecao = mommy.make(Selecao, titulo='titulo_teste', tipo=self.tipo, _quantity=50)
         self.menuselecao = mommy.make(TipoSelecao, titulo=u'test1', _quantity=7)
         self.resp = self.client.get(reverse('selecao'))
 
@@ -85,4 +87,13 @@ class SelecaoTest(TestCase):
         self.assertTemplateUsed(self.resp, 'core/selecao_lista.html')
 
     def test_menu_selecao(self):
-         self.assertContains(self.resp, u'test1', 7)
+        self.assertContains(self.resp, u'test1', 7)
+
+#Pesquisar sobre column unique no model.mommy
+# class Menutest(TestCase):
+#     def setUp(self):
+#         self.menu = mommy.make(Menu, titulo=u'TituloMenu', parent=None, _quantity=7, _)
+#         self.resp = self.client.get(reverse('home'))
+#
+#     def test_context_menu(self):
+#         self.assertContains(self.resp, u'TituloMenu', 7)

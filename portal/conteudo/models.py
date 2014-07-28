@@ -21,6 +21,7 @@ CAMPUS_ORIGEM = (
     ('AFL', u'Campus Alta Floresta'),
 )
 
+
 class Conteudo(models.Model):
 
     campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR', verbose_name=u'Campus de origem')
@@ -32,6 +33,7 @@ class Conteudo(models.Model):
     galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
     videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
     tags = models.ManyToManyField('Tag', verbose_name=u'Tags Relacionadas', blank=True)
+    #anexo2 = models.ManyToManyField('filer.File', verbose_name='Documentos Relacionados')
 
     class Meta:
         abstract = True
@@ -39,6 +41,7 @@ class Conteudo(models.Model):
 
     def __unicode__(self):
         return self.titulo
+
 
 class Noticia(Conteudo):
 
@@ -150,6 +153,7 @@ class AnexoEvento(models.Model):
     def __unicode__(self):
         return self.descricao
 
+
 class Video(Conteudo):
 
     id_video_youtube = models.CharField(max_length=250, verbose_name=u'Id do Video')
@@ -164,6 +168,7 @@ class Video(Conteudo):
     @models.permalink
     def get_absolute_url(self):
         return 'conteudo:video_detalhe', (), {'video_id': self.id}
+
 
 class Galeria(Conteudo):
 
@@ -206,5 +211,4 @@ class Tag(models.Model):
 
     def __unicode__(self):
         return self.palavra
-
 
