@@ -6,7 +6,6 @@ from portal.conteudo.models import ImagemGaleria
 from portal.conteudo.models import AnexoNoticia
 from portal.conteudo.models import AnexoPagina
 from portal.conteudo.models import AnexoEvento
-from portal.conteudo.models import Tag
 from portal.conteudo.forms import NoticiaForm
 
 class AnexoNoticiaInLine(admin.StackedInline):
@@ -86,9 +85,3 @@ class GaleriaAdmin(SummernoteModelAdmin):
     inlines = (ImagemGaleriaInline, )
 
 admin.site.register(Galeria, GaleriaAdmin)
-
-class TagAdmin(admin.ModelAdmin):
-    list_display = ('palavra',)
-    search_fields = ('palavra',)
-
-admin.site.register(Tag,TagAdmin)
