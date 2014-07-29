@@ -287,12 +287,11 @@
             {% for video in videos %}
                 <div class="row">
                     <div class="flex-video">
-                        <iframe src="//www.youtube.com/embed/{{ video.id_video_youtube }}" frameborder="0"
-                                allowfullscreen></iframe>
+                        <iframe src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
                     </div>
 
                     {#                    <a href="{{ video.get_absolute_url }}">#}
-                    {#                        <img src="//i1.ytimg.com/vi/{{ video.id_video_youtube }}/sddefault.jpg"/>#}
+                    {#                        <img src="{{ video.imagem_sddefault }}"/>#}
                     {#                    </a>#}
                 </div>
 
