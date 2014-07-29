@@ -170,6 +170,12 @@ class Video(Conteudo):
     def get_absolute_url(self):
         return 'conteudo:video_detalhe', (), {'video_id': self.id}
 
+    def imagem_sddefault(self):
+        return '//i1.ytimg.com/vi/%s/sddefault.jpg' % self.id_video_youtube
+
+    def embed(self):
+        return '//www.youtube.com/embed/%s' % self.id_video_youtube
+
 
 class Galeria(Conteudo):
 
