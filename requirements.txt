@@ -17,3 +17,4 @@ git+https://github.com/stefanfoulis/django-filer.git@db465d391e426e2a45001720991
 gunicorn==18.0
 psycopg2==2.5.2
 sqlformatter==1.0
+django-taggit

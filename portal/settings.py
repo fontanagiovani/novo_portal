@@ -64,6 +64,7 @@ INSTALLED_APPS = (
     'django_summernote',
     'filer',
     'easy_thumbnails',
+    'taggit',
 
     # Project apps
     'portal.core',
@@ -186,6 +187,7 @@ THUMBNAIL_PROCESSORS = (
 
 SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
+    'taggit': 'taggit.south_migrations',
 }
 
 # Cache
@@ -302,3 +304,4 @@ SUMMERNOTE_CONFIG = {
     # Set custom storage class for attachments.
     # 'attachment_storage_class': 'my.custom.storage.class.name',
 }
+

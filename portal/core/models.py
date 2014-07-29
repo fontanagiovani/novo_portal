@@ -6,14 +6,36 @@ from mptt.models import MPTTModel, TreeForeignKey
 class Menu(MPTTModel):
     class Meta:
         ordering = ('titulo',)
+    ORDEM_MENUS = (
+        ('1', u'Primeiro'),
+        ('2', u'Segundo'),
+        ('3', u'terceiro'),
+        ('4', u'Quarto'),
+        ('5', u'Quinto'),
+        ('6', u'Sexto'),
+        ('7', u'Sétimo'),
+    )
 
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Nivel 1')
     titulo = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True, unique=True)
     url = models.CharField(max_length=250, blank=True,)
+    ordem = models.CharField(max_length=1, choices=ORDEM_MENUS, default=None, null=True, blank=True,
+                             verbose_name=u'Ordem do Menu')
 
     def __unicode__(self):
         return self.titulo
+
+    def parent_show(self):
+        if self.parent == None:
+            return ""
+        return self.parent
+
+    def ordem_menu(self):
+        if self.parent == None:
+            return self.ordem
+        return ""
+
 
 class TipoSelecao(MPTTModel):
     class Meta:
@@ -25,6 +47,7 @@ class TipoSelecao(MPTTModel):
 
     def __unicode__(self):
         return self.titulo
+
 
 class Selecao(models.Model):
 
@@ -64,7 +87,7 @@ class Selecao(models.Model):
 
     tipo = TreeForeignKey('TipoSelecao')
     titulo = models.CharField(max_length=100)
-    url  =  models.CharField(max_length=250,)
+    url = models.CharField(max_length=250,)
     status = models.CharField(max_length=3, choices=STATUS)
     data_abertura_edital = models.DateTimeField(verbose_name=u'Data de Abertura do Edital')
     data_abertura_inscricoes = models.DateTimeField(verbose_name=u'Data de Abertura de Inscrições')
