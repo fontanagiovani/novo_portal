@@ -318,7 +318,7 @@
         $("#formacao").change(function(){
 {#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
             $.ajax({
-                url:'jsoncampi/' + $(this).val() + '/',
+                url:'/json_campi/' + $(this).val() + '/',
                 type:'POST',
                 dataType: 'json',
                 data: {
@@ -340,7 +340,7 @@
 
         $("#campi").change(function(){
             $.ajax({
-                url:'jsoncursos/' + document.getElementById("formacao").value + '/' + $(this).val() + '/',
+                url:'/json_cursos/' + document.getElementById("formacao").value + '/' + $(this).val() + '/',
                 type:'POST',
                 dataType: 'json',
                 data: {
