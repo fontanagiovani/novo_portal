@@ -2,12 +2,34 @@
 {% block content %}
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
-            <table width="100%" id="tab">
+            <form id="formuladio" name="formulario" method="post" action="{% url 'guiadecursoportal' %}">{% csrf_token %}
+            <table width="100%">
                 <thead>
                 <tr>
-                    <th>Formação</th>
-                    <th>Campus</th>
-                    <th>Cursos</th>
+                    <th>
+                        <label>Filtrar pela formação
+                            <select id="filtroformacao" name="filtroformacao">
+                                <option value="0">--------</option>
+                                {% for f in formacao %}
+                                    <option value="{{ f.formacao__id }}">{{ f.formacao__nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                    </th>
+                    <th>
+                        <label>Filtrar pelo Câmpus
+                            <select id="filtrocampi" name="filtrocampi">
+                                <option value="0">--------</option>
+                            </select>
+                        </label>
+                    </th>
+                    <th>
+                        <label>Filtrar pelo curso
+                            <select id="filtrocursos" name="filtrocursos">
+                                <option value="0">--------</option>
+                            </select>
+                        </label>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -20,57 +42,59 @@
                 {% endfor %}
                 </tbody>
             </table>
+            </form>
         </div>
     </div>
     <hr />
 {% endblock %}
 {% block javascript %}
-    <script>
-        function AdicionarFiltro(tabela, coluna) {
-            var cols = $("#" + tabela + " thead tr:first-child th").length;
-            if ($("#" + tabela + " thead tr").length == 1) {
-                var linhaFiltro = "<tr>";
-                for (var i = 0; i < cols; i++) {
-                    linhaFiltro += "<th></th>";
-                }
-                linhaFiltro += "</tr>";
-
-                $("#" + tabela + " thead").append(linhaFiltro);
-            }
-
-            var colFiltrar = $("#" + tabela + " thead tr:nth-child(2) th:nth-child(" + coluna + ")");
-
-            $(colFiltrar).html("<select id='filtroColuna_" + coluna.toString() + "'> </select>");
-
-            var valores = new Array();
-
-            $("#" + tabela + " tbody tr").each(function () {
-                var txt = $(this).children("td:nth-child(" + coluna + ")").text();
-                if (valores.indexOf(txt) < 0) {
-                    valores.push(txt);
-                }
-            });
-            $("#filtroColuna_" + coluna.toString()).append("<option>TODOS</option>")
-            for (elemento in valores) {
-                $("#filtroColuna_" + coluna.toString()).append("<option>" + valores[elemento] + "</option>");
-            }
-
-            $("#filtroColuna_" + coluna.toString()).change(function () {
-                var filtro = $(this).val();
-                $("#" + tabela + " tbody tr").show();
-                if (filtro != "TODOS") {
-                    $("#" + tabela + " tbody tr").each(function () {
-                        var txt = $(this).children("td:nth-child(" + coluna + ")").text();
-                        if (txt != filtro) {
-                            $(this).hide();
-                        }
+<script>
+    $(document).ready(function(){
+        $("#filtroformacao").change(function(){
+{#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
+            $.ajax({
+                url:'/jsoncampi/' + $(this).val() + '/',
+                type:'POST',
+                dataType: 'json',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(json) {
+                    var options = "<option value='0'>--------</option>";
+                    $.each(json, function(key, value){
+                        options += '<option value="' + key + '">' + value + '</option>';
                     });
+                    $("#filtrocampi").html(options);
+                },
+                error: function(xhr,errmsg,err) {
+                    alert(xhr.status + ": " + xhr.responseText);
                 }
             });
+            return false;
+        });
 
-        };
-        AdicionarFiltro("tab", 1);
-        AdicionarFiltro("tab", 2);
-        AdicionarFiltro("tab", 3);
-    </script>
+        $("#filtrocampi").change(function(){
+            $.ajax({
+                url:'/jsoncursos/' + document.getElementById("formacao").value + '/' + $(this).val() + '/',
+                type:'POST',
+                dataType: 'json',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(json) {
+                    var options = "<option value='0'>--------</option>";
+                    $.each(json, function(key, value){
+                        options += '<option value="' + key + '">' + value + '</option>';
+                    });
+                    $("#filtrocursos").html(options);
+                },
+                error: function(xhr,errmsg,err) {
+                    alert(xhr.status + ": " + xhr.responseText);
+                }
+            });
+            return false;
+        });
+
+    });
+</script>
 {% endblock %}

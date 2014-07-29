@@ -71,13 +71,13 @@ def selecao(request):
         'titulo': titulo
     })
 
-def jsoncampi(request, formacao_id):
+def json_campi(request, formacao_id):
     campi = Curso.objects.select_related('Campus').filter(formacao=formacao_id).values_list('campus__id', 'campus__nome').distinct()
     # dados = {'1': 'Cuiabá', '2': 'Campo Novo do Parecis'}
     dados = dict(campi)
     return HttpResponse(json.dumps(dados), content_type="application/json")
 
 
-def jsoncursos(request, formacao_id, campus_id):
+def json_cursos(request, formacao_id, campus_id):
     dados = dict(Curso.objects.select_related('Grupo_Cursos').filter(formacao=formacao_id, campus=campus_id).values_list('grupo__id', 'grupo__nome').distinct())
     return HttpResponse(json.dumps(dados), content_type="application/json")

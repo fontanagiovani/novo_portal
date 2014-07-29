@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
-from portal.cursos.models import Curso, Campus, Grupo_Cursos, Formacao
-from django.http import HttpRequest
+from portal.cursos.models import Curso, Grupo_Cursos
+from django.http import HttpResponse # httresponse para usar com json
+import json # json para usar no select com ajax
 
 # Create your views here.
+
+
+def jsoncampi(request, formacao_id):
+    campi = Curso.objects.select_related('Campus').filter(formacao=formacao_id).values_list('campus__id', 'campus__nome').distinct()
+    dados = dict(campi)
+    return HttpResponse(json.dumps(dados), content_type="application/json")
+
+
+def jsoncursos(request, formacao_id, campus_id):
+    dados = dict(Curso.objects.select_related('Grupo_Cursos').filter(formacao=formacao_id, campus=campus_id).values_list('grupo__id', 'grupo__nome').distinct())
+    return HttpResponse(json.dumps(dados), content_type="application/json")
 
 
 def listagrupodecursos(request):
