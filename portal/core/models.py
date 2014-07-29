@@ -5,23 +5,12 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 class Menu(MPTTModel):
     class Meta:
-        ordering = ('titulo',)
-    ORDEM_MENUS = (
-        ('1', u'Primeiro'),
-        ('2', u'Segundo'),
-        ('3', u'terceiro'),
-        ('4', u'Quarto'),
-        ('5', u'Quinto'),
-        ('6', u'Sexto'),
-        ('7', u'Sétimo'),
-    )
-
+        ordering = ('ordem',)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Nivel 1')
     titulo = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True, unique=True)
     url = models.CharField(max_length=250, blank=True,)
-    ordem = models.CharField(max_length=1, choices=ORDEM_MENUS, default=None, null=True, blank=True,
-                             verbose_name=u'Ordem do Menu')
+    ordem = models.IntegerField(default=None, null=True, blank=True, verbose_name=u'Ordem do Menu', unique=False)
 
     def __unicode__(self):
         return self.titulo
@@ -31,10 +20,14 @@ class Menu(MPTTModel):
             return ""
         return self.parent
 
-    def ordem_menu(self):
+    def ordem_menu_show(self):
         if self.parent == None:
             return self.ordem
         return ""
+
+    def ordenacao(self, menus):
+        for menu in menus:
+            pass
 
 
 class TipoSelecao(MPTTModel):
@@ -69,7 +62,7 @@ class Selecao(models.Model):
     #     ('Processos Seletivos',(
     #         ('PRTE',u'Professores substitutos e/ou temporários'),
     #         ('PEAD',u'Processos Seletivos - EAD'),
-    #         ('PPRO',u'Processsos Seletivos - PRONATEC'),
+    #         ('PPRO',u'Processsos Seletivos - PRONATEC'), ,
     #         ('ROID',u'Remoção Interna - Docentes'),
     #         ('ROIT',u'Remoção Interna - TAEs')
     #         )

@@ -1,5 +1,21 @@
 {% extends 'core/base.html' %}
 {% load thumbnail %}
+{% load mptt_tags %}
+
+{% block menu %}
+    <ul class="left" id="menus">
+    {% recursetree menus %}
+        <li class="has-dropdown">
+                <a href="#" class="geral">{{ node.titulo }}</a>
+                    {% if not node.is_leaf_node %}
+                        <ul class="dropdown">
+                            <li><a href="#">{{ children }}</a></li>
+                        </ul>
+                    {% endif %}
+        </li>
+    {% endrecursetree %}
+    </ul>
+{% endblock %}
 
 {% block content %}
     {#Container para as notícias de destaque e banners especiais#}

@@ -1,4 +1,5 @@
 # coding: utf-8
+from tempfile import _RandomNameSequence
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from model_mommy import mommy
@@ -89,10 +90,11 @@ class SelecaoTest(TestCase):
     def test_menu_selecao(self):
         self.assertContains(self.resp, u'test1', 7)
 
-#Pesquisar sobre column unique no model.mommy
+
+# #Pesquisar sobre column unique no model.mommy
 # class Menutest(TestCase):
 #     def setUp(self):
-#         self.menu = mommy.make(Menu, titulo=u'TituloMenu', parent=None, _quantity=7, _)
+#         self.menu = mommy.make(Menu, titulo=u'TituloMenu', parent=None, _quantity=7, slug=_RandomNameSequence)
 #         self.resp = self.client.get(reverse('home'))
 #
 #     def test_context_menu(self):

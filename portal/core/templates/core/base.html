@@ -1,6 +1,6 @@
 <!DOCTYPE html> <!--[if IE 9]><html class="lt-ie10" lang="pt-br" > <![endif]-->
 <html class="no-js" lang="pt-br">
-{% load mptt_tags %}
+
 <head>
     <meta charset="utf-8">
 
@@ -92,29 +92,10 @@
         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
         <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
     </ul>
-
     <section class="top-bar-section">
         <!-- Right Nav Section -->
+        {% block menu %}
         <ul class="left" id="menus">
-            <li class="has-dropdown">
-                <a href="#" class="geral">Câmpus</a>
-                <ul class="dropdown">
-                    <li><a href="#">Câmpus Alta Floresta</a></li>
-                    <li><a href="#">Câmpus Barra do Garças</a></li>
-                    <li><a href="#">Câmpus Bela Vista</a></li>
-                    <li><a href="#">Câmpus Cáceres</a></li>
-                    <li><a href="#">Câmpus Confresa</a></li>
-                    <li><a href="#">Câmpus Cuiabá</a></li>
-                    <li><a href="#">Câmpus Juína</a></li>
-                    <li><a href="#">Câmpus Campo Novo do Parecis</a></li>
-                    <li><a href="#">Câmpus Pontes e Lacerda</a></li>
-                    <li><a href="#">Câmpus Rondonópolis</a></li>
-                    <li><a href="#">Câmpus São Vicente</a></li>
-                    <li><a href="#">Câmpus Primavera do Leste</a></li>
-                    <li><a href="#">Câmpus Sorriso</a></li>
-                    <li><a href="#">Câmpus Várzea Grande</a></li>
-                </ul>
-            </li>
             <li class="has-dropdown">
                 <a href="#" class="geral">Institucional</a>
                 <ul class="dropdown n1">
@@ -534,6 +515,7 @@
             <li><a href="{% url 'selecao' %}">Ingresso</a></li>
             <li><a href="#">Contato</a></li>
             </ul>
+    {% endblock %}
         </section>
     </nav>
 </div>
