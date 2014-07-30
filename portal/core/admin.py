@@ -5,7 +5,7 @@ from portal.core.models import Selecao, TipoSelecao
 
 
 class MenuAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'parent_show', 'ordem_menu_show',)
+    list_display = ('titulo', 'menu_raiz', 'ordem',)
     search_fields = ('titulo',)
     prepopulated_fields = {'slug': ('titulo',)}
 

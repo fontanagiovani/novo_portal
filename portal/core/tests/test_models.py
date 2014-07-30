@@ -74,7 +74,7 @@ class MenuTest(TestCase):
             titulo=u'TituloMenu',
             slug=u'menu-slug',
             url=u'http.www.menuteste@url.com',
-            ordem=None,
+            ordem=1,
         )
 
     def test_criacao(self):
@@ -89,11 +89,5 @@ class MenuTest(TestCase):
         Menu deve apresentar o titulo como unicode
         """
         self.assertEqual(u'TituloMenu', unicode(self.menu))
-
-    def test_ordem_default_value_is_null(self):
-        """
-        o campo ordem deve ter default null
-        """
-        self.assertEqual(None, self.menu.ordem)
 
 

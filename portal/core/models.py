@@ -6,28 +6,23 @@ from mptt.models import MPTTModel, TreeForeignKey
 class Menu(MPTTModel):
     class Meta:
         ordering = ('ordem',)
+
+    class MPTTMeta:
+        order_insertion_by = ['ordem']
+
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Nivel 1')
     titulo = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True, unique=True)
     url = models.CharField(max_length=250, blank=True,)
-    ordem = models.IntegerField(default=None, null=True, blank=True, verbose_name=u'Ordem do Menu', unique=False)
+    ordem = models.IntegerField(default='', verbose_name=u'Ordem do Menu')
 
     def __unicode__(self):
         return self.titulo
 
-    def parent_show(self):
+    def menu_raiz(self):
         if self.parent == None:
             return ""
         return self.parent
-
-    def ordem_menu_show(self):
-        if self.ordem == None:
-            return ""
-        return self.ordem
-
-    def ordenacao(self, menus):
-        for menu in menus:
-            pass
 
 
 class TipoSelecao(MPTTModel):
