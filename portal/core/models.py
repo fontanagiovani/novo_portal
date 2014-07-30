@@ -21,9 +21,9 @@ class Menu(MPTTModel):
         return self.parent
 
     def ordem_menu_show(self):
-        if self.parent == None:
-            return self.ordem
-        return ""
+        if self.ordem == None:
+            return ""
+        return self.ordem
 
     def ordenacao(self, menus):
         for menu in menus:
