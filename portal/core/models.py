@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from filer.server.backends import default
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -14,7 +15,7 @@ class Menu(MPTTModel):
     titulo = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True, unique=True)
     url = models.CharField(max_length=250, blank=True,)
-    ordem = models.IntegerField(default='', verbose_name=u'Ordem do Menu')
+    ordem = models.IntegerField(default=9999, blank=True, verbose_name=u'Ordem do Menu',)
 
     def __unicode__(self):
         return self.titulo
