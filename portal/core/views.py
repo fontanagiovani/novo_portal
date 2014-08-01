@@ -3,6 +3,7 @@ from portal.banner.models import Banner, BannerAcessoRapido
 from django.shortcuts import render
 from portal.conteudo.models import Noticia, Evento, Video, Galeria
 from portal.core.models import Selecao, TipoSelecao
+from portal.core.models import Menu
 
 
 def home(request):
@@ -21,6 +22,8 @@ def home(request):
 
     galerias = Galeria.objects.all()[:3]
 
+    menus = Menu.objects.all()
+
     return render(request, 'core/portal.html', {
         'noticias_destaque': noticias_detaque,
         'mais_noticias': mais_noticias,
@@ -29,6 +32,7 @@ def home(request):
         'acesso_rapido': acesso_rapido,
         'videos': videos,
         'galerias': galerias,
+        'menus': menus,
     })
 
 

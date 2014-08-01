@@ -64,6 +64,7 @@ INSTALLED_APPS = (
     'django_summernote',
     'filer',
     'easy_thumbnails',
+    'taggit',
 
     # Project apps
     'portal.core',
@@ -174,6 +175,8 @@ FILER_PUBLIC_THUMBNAIL = os.path.join(MEDIA_ROOT, 'filer_public_thumbnails/filer
 # Usando pelo django-filer
 FILER_ENABLE_PERMISSIONS = True
 
+FILER_DUMP_PAYLOAD = True
+
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
@@ -184,6 +187,7 @@ THUMBNAIL_PROCESSORS = (
 
 SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
+    'taggit': 'taggit.south_migrations',
 }
 
 # Cache
@@ -300,3 +304,4 @@ SUMMERNOTE_CONFIG = {
     # Set custom storage class for attachments.
     # 'attachment_storage_class': 'my.custom.storage.class.name',
 }
+

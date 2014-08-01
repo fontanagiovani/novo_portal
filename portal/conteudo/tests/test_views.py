@@ -204,6 +204,7 @@ class VideosListaTest(TestCase):
         """
         self.assertContains(self.resp, 'titulo_teste', 40)
 
+
 class GaleriaDetalheTest(TestCase):
     def setUp(self):
         self.galeria = mommy.make(Galeria,

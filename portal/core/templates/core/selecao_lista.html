@@ -7,21 +7,20 @@
         {% endif %}
     </a></li>
 {% endblock %}
-
-   {% block menulateral %}
-        {%for label in nodes %}
-            {% if label.parent %}
-                <li><a href="?tipo={{ label.id }}{{ status }}{{ ano }}">{{ label.titulo }}</a></li>
-            {% else %}
-                <li><label>{{ label.titulo }}</label></li>
-            {% endif%}
-        {% endfor %}
-   {% endblock menulateral %}
-
-
-   {% block conteudo %}
+{% block conteudo %}
     <div class="row padding-bottom">
-        <div class="row">
+        <div class="small-3 columns">
+            <ul class="side-nav">
+                {%for label in nodes %}
+                    {% if label.parent %}
+                        <li><a href="?tipo={{ label.id }}{{ status }}{{ ano }}">{{ label.titulo }}</a></li>
+                    {% else %}
+                        <li><label>{{ label.titulo }}</label></li>
+                    {% endif%}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="small-9 columns">
             <h1 class="justificado" id="titulo">
                 {% if titulo %}
                     {{ titulo.titulo }} | {{ titulo.parent }}
@@ -29,9 +28,6 @@
                     Seleções
                 {% endif %}
             </h1>
-        </div>
-
-        <div class="row">
             <dl class="sub-nav">
                 <dt>Estado:</dt>
                 <dd {% if not status %} class="active" {% endif %}><a href="{% url 'selecao' %}">Todos</a></dd>
