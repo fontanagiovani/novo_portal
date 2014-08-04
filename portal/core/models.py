@@ -3,6 +3,19 @@ from django.db import models
 from filer.server.backends import default
 from mptt.models import MPTTModel, TreeForeignKey
 
+class Campus(MPTTModel):
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Nivel 1')
+    sigla = models.CharField(max_length=3, verbose_name=u'Sigla do Campus')
+    nome = models.CharField(max_length=50, verbose_name=u'Nome do Campus')
+    slug = models.SlugField(max_length=100, blank=True, unique=True)
+
+    class Meta:
+        verbose_name = u'Campus'
+        verbose_name_plural = u'Campi'
+
+    def __unicode__(self):
+        return self.nome
+
 
 class Menu(MPTTModel):
     class Meta:

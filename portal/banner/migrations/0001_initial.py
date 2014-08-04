@@ -11,16 +11,30 @@ class Migration(SchemaMigration):
         # Adding model 'Banner'
         db.create_table(u'banner_banner', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('titulo', self.gf('django.db.models.fields.CharField')(max_length=250, null=True, blank=True)),
+            ('titulo', self.gf('django.db.models.fields.CharField')(default='', max_length=250)),
             ('data_publicacao', self.gf('django.db.models.fields.DateTimeField')()),
-            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='midia_banner', to=orm['filer.File'])),
+            ('url', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
+            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(default=None, related_name='midia_banner', to=orm['filer.Image'])),
         ))
         db.send_create_signal(u'banner', ['Banner'])
+
+        # Adding model 'BannerAcessoRapido'
+        db.create_table(u'banner_banneracessorapido', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('titulo', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('data_publicacao', self.gf('django.db.models.fields.DateTimeField')()),
+            ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
+            ('midia_image', self.gf('django.db.models.fields.related.ForeignKey')(default=None, related_name='ar_banner', to=orm['filer.Image'])),
+        ))
+        db.send_create_signal(u'banner', ['BannerAcessoRapido'])
 
 
     def backwards(self, orm):
         # Deleting model 'Banner'
         db.delete_table(u'banner_banner')
+
+        # Deleting model 'BannerAcessoRapido'
+        db.delete_table(u'banner_banneracessorapido')
 
 
     models = {
@@ -55,10 +69,19 @@ class Migration(SchemaMigration):
         },
         u'banner.banner': {
             'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Banner'},
-            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'midia_banner'", 'to': u"orm['filer.File']"}),
+            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'midia_banner'", 'to': "orm['filer.Image']"}),
             'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'titulo': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'})
+            'titulo': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '250'}),
+            'url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
+        },
+        u'banner.banneracessorapido': {
+            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'BannerAcessoRapido'},
+            'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'midia_image': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'ar_banner'", 'to': "orm['filer.Image']"}),
+            'titulo': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
+            'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
         },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
@@ -97,6 +120,19 @@ class Migration(SchemaMigration):
             u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'uploaded_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
+        },
+        'filer.image': {
+            'Meta': {'object_name': 'Image', '_ormbases': [u'filer.File']},
+            '_height': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            '_width': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'author': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'date_taken': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'default_alt_text': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'default_caption': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            u'file_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['filer.File']", 'unique': 'True', 'primary_key': 'True'}),
+            'must_always_publish_author_credit': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'must_always_publish_copyright': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'subject_location': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '64', 'null': 'True', 'blank': 'True'})
         }
     }
 

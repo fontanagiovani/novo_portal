@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from portal.core.models import Menu
+from portal.core.models import Campus
 from portal.core.models import Selecao, TipoSelecao
 
+class CampusAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'parent',)
+    search_fields = ('nome',)
+    prepopulated_fields = {'slug': ('nome',)}
+
+admin.site.register(Campus,CampusAdmin)
 
 class MenuAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'menu_raiz', 'ordem',)
