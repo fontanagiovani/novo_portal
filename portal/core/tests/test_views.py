@@ -6,6 +6,7 @@ from model_mommy import mommy
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
 from portal.core.models import Selecao, TipoSelecao, Menu
+import random
 
 
 class HomeTest(TestCase):
@@ -91,11 +92,21 @@ class SelecaoTest(TestCase):
         self.assertContains(self.resp, u'test1', 7)
 
 
-# #Pesquisar sobre column unique no model.mommy
 # class Menutest(TestCase):
 #     def setUp(self):
-#         self.menu = mommy.make(Menu, titulo=u'TituloMenu', parent=None, _quantity=7, slug=_RandomNameSequence)
+#         self.no = Menu(
+#             parent=None,
+#             titulo=u'TituloMenu',
+#             slug=_RandomNameSequence,
+#             url=u'url_menu',
+#             ordem=1,
+#         )
+#         self.no.save()
+#         self.menu_pai = mommy.make(Menu, _quantity=7,  slug=_RandomNameSequence, parent=None, titulo=u'tituloMenuPai')
 #         self.resp = self.client.get(reverse('home'))
 #
 #     def test_context_menu(self):
-#         self.assertContains(self.resp, u'TituloMenu', 7)
+#         """
+#         A home deve conter sete menus padrão
+#         """
+#         self.assertContains(self.resp, u'tituloMenuPai', 7)
