@@ -6,6 +6,7 @@
     <li class="current"><a href="#">{{ video.titulo|truncatewords:"3" }}</a></li>
 {% endblock %}
 
+{% block edicao %}
     {% if user.is_authenticated %}
         <div class="row padding-top">
             <div class="medium-12 columns text-right">
@@ -15,6 +16,7 @@
             </div>
         </div>
     {% endif %}
+{% endblock edicao %}
 
 {% block conteudo %}
     <div class="row padding-bottom">
