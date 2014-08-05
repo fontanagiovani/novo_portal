@@ -114,7 +114,7 @@
                                 </div>
                                 <div class="small-10 medium-9 columns">
                                     <div class="data-local padding-left texto-tamanho-xsmall">{{ noticia.data_publicacao|date:"d M" }}
-                                        - {{ noticia.get_campus_origem_display }}</div>
+                                        - {{ noticia.campus_origem.nome }}</div>
                                     <p class="no-margin padding-left espacamento-medio">{{ noticia.titulo }}</p>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                             <a href="{{ noticia.get_absolute_url }}">
                                 <div class="row">
                                     <div class="data-local texto-tamanho-xsmall">{{ noticia.data_publicacao|date:"d M" }}
-                                        - {{ noticia.get_campus_origem_display }}</div>
+                                        - {{ noticia.campus_origem.nome }}</div>
                                     <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
                                 </div>
                             </a>
