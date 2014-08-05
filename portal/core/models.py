@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from filer.server.backends import default
 from mptt.models import MPTTModel, TreeForeignKey
+
 
 class Campus(MPTTModel):
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Nivel 1')
@@ -18,23 +18,23 @@ class Campus(MPTTModel):
 
 
 class Menu(MPTTModel):
-    class Meta:
-        ordering = ('ordem',)
-
-    class MPTTMeta:
-        order_insertion_by = ['ordem']
-
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Nivel 1')
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name=u'Menu pai')
     titulo = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True, unique=True)
     url = models.CharField(max_length=250, blank=True,)
     ordem = models.IntegerField(default=9999, blank=True, verbose_name=u'Ordem do Menu',)
 
+    class Meta:
+        ordering = ('ordem', 'titulo')
+
+    class MPTTMeta:
+        order_insertion_by = ('ordem', 'titulo')
+
     def __unicode__(self):
         return self.titulo
 
     def menu_raiz(self):
-        if self.parent == None:
+        if self.parent is None:
             return ""
         return self.parent
 
@@ -79,13 +79,13 @@ class Selecao(models.Model):
     # )
 
     STATUS = (
-        ('ABT','Aberto'),
-        ('AND','Em Andamento'),
-        ('FNZ','Finalizado')
+        ('ABT', 'Aberto'),
+        ('AND', 'Em Andamento'),
+        ('FNZ', 'Finalizado')
     )
 
     class Meta:
-        ordering = ('titulo','status','data_abertura_edital')
+        ordering = ('titulo', 'status', 'data_abertura_edital')
 
     tipo = TreeForeignKey('TipoSelecao')
     titulo = models.CharField(max_length=100)
