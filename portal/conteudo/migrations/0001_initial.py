@@ -8,15 +8,41 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Noticia'
-        db.create_table(u'conteudo_noticia', (
+        # Adding model 'Conteudo'
+        db.create_table(u'conteudo_conteudo', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('campus_origem', self.gf('django.db.models.fields.CharField')(default='RTR', max_length=250)),
-            ('destaque', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('prioridade_destaque', self.gf('django.db.models.fields.CharField')(default='5', max_length=1)),
+            ('campus_origem', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Campus'])),
             ('titulo', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('slug', self.gf('django.db.models.fields.SlugField')(max_length=250)),
             ('texto', self.gf('django.db.models.fields.TextField')()),
             ('data_publicacao', self.gf('django.db.models.fields.DateTimeField')()),
+            ('fonte', self.gf('django.db.models.fields.CharField')(max_length=250, blank=True)),
+        ))
+        db.send_create_signal(u'conteudo', ['Conteudo'])
+
+        # Adding M2M table for field galerias on 'Conteudo'
+        m2m_table_name = db.shorten_name(u'conteudo_conteudo_galerias')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('conteudo', models.ForeignKey(orm[u'conteudo.conteudo'], null=False)),
+            ('galeria', models.ForeignKey(orm[u'conteudo.galeria'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['conteudo_id', 'galeria_id'])
+
+        # Adding M2M table for field videos on 'Conteudo'
+        m2m_table_name = db.shorten_name(u'conteudo_conteudo_videos')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('conteudo', models.ForeignKey(orm[u'conteudo.conteudo'], null=False)),
+            ('video', models.ForeignKey(orm[u'conteudo.video'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['conteudo_id', 'video_id'])
+
+        # Adding model 'Noticia'
+        db.create_table(u'conteudo_noticia', (
+            (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
+            ('destaque', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('prioridade_destaque', self.gf('django.db.models.fields.CharField')(default='6', max_length=1)),
         ))
         db.send_create_signal(u'conteudo', ['Noticia'])
 
@@ -24,18 +50,79 @@ class Migration(SchemaMigration):
         db.create_table(u'conteudo_anexo', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('descricao', self.gf('django.db.models.fields.TextField')()),
-            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='arquivos', to=orm['filer.File'])),
-            ('noticia', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['conteudo.Noticia'])),
+            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='anexos_noticia', to=orm['filer.File'])),
+            ('conteudo', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['conteudo.Conteudo'])),
         ))
         db.send_create_signal(u'conteudo', ['Anexo'])
 
+        # Adding model 'Pagina'
+        db.create_table(u'conteudo_pagina', (
+            (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
+        ))
+        db.send_create_signal(u'conteudo', ['Pagina'])
+
+        # Adding model 'Evento'
+        db.create_table(u'conteudo_evento', (
+            (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
+            ('local', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('data_inicio', self.gf('django.db.models.fields.DateTimeField')()),
+            ('data_fim', self.gf('django.db.models.fields.DateTimeField')()),
+        ))
+        db.send_create_signal(u'conteudo', ['Evento'])
+
+        # Adding model 'Video'
+        db.create_table(u'conteudo_video', (
+            (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
+            ('id_video_youtube', self.gf('django.db.models.fields.CharField')(max_length=250)),
+        ))
+        db.send_create_signal(u'conteudo', ['Video'])
+
+        # Adding model 'Galeria'
+        db.create_table(u'conteudo_galeria', (
+            (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
+        ))
+        db.send_create_signal(u'conteudo', ['Galeria'])
+
+        # Adding model 'ImagemGaleria'
+        db.create_table(u'conteudo_imagemgaleria', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('descricao', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('imagem', self.gf('django.db.models.fields.related.ForeignKey')(related_name='Imagem Galeria', to=orm['filer.Image'])),
+            ('galeria', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['conteudo.Galeria'])),
+        ))
+        db.send_create_signal(u'conteudo', ['ImagemGaleria'])
+
 
     def backwards(self, orm):
+        # Deleting model 'Conteudo'
+        db.delete_table(u'conteudo_conteudo')
+
+        # Removing M2M table for field galerias on 'Conteudo'
+        db.delete_table(db.shorten_name(u'conteudo_conteudo_galerias'))
+
+        # Removing M2M table for field videos on 'Conteudo'
+        db.delete_table(db.shorten_name(u'conteudo_conteudo_videos'))
+
         # Deleting model 'Noticia'
         db.delete_table(u'conteudo_noticia')
 
         # Deleting model 'Anexo'
         db.delete_table(u'conteudo_anexo')
+
+        # Deleting model 'Pagina'
+        db.delete_table(u'conteudo_pagina')
+
+        # Deleting model 'Evento'
+        db.delete_table(u'conteudo_evento')
+
+        # Deleting model 'Video'
+        db.delete_table(u'conteudo_video')
+
+        # Deleting model 'Galeria'
+        db.delete_table(u'conteudo_galeria')
+
+        # Deleting model 'ImagemGaleria'
+        db.delete_table(u'conteudo_imagemgaleria')
 
 
     models = {
@@ -77,20 +164,67 @@ class Migration(SchemaMigration):
         },
         u'conteudo.anexo': {
             'Meta': {'object_name': 'Anexo'},
-            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'arquivos'", 'to': u"orm['filer.File']"}),
+            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'anexos_noticia'", 'to': u"orm['filer.File']"}),
+            'conteudo': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['conteudo.Conteudo']"}),
             'descricao': ('django.db.models.fields.TextField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
+        u'conteudo.conteudo': {
+            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Conteudo'},
+            'campus_origem': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Campus']"}),
+            'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
+            'fonte': ('django.db.models.fields.CharField', [], {'max_length': '250', 'blank': 'True'}),
+            'galerias': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['conteudo.Galeria']", 'symmetrical': 'False', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'noticia': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['conteudo.Noticia']"})
+            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '250'}),
+            'texto': ('django.db.models.fields.TextField', [], {}),
+            'titulo': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
+            'videos': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['conteudo.Video']", 'symmetrical': 'False', 'blank': 'True'})
+        },
+        u'conteudo.evento': {
+            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Evento', '_ormbases': [u'conteudo.Conteudo']},
+            u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'}),
+            'data_fim': ('django.db.models.fields.DateTimeField', [], {}),
+            'data_inicio': ('django.db.models.fields.DateTimeField', [], {}),
+            'local': ('django.db.models.fields.CharField', [], {'max_length': '250'})
+        },
+        u'conteudo.galeria': {
+            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Galeria', '_ormbases': [u'conteudo.Conteudo']},
+            u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        u'conteudo.imagemgaleria': {
+            'Meta': {'object_name': 'ImagemGaleria'},
+            'descricao': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
+            'galeria': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['conteudo.Galeria']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'imagem': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'Imagem Galeria'", 'to': "orm['filer.Image']"})
         },
         u'conteudo.noticia': {
-            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Noticia'},
-            'campus_origem': ('django.db.models.fields.CharField', [], {'default': "'RTR'", 'max_length': '250'}),
-            'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
+            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Noticia', '_ormbases': [u'conteudo.Conteudo']},
+            u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'}),
             'destaque': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'prioridade_destaque': ('django.db.models.fields.CharField', [], {'default': "'6'", 'max_length': '1'})
+        },
+        u'conteudo.pagina': {
+            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Pagina', '_ormbases': [u'conteudo.Conteudo']},
+            u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        u'conteudo.video': {
+            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Video', '_ormbases': [u'conteudo.Conteudo']},
+            u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'}),
+            'id_video_youtube': ('django.db.models.fields.CharField', [], {'max_length': '250'})
+        },
+        u'core.campus': {
+            'Meta': {'object_name': 'Campus'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'prioridade_destaque': ('django.db.models.fields.CharField', [], {'default': "'5'", 'max_length': '1'}),
-            'texto': ('django.db.models.fields.TextField', [], {}),
-            'titulo': ('django.db.models.fields.CharField', [], {'max_length': '250'})
+            u'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            u'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'nome': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'parent': ('mptt.fields.TreeForeignKey', [], {'blank': 'True', 'related_name': "'pai'", 'null': 'True', 'to': u"orm['core.Campus']"}),
+            u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'sigla': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100', 'blank': 'True'}),
+            u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
         },
         u'filer.file': {
             'Meta': {'object_name': 'File'},
@@ -122,6 +256,19 @@ class Migration(SchemaMigration):
             u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'uploaded_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
+        },
+        'filer.image': {
+            'Meta': {'object_name': 'Image', '_ormbases': [u'filer.File']},
+            '_height': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            '_width': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'author': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'date_taken': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'default_alt_text': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'default_caption': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            u'file_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['filer.File']", 'unique': 'True', 'primary_key': 'True'}),
+            'must_always_publish_author_credit': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'must_always_publish_copyright': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'subject_location': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '64', 'null': 'True', 'blank': 'True'})
         }
     }
 

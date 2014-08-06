@@ -26,8 +26,8 @@
                                     </div>
 
                                     <div class="small-10 medium-11 columns">
-                                        <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}
-                                            - {{ noticia.get_campus_origem_display }}</div>
+                                        <div class="data-local texto-tamanho-xsmall">{{ noticia.data_publicacao|date:"d M" }}
+                                            - {{ noticia.campus_origem.nome }}</div>
                                         <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
                                     </div>
                                     {#                                        {% else %}#}

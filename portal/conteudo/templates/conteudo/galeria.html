@@ -6,15 +6,17 @@
     <li class="current"><a href="#">{{ galeria.titulo|truncatewords:"3" }}</a></li>
 {% endblock %}
 
-{% if user.is_authenticated %}
-    <div class="row padding-top">
-        <div class="medium-12 columns text-right">
-            <a href="{% url 'admin:conteudo_galeria_change' galeria.id %}" target="_blank">
-                <i class="fi-page-edit"></i> Editar galeria
-            </a>
+{% block edicao %}
+    {% if user.is_authenticated %}
+        <div class="row padding-top">
+            <div class="medium-12 columns text-right">
+                <a href="{% url 'admin:conteudo_galeria_change' galeria.id %}" target="_blank">
+                    <i class="fi-page-edit"></i> Editar galeria
+                </a>
+            </div>
         </div>
-    </div>
-{% endif %}
+    {% endif %}
+{% endblock edicao %}
 
 {% block conteudo %}
     <div class="row padding-bottom">

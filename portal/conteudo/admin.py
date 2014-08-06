@@ -3,13 +3,11 @@ from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 from portal.conteudo.models import Noticia,Pagina, Evento,Video,Galeria
 from portal.conteudo.models import ImagemGaleria
-from portal.conteudo.models import AnexoNoticia
-from portal.conteudo.models import AnexoPagina
-from portal.conteudo.models import AnexoEvento
+from portal.conteudo.models import Anexo
 from portal.conteudo.forms import NoticiaForm
 
-class AnexoNoticiaInLine(admin.StackedInline):
-    model = AnexoNoticia
+class AnexoInLine(admin.StackedInline):
+    model = Anexo
     extra = 1
 
 class NoticiaAdmin(SummernoteModelAdmin):
@@ -21,14 +19,9 @@ class NoticiaAdmin(SummernoteModelAdmin):
 
     form = NoticiaForm
 
-    inlines = (AnexoNoticiaInLine,)
+    inlines = (AnexoInLine,)
 
 admin.site.register(Noticia, NoticiaAdmin)
-
-
-class AnexoPaginaInLine(admin.StackedInline):
-    model = AnexoPagina
-    extra = 1
 
 
 class PaginaAdmin(SummernoteModelAdmin):
@@ -37,7 +30,7 @@ class PaginaAdmin(SummernoteModelAdmin):
     date_hierarchy = 'data_publicacao'
     prepopulated_fields = {'slug':('titulo',)}
 
-    inlines = (AnexoPaginaInLine, )
+    inlines = (AnexoInLine, )
 
     def get_link(self, obj):
         return obj.get_absolute_url()
@@ -46,18 +39,13 @@ class PaginaAdmin(SummernoteModelAdmin):
 admin.site.register(Pagina, PaginaAdmin)
 
 
-class AnexoEventoInLine(admin.StackedInline):
-    model = AnexoEvento
-    extra = 1
-
-
 class EventoAdmin(SummernoteModelAdmin):
     list_display = ('titulo', 'data_publicacao', 'data_inicio', 'data_fim')
     search_fields = ('titulo', 'texto', 'data_publicacao', 'data_inicio', 'data_fim')
     date_hierarchy = 'data_publicacao'
     prepopulated_fields = {'slug':('titulo',)}
 
-    inlines = (AnexoEventoInLine, )
+    inlines = (AnexoInLine, )
 
 admin.site.register(Evento, EventoAdmin)
 

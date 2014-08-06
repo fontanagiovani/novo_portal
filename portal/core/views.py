@@ -3,7 +3,6 @@ from portal.banner.models import Banner, BannerAcessoRapido
 from django.shortcuts import render
 from portal.conteudo.models import Noticia, Evento, Video, Galeria
 from portal.core.models import Selecao, TipoSelecao
-from portal.core.models import Menu
 from portal.cursos.models import Curso
 from django.http import HttpResponse # httresponse para usar com json
 import json # json para usar no select com ajax
@@ -20,8 +19,6 @@ def home(request):
     galerias = Galeria.objects.all()[:3]
     formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
 
-    menus = Menu.objects.all()
-
     return render(request, 'core/portal.html', {
         'noticias_destaque': noticias_detaque,
         'mais_noticias': mais_noticias,
@@ -31,7 +28,6 @@ def home(request):
         'videos': videos,
         'galerias': galerias,
         'formacao': formacao,
-        'menus': menus,
     })
 
 

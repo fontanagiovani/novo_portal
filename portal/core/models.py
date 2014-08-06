@@ -3,38 +3,40 @@ from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
 
-class Menu(MPTTModel):
-    class Meta:
-        ordering = ('titulo',)
-    ORDEM_MENUS = (
-        ('1', u'Primeiro'),
-        ('2', u'Segundo'),
-        ('3', u'terceiro'),
-        ('4', u'Quarto'),
-        ('5', u'Quinto'),
-        ('6', u'Sexto'),
-        ('7', u'Sétimo'),
-    )
-
+class Campus(MPTTModel):
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Nivel 1')
+    sigla = models.CharField(max_length=3, verbose_name=u'Sigla do Campus')
+    nome = models.CharField(max_length=50, verbose_name=u'Nome do Campus')
+    slug = models.SlugField(max_length=100, blank=True, unique=True)
+
+    class Meta:
+        verbose_name = u'Campus'
+        verbose_name_plural = u'Campi'
+
+    def __unicode__(self):
+        return self.nome
+
+
+class Menu(MPTTModel):
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name=u'Menu pai')
     titulo = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True, unique=True)
     url = models.CharField(max_length=250, blank=True,)
-    ordem = models.CharField(max_length=1, choices=ORDEM_MENUS, default=None, null=True, blank=True,
-                             verbose_name=u'Ordem do Menu')
+    ordem = models.IntegerField(default=9999, blank=True, verbose_name=u'Ordem do Menu',)
+
+    class Meta:
+        ordering = ('ordem', 'titulo')
+
+    class MPTTMeta:
+        order_insertion_by = ('ordem', 'titulo')
 
     def __unicode__(self):
         return self.titulo
 
-    def parent_show(self):
-        if self.parent == None:
+    def menu_raiz(self):
+        if self.parent is None:
             return ""
         return self.parent
-
-    def ordem_menu(self):
-        if self.parent == None:
-            return self.ordem
-        return ""
 
 
 class TipoSelecao(MPTTModel):
@@ -69,7 +71,7 @@ class Selecao(models.Model):
     #     ('Processos Seletivos',(
     #         ('PRTE',u'Professores substitutos e/ou temporários'),
     #         ('PEAD',u'Processos Seletivos - EAD'),
-    #         ('PPRO',u'Processsos Seletivos - PRONATEC'),
+    #         ('PPRO',u'Processsos Seletivos - PRONATEC'), ,
     #         ('ROID',u'Remoção Interna - Docentes'),
     #         ('ROIT',u'Remoção Interna - TAEs')
     #         )
@@ -77,13 +79,13 @@ class Selecao(models.Model):
     # )
 
     STATUS = (
-        ('ABT','Aberto'),
-        ('AND','Em Andamento'),
-        ('FNZ','Finalizado')
+        ('ABT', 'Aberto'),
+        ('AND', 'Em Andamento'),
+        ('FNZ', 'Finalizado')
     )
 
     class Meta:
-        ordering = ('titulo','status','data_abertura_edital')
+        ordering = ('titulo', 'status', 'data_abertura_edital')
 
     tipo = TreeForeignKey('TipoSelecao')
     titulo = models.CharField(max_length=100)

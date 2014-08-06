@@ -2,6 +2,9 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from model_mommy import mommy
+
+from portal.core.models import Campus
+
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
@@ -42,7 +45,9 @@ class NoticiaListaTest(TestCase):
     def setUp(self):
         self.noticias = mommy.make(Noticia,
                                    titulo='titulo_teste',
-                                   _quantity=50)
+                                   _quantity=50,
+                                   campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
         self.resp = self.client.get(reverse('conteudo:noticias_lista'))
 
     def test_get(self):
@@ -126,7 +131,9 @@ class EventoListaTest(TestCase):
     def setUp(self):
         self.eventos = mommy.make(Evento,
                                   titulo='titulo_teste',
-                                  _quantity=50)
+                                  _quantity=50,
+                                  campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
         self.resp = self.client.get(reverse('conteudo:eventos_lista'))
 
     def test_get(self):
@@ -151,10 +158,12 @@ class EventoListaTest(TestCase):
 class VideoDetalheTest(TestCase):
     def setUp(self):
         self.video = mommy.make(Video,
-                                 titulo='titulo_teste',
-                                 texto=u'texto_teste',
-                                 id_video_youtube=u'ID_teste',
-                                 data_publicacao='2014-06-05 10:16:00')
+                                titulo='titulo_teste',
+                                texto=u'texto_teste',
+                                id_video_youtube=u'ID_teste',
+                                data_publicacao='2014-06-05 10:16:00',
+                                campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
         self.resp = self.client.get(reverse('conteudo:video_detalhe', kwargs={'video_id': self.video.id}))
 
     def test_get(self):
@@ -182,8 +191,10 @@ class VideoDetalheTest(TestCase):
 class VideosListaTest(TestCase):
     def setUp(self):
         self.videos = mommy.make(Video,
-                                  titulo='titulo_teste',
-                                  _quantity=50)
+                                 titulo='titulo_teste',
+                                 _quantity=50,
+                                 campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
         self.resp = self.client.get(reverse('conteudo:videos_lista'))
 
     def test_get(self):
@@ -208,9 +219,9 @@ class VideosListaTest(TestCase):
 class GaleriaDetalheTest(TestCase):
     def setUp(self):
         self.galeria = mommy.make(Galeria,
-                                 titulo='titulo_teste',
-                                 texto=u'texto_teste',
-                                 data_publicacao='2014-06-05 10:16:00')
+                                  titulo='titulo_teste',
+                                  texto=u'texto_teste',
+                                  data_publicacao='2014-06-05 10:16:00')
         self.resp = self.client.get(reverse('conteudo:galeria_detalhe', kwargs={'galeria_id': self.galeria.id}))
 
     def test_get(self):
@@ -238,7 +249,9 @@ class GaleriaListaTest(TestCase):
     def setUp(self):
         self.eventos = mommy.make(Galeria,
                                   titulo='titulo_teste',
-                                  _quantity=50)
+                                  _quantity=50,
+                                  campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
         self.resp = self.client.get(reverse('conteudo:galerias_lista'))
 
     def test_get(self):
