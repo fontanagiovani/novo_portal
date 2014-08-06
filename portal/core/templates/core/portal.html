@@ -11,13 +11,13 @@
                 data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
                 {% for noticia in noticias_destaque %}
                     <li data-orbit-slide="{{ noticia.id }}">
-                        {% if noticia.primeira_imagem %}
-                            <a href="{{ noticia.get_absolute_url }}">
+                        <a href="{{ noticia.get_absolute_url }}">
+                            {% if noticia.primeira_imagem %}
                                 <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}"
-                                     alt="{{ noticia.titulo }}"/></a>
-                        {% endif %}
-                        <div class="orbit-caption">
-                            <a href="{{ noticia.get_absolute_url }}">
+                                     alt="{{ noticia.titulo }}"/>
+                            {% endif %}
+
+                            <div class="orbit-caption">
                                 <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                     {{ noticia.data_publicacao|date:"d M" }}
                                     {#                                    {{ noticia.data_publicacao|date:"Y" }}#}
@@ -29,8 +29,8 @@
                                     </div>
                                     <p class="no-margin espacamento-medio branco texto-tamanho-pequeno">{{ noticia.titulo }}</p>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                     </li>
                 {% endfor %}
             </ul>
@@ -251,14 +251,14 @@
                     data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
                     {% for galeria in galerias %}
                         <li data-orbit-slide="{{ galeria.id }}">
-                            {% if galeria.primeira_imagem %}
-                                <a href="{{ galeria.get_absolute_url }}"><img
-                                        src="{% thumbnail galeria.primeira_imagem 640x470 crop quality=80 %}"
-                                        alt="{{ galeria.titulo }}"/></a>
-                            {% endif %}
+                            <a href="{{ galeria.get_absolute_url }}">
+                                {% if galeria.primeira_imagem %}
+                                    <img
+                                            src="{% thumbnail galeria.primeira_imagem 640x470 crop quality=80 %}"
+                                            alt="{{ galeria.titulo }}"/>
+                                {% endif %}
 
-                            <div class="orbit-caption">
-                                <a href="{{ galeria.get_absolute_url }}">
+                                <div class="orbit-caption">
                                     <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                         {{ galeria.data_publicacao|date:"d M" }}
                                         {#                                        {{ galeria.data_publicacao|date:"Y" }}#}
@@ -270,8 +270,8 @@
                                         </div>
                                         <p class="no-margin espacamento-medio branco texto-tamanho-pequeno">{{ galeria.titulo|truncatechars:'60' }}</p>
                                     </div>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -306,8 +306,8 @@
 
                 <div class="row">
                     <a href="{{ video.get_absolute_url }}">
-                        <div class="data-local">{{ video.data_publicacao|date:"d M" }}
-                            - {{ video.get_campus_origem_display }}</div>
+                        <div class="data-local texto-tamanho-xsmall">{{ video.data_publicacao|date:"d M" }}
+                            - {{ video.campus_origem.nome }}</div>
                         <p class="espacamento-medio">{{ video.titulo }}</p>
                     </a>
                 </div>

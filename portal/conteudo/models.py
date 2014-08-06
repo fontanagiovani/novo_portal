@@ -118,7 +118,7 @@ class Evento(Conteudo):
     class Meta:
         verbose_name = u'Evento'
         verbose_name_plural = u'Eventos'
-        ordering = ('-data_publicacao', '-id')
+        ordering = ('-data_inicio', '-id')
 
     def __unicode__(self):
         return self.titulo
