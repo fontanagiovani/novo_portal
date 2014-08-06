@@ -8,9 +8,9 @@ from django.core import serializers
 
 # Create your views here.
 
-def tupletodict(lista):
-    dicionario = []
-    for l in lista:
+def listadedicionarios(queryset):
+    lista = []
+    for l in queryset:
         d = dict()
         d["formacao_id"] = l[0]
         d["formacao_nome"] = l[1]
@@ -18,38 +18,39 @@ def tupletodict(lista):
         d["campus_nome"] = l[3]
         d["grupo_id"] = l[4]
         d["grupo_nome"] = l[5]
-        dicionario.append(d)
-
-    return dicionario
+        d["grupo_url"] = Grupo_Cursos.objects.get(pk=l[4]).get_absolute_url()
+        lista.append(d)
+    return lista
 
 
 def jsonformacao(request, formacao_id):
     queryset = Curso.objects.select_related().filter(formacao=formacao_id).values_list('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').distinct()
-    dados = tupletodict(queryset)
-
+    dados = listadedicionarios(queryset)
     return HttpResponse(json.dumps(dados), mimetype="application/json")
 
-def jsoncampi(request, formacao_id):
-    campi = Curso.objects.select_related('Campus').filter(formacao=formacao_id).values_list('campus__id', 'campus__nome').distinct()
-    dados = dict(campi)
-    return HttpResponse(json.dumps(dados), content_type="application/json")
+
+def jsoncampi(request, campus_id):
+    queryset = Curso.objects.select_related().filter(campus=campus_id).values_list('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').distinct()
+    dados = listadedicionarios(queryset)
+    return HttpResponse(json.dumps(dados), mimetype="application/json")
 
 
-def jsoncursos(request, formacao_id, campus_id):
-    dados = dict(Curso.objects.select_related('Grupo_Cursos').filter(formacao=formacao_id, campus=campus_id).values_list('grupo__id', 'grupo__nome').distinct())
-    return HttpResponse(json.dumps(dados), content_type="application/json")
+def jsoncursos(request, curso_id):
+    queryset = Curso.objects.select_related().filter(grupo=curso_id).values_list('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').distinct()
+    dados = listadedicionarios(queryset)
+    return HttpResponse(json.dumps(dados), mimetype="application/json")
 
 
 def listagrupodecursos(request):
     formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
     campi = Curso.objects.select_related('Campus').values('campus__id', 'formacao__id', 'campus__nome').distinct()
-    grupo_cursos = Curso.objects.select_related('Grupo_Cursos').values('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').distinct()
+    grupo_cursos = Curso.objects.select_related('Grupo_Cursos').values('grupo__id', 'grupo__nome').distinct()
     return render(request, 'cursos/listagrupodecursos.html', {'formacao': formacao,'grupo_cursos': grupo_cursos, 'campi': campi})
 
 
-def listacursosdogrupo(request, campus_id, grupo_id):
+def listacursosdogrupo(request, grupo_id):
     grupo = get_object_or_404(Grupo_Cursos, id=grupo_id)
-    cursos = Curso.objects.filter(campus=campus_id, grupo=grupo_id)
+    cursos = Curso.objects.filter(grupo=grupo_id)
     return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos})
 
 
