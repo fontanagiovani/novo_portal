@@ -25,7 +25,6 @@ from taggit.managers import TaggableManager
 
 
 class Conteudo(models.Model):
-
     campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Campus de origem')
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     slug = models.SlugField(max_length=250, verbose_name=u'Slug')
@@ -67,7 +66,8 @@ class Noticia(Conteudo):
     )
 
     destaque = models.BooleanField(default=False)
-    prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',verbose_name=u'Prioridade de destaque')
+    prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',
+                                           verbose_name=u'Prioridade de destaque')
 
     class Meta:
         verbose_name = u'Notícia'
