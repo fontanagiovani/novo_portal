@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from django.utils import timezone
+from django.core.files import File
+from filer.models import Image
+from filer.models import File as FileFiler
+from django.core.urlresolvers import reverse
+from model_mommy import mommy
+
+from portal.core.models import Campus
+
+from portal.conteudo.models import Conteudo
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
 from portal.conteudo.models import Video
 from portal.conteudo.models import Galeria
 from portal.conteudo.models import ImagemGaleria
-from portal.conteudo.models import AnexoNoticia
-from portal.conteudo.models import AnexoPagina
-from portal.conteudo.models import AnexoEvento
-from django.core.files import File
-from filer.models import Image
-from filer.models import File as FileFiler
-from django.core.urlresolvers import reverse
-from model_mommy import mommy
+from portal.conteudo.models import Anexo
 from portal.core.tests.util import del_midia_filer
 
 
@@ -24,6 +26,7 @@ class NoticiaTest(TestCase):
             titulo=u'Título',
             texto=u'seu texto aqui!!!',
             data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
         )
 
     def test_criacao(self):
@@ -48,20 +51,21 @@ class NoticiaTest(TestCase):
                          self.obj.get_absolute_url())
 
 
-class AnexoNoticiaTest(TestCase):
+class AnexoTest(TestCase):
     def setUp(self):
-        self.noticia = Noticia(
+        self.conteudo = Conteudo(
             titulo=u'Título',
             texto=u'seu texto aqui!!!',
             data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
         )
-        self.noticia.save()
+        self.conteudo.save()
 
         arquivo = FileFiler()
         arquivo.save()
 
-        self.anexo = AnexoNoticia(
-            noticia=self.noticia,
+        self.anexo = Anexo(
+            conteudo=self.conteudo,
             descricao=u'foto1',
             arquivo=arquivo,
         )
@@ -82,7 +86,11 @@ class AnexoNoticiaTest(TestCase):
 
 class PaginaTest(TestCase):
     def setUp(self):
-        self.pagina = mommy.prepare(Pagina, titulo=u'Título')
+        self.pagina = mommy.prepare(
+            Pagina,
+            titulo=u'Título',
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
 
     def test_criacao(self):
         """
@@ -106,38 +114,6 @@ class PaginaTest(TestCase):
                          self.pagina.get_absolute_url())
 
 
-class AnexoPaginaTest(TestCase):
-    def setUp(self):
-        self.pagina = Pagina(
-            titulo=u'Título',
-            texto=u'seu texto aqui!!!',
-            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
-        )
-        self.pagina.save()
-
-        arquivo = FileFiler()
-        arquivo.save()
-
-        self.anexo = AnexoPagina(
-            pagina=self.pagina,
-            descricao=u'foto1',
-            arquivo=arquivo,
-        )
-
-    def test_criacao(self):
-        """
-        Anexo deve possuir conteudo, descricao e arquivo
-        """
-        self.anexo.save()
-        self.assertIsNotNone(self.anexo.pk)
-
-    def test_unicode(self):
-        """
-        Anexo deve apresentar descricao como unicode
-        """
-        self.assertEqual(u'foto1', unicode(self.anexo))
-
-
 class EventoTest(TestCase):
     def setUp(self):
         self.obj = Evento(
@@ -146,6 +122,7 @@ class EventoTest(TestCase):
             data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
             data_inicio=timezone.now(),  # '2014-03-21 17:59:00',
             data_fim=timezone.now(),  # '2014-03-21 17:59:00',
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
         )
 
     def test_criacao(self):
@@ -170,49 +147,15 @@ class EventoTest(TestCase):
                          self.obj.get_absolute_url())
 
 
-class AnexoEventoTest(TestCase):
-    def setUp(self):
-        self.evento = Evento(
-            titulo=u'Título',
-            texto=u'seu texto aqui!!!',
-            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
-            data_inicio=timezone.now(),  # '2014-03-21 17:59:00',
-            data_fim=timezone.now(),  # '2014-03-21 17:59:00',
-        )
-        self.evento.save()
-
-        arquivo = FileFiler()
-        arquivo.save()
-
-        self.anexo = AnexoEvento(
-            evento=self.evento,
-            descricao=u'foto1',
-            arquivo=arquivo,
-        )
-
-    def test_criacao(self):
-        """
-        Anexo deve possuir descricao e arquivo
-        """
-        self.anexo.save()
-        self.assertIsNotNone(self.anexo.pk)
-
-    def test_unicode(self):
-        """
-        Anexo deve apresentar descricao como unicode
-        """
-        self.assertEqual(u'foto1', unicode(self.anexo))
-
-
 class VideoTest(TestCase):
     def setUp(self):
         self.obj = Video(
-            campus_origem='RTR',
             titulo=u'Título',
             slug='titulo',
             texto=u'seu texto aqui!!!',
             id_video_youtube=u'ID_do_video',
             data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
         )
 
     def test_criacao(self):
@@ -240,11 +183,11 @@ class VideoTest(TestCase):
 class GaleriaTest(TestCase):
     def setUp(self):
         self.obj = Galeria(
-            campus_origem='RTR',
             titulo=u'Título',
             slug='titulo',
             texto=u'seu texto aqui!!!',
             data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
         )
 
     def test_criacao(self):
@@ -272,11 +215,11 @@ class GaleriaTest(TestCase):
 class ImagemGaleriaTest(TestCase):
     def setUp(self):
         self.galeria = Galeria(
-            campus_origem='RTR',
             titulo=u'Título',
             slug='titulo',
             texto=u'seu texto aqui!!!',
             data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
         )
         self.galeria.save()
 
