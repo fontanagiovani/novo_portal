@@ -3,9 +3,24 @@ from django.shortcuts import render, get_object_or_404
 from portal.cursos.models import Curso, Grupo_Cursos
 from django.http import HttpResponse # httresponse para usar com json
 import json # json para usar no select com ajax
+from django.core import serializers
+
 
 # Create your views here.
 
+def tupletodict(tupla):
+    dicionario = {}
+    for v in tupla:
+        dicionario.append(v)
+
+    return dicionario
+
+
+def jsonformacao(request, formacao_id):
+    queryset = Curso.objects.select_related().filter(formacao=formacao_id).values_list('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').distinct()
+    dados = tupletodict(queryset)
+    print dados
+    return HttpResponse(queryset, mimetype="application/json")
 
 def jsoncampi(request, formacao_id):
     campi = Curso.objects.select_related('Campus').filter(formacao=formacao_id).values_list('campus__id', 'campus__nome').distinct()
