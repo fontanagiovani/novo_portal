@@ -2,11 +2,9 @@
 {% block content %}
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
-            <form id="formuladio" name="formulario" method="post" action="{% url 'guiadecursoportal' %}">{% csrf_token %}
-            <table width="100%">
-                <thead>
-                <tr>
-                    <th>
+            <form id="formuladio" name="formulario" method="post">{% csrf_token %}
+                <div class="row fundo-cinza padding-all">
+                    <div class="small-4 large-4 columns">
                         <label>Filtrar pela formação
                             <select id="filtroformacao" name="filtroformacao">
                                 <option value="0">--------</option>
@@ -15,34 +13,31 @@
                                 {% endfor %}
                             </select>
                         </label>
-                    </th>
-                    <th>
+                    </div>
+                    <div class="small-4 large-4 columns">
                         <label>Filtrar pelo Câmpus
                             <select id="filtrocampi" name="filtrocampi">
                                 <option value="0">--------</option>
+                                {% for c in campi %}
+                                    <option value="{{ c.campus__id }}">{{ c.campus__nome }}</option>
+                                {% endfor %}
                             </select>
                         </label>
-                    </th>
-                    <th>
+                    </div>
+                    <div class="small-4 large-4 columns">
                         <label>Filtrar pelo curso
                             <select id="filtrocursos" name="filtrocursos">
                                 <option value="0">--------</option>
+                                {% for g in grupo_cursos %}
+                                    <option value="{{ g.grupo__id }}">{{ g.grupo__nome }}</option>
+                                {% endfor %}
                             </select>
                         </label>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for g in grupo_cursos %}
-                <tr>
-                    <td>{{ g.formacao__nome }}</td>
-                    <td>{{ g.campus__nome }}</td>
-                    <td><a href="{% url 'listacursosdogrupo' g.campus__id g.grupo__id %}">{{ g.grupo__nome }}</a></td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </div>
+                </div>
             </form>
+        </div>
+        <div id="resultado" class="small-12 columns hover-cinza-medio">
         </div>
     </div>
     <hr />
@@ -53,18 +48,22 @@
         $("#filtroformacao").change(function(){
 {#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
             $.ajax({
-                url:'/jsoncampi/' + $(this).val() + '/',
+                url:'/jsonformacao/' + $(this).val() + '/',
                 type:'POST',
                 dataType: 'json',
                 data: {
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function(json) {
-                    var options = "<option value='0'>--------</option>";
-                    $.each(json, function(key, value){
-                        options += '<option value="' + key + '">' + value + '</option>';
+                    var options = "";
+                    $.each(json, function(key, obj){
+                        options += '<div class="row padding-all">'
+                        options += '<div class="small-4 large-4 columns">' + obj.formacao_nome + '</div>';
+                        options += '<div class="small-4 large-4 columns">' + obj.campus_nome + '</div>';
+                        options += '<div class="small-4 large-4 columns"><a href="' + obj.grupo_url + '">' + obj.grupo_nome + '</a></div>';
+                        options += '</div>'
                     });
-                    $("#filtrocampi").html(options);
+                    $("#resultado").html(options);
                 },
                 error: function(xhr,errmsg,err) {
                     alert(xhr.status + ": " + xhr.responseText);
@@ -75,18 +74,49 @@
 
         $("#filtrocampi").change(function(){
             $.ajax({
-                url:'/jsoncursos/' + document.getElementById("formacao").value + '/' + $(this).val() + '/',
+                url:'/jsoncampi/' + $(this).val() + '/',
                 type:'POST',
                 dataType: 'json',
                 data: {
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function(json) {
-                    var options = "<option value='0'>--------</option>";
-                    $.each(json, function(key, value){
-                        options += '<option value="' + key + '">' + value + '</option>';
+                    var options = "";
+                    $.each(json, function(key, obj){
+                        options += '<div class="row padding-all">'
+                        options += '<div class="small-4 large-4 columns">' + obj.formacao_nome + '</div>';
+                        options += '<div class="small-4 large-4 columns">' + obj.campus_nome + '</div>';
+                        options += '<div class="small-4 large-4 columns"><a href="' + obj.grupo_url + '">' + obj.grupo_nome + '</a></div>';
+                        options += '</div>'
                     });
-                    $("#filtrocursos").html(options);
+                    $("#resultado").html(options);
+                },
+                error: function(xhr,errmsg,err) {
+                    alert(xhr.status + ": " + xhr.responseText);
+                }
+            });
+            return false;
+        });
+
+        $("#filtrocursos").change(function(){
+{#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
+            $.ajax({
+                url:'/jsoncursos/' + $(this).val() + '/',
+                type:'POST',
+                dataType: 'json',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(json) {
+                    var options = "";
+                    $.each(json, function(key, obj){
+                        options += '<div class="row padding-all">'
+                        options += '<div class="small-4 large-4 columns">' + obj.formacao_nome + '</div>';
+                        options += '<div class="small-4 large-4 columns">' + obj.campus_nome + '</div>';
+                        options += '<div class="small-4 large-4 columns"><a href="' + obj.grupo_url + '">' + obj.grupo_nome + '</a></div>';
+                        options += '</div>'
+                    });
+                    $("#resultado").html(options);
                 },
                 error: function(xhr,errmsg,err) {
                     alert(xhr.status + ": " + xhr.responseText);
