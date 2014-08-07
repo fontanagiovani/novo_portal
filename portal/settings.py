@@ -20,18 +20,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
-# configuracao para .env
-try:
-    execfile(os.path.join(BASE_DIR, '.env'))
-except IOError:
-    from django.utils.crypto import get_random_string
-    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-    content = "SECRET_KEY='{}'\n".format(get_random_string(50, chars))
-    content += 'DEBUG=False\n'
-    content += 'SQL_LOG=False\n'
-    open(os.path.join(BASE_DIR, '.env'), 'w').write(content)
-    execfile(os.path.join(BASE_DIR, '.env'))
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
