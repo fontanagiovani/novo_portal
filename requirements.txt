@@ -19,3 +19,4 @@ gunicorn==18.0
 psycopg2==2.5.2
 sqlformatter==1.0
 django-taggit==0.12
+model_mommy==1.2.1
