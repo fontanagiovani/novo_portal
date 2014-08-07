@@ -15,7 +15,7 @@ from decouple import config
 from unipath import Path
 from dj_database_url import parse as db_url
 
-BASE_DIR = Path(__file__).parent
+BASE_DIR = Path(__file__).parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,7 +29,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
-TESTING = 'test' in sys.argv or not config('SQL_LOG', default=False, cast=bool)
+TESTING = 'test' in sys.argv
 
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17', '.herokuapp.com']
 
@@ -37,7 +37,7 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17', '.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = (
-    # External pre apps
+    # Pre apps
 
     # Django apps
     'django.contrib.admin',
@@ -48,12 +48,15 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # External apps
+    'gunicorn',
     'south',
     'mptt',
     'django_summernote',
     'filer',
     'easy_thumbnails',
     'taggit',
+    'debug_toolbar',
+    'django_extensions',
 
     # Project apps
     'portal.core',
@@ -61,38 +64,6 @@ INSTALLED_APPS = (
     'portal.banner',
     'portal.cursos',
 )
-
-if DEBUG:
-    # Add here the debug apps
-    DEBUG_APPS_BEFORE_INSTALLED_APPS = ()
-
-    DEBUG_APPS = (
-        'debug_toolbar',
-        # 'django_nose',
-        'django_extensions',
-    )
-
-    # Use nose to run all tests
-    # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
-    # Tell nose to measure coverage on the 'foo' and 'bar' apps
-
-    # NOSE_ARGS = [
-    #     '--with-coverage',
-    #     '--cover-package=portal.core',
-    #     '--nologcapture',
-    # ]
-
-    INSTALLED_APPS = DEBUG_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + DEBUG_APPS
-else:
-    # Add here the production apps
-    PRODUCTION_APPS_BEFORE_INSTALLED_APPS = ()
-
-    PRODUCTION_APPS = (
-        'gunicorn',
-    )
-
-    INSTALLED_APPS = PRODUCTION_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + PRODUCTION_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -147,23 +118,7 @@ MEDIA_URL = '/media/'
 FILER_PUBLIC = BASE_DIR.child('filer_public')
 FILER_PUBLIC_THUMBNAIL = BASE_DIR.child('filer_public_thumbnails').child('filer_public')
 
-
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
-
-# Usado pelo grappelli
-# STATICFILES_FINDERS = (
-#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#     'django.contrib.staticfiles.finders.FileSystemFinder',
-# )
-#
-# GRAPPELLI_ADMIN_TITLE = u'IFMT Portal - Administração'
-
-# Usado pelo filebrowser
-# DIRECTORY = os.path.join(MEDIA_ROOT, 'uploads/')
-
-# Usando pelo django-filer
+# Habilita as permissoes do django-filer
 FILER_ENABLE_PERMISSIONS = True
 
 FILER_DUMP_PAYLOAD = True
@@ -171,7 +126,7 @@ FILER_DUMP_PAYLOAD = True
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
-    #'easy_thumbnails.processors.scale_and_crop',
+    'easy_thumbnails.processors.scale_and_crop',
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
 )
@@ -210,11 +165,32 @@ else:  # Assume development mode
 # Templates
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
-# TEMPLATE_STRING_IF_INVALID = 'CONTEXT_ERROR'
+
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'templates'),
 )
 
+# Summernote configuration
+SUMMERNOTE_CONFIG = {
+    # Change editor size
+    'width': '100%',
+
+    # Set editor language/locale
+    'lang': 'pt-BR',
+
+    # Customize toolbar buttons
+    'toolbar': [
+        # ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'clear']],
+        # ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
+        #           'strikethrough', 'clear']],
+        # ['para', ['ul', 'ol']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['misc', ['codeview']]
+    ],
+}
 
 # Logging
 def skip_on_testing(record):
@@ -267,32 +243,3 @@ LOGGING = {
         },
     },
 }
-
-# Summernote configuration
-SUMMERNOTE_CONFIG = {
-    # Change editor size
-    'width': '100%',
-
-    # Set editor language/locale
-    'lang': 'pt-BR',
-
-    # Customize toolbar buttons
-    'toolbar': [
-        # ['style', ['style']],
-        ['font', ['bold', 'italic', 'underline', 'clear']],
-        # ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
-        #           'strikethrough', 'clear']],
-        # ['para', ['ul', 'ol']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'video']],
-        ['misc', ['codeview']]
-    ],
-
-    # Set `upload_to` function for attachments.
-    # 'attachment_upload_to': my_custom_upload_to_func(),
-
-    # Set custom storage class for attachments.
-    # 'attachment_storage_class': 'my.custom.storage.class.name',
-}
-
