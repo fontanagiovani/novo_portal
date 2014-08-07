@@ -3,7 +3,6 @@ from django.shortcuts import render, get_object_or_404
 from portal.cursos.models import Curso, Grupo_Cursos
 from django.http import HttpResponse # httresponse para usar com json
 import json # json para usar no select com ajax
-from django.core import serializers
 
 
 # Create your views here.
@@ -24,19 +23,25 @@ def listadedicionarios(queryset):
 
 
 def jsonformacao(request, formacao_id):
-    queryset = Curso.objects.select_related().filter(formacao=formacao_id).values_list('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').distinct()
+    queryset = Curso.objects.select_related().filter(formacao=formacao_id).values_list(
+        'formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome'
+    ).distinct()
     dados = listadedicionarios(queryset)
     return HttpResponse(json.dumps(dados), mimetype="application/json")
 
 
 def jsoncampi(request, campus_id):
-    queryset = Curso.objects.select_related().filter(campus=campus_id).values_list('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').distinct()
+    queryset = Curso.objects.select_related().filter(campus=campus_id).values_list(
+        'formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome'
+    ).distinct()
     dados = listadedicionarios(queryset)
     return HttpResponse(json.dumps(dados), mimetype="application/json")
 
 
 def jsoncursos(request, curso_id):
-    queryset = Curso.objects.select_related().filter(grupo=curso_id).values_list('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').distinct()
+    queryset = Curso.objects.select_related().filter(grupo=curso_id).values_list(
+        'formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome'
+    ).distinct()
     dados = listadedicionarios(queryset)
     return HttpResponse(json.dumps(dados), mimetype="application/json")
 
@@ -50,7 +55,7 @@ def listagrupodecursos(request):
 
 def listacursosdogrupo(request, grupo_id):
     grupo = get_object_or_404(Grupo_Cursos, id=grupo_id)
-    cursos = Curso.objects.filter(grupo=grupo_id)
+    cursos = Curso.objects.select_related('Campus').filter(grupo=grupo_id)
     return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos})
 
 
