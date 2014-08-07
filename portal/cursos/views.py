@@ -55,7 +55,7 @@ def listagrupodecursos(request):
 
 def listacursosdogrupo(request, grupo_id):
     grupo = get_object_or_404(Grupo_Cursos, id=grupo_id)
-    cursos = Curso.objects.filter(grupo=grupo_id)
+    cursos = Curso.objects.select_related('Campus').filter(grupo=grupo_id)
     return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos})
 
 
