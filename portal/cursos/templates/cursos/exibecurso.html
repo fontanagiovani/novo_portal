@@ -1,8 +1,12 @@
-{% extends 'core/lista.html' %}
-{% block content %}
+{% extends 'core/detalhe.html' %}
+{% block breadcrumbs %}
+    <li><a href="{% url 'listagrupodecursos' %}">Guia de Cursos</a></li>
+    <li><a href="{% url 'listacursosdogrupo' curso.grupo.id %}">Cursos</a></li>
+    <li class="current"><a href="{% url 'exibecurso' curso.id %}">{{ curso.nome|truncatewords:"3" }}</a></li>
+{% endblock %}
+{% block conteudo %}
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
-
             <p>Curso: {{ curso.nome }}</p>
             <p>Turno: {{ curso.get_turno_display }}</p>
             <p>Contato: {{ curso.email }}</p>

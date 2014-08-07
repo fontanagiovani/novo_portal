@@ -1,5 +1,9 @@
 {% extends 'core/lista.html' %}
-{% block content %}
+{% block breadcrumbs %}
+    <li><a href="{% url 'listagrupodecursos' %}">Guia de Cursos</a></li>
+    <li class="current"><a href="{% url 'listacursosdogrupo' grupo.id %}">Cursos</a></li>
+{% endblock %}
+{% block listagem %}
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
             <p><h2>{{ grupo.nome }}</h2></p>

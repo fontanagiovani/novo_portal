@@ -10,17 +10,17 @@
     {#Container para a página de listagem#}
     <div class="row">
 
-        {#Container para breadcrumb#}
+        {#Container para breadcrumbs#}
         <div class="row">
             <div class="small-12 columns">
                 <ul class="breadcrumbs no-margin">
                     <li><a href="{% url 'home' %}">Portal</a></li>
-                    {% block breadcrumb %}
+                    {% block breadcrumbs %}
                     {% endblock %}
                 </ul>
             </div>
         </div>
-        {#Fim da row para breadcrumb#}
+        {#Fim da row para breadcrumbs#}
 
         {% block listagem %}
         {% endblock %}
