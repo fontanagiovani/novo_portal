@@ -212,19 +212,15 @@ LOGGING = {
     },
     'handlers': {
         # Include the default Django email handler for errors
-        # This is what you'd get without configuring logging at all.
         'mail_admins': {
             'class': 'django.utils.log.AdminEmailHandler',
             'level': 'ERROR',
             'filters': ['require_debug_false'],
-            # But the emails are plain text by default - HTML is nicer
             'include_html': True,
         },
         # Log to a text file that can be rotated by logrotate
         'logfile': {
-            'class': 'logging.handlers.RotatingFileHandler',
-            'maxBytes': 50000,
-            'backupCount': 2,
+            'class': 'logging.handlers.WatchedFileHandler',
             'filename': BASE_DIR.child('logs').child('error.log'),
         },
     },
