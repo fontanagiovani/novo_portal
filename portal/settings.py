@@ -12,25 +12,14 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import sys
 from decouple import config
+from unipath import Path
 from dj_database_url import parse as db_url
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+BASE_DIR = Path(__file__).parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# configuracao para .env
-try:
-    execfile(os.path.join(BASE_DIR, '.env'))
-except IOError:
-    from django.utils.crypto import get_random_string
-    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-    content = "SECRET_KEY='{}'\n".format(get_random_string(50, chars))
-    content += 'DEBUG=False\n'
-    content += 'SQL_LOG=False\n'
-    open(os.path.join(BASE_DIR, '.env'), 'w').write(content)
-    execfile(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
@@ -40,7 +29,17 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
-TESTING = 'test' in sys.argv or not config('SQL_LOG', default=False, cast=bool)
+TESTING = 'test' in sys.argv
+
+ADMINS = (('Equipe Sistemas', 'sistemas@ifmt.edu.br'), )
+
+# Email config
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = True
 
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17', '.herokuapp.com']
 
@@ -48,7 +47,7 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17', '.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = (
-    # External pre apps
+    # Pre apps
 
     # Django apps
     'django.contrib.admin',
@@ -59,12 +58,16 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # External apps
+    'gunicorn',
+    'devserver',
     'south',
     'mptt',
     'django_summernote',
     'filer',
     'easy_thumbnails',
     'taggit',
+    'debug_toolbar',
+    'django_extensions',
 
     # Project apps
     'portal.core',
@@ -72,38 +75,6 @@ INSTALLED_APPS = (
     'portal.banner',
     'portal.cursos',
 )
-
-if DEBUG:
-    # Add here the debug apps
-    DEBUG_APPS_BEFORE_INSTALLED_APPS = ()
-
-    DEBUG_APPS = (
-        'debug_toolbar',
-        # 'django_nose',
-        'django_extensions',
-    )
-
-    # Use nose to run all tests
-    # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
-    # Tell nose to measure coverage on the 'foo' and 'bar' apps
-
-    # NOSE_ARGS = [
-    #     '--with-coverage',
-    #     '--cover-package=portal.core',
-    #     '--nologcapture',
-    # ]
-
-    INSTALLED_APPS = DEBUG_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + DEBUG_APPS
-else:
-    # Add here the production apps
-    PRODUCTION_APPS_BEFORE_INSTALLED_APPS = ()
-
-    PRODUCTION_APPS = (
-        'gunicorn',
-    )
-
-    INSTALLED_APPS = PRODUCTION_APPS_BEFORE_INSTALLED_APPS + INSTALLED_APPS + PRODUCTION_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -127,7 +98,7 @@ WSGI_APPLICATION = 'portal.wsgi.application'
 DATABASES = {
     'default': config(
         'DATABASE_URL',
-        default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
+        default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
         cast=db_url),
 }
 
@@ -144,35 +115,29 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR.child('staticfiles')
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR.child('media')
 MEDIA_URL = '/media/'
 
-FILER_PUBLIC = os.path.join(MEDIA_ROOT, 'filer_public')
-FILER_PUBLIC_THUMBNAIL = os.path.join(MEDIA_ROOT, 'filer_public_thumbnails/filer_public')
+# Templates
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
+TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
 
-# Usado pelo grappelli
-# STATICFILES_FINDERS = (
-#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#     'django.contrib.staticfiles.finders.FileSystemFinder',
-# )
-#
-# GRAPPELLI_ADMIN_TITLE = u'IFMT Portal - Administração'
+TEMPLATE_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'templates'),
+)
 
-# Usado pelo filebrowser
-# DIRECTORY = os.path.join(MEDIA_ROOT, 'uploads/')
+# Utilizado para testes
+FILER_PUBLIC = BASE_DIR.child('filer_public')
+FILER_PUBLIC_THUMBNAIL = BASE_DIR.child('filer_public_thumbnails').child('filer_public')
 
-# Usando pelo django-filer
+# Habilita as permissoes do django-filer
 FILER_ENABLE_PERMISSIONS = True
 
 FILER_DUMP_PAYLOAD = True
@@ -180,7 +145,7 @@ FILER_DUMP_PAYLOAD = True
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
     'easy_thumbnails.processors.autocrop',
-    #'easy_thumbnails.processors.scale_and_crop',
+    'easy_thumbnails.processors.scale_and_crop',
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
 )
@@ -215,68 +180,6 @@ else:  # Assume development mode
         }
     }
 
-
-# Templates
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
-# TEMPLATE_STRING_IF_INVALID = 'CONTEXT_ERROR'
-TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates'),
-)
-
-
-# Logging
-def skip_on_testing(record):
-    return not TESTING
-
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'normal': {
-            'format': '%(levelname)s %(name)s %(message)s'
-        },
-        'sqlformatter': {
-            '()': 'sqlformatter.SqlFormatter',
-            'format': '%(levelname)s %(message)s',
-        },
-    },
-    'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-        'skip_on_testing': {
-            '()': 'django.utils.log.CallbackFilter',
-            'callback': skip_on_testing,
-        },
-    },
-    'handlers': {
-        'stderr': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'normal',
-            'filters': ['skip_on_testing'],
-        },
-        'sqlhandler': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'sqlformatter',
-            'filters': ['require_debug_true', 'skip_on_testing'],
-        },
-    },
-    'loggers': {
-        'django.db.backends': {
-            'handlers': ['sqlhandler'],
-            'level': 'DEBUG',
-        },
-        'portal': {
-            'handlers': ['stderr'],
-            'level': 'INFO',
-        },
-    },
-}
-
 # Summernote configuration
 SUMMERNOTE_CONFIG = {
     # Change editor size
@@ -290,18 +193,49 @@ SUMMERNOTE_CONFIG = {
         # ['style', ['style']],
         ['font', ['bold', 'italic', 'underline', 'clear']],
         # ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
-        #           'strikethrough', 'clear']],
+        # 'strikethrough', 'clear']],
         # ['para', ['ul', 'ol']],
         ['para', ['ul', 'ol', 'paragraph']],
         ['table', ['table']],
         ['insert', ['link', 'picture', 'video']],
         ['misc', ['codeview']]
     ],
-
-    # Set `upload_to` function for attachments.
-    # 'attachment_upload_to': my_custom_upload_to_func(),
-
-    # Set custom storage class for attachments.
-    # 'attachment_storage_class': 'my.custom.storage.class.name',
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        # Include the default Django email handler for errors
+        'mail_admins': {
+            'class': 'django.utils.log.AdminEmailHandler',
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'include_html': True,
+        },
+        # Log to a text file that can be rotated by logrotate
+        'logfile': {
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': BASE_DIR.child('logs').child('error.log'),
+        },
+    },
+    'loggers': {
+        # Again, default Django configuration to email unhandled exceptions
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        # Might as well log any errors anywhere else in Django
+        'django': {
+            'handlers': ['logfile'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
