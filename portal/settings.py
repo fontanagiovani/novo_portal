@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import sys
 from decouple import config
+from unipath import Path
 from dj_database_url import parse as db_url
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+BASE_DIR = Path(__file__).parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -115,7 +116,7 @@ WSGI_APPLICATION = 'portal.wsgi.application'
 DATABASES = {
     'default': config(
         'DATABASE_URL',
-        default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3'),
+        default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
         cast=db_url),
 }
 
@@ -136,14 +137,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR.child('staticfiles')
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR.child('media')
 MEDIA_URL = '/media/'
 
-FILER_PUBLIC = os.path.join(MEDIA_ROOT, 'filer_public')
-FILER_PUBLIC_THUMBNAIL = os.path.join(MEDIA_ROOT, 'filer_public_thumbnails/filer_public')
+# Utilizado para testes
+FILER_PUBLIC = BASE_DIR.child('filer_public')
+FILER_PUBLIC_THUMBNAIL = BASE_DIR.child('filer_public_thumbnails').child('filer_public')
+
 
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
