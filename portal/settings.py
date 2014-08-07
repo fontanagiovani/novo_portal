@@ -31,6 +31,16 @@ TEMPLATE_DEBUG = DEBUG
 
 TESTING = 'test' in sys.argv
 
+ADMINS = (('Equipe Sistemas', 'sistemas@ifmt.edu.br'), )
+
+# Email config
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = True
+
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17', '.herokuapp.com']
 
 
@@ -49,6 +59,7 @@ INSTALLED_APPS = (
 
     # External apps
     'gunicorn',
+    'devserver',
     'south',
     'mptt',
     'django_summernote',
@@ -104,7 +115,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
@@ -113,6 +123,15 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = BASE_DIR.child('media')
 MEDIA_URL = '/media/'
+
+# Templates
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+
+TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
+
+TEMPLATE_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'templates'),
+)
 
 # Utilizado para testes
 FILER_PUBLIC = BASE_DIR.child('filer_public')
@@ -161,15 +180,6 @@ else:  # Assume development mode
         }
     }
 
-
-# Templates
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
-
-TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates'),
-)
-
 # Summernote configuration
 SUMMERNOTE_CONFIG = {
     # Change editor size
@@ -183,7 +193,7 @@ SUMMERNOTE_CONFIG = {
         # ['style', ['style']],
         ['font', ['bold', 'italic', 'underline', 'clear']],
         # ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
-        #           'strikethrough', 'clear']],
+        # 'strikethrough', 'clear']],
         # ['para', ['ul', 'ol']],
         ['para', ['ul', 'ol', 'paragraph']],
         ['table', ['table']],
@@ -192,54 +202,44 @@ SUMMERNOTE_CONFIG = {
     ],
 }
 
-# Logging
-def skip_on_testing(record):
-    return not TESTING
-
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'normal': {
-            'format': '%(levelname)s %(name)s %(message)s'
-        },
-        'sqlformatter': {
-            '()': 'sqlformatter.SqlFormatter',
-            'format': '%(levelname)s %(message)s',
-        },
-    },
     'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-        'skip_on_testing': {
-            '()': 'django.utils.log.CallbackFilter',
-            'callback': skip_on_testing,
-        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
     },
     'handlers': {
-        'stderr': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'normal',
-            'filters': ['skip_on_testing'],
+        # Include the default Django email handler for errors
+        # This is what you'd get without configuring logging at all.
+        'mail_admins': {
+            'class': 'django.utils.log.AdminEmailHandler',
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            # But the emails are plain text by default - HTML is nicer
+            'include_html': True,
         },
-        'sqlhandler': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'sqlformatter',
-            'filters': ['require_debug_true', 'skip_on_testing'],
+        # Log to a text file that can be rotated by logrotate
+        'logfile': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'maxBytes': 50000,
+            'backupCount': 2,
+            'filename': BASE_DIR.child('logs').child('error.log'),
         },
     },
     'loggers': {
-        'django.db.backends': {
-            'handlers': ['sqlhandler'],
-            'level': 'DEBUG',
+        # Again, default Django configuration to email unhandled exceptions
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
         },
-        'portal': {
-            'handlers': ['stderr'],
+        # Might as well log any errors anywhere else in Django
+        'django': {
+            'handlers': ['logfile'],
             'level': 'INFO',
+            'propagate': False,
         },
     },
 }

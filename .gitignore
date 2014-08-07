@@ -17,5 +17,6 @@
 /.idea
 /media
 /staticfiles
+/logs
 .floo
 .flooignore
