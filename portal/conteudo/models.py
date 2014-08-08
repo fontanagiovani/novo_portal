@@ -1,27 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from portal.core.models import Campus
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
 from taggit.managers import TaggableManager
-#
-# CAMPUS_ORIGEM = (
-#     ('RTR', u'Reitoria'),
-#     ('BAG', u'Campus Barra do Garças'),
-#     ('BLV', u'Campus Bela Vista'),
-#     ('CAS', u'Campus Cáceres'),
-#     ('CFS', u'Campus Confresa'),
-#     ('CBA', u'Campus Cuiabá'),
-#     ('JNA', u'Campus Juína'),
-#     ('CNP', u'Campus Campo Novo do Parecis'),
-#     ('PLC', u'Campus Pontes e Lacerda'),
-#     ('ROO', u'Campus Rondonópolis'),
-#     ('SVC', u'Campus São Vicente'),
-#     ('PDL', u'Campus Primavera do Leste'),
-#     ('SRS', u'Campus Sorriso'),
-#     ('VGD', u'Campus Várzea Grande'),
-#     ('AFL', u'Campus Alta Floresta'),
-# )
 
 
 class Conteudo(models.Model):
@@ -184,4 +165,3 @@ class ImagemGaleria(models.Model):
 
     def __unicode__(self):
         return self.descricao
-

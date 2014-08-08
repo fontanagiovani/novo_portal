@@ -53,31 +53,6 @@ class TipoSelecao(MPTTModel):
 
 class Selecao(models.Model):
 
-    # TIPO_BASE = (
-    #     ('Vestibulares e Seleção',(
-    #         ('VEST',u'Vestibulares'),
-    #         ('SISU',u'SISU'),
-    #         ('STEC',u'SISUTEC'),
-    #         ('EXSE',u'Exames de Seleção'),
-    #         ('PRSE',u'Processo Seletivo'),
-    #         ('TREX',u'Transferência Externa')
-    #         )
-    #     ),
-    #     ('Concursos Publicos',(
-    #         ('DOCE',u'Docentes'),
-    #         ('TEAD',u'Técnicos-administrativos'),
-    #         )
-    #     ),
-    #     ('Processos Seletivos',(
-    #         ('PRTE',u'Professores substitutos e/ou temporários'),
-    #         ('PEAD',u'Processos Seletivos - EAD'),
-    #         ('PPRO',u'Processsos Seletivos - PRONATEC'), ,
-    #         ('ROID',u'Remoção Interna - Docentes'),
-    #         ('ROIT',u'Remoção Interna - TAEs')
-    #         )
-    #     )
-    # )
-
     STATUS = (
         ('ABT', 'Aberto'),
         ('AND', 'Em Andamento'),

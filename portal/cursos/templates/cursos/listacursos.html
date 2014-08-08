@@ -6,7 +6,7 @@
 {% block listagem %}
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
-            <p><h2>{{ grupo.nome }}</h2></p>
+            <h1>{{ grupo.nome }}</h1>
             {% if grupo.descricao|cut:" "|length > 1 %}
                 <p>Descrição: {{ grupo.descricao }}</p>
                 <hr />

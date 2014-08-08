@@ -38,4 +38,4 @@ class SelecaoAdmin(admin.ModelAdmin):
     date_hierarchy = 'data_abertura_edital'
     list_filter = ('status', 'tipo')
 
-admin.site.register(Selecao,SelecaoAdmin)
+admin.site.register(Selecao, SelecaoAdmin)

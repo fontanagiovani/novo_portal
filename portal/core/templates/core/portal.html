@@ -125,7 +125,8 @@
         <div class="row padding-bottom">
             <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
 
-            <form method="post" id="guiadecursoportal" name="guiadecursoportal" action="{% url 'guiadecursoportal' %}">{% csrf_token %}
+            <form method="post" id="guiadecursoportal" name="guiadecursoportal"
+                  action="{% url 'guiadecursoportal' %}">{% csrf_token %}
                 <div class="row collapse padding-bottom">
                     <div class="medium-12 columns">
                         <label>Selecione uma tipo de formação
@@ -288,10 +289,6 @@
                     <div class="flex-video">
                         <iframe src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
                     </div>
-
-                    {#                    <a href="{{ video.get_absolute_url }}">#}
-                    {#                        <img src="{{ video.imagem_sddefault }}"/>#}
-                    {#                    </a>#}
                 </div>
 
                 <div class="row">
@@ -312,53 +309,53 @@
 
 {% endblock %}
 {% block javascript %}
-<script>
-    $(document).ready(function(){
-        $("#formacao").change(function(){
-{#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
-            $.ajax({
-                url:'/json_campi/' + $(this).val() + '/',
-                type:'POST',
-                dataType: 'json',
-                data: {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function(json) {
-                    var options = "<option value='0'>--------</option>";
-                    $.each(json, function(key, value){
-                        options += '<option value="' + key + '">' + value + '</option>';
-                    });
-                    $("#campi").html(options);
-                },
-                error: function(xhr,errmsg,err) {
-                    alert(xhr.status + ": " + xhr.responseText);
-                }
+    <script>
+        $(document).ready(function () {
+            $("#formacao").change(function () {
+                {#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
+                $.ajax({
+                    url: '/json_campi/' + $(this).val() + '/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (json) {
+                        var options = "<option value='0'>--------</option>";
+                        $.each(json, function (key, value) {
+                            options += '<option value="' + key + '">' + value + '</option>';
+                        });
+                        $("#campi").html(options);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        alert(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+                return false;
             });
-            return false;
-        });
 
-        $("#campi").change(function(){
-            $.ajax({
-                url:'/json_cursos/' + document.getElementById("formacao").value + '/' + $(this).val() + '/',
-                type:'POST',
-                dataType: 'json',
-                data: {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function(json) {
-                    var options = "<option value='0'>--------</option>";
-                    $.each(json, function(key, value){
-                        options += '<option value="' + key + '">' + value + '</option>';
-                    });
-                    $("#cursos").html(options);
-                },
-                error: function(xhr,errmsg,err) {
-                    alert(xhr.status + ": " + xhr.responseText);
-                }
+            $("#campi").change(function () {
+                $.ajax({
+                    url: '/json_cursos/' + document.getElementById("formacao").value + '/' + $(this).val() + '/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (json) {
+                        var options = "<option value='0'>--------</option>";
+                        $.each(json, function (key, value) {
+                            options += '<option value="' + key + '">' + value + '</option>';
+                        });
+                        $("#cursos").html(options);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        alert(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+                return false;
             });
-            return false;
-        });
 
-    });
-</script>
+        });
+    </script>
 {% endblock %}

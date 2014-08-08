@@ -148,7 +148,7 @@
 },
 {
     "pk": 1, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Bacharelado em Agronomia"
@@ -156,7 +156,7 @@
 },
 {
     "pk": 2, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Licenciatura em Matem\u00e1tica"
@@ -164,7 +164,7 @@
 },
 {
     "pk": 3, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Tecnologia em Agroind\u00fastria"
@@ -172,7 +172,7 @@
 },
 {
     "pk": 4, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Licenciatura em Ci\u00eancias da Natureza"
@@ -180,7 +180,7 @@
 },
 {
     "pk": 5, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Bacharelado em Engenharia da Computa\u00e7\u00e3o"
@@ -188,7 +188,7 @@
 },
 {
     "pk": 6, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Bacharelado em Engenharia de Controle e Automa\u00e7\u00e3o"
@@ -196,7 +196,7 @@
 },
 {
     "pk": 7, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Bacharelado em Secretariado Executivo"
@@ -204,7 +204,7 @@
 },
 {
     "pk": 8, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Tecnologia em Automa\u00e7\u00e3o Industrial"
@@ -212,7 +212,7 @@
 },
 {
     "pk": 9, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Tecnologia em Constru\u00e7\u00e3o de Edif\u00edcios"
@@ -220,7 +220,7 @@
 },
 {
     "pk": 10, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Tecnologia em Controle de Obras"
@@ -228,7 +228,7 @@
 },
 {
     "pk": 11, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Tecnologia em Geoprocessamento"
@@ -236,7 +236,7 @@
 },
 {
     "pk": 12, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Tecnologia em Rede de Computadores"
@@ -244,7 +244,7 @@
 },
 {
     "pk": 13, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Tecnolologia em Sistemas para Internet"
@@ -252,7 +252,7 @@
 },
 {
     "pk": 14, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "Tecnologia em Gest\u00e3o Ambiental"
@@ -260,7 +260,7 @@
 },
 {
     "pk": 15, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "T\u00e9cnico em Secretariado"
@@ -268,7 +268,7 @@
 },
 {
     "pk": 16, 
-    "model": "cursos.grupo_cursos", 
+    "model": "cursos.grupocursos", 
     "fields": {
         "descricao": " ", 
         "nome": "T\u00e9cnico em manuten\u00e7\u00e3o e suporte em inform\u00e1tica"

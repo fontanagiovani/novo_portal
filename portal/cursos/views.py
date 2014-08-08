@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
-from portal.cursos.models import Curso, Grupo_Cursos
-from django.http import HttpResponse # httresponse para usar com json
-import json # json para usar no select com ajax
+from portal.cursos.models import Curso, GrupoCursos
+from django.http import HttpResponse  # httresponse para usar com json
+import json  # json para usar no select com ajax
 
-
-# Create your views here.
 
 def listadedicionarios(queryset):
     lista = []
@@ -17,7 +15,7 @@ def listadedicionarios(queryset):
         d["campus_nome"] = l[3]
         d["grupo_id"] = l[4]
         d["grupo_nome"] = l[5]
-        d["grupo_url"] = Grupo_Cursos.objects.get(pk=l[4]).get_absolute_url()
+        d["grupo_url"] = GrupoCursos.objects.get(pk=l[4]).get_absolute_url()
         lista.append(d)
     return lista
 
@@ -49,12 +47,20 @@ def jsoncursos(request, curso_id):
 def listagrupodecursos(request):
     formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
     campi = Curso.objects.select_related('Campus').values('campus__id', 'formacao__id', 'campus__nome').distinct()
-    grupo_cursos = Curso.objects.select_related('Grupo_Cursos').values('grupo__id', 'grupo__nome').distinct()
-    return render(request, 'cursos/listagrupodecursos.html', {'formacao': formacao,'grupo_cursos': grupo_cursos, 'campi': campi})
+    grupo_cursos = Curso.objects.select_related('GrupoCursos').values('grupo__id', 'grupo__nome').distinct()
+
+    return render(
+        request, 'cursos/listagrupodecursos.html',
+        {
+            'formacao': formacao,
+            'grupo_cursos': grupo_cursos,
+            'campi': campi
+        }
+    )
 
 
 def listacursosdogrupo(request, grupo_id):
-    grupo = get_object_or_404(Grupo_Cursos, id=grupo_id)
+    grupo = get_object_or_404(GrupoCursos, id=grupo_id)
     cursos = Curso.objects.select_related('Campus').filter(grupo=grupo_id)
     return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos})
 

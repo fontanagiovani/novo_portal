@@ -43,91 +43,92 @@
         <div id="resultado" class="small-12 columns hover-cinza-medio">
         </div>
     </div>
-    <hr />
+    <hr/>
 {% endblock %}
 {% block javascript %}
-<script>
-    $(document).ready(function(){
-        $("#filtroformacao").change(function(){
-{#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
-            $.ajax({
-                url:'/jsonformacao/' + $(this).val() + '/',
-                type:'POST',
-                dataType: 'json',
-                data: {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function(json) {
-                    var options = "";
-                    $.each(json, function(key, obj){
-                        options += '<div class="row padding-all">'
-                        options += '<div class="small-4 large-4 columns">' + obj.formacao_nome + '</div>';
-                        options += '<div class="small-4 large-4 columns">' + obj.campus_nome + '</div>';
-                        options += '<div class="small-4 large-4 columns"><a href="' + obj.grupo_url + '">' + obj.grupo_nome + '</a></div>';
-                        options += '</div>'
-                    });
-                    $("#resultado").html(options);
-                },
-                error: function(xhr,errmsg,err) {
-                    alert(xhr.status + ": " + xhr.responseText);
-                }
+    <script>
+        $(document).ready(function () {
+            $("#filtroformacao").change(function () {
+                $.ajax({
+                    url: '/jsonformacao/' + $(this).val() + '/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (json) {
+                        var options = "";
+                        $.each(json, function (key, obj) {
+                            options += '<div class="row padding-all">';
+                            options += '<div class="small-4 large-4 columns">' + obj.formacao_nome + '</div>';
+                            options += '<div class="small-4 large-4 columns">' + obj.campus_nome + '</div>';
+                            options += '<div class="small-4 large-4 columns"><a href="' + obj.grupo_url + '">' +
+                                    obj.grupo_nome + '</a></div>';
+                            options += '</div>';
+                        });
+                        $("#resultado").html(options);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        alert(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+                return false;
             });
-            return false;
-        });
 
-        $("#filtrocampi").change(function(){
-            $.ajax({
-                url:'/jsoncampi/' + $(this).val() + '/',
-                type:'POST',
-                dataType: 'json',
-                data: {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function(json) {
-                    var options = "";
-                    $.each(json, function(key, obj){
-                        options += '<div class="row padding-all">'
-                        options += '<div class="small-4 large-4 columns">' + obj.formacao_nome + '</div>';
-                        options += '<div class="small-4 large-4 columns">' + obj.campus_nome + '</div>';
-                        options += '<div class="small-4 large-4 columns"><a href="' + obj.grupo_url + '">' + obj.grupo_nome + '</a></div>';
-                        options += '</div>'
-                    });
-                    $("#resultado").html(options);
-                },
-                error: function(xhr,errmsg,err) {
-                    alert(xhr.status + ": " + xhr.responseText);
-                }
+            $("#filtrocampi").change(function () {
+                $.ajax({
+                    url: '/jsoncampi/' + $(this).val() + '/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (json) {
+                        var options = "";
+                        $.each(json, function (key, obj) {
+                            options += '<div class="row padding-all">';
+                            options += '<div class="small-4 large-4 columns">' + obj.formacao_nome + '</div>';
+                            options += '<div class="small-4 large-4 columns">' + obj.campus_nome + '</div>';
+                            options += '<div class="small-4 large-4 columns"><a href="' + obj.grupo_url + '">' +
+                                    obj.grupo_nome + '</a></div>';
+                            options += '</div>';
+                        });
+                        $("#resultado").html(options);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        alert(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+                return false;
             });
-            return false;
-        });
 
-        $("#filtrocursos").change(function(){
-{#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
-            $.ajax({
-                url:'/jsoncursos/' + $(this).val() + '/',
-                type:'POST',
-                dataType: 'json',
-                data: {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function(json) {
-                    var options = "";
-                    $.each(json, function(key, obj){
-                        options += '<div class="row padding-all">'
-                        options += '<div class="small-4 large-4 columns">' + obj.formacao_nome + '</div>';
-                        options += '<div class="small-4 large-4 columns">' + obj.campus_nome + '</div>';
-                        options += '<div class="small-4 large-4 columns"><a href="' + obj.grupo_url + '">' + obj.grupo_nome + '</a></div>';
-                        options += '</div>'
-                    });
-                    $("#resultado").html(options);
-                },
-                error: function(xhr,errmsg,err) {
-                    alert(xhr.status + ": " + xhr.responseText);
-                }
+            $("#filtrocursos").change(function () {
+                $.ajax({
+                    url: '/jsoncursos/' + $(this).val() + '/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (json) {
+                        var options = "";
+                        $.each(json, function (key, obj) {
+                            options += '<div class="row padding-all">';
+                            options += '<div class="small-4 large-4 columns">' + obj.formacao_nome + '</div>';
+                            options += '<div class="small-4 large-4 columns">' + obj.campus_nome + '</div>';
+                            options += '<div class="small-4 large-4 columns"><a href="' + obj.grupo_url + '">' +
+                                    obj.grupo_nome + '</a></div>';
+                            options += '</div>';
+                        });
+                        $("#resultado").html(options);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        alert(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+                return false;
             });
-            return false;
-        });
 
-    });
-</script>
+        });
+    </script>
 {% endblock %}

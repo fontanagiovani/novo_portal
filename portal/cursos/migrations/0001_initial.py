@@ -22,13 +22,13 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'cursos', ['Formacao'])
 
-        # Adding model 'Grupo_Cursos'
-        db.create_table(u'cursos_grupo_cursos', (
+        # Adding model 'GrupoCursos'
+        db.create_table(u'cursos_grupocursos', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nome', self.gf('django.db.models.fields.CharField')(max_length=80)),
             ('descricao', self.gf('django.db.models.fields.TextField')()),
         ))
-        db.send_create_signal(u'cursos', ['Grupo_Cursos'])
+        db.send_create_signal(u'cursos', ['GrupoCursos'])
 
         # Adding model 'Curso'
         db.create_table(u'cursos_curso', (
@@ -39,7 +39,7 @@ class Migration(SchemaMigration):
             ('turno', self.gf('django.db.models.fields.CharField')(max_length=3)),
             ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
             ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
-            ('grupo', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cursos.Grupo_Cursos'])),
+            ('grupo', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cursos.GrupoCursos'])),
         ))
         db.send_create_signal(u'cursos', ['Curso'])
 
@@ -51,8 +51,8 @@ class Migration(SchemaMigration):
         # Deleting model 'Formacao'
         db.delete_table(u'cursos_formacao')
 
-        # Deleting model 'Grupo_Cursos'
-        db.delete_table(u'cursos_grupo_cursos')
+        # Deleting model 'GrupoCursos'
+        db.delete_table(u'cursos_grupocursos')
 
         # Deleting model 'Curso'
         db.delete_table(u'cursos_curso')
@@ -69,7 +69,7 @@ class Migration(SchemaMigration):
             'campus': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cursos.Campus']"}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'formacao': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cursos.Formacao']"}),
-            'grupo': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cursos.Grupo_Cursos']"}),
+            'grupo': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cursos.GrupoCursos']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nome': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'turno': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
@@ -80,8 +80,8 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nome': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'cursos.grupo_cursos': {
-            'Meta': {'object_name': 'Grupo_Cursos'},
+        u'cursos.grupocursos': {
+            'Meta': {'object_name': 'GrupoCursos'},
             'descricao': ('django.db.models.fields.TextField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nome': ('django.db.models.fields.CharField', [], {'max_length': '80'})

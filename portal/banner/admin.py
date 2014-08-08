@@ -2,7 +2,6 @@
 from django.contrib import admin
 from portal.banner.models import Banner
 from portal.banner.models import BannerAcessoRapido
-# Register your models here.
 
 
 class BannerAdmin(admin.ModelAdmin):
