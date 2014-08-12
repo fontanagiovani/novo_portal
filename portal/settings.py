@@ -27,6 +27,11 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+# from django.conf import global_settings
+# TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+# "portal.context_processors.carregar_menus",
+# )
+
 TEMPLATE_DEBUG = DEBUG
 
 TESTING = 'test' in sys.argv
@@ -127,7 +132,10 @@ MEDIA_URL = '/media/'
 # Templates
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
-TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.request',)
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+    'portal.core.context_processors.carregar_menus',
+)
 
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'templates'),
