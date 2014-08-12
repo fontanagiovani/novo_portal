@@ -21,9 +21,7 @@ def listadedicionarios(queryset):
 
 
 def jsonformacao(request, formacao_id):
-    queryset = Curso.objects.select_related().filter(formacao=formacao_id).values_list(
-        'formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome'
-    ).distinct()
+    queryset = Curso.objects.select_related().filter(formacao=formacao_id).values_list('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').distinct()
     dados = listadedicionarios(queryset)
     return HttpResponse(json.dumps(dados), mimetype="application/json")
 
@@ -44,7 +42,7 @@ def jsoncursos(request, curso_id):
     return HttpResponse(json.dumps(dados), mimetype="application/json")
 
 
-def listagrupodecursos(request):
+def listagrupodecursos(request, queryset):
     formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
     campi = Curso.objects.select_related('Campus').values('campus__id', 'formacao__id', 'campus__nome').distinct()
     grupo_cursos = Curso.objects.select_related('GrupoCursos').values('grupo__id', 'grupo__nome').distinct()
@@ -54,7 +52,8 @@ def listagrupodecursos(request):
         {
             'formacao': formacao,
             'grupo_cursos': grupo_cursos,
-            'campi': campi
+            'campi': campi,
+            'queryset': queryset,
         }
     )
 
@@ -72,11 +71,18 @@ def exibecurso(request, curso_id):
 
 def guiadecursoportal(request):
     if request.method == 'POST':
-        if int(request.POST.get('campi')) > 0 and int(request.POST.get('cursos')) > 0:
-            return listacursosdogrupo(request, request.POST.get('campi'), request.POST.get('cursos'))
+        if int(request.POST.get('cursos')) > 0:
+            return listacursosdogrupo(request, request.POST.get('cursos'))
+        elif int(request.POST.get('campi')) > 0:
+            queryset = Curso.objects.select_related().values('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').filter(campus=request.POST.get('campi')).distinct()
+            return listagrupodecursos(request, queryset)
+        elif int(request.POST.get('formacao')) > 0:
+            queryset = Curso.objects.select_related().values('formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome').filter(formacao=request.POST.get('formacao')).distinct()
+            return listagrupodecursos(request, queryset)
+
         else:
-            return listagrupodecursos(request)
+            return listagrupodecursos(request, '')
     elif request.method == 'GET':
-        return listagrupodecursos(request)
+        return listagrupodecursos(request, '')
     else:
-        return listagrupodecursos(request)
+        return listagrupodecursos(request, '')
