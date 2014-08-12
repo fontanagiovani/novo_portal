@@ -22,6 +22,7 @@ class NoticiaAdmin(SummernoteModelAdmin):
     form = NoticiaForm
 
     inlines = (AnexoInLine,)
+    filter_horizontal = ('galerias', 'videos')
 
 admin.site.register(Noticia, NoticiaAdmin)
 
@@ -33,6 +34,7 @@ class PaginaAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('titulo',)}
 
     inlines = (AnexoInLine, )
+    filter_horizontal = ('galerias', 'videos')
 
     def get_link(obj):
         return obj.get_absolute_url()
@@ -48,6 +50,7 @@ class EventoAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('titulo',)}
 
     inlines = (AnexoInLine, )
+    filter_horizontal = ('galerias', 'videos')
 
 admin.site.register(Evento, EventoAdmin)
 
@@ -58,6 +61,9 @@ class VideoAdmin(SummernoteModelAdmin):
     date_hierarchy = 'data_publicacao'
     list_filter = ('campus_origem', 'data_publicacao')
     prepopulated_fields = {'slug': ('titulo',)}
+
+    inlines = (AnexoInLine, )
+    filter_horizontal = ('galerias', 'videos')
 
 admin.site.register(Video, VideoAdmin)
 
@@ -75,5 +81,6 @@ class GaleriaAdmin(SummernoteModelAdmin):
     prepopulated_fields = {'slug': ('titulo',)}
 
     inlines = (ImagemGaleriaInline, )
+    filter_horizontal = ('galerias', 'videos')
 
 admin.site.register(Galeria, GaleriaAdmin)
