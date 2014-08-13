@@ -19,6 +19,26 @@ class NoticiaAdmin(SummernoteModelAdmin):
     list_filter = ('destaque', 'prioridade_destaque')
     prepopulated_fields = {'slug': ('titulo',)}
 
+    fieldsets = (
+        (None, {
+            'fields': (
+                'campus_origem',
+                'titulo',
+                'slug',
+                'destaque',
+                'prioridade_destaque',
+                'texto',
+                'fonte',
+                'data_publicacao',
+                'tags',
+            )
+        }),
+        ('Galerias e Vídeos', {
+            'classes': ('collapse',),
+            'fields': ('galerias', 'videos')
+        }),
+    )
+
     form = NoticiaForm
 
     inlines = (AnexoInLine,)
@@ -32,6 +52,24 @@ class PaginaAdmin(SummernoteModelAdmin):
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     prepopulated_fields = {'slug': ('titulo',)}
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'campus_origem',
+                'titulo',
+                'slug',
+                'texto',
+                'fonte',
+                'data_publicacao',
+                'tags',
+            )
+        }),
+        ('Galerias e Vídeos', {
+            'classes': ('collapse',),
+            'fields': ('galerias', 'videos')
+        }),
+    )
 
     inlines = (AnexoInLine, )
     filter_horizontal = ('galerias', 'videos')
@@ -49,6 +87,27 @@ class EventoAdmin(SummernoteModelAdmin):
     date_hierarchy = 'data_publicacao'
     prepopulated_fields = {'slug': ('titulo',)}
 
+    fieldsets = (
+        (None, {
+            'fields': (
+                'campus_origem',
+                'titulo',
+                'slug',
+                'local',
+                'data_inicio',
+                'data_fim',
+                'texto',
+                'fonte',
+                'data_publicacao',
+                'tags',
+            )
+        }),
+        ('Galerias e Vídeos', {
+            'classes': ('collapse',),
+            'fields': ('galerias', 'videos')
+        }),
+    )
+
     inlines = (AnexoInLine, )
     filter_horizontal = ('galerias', 'videos')
 
@@ -61,6 +120,25 @@ class VideoAdmin(SummernoteModelAdmin):
     date_hierarchy = 'data_publicacao'
     list_filter = ('campus_origem', 'data_publicacao')
     prepopulated_fields = {'slug': ('titulo',)}
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'campus_origem',
+                'titulo',
+                'slug',
+                'id_video_youtube',
+                'texto',
+                'fonte',
+                'data_publicacao',
+                'tags',
+            )
+        }),
+        ('Galerias e Vídeos', {
+            'classes': ('collapse',),
+            'fields': ('galerias', 'videos')
+        }),
+    )
 
     inlines = (AnexoInLine, )
     filter_horizontal = ('galerias', 'videos')
@@ -79,6 +157,24 @@ class GaleriaAdmin(SummernoteModelAdmin):
     date_hierarchy = 'data_publicacao'
     list_filter = ('campus_origem', 'data_publicacao')
     prepopulated_fields = {'slug': ('titulo',)}
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'campus_origem',
+                'titulo',
+                'slug',
+                'texto',
+                'fonte',
+                'data_publicacao',
+                'tags',
+            )
+        }),
+        ('Galerias e Vídeos', {
+            'classes': ('collapse',),
+            'fields': ('galerias', 'videos')
+        }),
+    )
 
     inlines = (ImagemGaleriaInline, )
     filter_horizontal = ('galerias', 'videos')
