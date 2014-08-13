@@ -1,3 +1,4 @@
+/*Fields da app conteudo*/
 #id_titulo, #id_slug, #id_local, #id_fonte, #id_tags {
     width: 40em;
 }
