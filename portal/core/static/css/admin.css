@@ -1,4 +1,4 @@
-/*Fields da app conteudo*/
-#id_titulo, #id_slug, #id_local, #id_fonte, #id_tags {
+/*id dos textfields alterados*/
+#id_titulo, #id_slug, #id_local, #id_fonte, #id_tags, #id_url, #id_sigla, #id_nome, #id_email {
     width: 40em;
 }
