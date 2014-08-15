@@ -13,11 +13,14 @@ urlpatterns = patterns('portal.conteudo.views',
                        url(r'^evento/(?P<evento_id>\d+)/$', 'evento_detalhe', name='evento_detalhe'),
                        url(r'^eventos/$', 'eventos_lista', name='eventos_lista'),
 
-                        #Videos
+                       # Videos
                        url(r'^video/(?P<video_id>\d+)/$', 'video_detalhe', name='video_detalhe'),
                        url(r'^videos/$', 'videos_lista', name='videos_lista'),
 
-                       #Galerias
+                       # Galerias
                        url(r'^galeria/(?P<galeria_id>\d+)/$', 'galeria_detalhe', name='galeria_detalhe'),
                        url(r'^galerias/$', 'galerias_lista', name='galerias_lista'),
+
+                       # Tags
+                       url(r'^tag/(?P<tag_slug>[-\w]+)/$', 'tags_lista', name='tags_lista'),
                        )

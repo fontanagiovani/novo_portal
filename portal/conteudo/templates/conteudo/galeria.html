@@ -40,6 +40,21 @@
             <p>{{ galeria.fonte }}</p>
         </div>
     </div>
+
+    {% if galeria.tags.all %}
+        <div class="row collapse padding-bottom-duplo">
+            <div class="small-12 columns">
+                <ul class="sem-marcador no-margin">
+                    <li class="padding-right">Tags:</li>
+                    {% for tag in galeria.tags.all %}
+                        <li class="padding-all fundo-cinza"><a
+                                href="{% url 'conteudo:tags_lista' tag_slug=tag.slug %}">{{ tag.slug }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+
     <div class="row">
         <div class="medium-4 columns">
             {% if galeria.documentos %}

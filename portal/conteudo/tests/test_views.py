@@ -2,6 +2,7 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from model_mommy import mommy
+from taggit.models import TaggedItem
 
 from portal.core.models import Campus
 
@@ -283,5 +284,45 @@ class GaleriaListaTest(TestCase):
     def test_html(self):
         """
         HTML deve conter o 20 titulos, que e a quantidade para paginacao
+        """
+        self.assertContains(self.resp, 'titulo_teste', 20)
+
+
+class TagListaTest(TestCase):
+    def setUp(self):
+        self.eventos = mommy.make(
+            Evento,
+            titulo='titulo_teste',
+            _quantity=21,
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
+
+        for evento in self.eventos:
+            evento.tags.add('ifmt-teste')
+            evento.save()
+
+        self.resp = self.client.get(reverse('conteudo:tags_lista', args=[], kwargs={'tag_slug': 'ifmt-teste'}))
+
+    def test_get(self):
+        """
+        GET /conteudo/galerias/ deve retornar status code 200
+        """
+        self.assertEqual(200, self.resp.status_code)
+
+    def test_template(self):
+        """
+        Eventos lista deve renderizar o template lista.html
+        """
+        self.assertTemplateUsed(self.resp, 'conteudo/tag_lista.html')
+
+    def test_html(self):
+        """
+        HTML deve conter o 1 tag
+        """
+        self.assertContains(self.resp, 'ifmt-teste', 1)
+
+    def test_listagem(self):
+        """
+        HTML de listagem deve conter o 20 (numero de paginacao) eventos (modelo base)
         """
         self.assertContains(self.resp, 'titulo_teste', 20)
