@@ -39,6 +39,8 @@
         <div class="row">
             {% if evento.imagens %}
                 <div class="medium-10 columns no-padding">
+            {% else %}
+                <div class="medium-12 columns no-padding">
             {% endif %}
 
             {% autoescape off %}
@@ -67,6 +69,20 @@
             {% endif %}
         </div>
     </div>
+
+    {% if evento.tags.all %}
+        <div class="row collapse padding-bottom-duplo">
+            <div class="small-12 columns">
+                <ul class="sem-marcador no-margin">
+                    <li class="padding-right">Tags:</li>
+                    {% for tag in evento.tags.all %}
+                        <li class="padding-all fundo-cinza"><a
+                                href="{% url 'conteudo:tags_lista' tag_slug=tag.slug %}">{{ tag.slug }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
 
     <div class="row">
         <div class="medium-4 columns">

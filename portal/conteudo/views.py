@@ -6,6 +6,7 @@ from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
 from portal.conteudo.models import Video
 from portal.conteudo.models import Galeria
+from taggit.models import TaggedItem
 
 
 def noticia_detalhe(request, noticia_id):
@@ -100,3 +101,19 @@ def galerias_lista(request):
         galerias = paginator.page(paginator.num_pages)
 
     return render(request, 'conteudo/galerias_lista.html', {'galerias': galerias})
+
+
+def tags_lista(request, tag_slug):
+    paginator = Paginator(TaggedItem.objects.filter(tag__slug__iexact=tag_slug), 20)
+
+    page = request.GET.get('page')
+    try:
+        tags = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        tags = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        tags = paginator.page(paginator.num_pages)
+
+    return render(request, 'conteudo/tag_lista.html', {'tags': tags, 'tag_slug': tag_slug})
