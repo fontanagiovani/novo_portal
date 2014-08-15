@@ -6,6 +6,7 @@
     <li class="current"><a href="#">{{ video.titulo|truncatewords:"3" }}</a></li>
 {% endblock %}
 
+{% block edicao %}
     {% if user.is_authenticated %}
         <div class="row padding-top">
             <div class="medium-12 columns text-right">
@@ -15,6 +16,7 @@
             </div>
         </div>
     {% endif %}
+{% endblock edicao %}
 
 {% block conteudo %}
     <div class="row padding-bottom">
@@ -26,7 +28,7 @@
         <div class="row">
 
             <div class="flex-video widescreen vimeo">
-                <iframe width="640" height="480" src="//www.youtube.com/embed/{{ video.id_video_youtube }}" frameborder="0" allowfullscreen></iframe>
+                <iframe width="640" height="480" src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
             </div>
 
             {% autoescape off %}
@@ -36,10 +38,46 @@
             {% endautoescape %}
 
             <p>{{ video.fonte }}</p>
-            </div>
-
         </div>
     </div>
+
+    {% if video.tags.all %}
+        <div class="row collapse padding-bottom-duplo">
+            <div class="small-12 columns">
+                <ul class="sem-marcador no-margin">
+                    <li class="padding-right">Tags:</li>
+                    {% for tag in video.tags.all %}
+                        <li class="padding-all fundo-cinza"><a
+                                href="{% url 'conteudo:tags_lista' tag_slug=tag.slug %}">{{ tag.slug }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if video.imagens %}
+        <div class="row">
+            <div class="small-12 columns">
+                <div class="row collapse">
+                    <div class="medium-4 columns">
+                        <h2 class="fundo-vermelho padding-top-bottom text-center">Imagens relacionadas</h2>
+                    </div>
+                    <div class="small-12 columns">
+                        <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-12" data-clearing>
+                            {% for imagem in video.imagens %}
+                                <li>
+                                    <a class="th" href="{% thumbnail imagem.arquivo 1000x800 upscale quality=80 %}">
+                                        <img data-caption="{{ imagem.descricao }}"
+                                             src="{% thumbnail imagem.arquivo 200x200 crop quality=80 %}">
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     <div class="row">
         <div class="medium-4 columns">

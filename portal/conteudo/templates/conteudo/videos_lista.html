@@ -1,7 +1,7 @@
 {% extends 'core/lista.html' %}
 {% load thumbnail %}
 
-{% block breadcrumb %}
+{% block breadcrumbs %}
     <li class="current"><a href="{% url 'conteudo:galerias_lista' %}">Vídeos</a></li>
 {% endblock %}
 
@@ -18,13 +18,13 @@
                                 <div class="row">
 
                                     <div class="small-2 medium-1 columns no-padding">
-                                        <img src="//i1.ytimg.com/vi/{{ video.id_video_youtube }}/sddefault.jpg"
+                                        <img src="{{ video.imagem_sddefault }}"
                                              alt="{{ video.titulo }}"/>
                                     </div>
 
                                     <div class="small-10 medium-11 columns">
-                                        <div class="data-local">{{ video.data_publicacao|date:"d M" }}
-                                            - {{ video.get_campus_origem_display }}</div>
+                                        <div class="data-local texto-tamanho-xsmall">{{ video.data_publicacao|date:"d M" }}
+                                            - {{ video.campus_origem.nome }}</div>
                                         <p class="no-margin espacamento-medio">{{ video.titulo }}</p>
                                     </div>
                                 </div>

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 
-# Create your models here.
-
 
 class Campus(models.Model):
     nome = models.CharField(max_length=50, verbose_name=u'Nome do Campus')
@@ -34,8 +32,9 @@ class Formacao(models.Model):
     # Curso Técnico Integrado ao Ensino Médio na modalidade Proeja
 
 
-class Grupo_Cursos(models.Model):
-    nome = models.CharField(max_length=80, verbose_name=u'Nome Genérico para Curso', help_text=u'Ex.: Licenciatura em Matemática')
+class GrupoCursos(models.Model):
+    nome = models.CharField(max_length=80, verbose_name=u'Nome Genérico para Curso',
+                            help_text=u'Ex.: Licenciatura em Matemática')
     descricao = models.TextField(verbose_name=u'Descrição sobre o curso')
 
     class Meta:
@@ -45,6 +44,10 @@ class Grupo_Cursos(models.Model):
     def __unicode__(self):
         return self.nome
 
+    @models.permalink
+    def get_absolute_url(self):
+        return 'listacursosdogrupo', (), {'grupo_id': self.id}
+
 
 class Curso(models.Model):
     TURNO = (
@@ -53,13 +56,14 @@ class Curso(models.Model):
         ('NOT', u'Noturno'),
         ('INT', u'Integral'),
     )
-    nome = models.CharField(max_length=100, verbose_name=u'Nome do Curso', help_text=u'Ex.: Licenciatura em Matemática Noturno')
+    nome = models.CharField(max_length=100, verbose_name=u'Nome do Curso',
+                            help_text=u'Ex.: Licenciatura em Matemática Noturno')
     formacao = models.ForeignKey(Formacao, verbose_name=u'Tipo de Formação')
     campus = models.ForeignKey(Campus, verbose_name=u'Campus')
     turno = models.CharField(max_length=3, choices=TURNO, verbose_name=u'Turno do Curso')
     email = models.EmailField(verbose_name=u'email')
     url = models.URLField()
-    grupo = models.ForeignKey(Grupo_Cursos)
+    grupo = models.ForeignKey(GrupoCursos)
 
     class Meta:
         verbose_name = u'Curso'
@@ -75,7 +79,7 @@ class Curso(models.Model):
     #     |
     #     |n
     # |------| n     1|-------------|n
-    # |Curso |--------|Grupo_Cursos |
+    # |Curso |--------| GrupoCursos |
     # |------|        |-------------|
     #     |n
     #     |

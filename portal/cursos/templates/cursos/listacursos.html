@@ -1,9 +1,20 @@
-{% extends 'cursos/base.html' %}
-{% block content %}
-    <p><h2>{{ grupo.nome }}</h2></p>
-    <p>Descrição: {{ grupo.descricao }}</p>
-    <hr />
-    {% for c in cursos %}
-        <p><a href="{% url 'exibecurso' c.id %}">{{ c.nome }}</a></p>
-    {% endfor %}
+{% extends 'core/lista.html' %}
+{% block breadcrumbs %}
+    <li><a href="{% url 'listagrupodecursos' %}">Guia de Cursos</a></li>
+    <li class="current"><a href="{% url 'listacursosdogrupo' grupo.id %}">Cursos</a></li>
+{% endblock %}
+{% block listagem %}
+    <div class="row padding-top-bottom">
+        <div class="small-12 columns">
+            <h1>{{ grupo.nome }}</h1>
+            {% if grupo.descricao|cut:" "|length > 1 %}
+                <p>Descrição: {{ grupo.descricao }}</p>
+                <hr />
+            {% endif %}
+            {% for c in cursos %}
+                <p><a href="{% url 'exibecurso' c.id %}">{{ c.campus }} | {{ c.nome }} | Turno: {{ c.get_turno_display }}</a></p>
+            {% endfor %}
+            <hr />
+        </div>
+    </div>
 {% endblock %}

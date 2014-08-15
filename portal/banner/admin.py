@@ -2,11 +2,10 @@
 from django.contrib import admin
 from portal.banner.models import Banner
 from portal.banner.models import BannerAcessoRapido
-# Register your models here.
 
 
 class BannerAdmin(admin.ModelAdmin):
-    list_display = ('data_publicacao', 'arquivo')
+    list_display = ('titulo', 'data_publicacao', 'arquivo')
     search_fields = ('titulo', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
 

@@ -2,6 +2,10 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from model_mommy import mommy
+from taggit.models import TaggedItem
+
+from portal.core.models import Campus
+
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
@@ -11,10 +15,12 @@ from portal.conteudo.models import Galeria
 
 class NoticiaDetalheTest(TestCase):
     def setUp(self):
-        self.noticia = mommy.make(Noticia,
-                                  titulo='titulo_teste',
-                                  texto=u'texto_teste',
-                                  data_publicacao='2014-06-05 10:16:00')
+        self.noticia = mommy.make(
+            Noticia,
+            titulo='titulo_teste',
+            texto=u'texto_teste',
+            data_publicacao='2014-06-05 10:16:00'
+        )
         self.resp = self.client.get(reverse('conteudo:noticia_detalhe', kwargs={'noticia_id': self.noticia.id}))
 
     def test_get(self):
@@ -40,9 +46,12 @@ class NoticiaDetalheTest(TestCase):
 
 class NoticiaListaTest(TestCase):
     def setUp(self):
-        self.noticias = mommy.make(Noticia,
-                                   titulo='titulo_teste',
-                                   _quantity=50)
+        self.noticias = mommy.make(
+            Noticia,
+            titulo='titulo_teste',
+            _quantity=50,
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
         self.resp = self.client.get(reverse('conteudo:noticias_lista'))
 
     def test_get(self):
@@ -66,10 +75,12 @@ class NoticiaListaTest(TestCase):
 
 class PaginaDetalheTest(TestCase):
     def setUp(self):
-        self.pagina = mommy.make(Pagina,
-                                 titulo='titulo_teste',
-                                 texto=u'texto_teste',
-                                 data_publicacao='2014-06-05 10:16:00')
+        self.pagina = mommy.make(
+            Pagina,
+            titulo='titulo_teste',
+            texto=u'texto_teste',
+            data_publicacao='2014-06-05 10:16:00'
+        )
         self.resp = self.client.get(reverse('conteudo:pagina_detalhe', kwargs={'pagina_id': self.pagina.id}))
 
     def test_get(self):
@@ -95,10 +106,12 @@ class PaginaDetalheTest(TestCase):
 
 class EventoDetalheTest(TestCase):
     def setUp(self):
-        self.evento = mommy.make(Evento,
-                                 titulo='titulo_teste',
-                                 texto=u'texto_teste',
-                                 data_publicacao='2014-06-05 10:16:00')
+        self.evento = mommy.make(
+            Evento,
+            titulo='titulo_teste',
+            texto=u'texto_teste',
+            data_publicacao='2014-06-05 10:16:00'
+        )
         self.resp = self.client.get(reverse('conteudo:evento_detalhe', kwargs={'evento_id': self.evento.id}))
 
     def test_get(self):
@@ -124,9 +137,12 @@ class EventoDetalheTest(TestCase):
 
 class EventoListaTest(TestCase):
     def setUp(self):
-        self.eventos = mommy.make(Evento,
-                                  titulo='titulo_teste',
-                                  _quantity=50)
+        self.eventos = mommy.make(
+            Evento,
+            titulo='titulo_teste',
+            _quantity=50,
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
         self.resp = self.client.get(reverse('conteudo:eventos_lista'))
 
     def test_get(self):
@@ -150,11 +166,14 @@ class EventoListaTest(TestCase):
 
 class VideoDetalheTest(TestCase):
     def setUp(self):
-        self.video = mommy.make(Video,
-                                 titulo='titulo_teste',
-                                 texto=u'texto_teste',
-                                 id_video_youtube=u'ID_teste',
-                                 data_publicacao='2014-06-05 10:16:00')
+        self.video = mommy.make(
+            Video,
+            titulo='titulo_teste',
+            texto=u'texto_teste',
+            id_video_youtube=u'ID_teste',
+            data_publicacao='2014-06-05 10:16:00',
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
         self.resp = self.client.get(reverse('conteudo:video_detalhe', kwargs={'video_id': self.video.id}))
 
     def test_get(self):
@@ -181,9 +200,12 @@ class VideoDetalheTest(TestCase):
 
 class VideosListaTest(TestCase):
     def setUp(self):
-        self.videos = mommy.make(Video,
-                                  titulo='titulo_teste',
-                                  _quantity=50)
+        self.videos = mommy.make(
+            Video,
+            titulo='titulo_teste',
+            _quantity=50,
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
         self.resp = self.client.get(reverse('conteudo:videos_lista'))
 
     def test_get(self):
@@ -200,16 +222,20 @@ class VideosListaTest(TestCase):
 
     def test_html(self):
         """
-        HTML deve conter o 40 titulos,(20 para titulo da noticia, 20 para o alt da imagem) que e a quantidade para paginacao
+        HTML deve conter o 40 titulos,(20 para titulo da noticia, 20 para o alt da imagem)
+        que e a quantidade para paginacao
         """
         self.assertContains(self.resp, 'titulo_teste', 40)
 
+
 class GaleriaDetalheTest(TestCase):
     def setUp(self):
-        self.galeria = mommy.make(Galeria,
-                                 titulo='titulo_teste',
-                                 texto=u'texto_teste',
-                                 data_publicacao='2014-06-05 10:16:00')
+        self.galeria = mommy.make(
+            Galeria,
+            titulo='titulo_teste',
+            texto=u'texto_teste',
+            data_publicacao='2014-06-05 10:16:00'
+        )
         self.resp = self.client.get(reverse('conteudo:galeria_detalhe', kwargs={'galeria_id': self.galeria.id}))
 
     def test_get(self):
@@ -235,9 +261,12 @@ class GaleriaDetalheTest(TestCase):
 
 class GaleriaListaTest(TestCase):
     def setUp(self):
-        self.eventos = mommy.make(Galeria,
-                                  titulo='titulo_teste',
-                                  _quantity=50)
+        self.eventos = mommy.make(
+            Galeria,
+            titulo='titulo_teste',
+            _quantity=50,
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
         self.resp = self.client.get(reverse('conteudo:galerias_lista'))
 
     def test_get(self):
@@ -255,5 +284,45 @@ class GaleriaListaTest(TestCase):
     def test_html(self):
         """
         HTML deve conter o 20 titulos, que e a quantidade para paginacao
+        """
+        self.assertContains(self.resp, 'titulo_teste', 20)
+
+
+class TagListaTest(TestCase):
+    def setUp(self):
+        self.eventos = mommy.make(
+            Evento,
+            titulo='titulo_teste',
+            _quantity=21,
+            campus_origem=mommy.make(Campus, _quantity=1)[0],
+        )
+
+        for evento in self.eventos:
+            evento.tags.add('ifmt-teste')
+            evento.save()
+
+        self.resp = self.client.get(reverse('conteudo:tags_lista', args=[], kwargs={'tag_slug': 'ifmt-teste'}))
+
+    def test_get(self):
+        """
+        GET /conteudo/galerias/ deve retornar status code 200
+        """
+        self.assertEqual(200, self.resp.status_code)
+
+    def test_template(self):
+        """
+        Eventos lista deve renderizar o template lista.html
+        """
+        self.assertTemplateUsed(self.resp, 'conteudo/tag_lista.html')
+
+    def test_html(self):
+        """
+        HTML deve conter o 1 tag
+        """
+        self.assertContains(self.resp, 'ifmt-teste', 1)
+
+    def test_listagem(self):
+        """
+        HTML de listagem deve conter o 20 (numero de paginacao) eventos (modelo base)
         """
         self.assertContains(self.resp, 'titulo_teste', 20)

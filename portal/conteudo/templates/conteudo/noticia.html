@@ -6,6 +6,7 @@
     <li class="current"><a href="#">{{ noticia.titulo|truncatewords:"3" }}</a></li>
 {% endblock %}
 
+{% block edicao %}
     {% if user.is_authenticated %}
         <div class="row padding-top">
             <div class="medium-12 columns text-right">
@@ -15,6 +16,7 @@
             </div>
         </div>
     {% endif %}
+{% endblock edicao %}
 
 {% block conteudo %}
     <div class="row padding-bottom">
@@ -26,6 +28,8 @@
         <div class="row">
             {% if noticia.imagens %}
                 <div class="medium-10 columns no-padding">
+            {% else %}
+                <div class="medium-12 columns no-padding">
             {% endif %}
 
             {% autoescape off %}
@@ -52,50 +56,64 @@
                     </div>
                 </div>
             {% endif %}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="medium-4 columns">
-            {% if noticia.documentos %}
-                <h2 class="fundo-vermelho padding-top-bottom text-center">Arquivos relacionados</h2>
-                {% for documento in noticia.documentos %}
-                    <div class="row padding-bottom">
-                        <a href="{{ documento.arquivo.url }}" target="_blank"><i
-                                class="fi-download texto-tamanho-medio alinhamento-vertical">
-                        </i>{{ documento.descricao }}
-                        </a>
-                    </div>
-                {% endfor %}
-            {% endif %}
+            </div>
         </div>
 
-        <div class="medium-4 columns">
-            {% if noticia.galerias.all %}
-                <h2 class="fundo-vermelho padding-top-bottom text-center">Galerias relacionados</h2>
-                {% for galeria in noticia.galerias.all %}
-                    <div class="row padding-bottom">
-                        <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
-                                class="fi-photo texto-tamanho-medio alinhamento-vertical">
-                        </i>{{ galeria.titulo }}
-                        </a>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
+        {% if noticia.tags.all %}
+            <div class="row collapse padding-bottom-duplo">
+                <div class="small-12 columns">
+                    <ul class="sem-marcador no-margin">
+                        <li class="padding-right">Tags:</li>
+                        {% for tag in noticia.tags.all %}
+                            <li class="padding-all fundo-cinza"><a
+                                    href="{% url 'conteudo:tags_lista' tag_slug=tag.slug %}">{{ tag.slug }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
 
-        <div class="medium-4 columns">
-            {% if noticia.videos.all %}
-                <h2 class="fundo-vermelho padding-top-bottom text-center">Vídeos relacionados</h2>
-                {% for video in noticia.videos.all %}
-                    <div class="row padding-bottom">
-                        <a href="{{ video.get_absolute_url }}" target="_blank"><i
-                                class="fi-play-video texto-tamanho-medio alinhamento-vertical">
-                        </i>{{ video.titulo }}
-                        </a>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        <div class="row">
+            <div class="medium-4 columns">
+                {% if noticia.documentos %}
+                    <h2 class="fundo-vermelho padding-top-bottom text-center">Arquivos relacionados</h2>
+                    {% for documento in noticia.documentos %}
+                        <div class="row padding-bottom">
+                            <a href="{{ documento.arquivo.url }}" target="_blank"><i
+                                    class="fi-download texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ documento.descricao }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="medium-4 columns">
+                {% if noticia.galerias.all %}
+                    <h2 class="fundo-vermelho padding-top-bottom text-center">Galerias relacionados</h2>
+                    {% for galeria in noticia.galerias.all %}
+                        <div class="row padding-bottom">
+                            <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
+                                    class="fi-photo texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ galeria.titulo }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="medium-4 columns">
+                {% if noticia.videos.all %}
+                    <h2 class="fundo-vermelho padding-top-bottom text-center">Vídeos relacionados</h2>
+                    {% for video in noticia.videos.all %}
+                        <div class="row padding-bottom">
+                            <a href="{{ video.get_absolute_url }}" target="_blank"><i
+                                    class="fi-play-video texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ video.titulo }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
-    </div>
 {% endblock conteudo %}

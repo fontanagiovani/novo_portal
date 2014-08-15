@@ -16,66 +16,47 @@
         </div>
         <div class="row">
             <div class="medium-12 columns">
-{#                <div class="off-canvas-wrap" data-offcanvas>#}
-{#                    <div class="inner-wrap">#}
-{#                        <nav class="tab-bar fundo-branco">#}
-{#                            <section class="left-small"><a class="left-off-canvas-toggle menu-icon"#}
-{#                                                           href="#"><span></span></a>#}
-{#                            </section>#}
-{#                            <section class="middle tab-bar-section">#}
-{#                                <h1 class="title">{% block sessao %}{% endblock %}</h1>#}
-{#                            </section>#}
-{#                        </nav>#}
-{##}
-{#                        <aside class="left-off-canvas-menu">#}
-{#                            <ul class="off-canvas-list">#}
-{#                                <li><label>Menu</label></li>#}
-{#                                {% block itens_menu %}#}
-{#                                {% endblock %}#}
-{#                            </ul>#}
-{#                        </aside>#}
-{#                        <section class="main-section">#}
+                <div class="row collapse">
+                    <div class="small-7 columns">
+                        <ul class="no-margin compartilhar texto-tamanho-medio">
+                            <li><a href="javascript:window.print();" title="Imprima esta página"><i
+                                    class="fi-print"></i></a></li>
+                            <li>
+                                <a href="http://www.facebook.com/sharer/sharer.php?u=#url{{ request.build_absolute_uri }}"
+                                   target="_blank" title="Compartilhe no Facebook!">
+                                    <i class="fi-social-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://plus.google.com/share?url={{ request.build_absolute_uri }}"
+                                   target="_blank" title="Compartilhe no Google +!">
+                                    <i class="fi-social-google-plus"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/share?url={{ request.build_absolute_uri }}"
+                                   target="_blank"
+                                   title="Compartilhe no Twitter!">
+                                    <i class="fi-social-twitter"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
-                            <div class="row collapse">
-                                <div class="small-7 columns">
-                                    <ul class="no-margin compartilhar texto-tamanho-medio">
-                                        <li><a href="javascript:window.print();" title="Imprima esta página"><i
-                                                class="fi-print"></i></a></li>
-                                        <li>
-                                            <a href="http://www.facebook.com/sharer/sharer.php?u=#url{{ request.build_absolute_uri }}"
-                                               target="_blank" title="Compartilhe no Facebook!">
-                                                <i class="fi-social-facebook"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://plus.google.com/share?url={{ request.build_absolute_uri }}"
-                                               target="_blank" title="Compartilhe no Google +!">
-                                                <i class="fi-social-google-plus"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://twitter.com/share?url={{ request.build_absolute_uri }}"
-                                               target="_blank"
-                                               title="Compartilhe no Twitter!">
-                                                <i class="fi-social-twitter"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                    <div class="small-5 columns text-right">
+                        <ul class="no-margin compartilhar texto-tamanho-medio">
+                            <li><a onclick="resizeText(1)" title="Aumentar fonte">A+</a></li>
+                            <li><a onclick="resizeText(-1)" title="Diminuir fonte">A-</a></li>
+                            <li><a onclick="resetText()" title="Tamanho original">A</a></li>
+                        </ul>
+                    </div>
+                </div>
 
-                                <div class="small-5 columns text-right">
-                                    <ul class="no-margin compartilhar texto-tamanho-medio">
-                                        <li><a onclick="resizeText(1)" title="Aumentar fonte">A+</a></li>
-                                        <li><a onclick="resizeText(-1)" title="Diminuir fonte">A-</a></li>
-                                        <li><a onclick="resetText()" title="Tamanho original">A</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            {% block conteudo %}
-                            {% endblock conteudo %}
-{#                        </section>#}
-{#                        <a class="exit-off-canvas"></a></div>#}
-{#                </div>#}
+                {% block edicao %}
+                {% endblock edicao %}
+
+                {% block conteudo %}
+                {% endblock conteudo %}
             </div>
         </div>
     </div>

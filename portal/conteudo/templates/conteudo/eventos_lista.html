@@ -1,7 +1,7 @@
 {% extends 'core/lista.html' %}
 {% load thumbnail %}
 
-{% block breadcrumb %}
+{% block breadcrumbs %}
     <li class="current"><a href="{% url 'conteudo:eventos_lista' %}">Eventos</a></li>
 {% endblock %}
 
@@ -52,9 +52,9 @@
             {% if eventos.has_previous %}
                 <li class="arrow"><a href="?page={{ eventos.previous_page_number }}">&laquo;</a></li>
             {% endif %}
-
-            <li class="current"><a href="">Página {{ eventos.number }} de {{ eventos.paginator.num_pages }}</a></li>
-
+            {% if eventos.number != 1 %}
+                <li class="current"><a href="">Página {{ eventos.number }} de {{ eventos.paginator.num_pages }}</a></li>
+            {% endif %}
             {% if eventos.has_next %}
                 <li class="arrow"><a href="?page={{ eventos.next_page_number }}">&raquo;</a></li>
             {% endif %}

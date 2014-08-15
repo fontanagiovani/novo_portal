@@ -2,28 +2,11 @@
 from django.db import models
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
+from taggit.managers import TaggableManager
 
-CAMPUS_ORIGEM = (
-    ('RTR', u'Reitoria'),
-    ('BAG', u'Campus Barra do Garças'),
-    ('BLV', u'Campus Bela Vista'),
-    ('CAS', u'Campus Cáceres'),
-    ('CFS', u'Campus Confresa'),
-    ('CBA', u'Campus Cuiabá'),
-    ('JNA', u'Campus Juína'),
-    ('CNP', u'Campus Campo Novo do Parecis'),
-    ('PLC', u'Campus Pontes e Lacerda'),
-    ('ROO', u'Campus Rondonópolis'),
-    ('SVC', u'Campus São Vicente'),
-    ('PDL', u'Campus Primavera do Leste'),
-    ('SRS', u'Campus Sorriso'),
-    ('VGD', u'Campus Várzea Grande'),
-    ('AFL', u'Campus Alta Floresta'),
-)
 
 class Conteudo(models.Model):
-
-    campus_origem = models.CharField(max_length=250, choices=CAMPUS_ORIGEM, default='RTR', verbose_name=u'Campus de origem')
+    campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Campus de origem')
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     slug = models.SlugField(max_length=250, verbose_name=u'Slug')
     texto = models.TextField()
@@ -31,14 +14,26 @@ class Conteudo(models.Model):
     fonte = models.CharField(max_length=250, blank=True, verbose_name=u'Fonte ou Autoria ')
     galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
     videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
-    tags = models.ManyToManyField('Tag', verbose_name=u'Tags Relacionadas', blank=True)
+    tags = TaggableManager(blank=True)
 
     class Meta:
-        abstract = True
         ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
         return self.titulo
+
+    def primeira_imagem(self):
+        if self.anexo_set.filter(arquivo__image__isnull=False).exists():
+            return self.anexo_set.filter(arquivo__image__isnull=False)[0].arquivo
+
+    def imagens(self):
+        if self.anexo_set.filter(arquivo__image__isnull=False).exists():
+            return self.anexo_set.filter(arquivo__image__isnull=False)
+
+    def documentos(self):
+        if self.anexo_set.filter(arquivo__image__isnull=True).exists():
+            return self.anexo_set.filter(arquivo__image__isnull=True)
+
 
 class Noticia(Conteudo):
 
@@ -52,7 +47,8 @@ class Noticia(Conteudo):
     )
 
     destaque = models.BooleanField(default=False)
-    prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',verbose_name=u'Prioridade de destaque')
+    prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',
+                                           verbose_name=u'Prioridade de destaque')
 
     class Meta:
         verbose_name = u'Notícia'
@@ -66,27 +62,15 @@ class Noticia(Conteudo):
     def get_absolute_url(self):
         return 'conteudo:noticia_detalhe', (), {'noticia_id': self.id}
 
-    def primeira_imagem(self):
-        if self.anexonoticia_set.filter(arquivo__image__isnull=False).exists():
-            return self.anexonoticia_set.filter(arquivo__image__isnull=False)[0].arquivo
 
-    def imagens(self):
-        if self.anexonoticia_set.filter(arquivo__image__isnull=False).exists():
-            return self.anexonoticia_set.filter(arquivo__image__isnull=False)
-
-    def documentos(self):
-        if self.anexonoticia_set.filter(arquivo__image__isnull=True).exists():
-            return self.anexonoticia_set.filter(arquivo__image__isnull=True)
-
-
-class AnexoNoticia(models.Model):
+class Anexo(models.Model):
     descricao = models.TextField(verbose_name=u'Descrição')
     arquivo = FilerFileField(related_name='anexos_noticia')
-    noticia = models.ForeignKey('Noticia', verbose_name=u'Notícia')
+    conteudo = models.ForeignKey('Conteudo', verbose_name=u'conteudo')
 
     class Meta:
-        verbose_name = u'Anexo de notícia'
-        verbose_name_plural = u'Anexos de notícia'
+        verbose_name = u'Anexo'
+        verbose_name_plural = u'Anexos'
 
     def __unicode__(self):
         return self.descricao
@@ -106,19 +90,6 @@ class Pagina(Conteudo):
         return 'conteudo:pagina_detalhe', (), {'pagina_id': self.id}
 
 
-class AnexoPagina(models.Model):
-    descricao = models.TextField(verbose_name=u'Descrição')
-    arquivo = FilerFileField(related_name='anexos_pagina')
-    pagina = models.ForeignKey('Pagina', verbose_name=u'Página')
-
-    class Meta:
-        verbose_name = u'Anexo de página'
-        verbose_name_plural = u'Anexos de página'
-
-    def __unicode__(self):
-        return self.descricao
-
-
 class Evento(Conteudo):
 
     local = models.CharField(max_length=250)
@@ -128,7 +99,7 @@ class Evento(Conteudo):
     class Meta:
         verbose_name = u'Evento'
         verbose_name_plural = u'Eventos'
-        ordering = ('-data_publicacao', '-id')
+        ordering = ('-data_inicio', '-id')
 
     def __unicode__(self):
         return self.titulo
@@ -137,18 +108,6 @@ class Evento(Conteudo):
     def get_absolute_url(self):
         return 'conteudo:evento_detalhe', (), {'evento_id': self.id}
 
-
-class AnexoEvento(models.Model):
-    descricao = models.TextField(verbose_name=u'Descrição')
-    arquivo = FilerFileField(related_name='anexos_evento')
-    evento = models.ForeignKey('Evento')
-
-    class Meta:
-        verbose_name = u'Anexo de evento'
-        verbose_name_plural = u'Anexos de evento'
-
-    def __unicode__(self):
-        return self.descricao
 
 class Video(Conteudo):
 
@@ -164,6 +123,13 @@ class Video(Conteudo):
     @models.permalink
     def get_absolute_url(self):
         return 'conteudo:video_detalhe', (), {'video_id': self.id}
+
+    def imagem_sddefault(self):
+        return '//i1.ytimg.com/vi/%s/sddefault.jpg' % self.id_video_youtube
+
+    def embed(self):
+        return '//www.youtube.com/embed/%s' % self.id_video_youtube
+
 
 class Galeria(Conteudo):
 
@@ -199,12 +165,3 @@ class ImagemGaleria(models.Model):
 
     def __unicode__(self):
         return self.descricao
-
-class Tag(models.Model):
-
-    palavra = models.CharField(max_length=150)
-
-    def __unicode__(self):
-        return self.palavra
-
-

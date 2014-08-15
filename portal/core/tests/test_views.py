@@ -4,7 +4,8 @@ from django.core.urlresolvers import reverse
 from model_mommy import mommy
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
-from portal.core.models import Selecao, TipoSelecao
+from portal.core.models import Selecao, TipoSelecao, Campus
+
 
 class HomeTest(TestCase):
     def setUp(self):
@@ -25,12 +26,13 @@ class HomeTest(TestCase):
 
 class HomeContextTest(TestCase):
     def setUp(self):
-        # ordenacao por data e id decrescente
-        mommy.make(Noticia, _quantity=4, titulo=u'noticia_destaque', destaque=True)
-        mommy.make(Noticia, _quantity=7, titulo=u'test1')
-        mommy.make(Noticia, _quantity=4, titulo=u'noticia_destaque', destaque=True)
-        mommy.make(Noticia, _quantity=5, titulo=u'test1')
-        mommy.make(Evento, _quantity=3, titulo=u'Titulo do evento')
+        campus = mommy.make(Campus, _quantity=1, slug='abc')
+        mommy.make(Noticia, _quantity=4, campus_origem=campus[0], titulo=u'noticia_destaque', destaque=True)
+        mommy.make(Noticia, _quantity=7, campus_origem=campus[0], titulo=u'test1')
+        mommy.make(Noticia, _quantity=4, campus_origem=campus[0], titulo=u'noticia_destaque', destaque=True)
+        mommy.make(Noticia, _quantity=5, campus_origem=campus[0], titulo=u'test1')
+        mommy.make(Evento, _quantity=3, campus_origem=campus[0], titulo=u'Titulo do evento')
+
         self.resp = self.client.get(reverse('home'))
 
     def test_conteudo_mais_noticias(self):
@@ -60,6 +62,7 @@ class HomeContextTest(TestCase):
         # Como sao exibidos os thumbnails para navegacao esse numero duplica, ficando 10
         self.assertContains(self.resp, u'noticia_destaque', 10)
 
+
 class SelecaoTest(TestCase):
     def setUp(self):
         self.tipo = TipoSelecao(
@@ -68,7 +71,7 @@ class SelecaoTest(TestCase):
             slug='titulo'
         )
         self.tipo.save()
-        self.selecao = mommy.make(Selecao,titulo='titulo_teste', tipo=self.tipo, _quantity=50)
+        self.selecao = mommy.make(Selecao, titulo='titulo_teste', tipo=self.tipo, _quantity=50)
         self.menuselecao = mommy.make(TipoSelecao, titulo=u'test1', _quantity=7)
         self.resp = self.client.get(reverse('selecao'))
 
@@ -85,4 +88,24 @@ class SelecaoTest(TestCase):
         self.assertTemplateUsed(self.resp, 'core/selecao_lista.html')
 
     def test_menu_selecao(self):
-         self.assertContains(self.resp, u'test1', 7)
+        self.assertContains(self.resp, u'test1', 7)
+
+
+# class Menutest(TestCase):
+#     def setUp(self):
+#         self.no = Menu(
+#             parent=None,
+#             titulo=u'TituloMenu',
+#             slug=_RandomNameSequence,
+#             url=u'url_menu',
+#             ordem=1,
+#         )
+#         self.no.save()
+#         self.menu_pai = mommy.make(Menu, _quantity=7,  slug=_RandomNameSequence, parent=None, titulo=u'tituloMenuPai')
+#         self.resp = self.client.get(reverse('home'))
+#
+#     def test_context_menu(self):
+#         """
+#         A home deve conter sete menus padrão
+#         """
+#         self.assertContains(self.resp, u'tituloMenuPai', 7)

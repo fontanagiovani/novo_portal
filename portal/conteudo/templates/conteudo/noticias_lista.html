@@ -1,7 +1,7 @@
 {% extends 'core/lista.html' %}
 {% load thumbnail %}
 
-{% block breadcrumb %}
+{% block breadcrumbs %}
     <li class="current"><a href="{% url 'conteudo:noticias_lista' %}">Notícias</a></li>
 {% endblock %}
 
@@ -26,17 +26,10 @@
                                     </div>
 
                                     <div class="small-10 medium-11 columns">
-                                        <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}
-                                            - {{ noticia.get_campus_origem_display }}</div>
+                                        <div class="data-local texto-tamanho-xsmall">{{ noticia.data_publicacao|date:"d M" }}
+                                            - {{ noticia.campus_origem.nome }}</div>
                                         <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
                                     </div>
-                                    {#                                        {% else %}#}
-                                    {#                                            <div class="small-12 columns no-padding padding-left">#}
-                                    {#                                                <div class="data-local">{{ noticia.data_publicacao|date:"d M" }}#}
-                                    {#                                                    - {{ noticia.get_campus_origem_display }}</div>#}
-                                    {#                                                <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>#}
-                                    {#                                            </div>#}
-
                                 </div>
                             </a>
                         </div>
@@ -55,7 +48,9 @@
                 <li class="arrow"><a href="?page={{ noticias.previous_page_number }}">&laquo;</a></li>
             {% endif %}
 
-            <li class="current"><a href="">Página {{ noticias.number }} de {{ noticias.paginator.num_pages }}</a></li>
+            {% if noticias.number != 1 %}
+                <li class="current"><a href="">Página {{ noticias.number }} de {{ noticias.paginator.num_pages }}</a></li>
+            {% endif %}
 
             {% if noticias.has_next %}
                 <li class="arrow"><a href="?page={{ noticias.next_page_number }}">&raquo;</a></li>

@@ -11,13 +11,13 @@
                 data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
                 {% for noticia in noticias_destaque %}
                     <li data-orbit-slide="{{ noticia.id }}">
-                        {% if noticia.primeira_imagem %}
-                            <a href="{{ noticia.get_absolute_url }}">
+                        <a href="{{ noticia.get_absolute_url }}">
+                            {% if noticia.primeira_imagem %}
                                 <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}"
-                                     alt="{{ noticia.titulo }}"/></a>
-                        {% endif %}
-                        <div class="orbit-caption">
-                            <a href="{{ noticia.get_absolute_url }}">
+                                     alt="{{ noticia.titulo }}"/>
+                            {% endif %}
+
+                            <div class="orbit-caption">
                                 <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                     {{ noticia.data_publicacao|date:"d M" }}
                                     {#                                    {{ noticia.data_publicacao|date:"Y" }}#}
@@ -29,8 +29,8 @@
                                     </div>
                                     <p class="no-margin espacamento-medio branco texto-tamanho-pequeno">{{ noticia.titulo }}</p>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                     </li>
                 {% endfor %}
             </ul>
@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="small-10 medium-9 columns">
                                     <div class="data-local padding-left texto-tamanho-xsmall">{{ noticia.data_publicacao|date:"d M" }}
-                                        - {{ noticia.get_campus_origem_display }}</div>
+                                        - {{ noticia.campus_origem.nome }}</div>
                                     <p class="no-margin padding-left espacamento-medio">{{ noticia.titulo }}</p>
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                             <a href="{{ noticia.get_absolute_url }}">
                                 <div class="row">
                                     <div class="data-local texto-tamanho-xsmall">{{ noticia.data_publicacao|date:"d M" }}
-                                        - {{ noticia.get_campus_origem_display }}</div>
+                                        - {{ noticia.campus_origem.nome }}</div>
                                     <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
                                 </div>
                             </a>
@@ -125,41 +125,32 @@
         <div class="row padding-bottom">
             <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
 
-            <form>
+            <form method="post" id="guiadecursoportal" name="guiadecursoportal"
+                  action="{% url 'guiadecursoportal' %}">{% csrf_token %}
                 <div class="row collapse padding-bottom">
                     <div class="medium-12 columns">
-                        <label>Selecione um Câmpus
-                            <select>
-                                <option value="1">--------</option>
-                                <option value="2">Câmpus 1</option>
-                                <option value="3">Câmpus 2</option>
-                                <option value="4">Câmpus 3</option>
-                                <option value="5">Câmpus 4</option>
-                            </select>
-                        </label>
-
                         <label>Selecione uma tipo de formação
-                            <select>
-                                <option value="1">--------</option>
-                                <option value="2">Formação 1</option>
-                                <option value="3">Formação 2</option>
-                                <option value="4">Formação 3</option>
-                                <option value="5">Formação 4</option>
+                            <select id="formacao" name="formacao">
+                                <option value="0">--------</option>
+                                {% for f in formacao %}
+                                    <option value="{{ f.formacao__id }}">{{ f.formacao__nome }}</option>
+                                {% endfor %}
                             </select>
                         </label>
-
+                        <label>Selecione um Câmpus
+                            <select id="campi" name="campi">
+                                <option value="0">--------</option>
+                            </select>
+                        </label>
                         <label>Selecione um curso
-                            <select>
-                                <option value="1">--------</option>
-                                <option value="2">Curso 1</option>
-                                <option value="3">Curso 2</option>
-                                <option value="4">Curso 3</option>
-                                <option value="5">Curso 4</option>
+                            <select id="cursos" name="cursos">
+                                <option value="0">--------</option>
                             </select>
                         </label>
                     </div>
                 </div>
-                <a href="#" class="button small expand no-margin">Buscar</a>
+                <div id="resultado"></div>
+                <input type="submit" class="button small expand no-margin" value="Buscar">
             </form>
         </div>
         {#Fim da div eventos e guia de curso#}
@@ -227,7 +218,6 @@
                     <li><p class="espacamento-medio"><a href="">Pró-Reitoria de Ensino</a></p></li>
                     <li><p class="espacamento-medio"><a href="">Pró-Reitoria de Extensão</a></p></li>
                     <li><p class="espacamento-medio"><a href="">Pró-Reitoria de Pesquisa e Inovação</a></p></li>
-                    </li>
                 </ul>
             </div>
 
@@ -252,14 +242,14 @@
                     data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
                     {% for galeria in galerias %}
                         <li data-orbit-slide="{{ galeria.id }}">
-                            {% if galeria.primeira_imagem %}
-                                <a href="{{ galeria.get_absolute_url }}"><img
-                                        src="{% thumbnail galeria.primeira_imagem 640x470 crop quality=80 %}"
-                                        alt="{{ galeria.titulo }}"/></a>
-                            {% endif %}
+                            <a href="{{ galeria.get_absolute_url }}">
+                                {% if galeria.primeira_imagem %}
+                                    <img
+                                            src="{% thumbnail galeria.primeira_imagem 640x470 crop quality=80 %}"
+                                            alt="{{ galeria.titulo }}"/>
+                                {% endif %}
 
-                            <div class="orbit-caption">
-                                <a href="{{ galeria.get_absolute_url }}">
+                                <div class="orbit-caption">
                                     <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                         {{ galeria.data_publicacao|date:"d M" }}
                                         {#                                        {{ galeria.data_publicacao|date:"Y" }}#}
@@ -271,8 +261,8 @@
                                         </div>
                                         <p class="no-margin espacamento-medio branco texto-tamanho-pequeno">{{ galeria.titulo|truncatechars:'60' }}</p>
                                     </div>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -297,19 +287,14 @@
             {% for video in videos %}
                 <div class="row">
                     <div class="flex-video">
-                        <iframe src="//www.youtube.com/embed/{{ video.id_video_youtube }}" frameborder="0"
-                                allowfullscreen></iframe>
+                        <iframe src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
                     </div>
-
-                    {#                    <a href="{{ video.get_absolute_url }}">#}
-                    {#                        <img src="//i1.ytimg.com/vi/{{ video.id_video_youtube }}/sddefault.jpg"/>#}
-                    {#                    </a>#}
                 </div>
 
                 <div class="row">
                     <a href="{{ video.get_absolute_url }}">
-                        <div class="data-local">{{ video.data_publicacao|date:"d M" }}
-                            - {{ video.get_campus_origem_display }}</div>
+                        <div class="data-local texto-tamanho-xsmall">{{ video.data_publicacao|date:"d M" }}
+                            - {{ video.campus_origem.nome }}</div>
                         <p class="espacamento-medio">{{ video.titulo }}</p>
                     </a>
                 </div>
@@ -322,4 +307,55 @@
     </div>
     {#Fim da div central para as 3 colunas#}
 
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $("#formacao").change(function () {
+                {#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
+                $.ajax({
+                    url: '/json_campi/' + $(this).val() + '/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (json) {
+                        var options = "<option value='0'>--------</option>";
+                        $.each(json, function (key, value) {
+                            options += '<option value="' + key + '">' + value + '</option>';
+                        });
+                        $("#campi").html(options);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        alert(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+                return false;
+            });
+
+            $("#campi").change(function () {
+                $.ajax({
+                    url: '/json_cursos/' + document.getElementById("formacao").value + '/' + $(this).val() + '/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (json) {
+                        var options = "<option value='0'>--------</option>";
+                        $.each(json, function (key, value) {
+                            options += '<option value="' + key + '">' + value + '</option>';
+                        });
+                        $("#cursos").html(options);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        alert(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+                return false;
+            });
+
+        });
+    </script>
 {% endblock %}
