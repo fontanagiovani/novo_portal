@@ -27,11 +27,6 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-# from django.conf import global_settings
-# TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-# "portal.context_processors.carregar_menus",
-# )
-
 TEMPLATE_DEBUG = DEBUG
 
 TESTING = 'test' in sys.argv
