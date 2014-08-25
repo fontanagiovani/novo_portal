@@ -68,6 +68,7 @@ INSTALLED_APPS = (
     'taggit',
     'debug_toolbar',
     'django_extensions',
+    'adminsortable',
 
     # Project apps
     'portal.core',
@@ -135,6 +136,8 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'templates'),
 )
+
+MPTT_ADMIN_LEVEL_INDENT = 20
 
 # Utilizado para testes
 FILER_PUBLIC = BASE_DIR.child('filer_public')

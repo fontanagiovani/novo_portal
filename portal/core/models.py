@@ -22,13 +22,13 @@ class Menu(MPTTModel):
     titulo = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True, unique=True)
     url = models.CharField(max_length=250, blank=True,)
-    ordem = models.IntegerField(default=9999, blank=True, verbose_name=u'Ordem do Menu',)
+    ordem = models.PositiveIntegerField()
 
-    class Meta:
-        ordering = ('ordem', 'titulo')
+    class Meta(object):
+        ordering = ('ordem',)
 
     class MPTTMeta:
-        order_insertion_by = ('ordem', 'titulo')
+        order_insertion_by = ('ordem', )
 
     def __unicode__(self):
         return self.titulo
