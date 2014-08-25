@@ -126,6 +126,14 @@ h2 {
     display: inline;
 }
 
+#id_models {
+    list-style: none;
+}
+
+#id_models li {
+    display: inline;
+}
+
 .separador-direita {
     border-right: 0.0625em solid;
     padding-right: 0.3125em;

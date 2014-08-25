@@ -5,11 +5,26 @@ from django.contrib import admin
 
 admin.autodiscover()
 
+from haystack.forms import ModelSearchForm
+from haystack.query import SearchQuerySet
+from haystack.views import SearchView, search_view_factory
+
+sqs = SearchQuerySet().order_by('-data_publicacao')
+
 urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^summernote/', include('django_summernote.urls')),
                        url(r'^conteudo/', include('portal.conteudo.urls', namespace='conteudo')),
                        url(r'^selecao/', 'portal.core.views.selecao', name='selecao'),
+
+
+                       url(r'buscar/$', search_view_factory(
+                           view_class=SearchView,
+                           template='search/search.html',
+                           searchqueryset=sqs,
+                           form_class=ModelSearchForm
+                           ), name='buscar'),
+
                        url(r'^$', 'portal.core.views.home', name='home'),
 
                        url(r'^guiadecursos/', 'portal.cursos.views.listagrupodecursos', name='listagrupodecursos'),
@@ -30,7 +45,7 @@ urlpatterns = patterns('',
 from django.conf import settings
 
 # if settings.DEBUG:
-    # static files (images, css, javascript, etc.)
+# static files (images, css, javascript, etc.)
 urlpatterns += patterns('',
                         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
                             'document_root': settings.MEDIA_ROOT}))
