@@ -1,0 +1,70 @@
+{% extends 'core/lista.html' %}
+
+{% block content %}
+    <div class="row padding-bottom-duplo">
+        <div class="small-12 columns">
+            <h1>Busca</h1>
+
+            <div class="row">
+                <form method="get" action="{% url 'buscar' %}">
+                    <div class="small-12 columns">
+                        {% for field in form.visible_fields %}
+                            {{ field }}
+                        {% endfor %}
+                    </div>
+                    <div class="small-12 medium-3 medium-pull-9 columns">
+                        <input type="submit" value="Buscar" class="button postfix no-margin"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 columns">
+            {% if query %}
+                <h2>Resultados</h2>
+
+                {% for result in page.object_list %}
+                    <div class="row padding-bottom-duplo">
+                        <div class="row hover-cinza-claro">
+                            <a href="{{ result.object.get_absolute_url }}">
+                                <div class="row collapse">
+                                    <div class="small-12 columns">
+                                        <div class="data-local texto-tamanho-xsmall">{{ result.object.data_publicacao|date:"d M" }}
+                                            - {{ result.object.campus_origem.nome }}</div>
+                                        <p class="no-margin espacamento-medio">{{ result.object.titulo }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Nenhum resultado encontrado.</p>
+                {% endfor %}
+
+                {% block paginacao %}
+                    {#Início da paginação#}
+                    <div class="pagination-centered">
+                        <ul class="pagination">
+                            {% if page.has_previous %}
+                                <li class="arrow"><a
+                                        href="?q={{ query }}&amp;page={{ page.previous_page_number }}">&laquo;</a></li>
+                            {% endif %}
+                            <li class="current"><a href="">Página {{ page.number }}
+                                de {{ page.paginator.num_pages }}</a></li>
+                            {% if page.has_next %}
+                                <li class="arrow"><a
+                                        href="?q={{ query }}&amp;page={{ page.next_page_number }}">&raquo;</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {#Fim da paginação#}
+                {% endblock %}
+
+
+            {% else %}
+                <p>Insira um texto para buscar.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

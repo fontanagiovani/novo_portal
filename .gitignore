@@ -19,5 +19,7 @@
 /staticfiles
 /logs
 !/logs/.dummy
+/whoosh
+!/whoosh/.dummy
 .floo
 .flooignore

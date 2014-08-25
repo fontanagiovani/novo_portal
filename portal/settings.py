@@ -69,6 +69,8 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'django_extensions',
     'adminsortable',
+    'haystack',
+    'whoosh',
 
     # Project apps
     'portal.core',
@@ -134,8 +136,17 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 )
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates'),
+    BASE_DIR.child('templates'),
 )
+
+WHOOSH_INDEX = BASE_DIR.child('whoosh')
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': WHOOSH_INDEX,
+    },
+}
 
 MPTT_ADMIN_LEVEL_INDENT = 20
 
