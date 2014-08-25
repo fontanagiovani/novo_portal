@@ -18,7 +18,7 @@ class NoticiaIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
-        return self.get_model().objects.all().order_by('-data_publicacao')
+        return self.get_model().objects.all()
 
 
 class EventoIndex(indexes.SearchIndex, indexes.Indexable):
@@ -32,7 +32,7 @@ class EventoIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
-        return self.get_model().objects.all().order_by('-data_publicacao')
+        return self.get_model().objects.all()
 
 
 class PaginaIndex(indexes.SearchIndex, indexes.Indexable):
@@ -46,7 +46,7 @@ class PaginaIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
-        return self.get_model().objects.all().order_by('-data_publicacao')
+        return self.get_model().objects.all()
 
 
 class VideoIndex(indexes.SearchIndex, indexes.Indexable):
@@ -60,7 +60,7 @@ class VideoIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
-        return self.get_model().objects.all().order_by('-data_publicacao')
+        return self.get_model().objects.all()
 
 
 class GaleriaIndex(indexes.SearchIndex, indexes.Indexable):
@@ -74,4 +74,4 @@ class GaleriaIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
-        return self.get_model().objects.all().order_by('-data_publicacao')
+        return self.get_model().objects.all()
