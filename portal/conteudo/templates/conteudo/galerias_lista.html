@@ -42,18 +42,21 @@
 
 {% block paginacao %}
     {#Início da paginação#}
-    <div class="pagination-centered">
-        <ul class="pagination">
-            {% if galerias.has_previous %}
-                <li class="arrow"><a href="?page={{ galerias.previous_page_number }}">&laquo;</a></li>
-            {% endif %}
+    {% if galerias.paginator.num_pages > 1 %}
+        <div class="pagination-centered">
+            <ul class="pagination">
+                {% if galerias.has_previous %}
+                    <li class="arrow"><a href="?page={{ galerias.previous_page_number }}">&laquo;</a></li>
+                {% endif %}
 
-            <li class="current"><a href="">Página {{ galerias.number }} de {{ galerias.paginator.num_pages }}</a></li>
+                <li class="current"><a href="">Página {{ galerias.number }} de {{ galerias.paginator.num_pages }}</a>
+                </li>
 
-            {% if galerias.has_next %}
-                <li class="arrow"><a href="?page={{ galerias.next_page_number }}">&raquo;</a></li>
-            {% endif %}
-        </ul>
-    </div>
+                {% if galerias.has_next %}
+                    <li class="arrow"><a href="?page={{ galerias.next_page_number }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
     {#Fim da paginação#}
 {% endblock %}

@@ -39,18 +39,20 @@
 
 {% block paginacao %}
     {#Início da paginação#}
-    <div class="pagination-centered">
-        <ul class="pagination">
-            {% if videos.has_previous %}
-                <li class="arrow"><a href="?page={{ videos.previous_page_number }}">&laquo;</a></li>
-            {% endif %}
+    {% if videos.paginator.num_pages > 1 %}
+        <div class="pagination-centered">
+            <ul class="pagination">
+                {% if videos.has_previous %}
+                    <li class="arrow"><a href="?page={{ videos.previous_page_number }}">&laquo;</a></li>
+                {% endif %}
 
-            <li class="current"><a href="">Página {{ videos.number }} de {{ videos.paginator.num_pages }}</a></li>
+                <li class="current"><a href="">Página {{ videos.number }} de {{ videos.paginator.num_pages }}</a></li>
 
-            {% if videos.has_next %}
-                <li class="arrow"><a href="?page={{ videos.next_page_number }}">&raquo;</a></li>
-            {% endif %}
-        </ul>
-    </div>
+                {% if videos.has_next %}
+                    <li class="arrow"><a href="?page={{ videos.next_page_number }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
     {#Fim da paginação#}
 {% endblock %}

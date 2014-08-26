@@ -47,18 +47,19 @@
 
 {% block paginacao %}
     {#Início da paginação#}
-    <div class="pagination-centered">
-        <ul class="pagination">
-            {% if eventos.has_previous %}
-                <li class="arrow"><a href="?page={{ eventos.previous_page_number }}">&laquo;</a></li>
-            {% endif %}
-            {% if eventos.number != 1 %}
-                <li class="current"><a href="">Página {{ eventos.number }} de {{ eventos.paginator.num_pages }}</a></li>
-            {% endif %}
-            {% if eventos.has_next %}
-                <li class="arrow"><a href="?page={{ eventos.next_page_number }}">&raquo;</a></li>
-            {% endif %}
-        </ul>
-    </div>
+    {% if eventos.paginator.num_pages > 1 %}
+        <div class="pagination-centered">
+            <ul class="pagination">
+                {% if eventos.has_previous %}
+                    <li class="arrow"><a href="?page={{ eventos.previous_page_number }}">&laquo;</a></li>
+                {% endif %}
+                <li class="current"><a href="">Página {{ eventos.number }} de {{ eventos.paginator.num_pages }}</a>
+                </li>
+                {% if eventos.has_next %}
+                    <li class="arrow"><a href="?page={{ eventos.next_page_number }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
     {#Fim da paginação#}
 {% endblock %}
