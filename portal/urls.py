@@ -14,6 +14,7 @@ sqs = SearchQuerySet().order_by('-data_publicacao')
 urlpatterns = patterns('',
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^summernote/', include('django_summernote.urls')),
+                       url(r'^taggit_autosuggest/', include('taggit_autosuggest.urls')),
                        url(r'^conteudo/', include('portal.conteudo.urls', namespace='conteudo')),
                        url(r'^selecao/', 'portal.core.views.selecao', name='selecao'),
 

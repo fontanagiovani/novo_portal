@@ -71,6 +71,7 @@ INSTALLED_APPS = (
     'adminsortable',
     'haystack',
     'whoosh',
+    'taggit_autosuggest',
 
     # Project apps
     'portal.core',

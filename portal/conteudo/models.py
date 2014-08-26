@@ -2,7 +2,7 @@
 from django.db import models
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
-from taggit.managers import TaggableManager
+from taggit_autosuggest.managers import TaggableManager
 
 
 class Conteudo(models.Model):
