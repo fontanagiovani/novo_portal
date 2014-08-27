@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.sites.models import Site
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -18,6 +19,7 @@ class Campus(MPTTModel):
 
 
 class Menu(MPTTModel):
+    site = models.ForeignKey(Site)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name=u'Menu pai')
     titulo = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True, unique=True)

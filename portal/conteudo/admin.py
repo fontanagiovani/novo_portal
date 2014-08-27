@@ -22,6 +22,7 @@ class NoticiaAdmin(SummernoteModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
+                'sites',
                 'campus_origem',
                 'titulo',
                 'slug',
@@ -56,6 +57,7 @@ class PaginaAdmin(SummernoteModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
+                'sites',
                 'campus_origem',
                 'titulo',
                 'slug',
@@ -90,6 +92,7 @@ class EventoAdmin(SummernoteModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
+                'sites',
                 'campus_origem',
                 'titulo',
                 'slug',
@@ -124,6 +127,7 @@ class VideoAdmin(SummernoteModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
+                'sites',
                 'campus_origem',
                 'titulo',
                 'slug',
@@ -161,6 +165,7 @@ class GaleriaAdmin(SummernoteModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
+                'sites',
                 'campus_origem',
                 'titulo',
                 'slug',

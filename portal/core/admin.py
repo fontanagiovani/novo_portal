@@ -21,7 +21,7 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
     e o atributo change_list_template deve ser definido para sobrescrever os definidos pela classes
     SortableAdminMixin e MPTTModelAdmin pela juncao dos dois templates
     """
-    list_display = ('titulo', 'menu_raiz', )
+    list_display = ('titulo', 'menu_raiz', 'site')
     search_fields = ('titulo',)
     prepopulated_fields = {'slug': ('titulo',)}
 
