@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # External apps
     'gunicorn',
@@ -91,6 +92,7 @@ ROOT_URLCONF = 'portal.urls'
 
 WSGI_APPLICATION = 'portal.wsgi.application'
 
+SITE_ID = 1
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -104,6 +106,8 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
+
+# AUTH_USER_MODEL='core.User'
 
 LANGUAGE_CODE = 'pt-br'
 

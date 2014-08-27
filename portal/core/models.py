@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 
 
 class Campus(MPTTModel):
@@ -73,3 +75,22 @@ class Selecao(models.Model):
 
     def __unicode__(self):
         return self.titulo
+
+
+class PermissaoPublicacao(models.Model):
+    class Meta:
+        verbose_name = u'Permissão de Publicacão'
+        verbose_name_plural = u'Permissões de Publicação'
+
+    sites = models.ManyToManyField(Site, verbose_name=u'Sites Permitidos')
+    user = models.ForeignKey(User, verbose_name=u'Usuario', primary_key=True)
+
+    def sites_publicacao(self):
+        sites_perm = []
+        i = 0
+        for site in self.sites.all():
+            sites_perm.insert(i, site)
+        if sites_perm == []:
+            return ""
+        else:
+            return sites_perm

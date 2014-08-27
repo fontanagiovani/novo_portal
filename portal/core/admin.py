@@ -4,6 +4,9 @@ from mptt.admin import MPTTModelAdmin
 from portal.core.models import Menu
 from portal.core.models import Campus
 from portal.core.models import Selecao, TipoSelecao
+from portal.core.models import PermissaoPublicacao
+from django.contrib.auth.admin import User
+from django.contrib.auth.admin import UserAdmin
 
 
 class CampusAdmin(admin.ModelAdmin):
@@ -39,3 +42,28 @@ class SelecaoAdmin(admin.ModelAdmin):
     list_filter = ('status', 'tipo')
 
 admin.site.register(Selecao, SelecaoAdmin)
+
+
+class SiteInline(admin.StackedInline):
+    model = PermissaoPublicacao
+    max_num = 1
+    can_delete = False
+
+
+class UserAdmin(UserAdmin):
+    #
+    # def add_view(self, *args, **kwargs):
+    #     self.\
+    inlines = [SiteInline]
+    #             = []
+    #     return super(SiteInline, self).add_view(*args, **kwargs)
+    #
+    # def change_view(self, *args, **kwargs):
+    #     self.inline)instance.append()
+
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
+
+
+
