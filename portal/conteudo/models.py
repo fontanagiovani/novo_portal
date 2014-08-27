@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.sites.models import Site
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
 from taggit_autosuggest.managers import TaggableManager
@@ -15,6 +16,7 @@ class Conteudo(models.Model):
     galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
     videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
     tags = TaggableManager(blank=True)
+    sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
 
     class Meta:
         ordering = ('-data_publicacao', '-id')

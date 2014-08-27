@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # External apps
     'gunicorn',
@@ -94,6 +95,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'portal.urls'
 
 WSGI_APPLICATION = 'portal.wsgi.application'
+
+SITE_ID = 1
 
 
 # Database
