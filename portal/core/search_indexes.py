@@ -1,5 +1,6 @@
 # coding: utf-8
 from haystack import indexes
+
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
 from portal.conteudo.models import Pagina
@@ -12,6 +13,7 @@ class NoticiaIndex(indexes.SearchIndex, indexes.Indexable):
     titulo = indexes.CharField(model_attr='titulo')
     texto = indexes.CharField(model_attr='texto')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
+    sites = indexes.MultiValueField()
 
     def get_model(self):
         return Noticia
@@ -26,6 +28,7 @@ class EventoIndex(indexes.SearchIndex, indexes.Indexable):
     titulo = indexes.CharField(model_attr='titulo')
     texto = indexes.CharField(model_attr='texto')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
+    sites = indexes.MultiValueField()
 
     def get_model(self):
         return Evento
@@ -40,6 +43,7 @@ class PaginaIndex(indexes.SearchIndex, indexes.Indexable):
     titulo = indexes.CharField(model_attr='titulo')
     texto = indexes.CharField(model_attr='texto')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
+    sites = indexes.MultiValueField()
 
     def get_model(self):
         return Pagina
@@ -54,6 +58,7 @@ class VideoIndex(indexes.SearchIndex, indexes.Indexable):
     titulo = indexes.CharField(model_attr='titulo')
     texto = indexes.CharField(model_attr='texto')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
+    sites = indexes.MultiValueField()
 
     def get_model(self):
         return Video
@@ -68,6 +73,7 @@ class GaleriaIndex(indexes.SearchIndex, indexes.Indexable):
     titulo = indexes.CharField(model_attr='titulo')
     texto = indexes.CharField(model_attr='texto')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
+    sites = indexes.MultiValueField()
 
     def get_model(self):
         return Galeria

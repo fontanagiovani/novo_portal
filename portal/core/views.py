@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse  # httresponse para usar com json
 from django.http.response import Http404
 import json  # json para usar no select com ajax
+from haystack.views import SearchView
 
 from portal.core.models import Selecao, TipoSelecao
 from portal.conteudo.models import Noticia
@@ -95,3 +96,14 @@ def json_cursos(request, formacao_id, campus_id):
     dados = dict(Curso.objects.select_related('GrupoCursos').filter(
         formacao=formacao_id, campus=campus_id).values_list('grupo__id', 'grupo__nome').distinct())
     return HttpResponse(json.dumps(dados), content_type="application/json")
+
+
+class SearchViewSites(SearchView):
+    # sobrescrita do metodo para filtar pelo dominio da requisicao
+    def get_results(self):
+        results = super(SearchViewSites, self).get_results()
+        results = results.filter(text__contains=self.request.get_host())
+
+        # import ipdb
+        # ipdb.set_trace()
+        return results
