@@ -8,6 +8,7 @@ admin.autodiscover()
 from haystack.forms import ModelSearchForm
 from haystack.query import SearchQuerySet
 from haystack.views import SearchView, search_view_factory
+from portal.core.views import SearchViewSites
 
 sqs = SearchQuerySet().order_by('-data_publicacao')
 
@@ -20,7 +21,7 @@ urlpatterns = patterns('',
 
 
                        url(r'buscar/$', search_view_factory(
-                           view_class=SearchView,
+                           view_class=SearchViewSites,
                            template='search/search.html',
                            searchqueryset=sqs,
                            form_class=ModelSearchForm
