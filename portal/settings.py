@@ -97,10 +97,6 @@ ROOT_URLCONF = 'portal.urls'
 WSGI_APPLICATION = 'portal.wsgi.application'
 
 SITE_ID = 1
-<<<<<<< HEAD
-
-=======
->>>>>>> auth
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
