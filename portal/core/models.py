@@ -85,14 +85,6 @@ class PermissaoPublicacao(models.Model):
         verbose_name_plural = u'Permissões de Publicação'
 
     sites = models.ManyToManyField(Site, verbose_name=u'Sites Permitidos')
-    user = models.ForeignKey(User, verbose_name=u'Usuario', primary_key=True)
+    user = models.OneToOneField(User, verbose_name=u'Usuario', primary_key=True)
 
-    def sites_publicacao(self):
-        sites_perm = []
-        i = 0
-        for site in self.sites.all():
-            sites_perm.insert(i, site)
-        if sites_perm == []:
-            return ""
-        else:
-            return sites_perm
+

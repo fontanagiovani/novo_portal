@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from Crypto.SelfTest.Cipher.test_pkcs1_15 import t2b
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 from adminsortable.admin import SortableAdminMixin
@@ -58,20 +59,21 @@ class SiteInline(admin.StackedInline):
     can_delete = False
 
 
-class UserAdmin(UserAdmin):
-    #
-    # def add_view(self, *args, **kwargs):
-    #     self.\
+class PermissaoPublicacaoAdmin(UserAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'sites_publicacao')
     inlines = [SiteInline]
-    #             = []
-    #     return super(SiteInline, self).add_view(*args, **kwargs)
-    #
-    # def change_view(self, *args, **kwargs):
-    #     self.inline)instance.append()
 
+    def sites_publicacao(self, obj):
+        sites_perm = []
+        for site in obj.permissaopublicacao.sites.all():
+            sites_perm.append(site)
+        if sites_perm == []:
+            return ""
+        else:
+            return sites_perm
 
 admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+admin.site.register(User, PermissaoPublicacaoAdmin)
 
 
 
