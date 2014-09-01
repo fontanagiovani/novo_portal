@@ -20,10 +20,11 @@ function getCookie(name) {
     return cookieValue;
 }
 
-
 function atualizar_menus() {
     var csrftoken = getCookie('csrftoken');
     site_id = $('#id_site').val();
+    selecionado = $('#id_parent').val();
+
 
     if (site_id == "") {
         site_id = 0;
@@ -38,13 +39,18 @@ function atualizar_menus() {
                 'csrfmiddlewaretoken': csrftoken
             },
             success: function (json) {
-                var options = "<option value='0'>--------</option>";
+                var options = "<option value=''>---------</option>";
 
                 $.each(json, function (key, value) {
-                    options += '<option value="' + value.id + '">' + value.titulo + '</option>';
+                    if (selecionado != value.id) {
+                        options += '<option value="' + value.id + '">' + value.titulo + '</option>';
+                    }
+                    else {
+                        options += '<option selected="selected" value="' + value.id + '">' + value.titulo + '</option>';
+                    }
                 });
-//                    alert(options);
                 $("#id_parent").html(options);
+
             },
             error: function (xhr, errmsg, err) {
                 alert(xhr.status + ": " + xhr.responseText);
