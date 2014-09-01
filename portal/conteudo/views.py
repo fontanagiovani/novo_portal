@@ -161,3 +161,11 @@ def tags_lista(request, tag_slug):
         tags = paginator.page(paginator.num_pages)
 
     return render(request, 'conteudo/tag_lista.html', {'tags': tags, 'tag_slug': tag_slug})
+
+
+def licitacao_detalhe(request, licitacao_id):
+    pass
+
+
+def licitacoes_lista(request):
+    pass
