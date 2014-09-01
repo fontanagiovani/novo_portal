@@ -93,7 +93,6 @@ class Pagina(Conteudo):
 
 
 class Evento(Conteudo):
-
     local = models.CharField(max_length=250)
     data_inicio = models.DateTimeField(verbose_name=u'Data de início')
     data_fim = models.DateTimeField(verbose_name=u'Data de término')
@@ -109,6 +108,49 @@ class Evento(Conteudo):
     @models.permalink
     def get_absolute_url(self):
         return 'conteudo:evento_detalhe', (), {'evento_id': self.id}
+
+
+class Licitacao(models.Model):
+    TIPO_MODALIDADE = (
+        ('1', u'Pregão'),
+        ('2', u'Convite'),
+        ('3', u'Tomada de preço'),
+        ('4', u'Concorrência'),
+    )
+    modalidade = models.CharField(max_length=1, choices=TIPO_MODALIDADE, verbose_name=u'Tipo de Modalidade')
+    titulo = models.CharField(max_length=100, verbose_name=u'Título')
+    data_publicacao = models.DateField(verbose_name=u'Data de publicação')
+    data_abertura = models.DateTimeField(verbose_name=u'Data de abertura')
+    pregao_srp = models.BooleanField(verbose_name=u'É um pregão SRP?')
+    validade_ata_srp = models.DateField(verbose_name=u'Validade ATA SRP', blank=True, null=True)
+    possui_contrato = models.BooleanField(verbose_name=u'Possui Contrato?')
+    vigencia_contrato_inicio = models.DateField(verbose_name=u'Data de início da vigência do contrato', blank=True, null=True)
+    vigencia_contrato_fim = models.DateField(verbose_name=u'Data de término da vigência do contrato', blank=True, null=True)
+    situacao = models.TextField(verbose_name=u'Situação')
+    objeto = models.TextField(verbose_name=u'Objeto')
+    alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
+    email_contato = models.EmailField(verbose_name=u'Email para contato')
+
+    class Meta:
+        verbose_name = u'Licitação'
+        verbose_name_plural = u'Licitações'
+
+    def __unicode__(self):
+        # return self.get_modalidade_display() + ' - ' + self.titulo
+        return self.titulo
+
+
+class AnexoLicitacao(models.Model):
+    descricao = models.CharField(max_length=250, verbose_name=u'Descrição')
+    arquivo = FilerFileField(related_name='anexos_licitacao')
+    licitacao = models.ForeignKey('Licitacao', verbose_name=u'Licitação')
+
+    class Meta:
+        verbose_name = u'Anexo'
+        verbose_name_plural = u'Anexos'
+
+    def __unicode__(self):
+        return self.descricao
 
 
 class Video(Conteudo):
