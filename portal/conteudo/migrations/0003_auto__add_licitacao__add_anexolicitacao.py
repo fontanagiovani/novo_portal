@@ -22,15 +22,24 @@ class Migration(SchemaMigration):
             ('vigencia_contrato_fim', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
             ('situacao', self.gf('django.db.models.fields.TextField')()),
             ('objeto', self.gf('django.db.models.fields.TextField')()),
-            ('alteracoes', self.gf('django.db.models.fields.TextField')()),
+            ('alteracoes', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('email_contato', self.gf('django.db.models.fields.EmailField')(max_length=75)),
         ))
         db.send_create_signal(u'conteudo', ['Licitacao'])
 
+        # Adding M2M table for field sites on 'Licitacao'
+        m2m_table_name = db.shorten_name(u'conteudo_licitacao_sites')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('licitacao', models.ForeignKey(orm[u'conteudo.licitacao'], null=False)),
+            ('site', models.ForeignKey(orm[u'sites.site'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['licitacao_id', 'site_id'])
+
         # Adding model 'AnexoLicitacao'
         db.create_table(u'conteudo_anexolicitacao', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('descricao', self.gf('django.db.models.fields.TextField')()),
+            ('descricao', self.gf('django.db.models.fields.CharField')(max_length=250)),
             ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='anexos_licitacao', to=orm['filer.File'])),
             ('licitacao', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['conteudo.Licitacao'])),
         ))
@@ -40,6 +49,9 @@ class Migration(SchemaMigration):
     def backwards(self, orm):
         # Deleting model 'Licitacao'
         db.delete_table(u'conteudo_licitacao')
+
+        # Removing M2M table for field sites on 'Licitacao'
+        db.delete_table(db.shorten_name(u'conteudo_licitacao_sites'))
 
         # Deleting model 'AnexoLicitacao'
         db.delete_table(u'conteudo_anexolicitacao')
@@ -92,7 +104,7 @@ class Migration(SchemaMigration):
         u'conteudo.anexolicitacao': {
             'Meta': {'object_name': 'AnexoLicitacao'},
             'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'anexos_licitacao'", 'to': u"orm['filer.File']"}),
-            'descricao': ('django.db.models.fields.TextField', [], {}),
+            'descricao': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'licitacao': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['conteudo.Licitacao']"})
         },
@@ -129,7 +141,7 @@ class Migration(SchemaMigration):
         },
         u'conteudo.licitacao': {
             'Meta': {'object_name': 'Licitacao'},
-            'alteracoes': ('django.db.models.fields.TextField', [], {}),
+            'alteracoes': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'data_abertura': ('django.db.models.fields.DateTimeField', [], {}),
             'data_publicacao': ('django.db.models.fields.DateField', [], {}),
             'email_contato': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
@@ -138,6 +150,7 @@ class Migration(SchemaMigration):
             'objeto': ('django.db.models.fields.TextField', [], {}),
             'possui_contrato': ('django.db.models.fields.BooleanField', [], {}),
             'pregao_srp': ('django.db.models.fields.BooleanField', [], {}),
+            'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['sites.Site']", 'symmetrical': 'False'}),
             'situacao': ('django.db.models.fields.TextField', [], {}),
             'titulo': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'validade_ata_srp': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),

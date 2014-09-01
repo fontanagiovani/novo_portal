@@ -38,7 +38,6 @@ class Conteudo(models.Model):
 
 
 class Noticia(Conteudo):
-
     PRIORIDADE_DESTAQUE = (
         ('1', u'1 - Alta'),
         ('2', u'2 - Média-Alta'),
@@ -47,7 +46,6 @@ class Noticia(Conteudo):
         ('5', u'5 - Baixa'),
         ('6', u'Nenhuma')
     )
-
     destaque = models.BooleanField(default=False)
     prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',
                                            verbose_name=u'Prioridade de destaque')
@@ -79,7 +77,6 @@ class Anexo(models.Model):
 
 
 class Pagina(Conteudo):
-
     class Meta:
         verbose_name = u'Página'
         verbose_name_plural = u'Páginas'
@@ -130,13 +127,13 @@ class Licitacao(models.Model):
     objeto = models.TextField(verbose_name=u'Objeto')
     alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
     email_contato = models.EmailField(verbose_name=u'Email para contato')
+    sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
 
     class Meta:
         verbose_name = u'Licitação'
         verbose_name_plural = u'Licitações'
 
     def __unicode__(self):
-        # return self.get_modalidade_display() + ' - ' + self.titulo
         return self.titulo
 
 
@@ -241,6 +238,11 @@ def my_handler(sender, **kwargs):
 
 
 @receiver(m2m_changed, sender=Galeria.sites.through)
+def my_handler(sender, **kwargs):
+    obj = kwargs['instance']
+    obj.save()
+
+@receiver(m2m_changed, sender=Licitacao.sites.through)
 def my_handler(sender, **kwargs):
     obj = kwargs['instance']
     obj.save()
