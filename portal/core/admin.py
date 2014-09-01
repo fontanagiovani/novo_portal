@@ -7,6 +7,7 @@ from portal.core.models import Menu
 from portal.core.models import Campus
 from portal.core.models import Selecao, TipoSelecao
 from portal.core.models import PermissaoPublicacao
+from portal.core.forms import MenuForm
 from django.contrib.auth.admin import User
 from django.contrib.auth.admin import UserAdmin
 
@@ -30,6 +31,19 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
     prepopulated_fields = {'slug': ('titulo',)}
 
     change_list_template = 'core/mptt_sortable_change_list.html'
+
+    form = MenuForm
+
+    def get_form(self, request, obj=None, **kwargs):
+        ModelForm = super(MenuAdmin, self).get_form(request, obj, **kwargs)
+
+        class ModelFormMetaClass(ModelForm):
+            def __new__(cls, *args, **kwargs):
+                kwargs['request'] = request
+                return ModelForm(*args, **kwargs)
+
+        return ModelFormMetaClass
+
 
 admin.site.register(Menu, MenuAdmin)
 
