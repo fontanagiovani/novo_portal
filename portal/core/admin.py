@@ -29,6 +29,7 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
     list_display = ('titulo', 'menu_raiz', 'site')
     search_fields = ('titulo',)
     prepopulated_fields = {'slug': ('titulo',)}
+    list_filter = ('site', )
 
     change_list_template = 'core/mptt_sortable_change_list.html'
     add_form_template = 'core/mptt_sortable_change_form.html'
