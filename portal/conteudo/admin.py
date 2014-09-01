@@ -47,8 +47,6 @@ class NoticiaAdmin(SummernoteModelAdmin):
     inlines = (AnexoInLine,)
     filter_horizontal = ('galerias', 'videos')
 
-    form = NoticiaForm
-
     def get_form(self, request, obj=None, **kwargs):
         ModelForm = super(NoticiaAdmin, self).get_form(request, obj, **kwargs)
         class ModelFormMetaClass(ModelForm):
