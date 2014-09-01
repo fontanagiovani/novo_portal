@@ -1,4 +1,5 @@
 # coding: utf-8
+from collections import OrderedDict
 from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.http import HttpResponse  # httresponse para usar com json
@@ -6,6 +7,7 @@ from django.http.response import Http404
 import json  # json para usar no select com ajax
 from haystack.views import SearchView
 
+from portal.core.models import Menu
 from portal.core.models import Selecao, TipoSelecao
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
@@ -96,6 +98,27 @@ def json_cursos(request, formacao_id, campus_id):
     dados = dict(Curso.objects.select_related('GrupoCursos').filter(
         formacao=formacao_id, campus=campus_id).values_list('grupo__id', 'grupo__nome').distinct())
     return HttpResponse(json.dumps(dados), content_type="application/json")
+
+
+def admin_site_menu(request, site_id):
+    try:
+        site = Site.objects.get(id=site_id)
+    except Site.DoesNotExist:
+        raise Http404
+    menus = Menu.objects.filter(site=site)
+
+    return HttpResponse(json.dumps(serialize_menus(menus)), mimetype="application/json")
+
+
+def serialize_menus(queryset):
+    lista = []
+    for menu in queryset:
+        d = OrderedDict()
+        d["ordem"] = menu.ordem
+        d["id"] = menu.id
+        d["titulo"] = '---' * menu.get_level() + ' ' + menu.titulo
+        lista.append(d)
+    return lista
 
 
 class SearchViewSites(SearchView):

@@ -31,6 +31,8 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
     prepopulated_fields = {'slug': ('titulo',)}
 
     change_list_template = 'core/mptt_sortable_change_list.html'
+    add_form_template = 'core/mptt_sortable_change_form.html'
+    change_form_template = 'core/mptt_sortable_change_form.html'
 
     form = MenuForm
 
