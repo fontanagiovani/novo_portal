@@ -5,6 +5,8 @@ from portal.conteudo.models import Noticia, Pagina, Evento, Video, Galeria
 from portal.conteudo.models import ImagemGaleria
 from portal.conteudo.models import Anexo
 from portal.conteudo.forms import NoticiaForm
+from portal.conteudo.forms import EventoForm
+from portal.conteudo.forms import PaginaForm
 
 
 class AnexoInLine(admin.StackedInline):
@@ -45,6 +47,16 @@ class NoticiaAdmin(SummernoteModelAdmin):
     inlines = (AnexoInLine,)
     filter_horizontal = ('galerias', 'videos')
 
+    form = NoticiaForm
+
+    def get_form(self, request, obj=None, **kwargs):
+        ModelForm = super(NoticiaAdmin, self).get_form(request, obj, **kwargs)
+        class ModelFormMetaClass(ModelForm):
+            def __new__(cls, *args, **kwargs):
+                kwargs['request'] = request
+                return ModelForm(*args, **kwargs)
+        return ModelFormMetaClass
+
 admin.site.register(Noticia, NoticiaAdmin)
 
 
@@ -76,9 +88,20 @@ class PaginaAdmin(SummernoteModelAdmin):
     inlines = (AnexoInLine, )
     filter_horizontal = ('galerias', 'videos')
 
-    def get_link(obj):
+    def get_link(self, obj):
         return obj.get_absolute_url()
     get_link.short_description = u'Link da página'
+
+    form = PaginaForm
+
+    def get_form(self, request, obj=None, **kwargs):
+        ModelForm = super(PaginaAdmin, self).get_form(request, obj, **kwargs)
+        class ModelFormMetaClass(ModelForm):
+            def __new__(cls, *args, **kwargs):
+                kwargs['request'] = request
+                return ModelForm(*args, **kwargs)
+        return ModelFormMetaClass
+
 
 admin.site.register(Pagina, PaginaAdmin)
 
@@ -113,6 +136,17 @@ class EventoAdmin(SummernoteModelAdmin):
 
     inlines = (AnexoInLine, )
     filter_horizontal = ('galerias', 'videos')
+
+    form = EventoForm
+
+    def get_form(self, request, obj=None, **kwargs):
+        ModelForm = super(EventoAdmin, self).get_form(request, obj, **kwargs)
+        class ModelFormMetaClass(ModelForm):
+            def __new__(cls, *args, **kwargs):
+                kwargs['request'] = request
+                return ModelForm(*args, **kwargs)
+        return ModelFormMetaClass
+
 
 admin.site.register(Evento, EventoAdmin)
 
