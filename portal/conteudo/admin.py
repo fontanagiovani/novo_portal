@@ -57,6 +57,15 @@ class NoticiaAdmin(SummernoteModelAdmin):
                 return ModelForm(*args, **kwargs)
         return ModelFormMetaClass
 
+    def queryset(self, request):
+        qs = super(NoticiaAdmin, self).queryset(request)
+        return qs.filter(sites__in=request.user.permissaopublicacao.sites.all())
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name == "sites":
+            kwargs["queryset"] = request.user.permissaopublicacao.sites.all()
+        return super(NoticiaAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
+
 admin.site.register(Noticia, NoticiaAdmin)
 
 
@@ -102,6 +111,16 @@ class PaginaAdmin(SummernoteModelAdmin):
                 return ModelForm(*args, **kwargs)
         return ModelFormMetaClass
 
+    def queryset(self, request):
+        qs = super(PaginaAdmin, self).queryset(request)
+        return qs.filter(sites__in=request.user.permissaopublicacao.sites.all())
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name == "sites":
+            kwargs["queryset"] = request.user.permissaopublicacao.sites.all()
+        return super(PaginaAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
+
+
 
 admin.site.register(Pagina, PaginaAdmin)
 
@@ -146,6 +165,15 @@ class EventoAdmin(SummernoteModelAdmin):
                 kwargs['request'] = request
                 return ModelForm(*args, **kwargs)
         return ModelFormMetaClass
+
+    def queryset(self, request):
+        qs = super(NoticiaAdmin, self).queryset(request)
+        return qs.filter(sites__in=request.user.permissaopublicacao.sites.all())
+
+    def formfield_for_manytomany(self, db_field, request=None, **kwargs):
+        if db_field.name == "sites":
+            kwargs["queryset"] = request.user.permissaopublicacao.sites.all()
+        return super(EventoAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 
 admin.site.register(Evento, EventoAdmin)

@@ -46,6 +46,14 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
 
         return ModelFormMetaClass
 
+    def queryset(self, request):
+        qs = super(MenuAdmin, self).queryset(request)
+        return qs.filter(site__in=request.user.permissaopublicacao.sites.all())
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "site":
+            kwargs["queryset"] = request.user.permissaopublicacao.sites.all()
+        return super(MenuAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 admin.site.register(Menu, MenuAdmin)
 
