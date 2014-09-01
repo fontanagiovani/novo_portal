@@ -5,6 +5,7 @@ from portal.conteudo.models import Noticia, Pagina, Evento, Video, Galeria
 from portal.conteudo.models import ImagemGaleria
 from portal.conteudo.models import Anexo
 from portal.conteudo.forms import NoticiaForm
+from portal.conteudo.forms import LicitacaoForm
 from portal.conteudo.models import Licitacao
 from portal.conteudo.models import AnexoLicitacao
 
@@ -207,6 +208,7 @@ class LicitacaoAdmin(SummernoteModelAdmin):
     list_filter = ('modalidade', 'titulo', 'data_publicacao')
 
     inlines = [AnexoLicitacaoInLine,]
+    form = LicitacaoForm
 
 
 admin.site.register(Licitacao, LicitacaoAdmin)
