@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.forms.models import BaseInlineFormSet
 from portal.core.models import Menu
 from portal.core.models import SiteDetalhe
 
@@ -26,3 +27,16 @@ class SiteDetalheForm(forms.ModelForm):
     model = SiteDetalhe
 
     endereco = forms.CharField(widget=forms.Textarea)
+
+
+class SiteDetalheFormset(BaseInlineFormSet):
+    # pass
+    def clean(self):
+        """Check that at least one service has been entered."""
+        super(SiteDetalheFormset, self).clean()
+
+        if any(self.errors):
+            return
+        if not any(cleaned_data and not cleaned_data.get('DELETE', False)
+            for cleaned_data in self.cleaned_data):
+            raise forms.ValidationError('Você deve preencher os dois campos abaixo.')

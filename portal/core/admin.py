@@ -14,7 +14,7 @@ from portal.core.models import Campus
 from portal.core.models import Selecao, TipoSelecao
 from portal.core.models import PermissaoPublicacao
 from portal.core.forms import MenuForm
-from portal.core.forms import SiteDetalheForm
+from portal.core.forms import SiteDetalheForm, SiteDetalheFormset
 
 
 class CampusAdmin(admin.ModelAdmin):
@@ -108,8 +108,8 @@ admin.site.register(User, PermissaoPublicacaoAdmin)
 
 class SiteIndexInline(admin.StackedInline):
     model = SiteDetalhe
-
     form = SiteDetalheForm
+    formset = SiteDetalheFormset
 
     max_num = 1
     can_delete = False
