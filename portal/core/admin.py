@@ -18,7 +18,7 @@ from portal.core.forms import SiteDetalheForm
 
 
 class CampusAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'parent',)
+    list_display = ('nome', 'sigla', 'parent',)
     search_fields = ('nome',)
     prepopulated_fields = {'slug': ('nome',)}
 

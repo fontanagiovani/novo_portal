@@ -2,15 +2,15 @@
 from django.db import models
 
 
-class Campus(models.Model):
-    nome = models.CharField(max_length=50, verbose_name=u'Nome do Campus')
-
-    class Meta:
-        verbose_name = u'Campus'
-        verbose_name_plural = u'Campi'
-
-    def __unicode__(self):
-        return self.nome
+# class Campus(models.Model):
+#     nome = models.CharField(max_length=50, verbose_name=u'Nome do Campus')
+#
+#     class Meta:
+#         verbose_name = u'Campus'
+#         verbose_name_plural = u'Campi'
+#
+#     def __unicode__(self):
+#         return self.nome
 
 
 class Formacao(models.Model):
@@ -58,12 +58,12 @@ class Curso(models.Model):
     )
     nome = models.CharField(max_length=100, verbose_name=u'Nome do Curso',
                             help_text=u'Ex.: Licenciatura em Matemática Noturno')
-    formacao = models.ForeignKey(Formacao, verbose_name=u'Tipo de Formação')
-    campus = models.ForeignKey(Campus, verbose_name=u'Campus')
+    formacao = models.ForeignKey('Formacao', verbose_name=u'Tipo de Formação')
+    campus = models.ForeignKey('core.Campus', verbose_name=u'Campus')
     turno = models.CharField(max_length=3, choices=TURNO, verbose_name=u'Turno do Curso')
     email = models.EmailField(verbose_name=u'email')
     url = models.URLField()
-    grupo = models.ForeignKey(GrupoCursos)
+    grupo = models.ForeignKey('GrupoCursos')
 
     class Meta:
         verbose_name = u'Curso'
