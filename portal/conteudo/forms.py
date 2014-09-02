@@ -67,3 +67,11 @@ class EventoForm(ModelForm):
                                             % (self.request.user.permissaopublicacao.sites.all()))
 
         return sites_marcados
+
+
+class LicitacaoForm(ModelForm):
+    class Media:
+        js = (
+            '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
+            '/static/js/licitacao.js',
+        )

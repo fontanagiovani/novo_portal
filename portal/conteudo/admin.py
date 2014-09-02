@@ -7,6 +7,9 @@ from portal.conteudo.models import Anexo
 from portal.conteudo.forms import NoticiaForm
 from portal.conteudo.forms import EventoForm
 from portal.conteudo.forms import PaginaForm
+from portal.conteudo.forms import LicitacaoForm
+from portal.conteudo.models import Licitacao
+from portal.conteudo.models import AnexoLicitacao
 
 
 class AnexoInLine(admin.StackedInline):
@@ -246,3 +249,27 @@ class GaleriaAdmin(SummernoteModelAdmin):
     filter_horizontal = ('galerias', 'videos')
 
 admin.site.register(Galeria, GaleriaAdmin)
+
+
+class AnexoLicitacaoInLine(admin.StackedInline):
+    from django.forms import TextInput, Textarea
+    from django.db import models
+    model = AnexoLicitacao
+    extra = 1
+
+    formfield_overrides = {
+        models.CharField: {'widget': TextInput(attrs={'size':'115'})},
+        # models.TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40})},
+    }
+
+
+class LicitacaoAdmin(SummernoteModelAdmin):
+    list_display = ('modalidade', 'titulo')
+    search_fields = ('modalidade', 'titulo', 'data_publicacao')
+    list_filter = ('modalidade', 'titulo', 'data_publicacao')
+
+    inlines = [AnexoLicitacaoInLine,]
+    form = LicitacaoForm
+
+
+admin.site.register(Licitacao, LicitacaoAdmin)

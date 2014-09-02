@@ -10,6 +10,7 @@ from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
 from portal.conteudo.models import Video
 from portal.conteudo.models import Galeria
+from portal.conteudo.models import Licitacao
 
 
 def noticia_detalhe(request, noticia_id):
@@ -161,3 +162,33 @@ def tags_lista(request, tag_slug):
         tags = paginator.page(paginator.num_pages)
 
     return render(request, 'conteudo/tag_lista.html', {'tags': tags, 'tag_slug': tag_slug})
+
+
+def licitacao_detalhe(request, licitacao_id):
+    try:
+        site = Site.objects.get(domain=request.get_host())
+        licitacao = Licitacao.objects.get(id=licitacao_id, sites__id__exact=site.id)
+    except Site.DoesNotExist, Evento.DoesNotExist:
+        raise Http404
+
+    return render(request, 'conteudo/licitacao.html', {'licitacao': licitacao})
+
+
+def licitacoes_lista(request):
+    try:
+        site = Site.objects.get(domain=request.get_host())
+        paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id), 20)
+    except Site.DoesNotExist, Evento.DoesNotExist:
+        raise Http404
+
+    page = request.GET.get('page')
+    try:
+        licitacoes = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        licitacoes = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        licitacoes = paginator.page(paginator.num_pages)
+    #
+    return render(request, 'conteudo/licitacoes_lista.html', {'licitacoes': licitacoes})

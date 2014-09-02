@@ -23,4 +23,8 @@ urlpatterns = patterns('portal.conteudo.views',
 
                        # Tags
                        url(r'^tag/(?P<tag_slug>[-\w]+)/$', 'tags_lista', name='tags_lista'),
+
+                       # Licitação
+                       url(r'^licitacao/(?P<licitacao_id>\d+)/$', 'licitacao_detalhe', name='licitacao_detalhe'),
+                       url(r'^licitacoes/$', 'licitacoes_lista', name='licitacoes_lista'),
                        )
