@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django_summernote.admin import SummernoteModelAdmin
 # from portal.cursos.models import Campus
 from portal.cursos.models import Curso
 from portal.cursos.models import Formacao
@@ -18,7 +19,7 @@ class CursoAdmin(admin.ModelAdmin):
     pass
 
 
-class GrupoCursosAdmin(admin.ModelAdmin):
+class GrupoCursosAdmin(SummernoteModelAdmin):
     pass
 
 

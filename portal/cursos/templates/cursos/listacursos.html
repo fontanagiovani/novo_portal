@@ -7,8 +7,10 @@
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
             <h1>{{ grupo.nome }}</h1>
-            {% if grupo.descricao|cut:" "|length > 1 %}
-                <p>Descrição: {{ grupo.descricao }}</p>
+            {% if grupo.descricao.strip|length > 0 %}
+                {% autoescape off %}
+                    <article><p>Descrição: {{ grupo.descricao }}</p></article>
+                {% endautoescape %}
                 <hr />
             {% endif %}
             {% for c in cursos %}
