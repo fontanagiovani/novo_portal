@@ -8,6 +8,7 @@ import json  # json para usar no select com ajax
 from haystack.views import SearchView
 
 from portal.core.models import Menu
+from portal.core.models import portal, campus, blog, pagina
 from portal.core.models import Selecao, TipoSelecao
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
@@ -19,34 +20,43 @@ from portal.cursos.models import Curso
 
 
 def home(request):
+    contexto = dict()
     try:
         site = Site.objects.get(domain=request.get_host())
-        noticias_detaque = sorted(Noticia.objects.filter(destaque=True, sites__id__exact=site.id)[:5],
-                                  key=lambda o: o.prioridade_destaque)
-        mais_noticias = Noticia.objects.filter(sites__id__exact=site.id).exclude(
-            id__in=[obj.id for obj in noticias_detaque])[:10]
-        eventos = Evento.objects.filter(sites__id__exact=site.id)[:3]
-        banners = Banner.objects.filter(sites__id__exact=site.id)[:3]
-        acesso_rapido = BannerAcessoRapido.objects.filter(sites__id__exact=site.id)[:5]
-        videos = Video.objects.filter(sites__id__exact=site.id)[:1]
-        galerias = Galeria.objects.filter(sites__id__exact=site.id)[:3]
-        formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
+
+        if site.sitedetalhe.template.descricao == portal():
+            noticias_detaque = sorted(Noticia.objects.filter(destaque=True, sites__id__exact=site.id)[:5],
+                                      key=lambda o: o.prioridade_destaque)
+            mais_noticias = Noticia.objects.filter(sites__id__exact=site.id).exclude(
+                id__in=[obj.id for obj in noticias_detaque])[:10]
+            eventos = Evento.objects.filter(sites__id__exact=site.id)[:3]
+            banners = Banner.objects.filter(sites__id__exact=site.id)[:3]
+            acesso_rapido = BannerAcessoRapido.objects.filter(sites__id__exact=site.id)[:5]
+            videos = Video.objects.filter(sites__id__exact=site.id)[:1]
+            galerias = Galeria.objects.filter(sites__id__exact=site.id)[:3]
+            formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
+
+            contexto = {
+                'noticias_destaque': noticias_detaque,
+                'mais_noticias': mais_noticias,
+                'eventos': eventos,
+                'banners': banners,
+                'acesso_rapido': acesso_rapido,
+                'videos': videos,
+                'galerias': galerias,
+                'formacao': formacao,
+            }
+
+        # Adiconar o contexto para os demais tipos de template nos demais condicionais
 
     except (Site.DoesNotExist, Noticia.DoesNotExist, Evento.DoesNotExist,
             Banner.DoesNotExist, BannerAcessoRapido.DoesNotExist, Video.DoesNotExist,
             Galeria.DoesNotExist):
         raise Http404
 
-    return render(request, 'core/portal.html', {
-        'noticias_destaque': noticias_detaque,
-        'mais_noticias': mais_noticias,
-        'eventos': eventos,
-        'banners': banners,
-        'acesso_rapido': acesso_rapido,
-        'videos': videos,
-        'galerias': galerias,
-        'formacao': formacao,
-    })
+    contexto['site'] = site
+
+    return render(request, site.sitedetalhe.template.caminho, contexto)
 
 
 def selecao(request):

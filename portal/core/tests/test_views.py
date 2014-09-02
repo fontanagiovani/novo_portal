@@ -7,12 +7,18 @@ from model_mommy import mommy
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
 from portal.core.models import Menu
+from portal.core.models import Template, SiteDetalhe, portal
 from portal.core.models import Selecao, TipoSelecao, Campus
 
 
 class HomeTest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        template = mommy.make(Template, _quantity=1, descricao=portal(), caminho='core/portal.html')[0]
+        sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=template)[0]
+
+        sitedetalhe.site = self.site
+        sitedetalhe.save()
 
         self.resp = self.client.get(reverse('home'), SERVER_NAME='rtr.ifmt.dev')
 
@@ -24,9 +30,9 @@ class HomeTest(TestCase):
 
     def test_template(self):
         """
-        Home must use template index.html
+        Home must use template core/portal.html
         """
-        self.assertTemplateUsed(self.resp, 'core/base.html')
+        self.assertTemplateUsed(self.resp, 'core/portal.html')
 
 
 class HomeContextTest(TestCase):
@@ -39,6 +45,12 @@ class HomeContextTest(TestCase):
         mommy.make(Evento, _quantity=3, campus_origem=campus, titulo=u'Titulo do evento')
 
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        template = mommy.make(Template, _quantity=1, descricao=portal(), caminho='core/portal.html')[0]
+        sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=template)[0]
+
+        sitedetalhe.site = self.site
+        sitedetalhe.save()
+
         for i in Noticia.objects.all():
             i.sites.add(self.site)
 
@@ -123,6 +135,11 @@ class SelecaoTest(TestCase):
 class Menutest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.template = mommy.make(Template, _quantity=1, descricao=portal(), caminho='core/portal.html')[0]
+        self.sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=self.template)[0]
+
+        self.site.sitedetalhe = self.sitedetalhe
+        self.site.sitedetalhe.save()
 
         for i in range(0, 7):
             slug = u'TituloMenu - %d' % i

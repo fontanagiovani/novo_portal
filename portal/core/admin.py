@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
-from Crypto.SelfTest.Cipher.test_pkcs1_15 import t2b
 from django.contrib import admin
+from django.contrib.auth.admin import User
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.sites.admin import SiteAdmin
+from django.contrib.sites.models import Site
 from mptt.admin import MPTTModelAdmin
 from adminsortable.admin import SortableAdminMixin
+
 from portal.core.models import Menu
+from portal.core.models import SiteDetalhe
+from portal.core.models import Template
 from portal.core.models import Campus
 from portal.core.models import Selecao, TipoSelecao
 from portal.core.models import PermissaoPublicacao
 from portal.core.forms import MenuForm
-from django.contrib.auth.admin import User
-from django.contrib.auth.admin import UserAdmin
+from portal.core.forms import SiteDetalheForm
 
 
 class CampusAdmin(admin.ModelAdmin):
@@ -101,4 +106,24 @@ admin.site.unregister(User)
 admin.site.register(User, PermissaoPublicacaoAdmin)
 
 
+class SiteIndexInline(admin.StackedInline):
+    model = SiteDetalhe
 
+    form = SiteDetalheForm
+
+    max_num = 1
+    can_delete = False
+
+
+class SiteIndexAdmin(SiteAdmin):
+
+    inlines = [SiteIndexInline]
+
+admin.site.unregister(Site)
+admin.site.register(Site, SiteIndexAdmin)
+
+
+class TemplateAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Template, TemplateAdmin)

@@ -88,3 +88,38 @@ class PermissaoPublicacao(models.Model):
     user = models.OneToOneField(User, verbose_name=u'Usuario', primary_key=True)
 
 
+class SiteDetalhe(models.Model):
+    site = models.OneToOneField(Site)
+    template = models.ForeignKey('Template', help_text=u'Template da página inicial')
+    endereco = models.CharField(max_length=200)
+
+
+class Template(models.Model):
+    DESC = (
+        ('PORTAL', u'Portal'),
+        ('CAMPUS', u'Câmpus'),
+        ('BLOG', u'Blog'),
+        ('PAGINA', u'Página individual'),
+    )
+
+    descricao = models.CharField(max_length=30, choices=DESC)
+    caminho = models.CharField(max_length=100, help_text=u'Utilize o caminho app/template - Ex.: core/portal.html')
+
+    def __unicode__(self):
+        return self.descricao
+
+
+def portal():
+    return Template.DESC[0][0]
+
+
+def campus():
+    return Template.DESC[1][0]
+
+
+def blog():
+    return Template.DESC[2][0]
+
+
+def pagina():
+    return Template.DESC[3][0]

@@ -10,6 +10,7 @@ from model_mommy import mommy
 from portal.banner.models import Banner
 from portal.banner.models import BannerAcessoRapido
 from portal.core.tests.util import del_midia_filer
+from portal.core.models import Template, SiteDetalhe, portal
 
 
 class HomeBannerContextTest(TestCase):
@@ -22,6 +23,12 @@ class HomeBannerContextTest(TestCase):
         self.banner = mommy.make(Banner, _quantity=3, arquivo=self.midia_image)
 
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        template = mommy.make(Template, _quantity=1, descricao=portal(), caminho='core/portal.html')[0]
+        sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=template)[0]
+
+        sitedetalhe.site = self.site
+        sitedetalhe.save()
+
         for i in Banner.objects.all():
             i.sites.add(self.site)
 
@@ -49,6 +56,12 @@ class HomeAcessoRapidoContextTest(TestCase):
                                  midia_image=midia_image)
 
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        template = mommy.make(Template, _quantity=1, descricao=portal(), caminho='core/portal.html')[0]
+        sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=template)[0]
+
+        sitedetalhe.site = self.site
+        sitedetalhe.save()
+
         for i in BannerAcessoRapido.objects.all():
             i.sites.add(self.site)
 
