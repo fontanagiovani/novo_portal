@@ -14,7 +14,7 @@ class Migration(SchemaMigration):
             ('modalidade', self.gf('django.db.models.fields.CharField')(max_length=1)),
             ('titulo', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('data_publicacao', self.gf('django.db.models.fields.DateField')()),
-            ('data_abertura', self.gf('django.db.models.fields.DateTimeField')()),
+            ('data_abertura', self.gf('django.db.models.fields.DateField')()),
             ('pregao_srp', self.gf('django.db.models.fields.BooleanField')()),
             ('validade_ata_srp', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
             ('possui_contrato', self.gf('django.db.models.fields.BooleanField')()),
@@ -142,7 +142,7 @@ class Migration(SchemaMigration):
         u'conteudo.licitacao': {
             'Meta': {'object_name': 'Licitacao'},
             'alteracoes': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'data_abertura': ('django.db.models.fields.DateTimeField', [], {}),
+            'data_abertura': ('django.db.models.fields.DateField', [], {}),
             'data_publicacao': ('django.db.models.fields.DateField', [], {}),
             'email_contato': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),

@@ -1,0 +1,83 @@
+{% extends 'core/detalhe.html' %}
+{% load thumbnail %}
+
+{% block breadcrumbs %}
+    <li><a href="{% url 'conteudo:licitacoes_lista' %}">Licitações</a></li>
+    <li class="current"><a href="#">{{ licitacao.titulo|truncatewords:"5" }}</a></li>
+{% endblock %}
+
+{% block edicao %}
+    {% if user.is_authenticated %}
+        <div class="row padding-top">
+            <div class="medium-12 columns text-right">
+                <a href="{% url 'admin:conteudo_licitacao_change' licitacao.id %}" target="_blank">
+                    <i class="fi-page-edit"></i> Editar licitação
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock edicao %}
+
+{% block conteudo %}
+    <div class="row padding-bottom">
+        <div class="row">
+            <h1 class="justificado" id="titulo">{{ licitacao.titulo }}</h1>
+        </div>
+        <div class="row">
+            <p class="no-padding"><strong>DATA DE PUBLICAÇÃO:</strong> {{ licitacao.data_publicacao }}</p>
+        </div>
+        <div class="row">
+            <p class="no-padding"><strong>DATA DE ABERTURA:</strong> {{ licitacao.data_abertura }}</p>
+        </div>
+        {% if licitacao.pregao_srp %}
+        <div class="row">
+            <p class="no-padding"><strong>VALIDADE ATA SRP:</strong> {{ licitacao.validade_ata_srp }}</p>
+        </div>
+        {% endif %}
+        {% if licitacao.possui_contrato %}
+        <div class="row">
+            <p class="no-padding"><strong>VIGÊNCIA DO CONTRATO:</strong> {{ licitacao.vigencia_contrato_inicio }} ATÉ {{ licitacao.vigencia_contrato_fim }}</p>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="medium-12 columns no-padding">
+            {% autoescape off %}
+                <article>
+                    <strong>SITUAÇÃO:</strong> {{ licitacao.situacao }}
+                </article>
+            {% endautoescape %}
+
+            <div class="medium-12 columns no-padding">
+            {% autoescape off %}
+                <article>
+                    <strong>OBJETO:</strong> {{ licitacao.objeto }}
+                </article>
+            {% endautoescape %}
+
+            {% if licitacao.alteracoes.strip|length > 0 %}
+                {% autoescape off %}
+                    <article>
+                        <strong>ALTERAÇÕES:</strong> {{ licitacao.alteracoes }}
+                    </article>
+                {% endautoescape %}
+            {% endif %}
+
+            <p><strong>CONTATO:</strong> {{ licitacao.email_contato }}</p>
+        </div>
+
+        <div class="row">
+            <div class="medium-12 columns">
+                {% if licitacao.anexolicitacao_set.all %}
+                    <h2 class="fundo-vermelho no-padding text-center">Anexos</h2>
+                    {% for arq in licitacao.anexolicitacao_set.all %}
+                        <div class="row padding-bottom">
+                            <a href="{{ arq.arquivo.url }}" target="_blank"><i class="fi-download texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ arq.descricao }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+        </div>
+{% endblock conteudo %}

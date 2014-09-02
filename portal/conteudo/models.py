@@ -117,7 +117,7 @@ class Licitacao(models.Model):
     modalidade = models.CharField(max_length=1, choices=TIPO_MODALIDADE, verbose_name=u'Tipo de Modalidade')
     titulo = models.CharField(max_length=100, verbose_name=u'Título')
     data_publicacao = models.DateField(verbose_name=u'Data de publicação')
-    data_abertura = models.DateTimeField(verbose_name=u'Data de abertura')
+    data_abertura = models.DateField(verbose_name=u'Data de abertura')
     pregao_srp = models.BooleanField(verbose_name=u'É um pregão SRP?')
     validade_ata_srp = models.DateField(verbose_name=u'Validade ATA SRP', blank=True, null=True)
     possui_contrato = models.BooleanField(verbose_name=u'Possui Contrato?')
@@ -241,6 +241,7 @@ def my_handler(sender, **kwargs):
 def my_handler(sender, **kwargs):
     obj = kwargs['instance']
     obj.save()
+
 
 @receiver(m2m_changed, sender=Licitacao.sites.through)
 def my_handler(sender, **kwargs):
