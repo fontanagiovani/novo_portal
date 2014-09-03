@@ -29,6 +29,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
 TESTING = 'test' in sys.argv
 
 ADMINS = (('Equipe Sistemas', 'sistemas@ifmt.edu.br'), )
