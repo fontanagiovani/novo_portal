@@ -7,7 +7,7 @@ from portal.core.models import Menu
 def carregar_menus(request):
     try:
         site = Site.objects.get(domain=request.get_host())
-        menus = Menu.objects.filter(site__id__iexact=site.id)
+        menus = Menu.objects.filter(site__id__exact=site.id)
     except Site.DoesNotExist, Menu.DoesNotExist:
         raise Http404
 

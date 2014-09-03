@@ -16,7 +16,7 @@ from portal.conteudo.models import Licitacao
 def noticia_detalhe(request, noticia_id):
     try:
         site = Site.objects.get(domain=request.get_host())
-        noticia = Noticia.objects.get(id=noticia_id, sites__id__iexact=site.id)
+        noticia = Noticia.objects.get(id=noticia_id, sites__id__exact=site.id)
     except Site.DoesNotExist, Noticia.DoesNotExist:
         raise Http404
 
