@@ -8,13 +8,6 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Campus'
-        db.create_table(u'cursos_campus', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('nome', self.gf('django.db.models.fields.CharField')(max_length=50)),
-        ))
-        db.send_create_signal(u'cursos', ['Campus'])
-
         # Adding model 'Formacao'
         db.create_table(u'cursos_formacao', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -35,7 +28,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('nome', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('formacao', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cursos.Formacao'])),
-            ('campus', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cursos.Campus'])),
+            ('campus', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Campus'])),
             ('turno', self.gf('django.db.models.fields.CharField')(max_length=3)),
             ('email', self.gf('django.db.models.fields.EmailField')(max_length=75)),
             ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
@@ -45,9 +38,6 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        # Deleting model 'Campus'
-        db.delete_table(u'cursos_campus')
-
         # Deleting model 'Formacao'
         db.delete_table(u'cursos_formacao')
 
@@ -59,14 +49,21 @@ class Migration(SchemaMigration):
 
 
     models = {
-        u'cursos.campus': {
+        u'core.campus': {
             'Meta': {'object_name': 'Campus'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nome': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+            u'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            u'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'nome': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'parent': ('mptt.fields.TreeForeignKey', [], {'blank': 'True', 'related_name': "'pai'", 'null': 'True', 'to': u"orm['core.Campus']"}),
+            u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'sigla': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100', 'blank': 'True'}),
+            u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
         },
         u'cursos.curso': {
             'Meta': {'object_name': 'Curso'},
-            'campus': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cursos.Campus']"}),
+            'campus': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Campus']"}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'formacao': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cursos.Formacao']"}),
             'grupo': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cursos.GrupoCursos']"}),
