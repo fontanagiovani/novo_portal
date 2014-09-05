@@ -26,6 +26,42 @@
 
 {#Container para o cabeçalho#}
 <div class="row padding-bottom">
+    {#Menu topo#}
+    <div class="row">
+        <div class="medium-12 columns">
+            <div class="contain-to-grid fixed">
+                <nav class="top-bar" id="menu_section" data-topbar data-options="custom_back_text:false">
+
+                    <ul class="title-area">
+                        <li class="name">
+                            <h1><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/logo-ifmt-branco.png" alt="IFMT"></a></h1>
+                            {#      <h1><a href="#">My Site</a></h1>#}
+                        </li>
+                        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+                    </ul>
+                    <section class="top-bar-section">
+                        <!-- Right Nav Section -->
+                        {% block menu %}
+                            {#Renderiza o menu#}
+                            <ul>
+                                {% recursetree menus %}
+                                    <li {% if node.get_leafnodes %}class="has-dropdown"{% endif %}>
+                                        <a href="{{ node.url }}">{{ node.titulo }}</a>
+                                        {% if not node.is_leaf_node %}
+                                            <ul class="dropdown">
+                                                {{ children }}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endrecursetree %}
+                            </ul>
+                        {% endblock %}
+                    </section>
+                </nav>
+            </div>
+        </div>
+    </div>
 
     <div class="row padding-top-bottom">
 
@@ -79,48 +115,12 @@
         </div>
         {#Fim da div menu topo#}
     </div>
-    {#Menu topo#}
-    <div class="row">
-        <div class="medium-12 columns">
-            <div class="contain-to-grid sticky">
-                <nav class="top-bar" id="menu_section" data-topbar>
 
-                    <ul class="title-area">
-                        <li class="name">
-                            <h1><a href="/"><img src="{{ STATIC_URL }}img/logo-ifmt-branco.png" alt="IFMT"></a></h1>
-                            {#      <h1><a href="#">My Site</a></h1>#}
-                        </li>
-                        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-                        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-                    </ul>
-                    <section class="top-bar-section">
-                        <!-- Right Nav Section -->
-                        {% block menu %}
-                            {#Renderiza o menu#}
-                            <ul>
-                                {% recursetree menus %}
-                                    <li {% if node.get_leafnodes %}class="has-dropdown"{% endif %}>
-                                        <a href="{{ node.url }}">{{ node.titulo }}</a>
-                                        {% if not node.is_leaf_node %}
-                                            <ul class="dropdown">
-                                                {{ children }}
-                                            </ul>
-                                        {% endif %}
-                                    </li>
-                                {% endrecursetree %}
-                            </ul>
-                        {% endblock %}
-                    </section>
-                </nav>
-            </div>
-        </div>
-    </div>
 </div>
 {#Fim da div para o cabeçalho#}
 
 {% block content %}
 {% endblock %}
-
 
 <div class="row padding-top-duplo">{#Container rodapé#}
 
