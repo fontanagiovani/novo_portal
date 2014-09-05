@@ -1,6 +1,11 @@
 {% extends 'core/detalhe.html' %}
 {% load thumbnail %}
 
+{% block stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueimp-gallery.min.css">
+{% endblock %}
+
 {% block breadcrumbs %}
     <li><a href="{% url 'conteudo:videos_lista' %}">Videos</a></li>
     <li class="current"><a href="#">{{ video.titulo|truncatewords:"3" }}</a></li>
@@ -27,8 +32,8 @@
         </div>
         <div class="row">
 
-            <div class="flex-video widescreen vimeo">
-                <iframe width="640" height="480" src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
+            <div class="flex-video">
+                <iframe src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
             </div>
 
             {% autoescape off %}
@@ -63,12 +68,13 @@
                         <h2 class="fundo-vermelho padding-top-bottom text-center">Imagens relacionadas</h2>
                     </div>
                     <div class="small-12 columns">
-                        <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-12" data-clearing>
+                        <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-12" id="links">
                             {% for imagem in video.imagens %}
                                 <li>
-                                    <a class="th" href="{% thumbnail imagem.arquivo 1000x800 upscale quality=80 %}">
-                                        <img data-caption="{{ imagem.descricao }}"
-                                             src="{% thumbnail imagem.arquivo 200x200 crop quality=80 %}">
+                                    <a class="th" href="{% thumbnail imagem.arquivo 1000x800 upscale quality=80 %}"
+                                       title="{{ imagem.descricao }}">
+                                        <img src="{% thumbnail imagem.arquivo 200x200 crop quality=80 %}"
+                                             alt="{{ imagem.descricao }}">
                                     </a>
                                 </li>
                             {% endfor %}
@@ -122,4 +128,32 @@
             {% endif %}
         </div>
     </div>
+
+    <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+    <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="close">×</a>
+        <a class="play-pause"></a>
+        <ol class="indicator"></ol>
+    </div>
+
 {% endblock conteudo %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}js/blueimp-gallery.min.js"></script>
+
+    <script>
+        document.getElementById('links').onclick = function (event) {
+            event = event || window.event;
+            var target = event.target || event.srcElement,
+                    link = target.src ? target.parentNode : target,
+                    options = {index: link, event: event},
+                    links = this.getElementsByTagName('a');
+            blueimp.Gallery(links, options);
+        };
+    </script>
+{% endblock %}
