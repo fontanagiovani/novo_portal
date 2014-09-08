@@ -18,7 +18,7 @@ class BannerForm(forms.ModelForm):
             if not site in self.request.user.permissaopublicacao.sites.all():
                 raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
                                             u"Os sites permitidos são: %s"
-                                            % (self.request.user.permissaopublicacao.sites.all()))
+                                            % (self.request.user.permtrelloissaopublicacao.sites.all()))
 
         return sites_marcados
 
@@ -40,3 +40,4 @@ class BannerAcessoRapidoForm(forms.ModelForm):
                                             % (self.request.user.permissaopublicacao.sites.all()))
 
         return sites_marcados
+

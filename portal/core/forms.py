@@ -5,6 +5,9 @@ from portal.core.models import Menu
 from portal.core.models import SiteDetalhe
 
 
+
+
+
 class MenuForm(forms.ModelForm):
     model = Menu
 
