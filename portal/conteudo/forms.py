@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.forms import ModelForm
+from django.forms.models import BaseInlineFormSet
+
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
@@ -75,3 +77,26 @@ class LicitacaoForm(ModelForm):
             '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
             '/static/js/licitacao.js',
         )
+
+
+class AnexoFormset(BaseInlineFormSet):
+    def clean(self):
+        super(AnexoFormset, self).clean()
+
+        # se houver erros no formset ja retorna para tratamento
+        if any(self.errors):
+            return
+
+        # se o campo destaque estiver selecionado faz a validacao
+        if self.data.get('destaque'):
+            imagem = False
+
+            for cleaned_data in self.cleaned_data:
+                if not cleaned_data.get('DELETE', False):
+                    try:
+                        imagem = cleaned_data.get('arquivo').image
+                    except:
+                        pass
+
+            if not imagem:
+                raise forms.ValidationError(u'Uma notícia de destaque precisa de uma imagem anexada.')

@@ -8,12 +8,15 @@ from portal.conteudo.forms import NoticiaForm
 from portal.conteudo.forms import EventoForm
 from portal.conteudo.forms import PaginaForm
 from portal.conteudo.forms import LicitacaoForm
+from portal.conteudo.forms import AnexoFormset
 from portal.conteudo.models import Licitacao
 from portal.conteudo.models import AnexoLicitacao
 
 
 class AnexoInLine(admin.StackedInline):
     model = Anexo
+    formset = AnexoFormset
+
     extra = 1
 
 
