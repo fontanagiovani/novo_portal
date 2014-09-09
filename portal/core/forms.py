@@ -39,4 +39,4 @@ class SiteDetalheFormset(BaseInlineFormSet):
             return
         if not any(cleaned_data and not cleaned_data.get('DELETE', False)
             for cleaned_data in self.cleaned_data):
-            raise forms.ValidationError('Você deve preencher os dois campos abaixo.')
+            raise forms.ValidationError(u'Você deve preencher os dois campos abaixo.')
