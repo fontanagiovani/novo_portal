@@ -76,7 +76,6 @@ class Anexo(models.Model):
         return self.descricao
 
 
-
 class Pagina(Conteudo):
     class Meta:
         verbose_name = u'Página'
@@ -207,7 +206,6 @@ class ImagemGaleria(models.Model):
 
     def __unicode__(self):
         return self.descricao
-
 
 
 # work-around para que o signal dos objetos sejam chamados e o index do haystack seja atualizado

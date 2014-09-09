@@ -27,4 +27,4 @@ urlpatterns = patterns('portal.conteudo.views',
                        # Licitação
                        url(r'^licitacao/(?P<licitacao_id>\d+)/$', 'licitacao_detalhe', name='licitacao_detalhe'),
                        url(r'^licitacoes/$', 'licitacoes_lista', name='licitacoes_lista'),
-                       )                       
+                       )

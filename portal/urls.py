@@ -43,9 +43,7 @@ urlpatterns = patterns('',
                        url(r'^json_campi/(?P<formacao_id>\d+)/$', 'portal.core.views.json_campi', name='json_campi'),
                        url(r'^json_cursos/(?P<formacao_id>\d+)/(?P<campus_id>\d+)/$', 'portal.core.views.json_cursos',
                            name='json_cursos'),
-
                        )
-
 
 # Trecho utilizado para que o django sirva os arquivos do summernote
 from django.conf import settings

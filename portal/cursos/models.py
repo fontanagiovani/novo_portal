@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.sites.models import Site
 
 
 # class Campus(models.Model):
@@ -65,7 +64,6 @@ class Curso(models.Model):
     email = models.EmailField(verbose_name=u'email')
     url = models.URLField()
     grupo = models.ForeignKey('GrupoCursos')
-    site = models.OneToOneField(Site, verbose_name='Site do Curso')
 
     class Meta:
         verbose_name = u'Curso'
