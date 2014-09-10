@@ -69,9 +69,9 @@ class HomeAcessoRapidoContextTest(TestCase):
 
     def test_banner(self):
         """
-         Acesso rápido deve conter cinco banners
+         Acesso rápido deve conter cinco banners (10 titulos devido o tooltip que tb exibe o titulo)
         """
-        self.assertContains(self.resp, u'Titulo do banner acesso rapido', 5)
+        self.assertContains(self.resp, u'Titulo do banner acesso rapido', 10)
 
     def tearDown(self):
         del_midia_filer(self.img_name)
