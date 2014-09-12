@@ -29,4 +29,18 @@
             {% endif %}
         </div>
     </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                {% if curso.anexocurso_set.all %}
+                    <h2 class="fundo-vermelho no-padding text-center">Anexos</h2>
+                    {% for arq in curso.anexocurso_set.all %}
+                        <div class="row padding-bottom">
+                            <a href="{{ arq.arquivo.url }}" target="_blank"><i class="fi-download texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ arq.descricao }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
 {% endblock conteudo %}
