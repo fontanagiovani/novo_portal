@@ -12,13 +12,17 @@
             <h1 class="justificado" id="titulo">Curso: {{ curso.nome }}</h1>
         </div>
         <div class="row">
+            <p><strong>Formação:</strong> {{ curso.formacao }}</p>
+            <p><strong>Campus:</strong> {{ curso.campus }}</p>
+            <p><strong>Turno:</strong> {{ curso.get_turno_display }}</p>
+
             {% autoescape off %}
                 <article>
-                    <p>Turno: {{ curso.get_turno_display }}</p>
-                    <p>Contato: {{ curso.email }}</p>
-                    <p>Site do curso: <a href="{{ curso.url }}">{{ curso.url }}</a></p>
+                    <p><strong>Descrição:</strong> {{ curso.descricao }}</p>
                 </article>
             {% endautoescape %}
+            <p><strong>Contato:</strong> {{ curso.email }}</p>
+            <p><strong>Site do curso:</strong> <a href="{{ curso.url }}">{{ curso.url }}</a></p>
         </div>
     </div>
 {% endblock conteudo %}
