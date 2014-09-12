@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from filer.fields.file import FilerFileField
 
 
 # class Campus(models.Model):
@@ -61,8 +62,9 @@ class Curso(models.Model):
     formacao = models.ForeignKey('Formacao', verbose_name=u'Tipo de Formação')
     campus = models.ForeignKey('core.Campus', verbose_name=u'Campus')
     turno = models.CharField(max_length=3, choices=TURNO, verbose_name=u'Turno do Curso')
-    email = models.EmailField(verbose_name=u'email')
-    url = models.URLField()
+    descricao = models.TextField(verbose_name=u'Descrição')
+    email = models.EmailField(verbose_name=u'email', null=True, blank=True)
+    url = models.URLField(null=True, blank=True)
     grupo = models.ForeignKey('GrupoCursos')
 
     class Meta:
@@ -71,6 +73,20 @@ class Curso(models.Model):
 
     def __unicode__(self):
         return u'{0} - {1}'.format(self.nome, self.campus)
+
+
+class AnexoCurso(models.Model):
+    descricao = models.CharField(max_length=250, verbose_name=u'Descrição do anexo')
+    arquivo = FilerFileField(related_name='anexos_curso')
+    curso = models.ForeignKey('Curso', verbose_name=u'Curso')
+
+    class Meta:
+        verbose_name = u'Anexo'
+        verbose_name_plural = u'Anexos'
+
+    def __unicode__(self):
+        return self.descricao
+
 
     # |---------|
     # |Formacao |
@@ -84,6 +100,6 @@ class Curso(models.Model):
     #     |n
     #     |
     #     |1
-    # |-------|
-    # |Campus |
-    # |-------|
+    # |------------|
+    # |core.Campus |
+    # |------------|
