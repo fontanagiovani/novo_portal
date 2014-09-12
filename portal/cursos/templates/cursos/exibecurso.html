@@ -21,8 +21,26 @@
                     <p><strong>Descrição:</strong> {{ curso.descricao }}</p>
                 </article>
             {% endautoescape %}
-            <p><strong>Contato:</strong> {{ curso.email }}</p>
-            <p><strong>Site do curso:</strong> <a href="{{ curso.url }}">{{ curso.url }}</a></p>
+            {% if curso.email.strip|length > 0 %}
+                <p><strong>Contato:</strong> {{ curso.email }}</p>
+            {% endif %}
+            {% if curso.url.strip|length > 0 %}
+                <p><strong>Site do curso:</strong> <a href="{{ curso.url }}">{{ curso.url }}</a></p>
+            {% endif %}
         </div>
     </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                {% if curso.anexocurso_set.all %}
+                    <h2 class="fundo-vermelho no-padding text-center">Anexos</h2>
+                    {% for arq in curso.anexocurso_set.all %}
+                        <div class="row padding-bottom">
+                            <a href="{{ arq.arquivo.url }}" target="_blank"><i class="fi-download texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ arq.descricao }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
 {% endblock conteudo %}
