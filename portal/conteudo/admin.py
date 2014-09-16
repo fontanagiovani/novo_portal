@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.contrib.sites.models import Site
 from django_summernote.admin import SummernoteModelAdmin
 from portal.conteudo.models import Noticia, Pagina, Evento, Video, Galeria
 from portal.conteudo.models import ImagemGaleria
@@ -11,6 +12,7 @@ from portal.conteudo.forms import LicitacaoForm
 from portal.conteudo.forms import AnexoFormset
 from portal.conteudo.models import Licitacao
 from portal.conteudo.models import AnexoLicitacao
+from portal.autorizacao.models import Permissao
 
 
 class AnexoInLine(admin.StackedInline):
@@ -63,7 +65,9 @@ class NoticiaAdmin(SummernoteModelAdmin):
 
     def queryset(self, request):
         qs = super(NoticiaAdmin, self).queryset(request)
-        return qs.filter(sites__in=request.user.permissaopublicacao.sites.all()).distinct()
+        excluidos = Site.objects.exclude(id__in=Permissao.objects.get(user=request.user).sites.values_list('id'))
+
+        return qs.exclude(sites__in=excluidos)
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":
