@@ -123,6 +123,7 @@ class Licitacao(models.Model):
     possui_contrato = models.BooleanField(verbose_name=u'Possui Contrato?')
     vigencia_contrato_inicio = models.DateField(verbose_name=u'Data de início da vigência do contrato', blank=True, null=True)
     vigencia_contrato_fim = models.DateField(verbose_name=u'Data de término da vigência do contrato', blank=True, null=True)
+    encerrado = models.BooleanField(verbose_name=u'Processo encerrado?')
     situacao = models.TextField(verbose_name=u'Situação')
     objeto = models.TextField(verbose_name=u'Objeto')
     alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
