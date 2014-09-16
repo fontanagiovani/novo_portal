@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.sites.models import Site
 from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -11,6 +10,7 @@ class Campus(MPTTModel):
     sigla = models.CharField(max_length=3, verbose_name=u'Sigla do Campus')
     nome = models.CharField(max_length=50, verbose_name=u'Nome do Campus')
     slug = models.SlugField(max_length=100, blank=True, unique=True)
+    site = models.OneToOneField(Site, verbose_name='Link de origem', default=None, null=True)
 
     class Meta:
         verbose_name = u'Campus'
