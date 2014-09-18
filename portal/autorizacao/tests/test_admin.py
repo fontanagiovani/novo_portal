@@ -8,9 +8,6 @@ from django.utils import timezone
 from filer.models import Image
 from model_mommy import mommy
 
-from portal.banner.models import Banner
-from portal.banner.models import BannerAcessoRapido
-
 
 def preparar():
     adminuser = User.objects.create_user('admin', 'admin@test.com', 'admin')
@@ -413,12 +410,6 @@ class BannerAdminIndexTest(TestCase):
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
 
-        self.banner = Banner(
-            titulo=u'BannerTesteTitulo',
-            data_publicacao=timezone.now(),
-            arquivo=midia_image,
-        )
-
         self.client.login(username='admin', password='admin')
 
         for i in range(0, 2):  # loop 2x
@@ -481,12 +472,6 @@ class BannerARAdminIndexTest(TestCase):
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
-
-        self.banner = Banner(
-            titulo=u'BannerTesteTitulo',
-            data_publicacao=timezone.now(),
-            arquivo=midia_image,
-        )
 
         self.client.login(username='admin', password='admin')
 
