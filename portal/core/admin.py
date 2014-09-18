@@ -40,12 +40,12 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
     form = MenuForm
 
     def get_form(self, request, obj=None, **kwargs):
-        ModelForm = super(MenuAdmin, self).get_form(request, obj, **kwargs)
+        modelform = super(MenuAdmin, self).get_form(request, obj, **kwargs)
 
-        class ModelFormMetaClass(ModelForm):
+        class ModelFormMetaClass(modelform):
             def __new__(cls, *args, **kwargs):
                 kwargs['request'] = request
-                return ModelForm(*args, **kwargs)
+                return modelform(*args, **kwargs)
 
         return ModelFormMetaClass
 

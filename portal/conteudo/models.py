@@ -114,6 +114,7 @@ class Licitacao(models.Model):
         ('3', u'Tomada de preço'),
         ('4', u'Concorrência'),
     )
+    sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
     modalidade = models.CharField(max_length=1, choices=TIPO_MODALIDADE, verbose_name=u'Tipo de Modalidade')
     titulo = models.CharField(max_length=100, verbose_name=u'Título')
     data_publicacao = models.DateField(verbose_name=u'Data de publicação')
@@ -127,7 +128,6 @@ class Licitacao(models.Model):
     objeto = models.TextField(verbose_name=u'Objeto')
     alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
     email_contato = models.EmailField(verbose_name=u'Email para contato')
-    sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
 
     class Meta:
         verbose_name = u'Licitação'
