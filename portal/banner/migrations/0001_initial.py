@@ -18,6 +18,15 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'banner', ['Banner'])
 
+        # Adding M2M table for field sites on 'Banner'
+        m2m_table_name = db.shorten_name(u'banner_banner_sites')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('banner', models.ForeignKey(orm[u'banner.banner'], null=False)),
+            ('site', models.ForeignKey(orm[u'sites.site'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['banner_id', 'site_id'])
+
         # Adding model 'BannerAcessoRapido'
         db.create_table(u'banner_banneracessorapido', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -28,13 +37,28 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'banner', ['BannerAcessoRapido'])
 
+        # Adding M2M table for field sites on 'BannerAcessoRapido'
+        m2m_table_name = db.shorten_name(u'banner_banneracessorapido_sites')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('banneracessorapido', models.ForeignKey(orm[u'banner.banneracessorapido'], null=False)),
+            ('site', models.ForeignKey(orm[u'sites.site'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['banneracessorapido_id', 'site_id'])
+
 
     def backwards(self, orm):
         # Deleting model 'Banner'
         db.delete_table(u'banner_banner')
 
+        # Removing M2M table for field sites on 'Banner'
+        db.delete_table(db.shorten_name(u'banner_banner_sites'))
+
         # Deleting model 'BannerAcessoRapido'
         db.delete_table(u'banner_banneracessorapido')
+
+        # Removing M2M table for field sites on 'BannerAcessoRapido'
+        db.delete_table(db.shorten_name(u'banner_banneracessorapido_sites'))
 
 
     models = {
@@ -72,6 +96,7 @@ class Migration(SchemaMigration):
             'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'midia_banner'", 'to': "orm['filer.Image']"}),
             'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['sites.Site']", 'symmetrical': 'False'}),
             'titulo': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '250'}),
             'url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
         },
@@ -80,6 +105,7 @@ class Migration(SchemaMigration):
             'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'midia_image': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'ar_banner'", 'to': "orm['filer.Image']"}),
+            'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['sites.Site']", 'symmetrical': 'False'}),
             'titulo': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
         },
@@ -133,6 +159,12 @@ class Migration(SchemaMigration):
             'must_always_publish_author_credit': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'must_always_publish_copyright': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'subject_location': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '64', 'null': 'True', 'blank': 'True'})
+        },
+        u'sites.site': {
+            'Meta': {'ordering': "(u'domain',)", 'object_name': 'Site', 'db_table': "u'django_site'"},
+            'domain': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         }
     }
 

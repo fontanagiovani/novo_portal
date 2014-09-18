@@ -15,10 +15,10 @@ class BannerForm(forms.ModelForm):
         sites_marcados = self.cleaned_data['sites']
 
         for site in sites_marcados:
-            if not site in self.request.user.permissaopublicacao.sites.all():
+            if not site in self.request.user.permissao.sites.all():
                 raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
                                             u"Os sites permitidos são: %s"
-                                            % (self.request.user.permissaopublicacao.sites.all()))
+                                            % (self.request.user.permissao.sites.all()))
 
         return sites_marcados
 
@@ -34,9 +34,9 @@ class BannerAcessoRapidoForm(forms.ModelForm):
         sites_marcados = self.cleaned_data['sites']
 
         for site in sites_marcados:
-            if not site in self.request.user.permissaopublicacao.sites.all():
+            if not site in self.request.user.permissao.sites.all():
                 raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
                                             u"Os sites permitidos são: %s"
-                                            % (self.request.user.permissaopublicacao.sites.all()))
+                                            % (self.request.user.permissao.sites.all()))
 
         return sites_marcados

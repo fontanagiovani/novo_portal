@@ -15,6 +15,7 @@ class Migration(SchemaMigration):
             ('sigla', self.gf('django.db.models.fields.CharField')(max_length=3)),
             ('nome', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=100, blank=True)),
+            ('site', self.gf('django.db.models.fields.related.OneToOneField')(default=None, to=orm['sites.Site'], unique=True, null=True)),
             (u'lft', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
             (u'rght', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
             (u'tree_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
@@ -25,11 +26,12 @@ class Migration(SchemaMigration):
         # Adding model 'Menu'
         db.create_table(u'core_menu', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('site', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sites.Site'])),
             ('parent', self.gf('mptt.fields.TreeForeignKey')(blank=True, related_name='pai', null=True, to=orm['core.Menu'])),
             ('titulo', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=100, blank=True)),
             ('url', self.gf('django.db.models.fields.CharField')(max_length=250, blank=True)),
-            ('ordem', self.gf('django.db.models.fields.IntegerField')(default=9999, blank=True)),
+            ('ordem', self.gf('django.db.models.fields.PositiveIntegerField')()),
             (u'lft', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
             (u'rght', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
             (u'tree_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
@@ -64,6 +66,23 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'core', ['Selecao'])
 
+        # Adding model 'SiteDetalhe'
+        db.create_table(u'core_sitedetalhe', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('site', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['sites.Site'], unique=True)),
+            ('template', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Template'])),
+            ('endereco', self.gf('django.db.models.fields.CharField')(max_length=200)),
+        ))
+        db.send_create_signal(u'core', ['SiteDetalhe'])
+
+        # Adding model 'Template'
+        db.create_table(u'core_template', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('descricao', self.gf('django.db.models.fields.CharField')(max_length=30)),
+            ('caminho', self.gf('django.db.models.fields.CharField')(max_length=100)),
+        ))
+        db.send_create_signal(u'core', ['Template'])
+
 
     def backwards(self, orm):
         # Deleting model 'Campus'
@@ -78,6 +97,12 @@ class Migration(SchemaMigration):
         # Deleting model 'Selecao'
         db.delete_table(u'core_selecao')
 
+        # Deleting model 'SiteDetalhe'
+        db.delete_table(u'core_sitedetalhe')
+
+        # Deleting model 'Template'
+        db.delete_table(u'core_template')
+
 
     models = {
         u'core.campus': {
@@ -89,6 +114,7 @@ class Migration(SchemaMigration):
             'parent': ('mptt.fields.TreeForeignKey', [], {'blank': 'True', 'related_name': "'pai'", 'null': 'True', 'to': u"orm['core.Campus']"}),
             u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'sigla': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
+            'site': ('django.db.models.fields.related.OneToOneField', [], {'default': 'None', 'to': u"orm['sites.Site']", 'unique': 'True', 'null': 'True'}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100', 'blank': 'True'}),
             u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
         },
@@ -97,9 +123,10 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             u'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             u'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'ordem': ('django.db.models.fields.IntegerField', [], {'default': '9999', 'blank': 'True'}),
+            'ordem': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'parent': ('mptt.fields.TreeForeignKey', [], {'blank': 'True', 'related_name': "'pai'", 'null': 'True', 'to': u"orm['core.Menu']"}),
             u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
+            'site': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sites.Site']"}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100', 'blank': 'True'}),
             'titulo': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
@@ -117,6 +144,19 @@ class Migration(SchemaMigration):
             'titulo': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'url': ('django.db.models.fields.CharField', [], {'max_length': '250'})
         },
+        u'core.sitedetalhe': {
+            'Meta': {'object_name': 'SiteDetalhe'},
+            'endereco': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'site': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['sites.Site']", 'unique': 'True'}),
+            'template': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Template']"})
+        },
+        u'core.template': {
+            'Meta': {'object_name': 'Template'},
+            'caminho': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'descricao': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
         u'core.tiposelecao': {
             'Meta': {'ordering': "('titulo',)", 'object_name': 'TipoSelecao'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -127,6 +167,12 @@ class Migration(SchemaMigration):
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100'}),
             'titulo': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
+        },
+        u'sites.site': {
+            'Meta': {'ordering': "(u'domain',)", 'object_name': 'Site', 'db_table': "u'django_site'"},
+            'domain': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         }
     }
 

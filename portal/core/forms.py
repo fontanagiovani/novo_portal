@@ -15,10 +15,10 @@ class MenuForm(forms.ModelForm):
     def clean_site(self):
         site_marcado = self.cleaned_data['site']
 
-        if not site_marcado in self.request.user.permissaopublicacao.sites.all():
+        if not site_marcado in self.request.user.permissao.sites.all():
             raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
                                         u"Os sites permitidos são: %s"
-                                        % (self.request.user.permissaopublicacao.sites.all()))
+                                        % (self.request.user.permissao.sites.all()))
 
         return site_marcado
 

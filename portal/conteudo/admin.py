@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.contrib.sites.models import Site
+from django.forms import TextInput
+from django.db.models import CharField
 from django_summernote.admin import SummernoteModelAdmin
+
 from portal.conteudo.models import Noticia, Pagina, Evento, Video, Galeria
 from portal.conteudo.models import ImagemGaleria
 from portal.conteudo.models import Anexo
+from portal.conteudo.models import Licitacao
+from portal.conteudo.models import AnexoLicitacao
+
 from portal.conteudo.forms import NoticiaForm
 from portal.conteudo.forms import EventoForm
 from portal.conteudo.forms import PaginaForm
 from portal.conteudo.forms import LicitacaoForm
 from portal.conteudo.forms import AnexoFormset
-from portal.conteudo.models import Licitacao
-from portal.conteudo.models import AnexoLicitacao
 
 
 class AnexoInLine(admin.StackedInline):
@@ -54,20 +59,23 @@ class NoticiaAdmin(SummernoteModelAdmin):
     filter_horizontal = ('galerias', 'videos')
 
     def get_form(self, request, obj=None, **kwargs):
-        ModelForm = super(NoticiaAdmin, self).get_form(request, obj, **kwargs)
-        class ModelFormMetaClass(ModelForm):
+        modelform = super(NoticiaAdmin, self).get_form(request, obj, **kwargs)
+
+        class ModelFormMetaClass(modelform):
             def __new__(cls, *args, **kwargs):
                 kwargs['request'] = request
-                return ModelForm(*args, **kwargs)
+                return modelform(*args, **kwargs)
         return ModelFormMetaClass
 
     def queryset(self, request):
         qs = super(NoticiaAdmin, self).queryset(request)
-        return qs.filter(sites__in=request.user.permissaopublicacao.sites.all()).distinct()
+        excluidos = Site.objects.exclude(id__in=request.user.permissao.sites.values_list('id'))
+
+        return qs.exclude(sites__in=excluidos)
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":
-            kwargs["queryset"] = request.user.permissaopublicacao.sites.all()
+            kwargs["queryset"] = request.user.permissao.sites.all()
         return super(NoticiaAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 admin.site.register(Noticia, NoticiaAdmin)
@@ -108,24 +116,23 @@ class PaginaAdmin(SummernoteModelAdmin):
     form = PaginaForm
 
     def get_form(self, request, obj=None, **kwargs):
-        ModelForm = super(PaginaAdmin, self).get_form(request, obj, **kwargs)
-        class ModelFormMetaClass(ModelForm):
+        modelform = super(PaginaAdmin, self).get_form(request, obj, **kwargs)
+
+        class ModelFormMetaClass(modelform):
             def __new__(cls, *args, **kwargs):
                 kwargs['request'] = request
-                return ModelForm(*args, **kwargs)
+                return modelform(*args, **kwargs)
         return ModelFormMetaClass
 
     def queryset(self, request):
         qs = super(PaginaAdmin, self).queryset(request)
 
-        return qs.filter(sites__in=request.user.permissaopublicacao.sites.all()).distinct()
+        return qs.filter(sites__in=request.user.permissao.sites.all()).distinct()
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":
-            kwargs["queryset"] = request.user.permissaopublicacao.sites.all()
+            kwargs["queryset"] = request.user.permissao.sites.all()
         return super(PaginaAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
-
-
 
 admin.site.register(Pagina, PaginaAdmin)
 
@@ -164,20 +171,21 @@ class EventoAdmin(SummernoteModelAdmin):
     form = EventoForm
 
     def get_form(self, request, obj=None, **kwargs):
-        ModelForm = super(EventoAdmin, self).get_form(request, obj, **kwargs)
-        class ModelFormMetaClass(ModelForm):
+        modelform = super(EventoAdmin, self).get_form(request, obj, **kwargs)
+
+        class ModelFormMetaClass(modelform):
             def __new__(cls, *args, **kwargs):
                 kwargs['request'] = request
-                return ModelForm(*args, **kwargs)
+                return modelform(*args, **kwargs)
         return ModelFormMetaClass
 
     def queryset(self, request):
         qs = super(EventoAdmin, self).queryset(request)
-        return qs.filter(sites__in=request.user.permissaopublicacao.sites.all()).distinct()
+        return qs.filter(sites__in=request.user.permissao.sites.all()).distinct()
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":
-            kwargs["queryset"] = request.user.permissaopublicacao.sites.all()
+            kwargs["queryset"] = request.user.permissao.sites.all()
         return super(EventoAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 
@@ -255,14 +263,12 @@ admin.site.register(Galeria, GaleriaAdmin)
 
 
 class AnexoLicitacaoInLine(admin.StackedInline):
-    from django.forms import TextInput, Textarea
-    from django.db import models
+
     model = AnexoLicitacao
     extra = 1
 
     formfield_overrides = {
-        models.CharField: {'widget': TextInput(attrs={'size':'115'})},
-        # models.TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40})},
+        CharField: {'widget': TextInput(attrs={'size': '115'})},
     }
 
 
@@ -271,7 +277,7 @@ class LicitacaoAdmin(SummernoteModelAdmin):
     search_fields = ('modalidade', 'titulo', 'data_publicacao')
     list_filter = ('modalidade', 'titulo', 'data_publicacao')
 
-    inlines = [AnexoLicitacaoInLine,]
+    inlines = [AnexoLicitacaoInLine, ]
     form = LicitacaoForm
 
 
