@@ -1,5 +1,7 @@
 #coding: utf-8
 from django.contrib import admin
+from django.contrib.sites.models import Site
+
 from portal.banner.models import Banner
 from portal.banner.models import BannerAcessoRapido
 from portal.banner.forms import BannerForm
@@ -14,16 +16,19 @@ class BannerAdmin(admin.ModelAdmin):
     form = BannerForm
 
     def get_form(self, request, obj=None, **kwargs):
-        ModelForm = super(BannerAdmin, self).get_form(request, obj, **kwargs)
-        class ModelFormMetaClass(ModelForm):
+        modelform = super(BannerAdmin, self).get_form(request, obj, **kwargs)
+
+        class ModelFormMetaClass(modelform):
             def __new__(cls, *args, **kwargs):
                 kwargs['request'] = request
-                return ModelForm(*args, **kwargs)
+                return modelform(*args, **kwargs)
         return ModelFormMetaClass
 
     def queryset(self, request):
         qs = super(BannerAdmin, self).queryset(request)
-        return qs.filter(sites__in=request.user.permissao.sites.all()).distinct()
+        excluidos = Site.objects.exclude(id__in=request.user.permissao.sites.values_list('id'))
+
+        return qs.exclude(sites__in=excluidos)
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":
@@ -39,16 +44,19 @@ class BannerAcessoRapidoAdmin(admin.ModelAdmin):
     form = BannerAcessoRapidoForm
 
     def get_form(self, request, obj=None, **kwargs):
-        ModelForm = super(BannerAcessoRapidoAdmin, self).get_form(request, obj, **kwargs)
-        class ModelFormMetaClass(ModelForm):
+        modelform = super(BannerAcessoRapidoAdmin, self).get_form(request, obj, **kwargs)
+
+        class ModelFormMetaClass(modelform):
             def __new__(cls, *args, **kwargs):
                 kwargs['request'] = request
-                return ModelForm(*args, **kwargs)
+                return modelform(*args, **kwargs)
         return ModelFormMetaClass
 
     def queryset(self, request):
         qs = super(BannerAcessoRapidoAdmin, self).queryset(request)
-        return qs.filter(sites__in=request.user.permissao.sites.all()).distinct()
+        excluidos = Site.objects.exclude(id__in=request.user.permissao.sites.values_list('id'))
+
+        return qs.exclude(sites__in=excluidos)
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":

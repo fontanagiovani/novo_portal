@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.test.testcases import TestCase
-from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
-from model_mommy import mommy
 from django.test.utils import override_settings
+from django.core.urlresolvers import reverse
+from django.core.files import File
+from django.contrib.auth.models import User
+from django.utils import timezone
+from filer.models import Image
+from model_mommy import mommy
+
+from portal.banner.models import Banner
+from portal.banner.models import BannerAcessoRapido
 
 
 def preparar():
@@ -38,7 +44,6 @@ def preparar():
 
 
 class NoticiaAdminIndexTest(TestCase):
-
     # Templates
     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
     # Remove o context processor que carrega os menus pois nao e importante para o teste
@@ -97,7 +102,6 @@ class NoticiaAdminIndexTest(TestCase):
 
 
 class EventoAdminIndexTest(TestCase):
-
     # Templates
     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
     # Remove o context processor que carrega os menus pois nao e importante para o teste
@@ -156,7 +160,6 @@ class EventoAdminIndexTest(TestCase):
 
 
 class PaginaAdminIndexTest(TestCase):
-
     # Templates
     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
     # Remove o context processor que carrega os menus pois nao e importante para o teste
@@ -215,7 +218,6 @@ class PaginaAdminIndexTest(TestCase):
 
 
 class VideoAdminIndexTest(TestCase):
-
     # Templates
     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
     # Remove o context processor que carrega os menus pois nao e importante para o teste
@@ -274,7 +276,6 @@ class VideoAdminIndexTest(TestCase):
 
 
 class GaleriaAdminIndexTest(TestCase):
-
     # Templates
     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
     # Remove o context processor que carrega os menus pois nao e importante para o teste
@@ -333,7 +334,6 @@ class GaleriaAdminIndexTest(TestCase):
 
 
 class LicitacaoAdminIndexTest(TestCase):
-
     # Templates
     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
     # Remove o context processor que carrega os menus pois nao e importante para o teste
@@ -389,3 +389,141 @@ class LicitacaoAdminIndexTest(TestCase):
         # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
         # devem aparecer para o usuario
         self.assertContains(response, 'titulolicitacao', 6)
+
+
+class BannerAdminIndexTest(TestCase):
+    # Templates
+    from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+    # Remove o context processor que carrega os menus pois nao e importante para o teste
+    TEMPLATE_CONTEXT_PROCESSORS += (
+        'django.core.context_processors.request',
+    )
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def setUp(self):
+
+        contexto = preparar()
+        self.site = contexto['site']
+        self.site2 = contexto['site2']
+        self.site3 = contexto['site3']
+
+        self.img_path = 'portal/banner/static/img/images.jpeg'
+        self.img_name = 'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
+
+        self.banner = Banner(
+            titulo=u'BannerTesteTitulo',
+            data_publicacao=timezone.now(),
+            arquivo=midia_image,
+        )
+
+        self.client.login(username='admin', password='admin')
+
+        for i in range(0, 2):  # loop 2x
+            banner = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=midia_image)
+            # o usuario deve conseguir visualizar estes banners
+            banner.sites.add(self.site)
+            banner.sites.add(self.site2)
+
+        for i in range(2, 6):  # loop 4x
+            banner = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=midia_image)
+            # o usuario deve conseguir visualizar estes banners
+            banner.sites.add(self.site2)
+
+        for i in range(7, 12):  # loop 5x
+            banner = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=midia_image)
+            # o usuario nao deve conseguir visualizar estes banners pois nao tem permissao para o self.site3
+            banner.sites.add(self.site2)
+            banner.sites.add(self.site3)
+
+    def tearDown(self):
+        self.client.logout()
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def test_usuario_pode_ver_somente_banners_permitidos(self):
+        """
+        O usuario so podera ver as noticias que estiverem publicadas nos sites no qual ele tem permissao. Ex.:
+        1 - Uma noticia e publicada no site RTR e CNP
+            1.1 - Caso o usuario tenha permissao para publicacao nos sites RTR e CNP:
+                1.1.1 - O usuario pode visualizar essa noticia na listagem de noticias
+            1.2 - Caso o usuario tenha permissao para publicacao somente no site RTR:
+                1.2.1 - O usuario nao pode visualizar a noticias na listagem de noticias
+        Isto e, somente se o usuario possuir permissao para todos os sites onde a noticia foi publicada ele pode
+        visualiza-la na listagem
+        """
+        response = self.client.get(reverse('admin:banner_banner_changelist'))
+
+        # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
+        # devem aparecer para o usuario
+        self.assertContains(response, 'BannerTesteTitulo', 6)
+
+
+class BannerARAdminIndexTest(TestCase):
+    # Templates
+    from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+    # Remove o context processor que carrega os menus pois nao e importante para o teste
+    TEMPLATE_CONTEXT_PROCESSORS += (
+        'django.core.context_processors.request',
+    )
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def setUp(self):
+
+        contexto = preparar()
+        self.site = contexto['site']
+        self.site2 = contexto['site2']
+        self.site3 = contexto['site3']
+
+        self.img_path = 'portal/banner/static/img/images.jpeg'
+        self.img_name = 'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
+
+        self.banner = Banner(
+            titulo=u'BannerTesteTitulo',
+            data_publicacao=timezone.now(),
+            arquivo=midia_image,
+        )
+
+        self.client.login(username='admin', password='admin')
+
+        for i in range(0, 2):  # loop 2x
+            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, midia_image=midia_image)
+            # o usuario deve conseguir visualizar estes banners
+            banner.sites.add(self.site)
+            banner.sites.add(self.site2)
+
+        for i in range(2, 6):  # loop 4x
+            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, midia_image=midia_image)
+            # o usuario deve conseguir visualizar estes banners
+            banner.sites.add(self.site2)
+
+        for i in range(7, 12):  # loop 5x
+            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, midia_image=midia_image)
+            # o usuario nao deve conseguir visualizar estes banners pois nao tem permissao para o self.site3
+            banner.sites.add(self.site2)
+            banner.sites.add(self.site3)
+
+    def tearDown(self):
+        self.client.logout()
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def test_usuario_pode_ver_somente_banners_permitidos(self):
+        """
+        O usuario so podera ver as noticias que estiverem publicadas nos sites no qual ele tem permissao. Ex.:
+        1 - Uma noticia e publicada no site RTR e CNP
+            1.1 - Caso o usuario tenha permissao para publicacao nos sites RTR e CNP:
+                1.1.1 - O usuario pode visualizar essa noticia na listagem de noticias
+            1.2 - Caso o usuario tenha permissao para publicacao somente no site RTR:
+                1.2.1 - O usuario nao pode visualizar a noticias na listagem de noticias
+        Isto e, somente se o usuario possuir permissao para todos os sites onde a noticia foi publicada ele pode
+        visualiza-la na listagem
+        """
+        response = self.client.get(reverse('admin:banner_banneracessorapido_changelist'))
+
+        # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
+        # devem aparecer para o usuario
+        self.assertContains(response, 'BannerTesteTitulo', 6)
