@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from django.contrib.auth.admin import User
-from django.contrib.auth.admin import UserAdmin
 from django.contrib.sites.admin import SiteAdmin
 from django.contrib.sites.models import Site
 from mptt.admin import MPTTModelAdmin
@@ -12,7 +10,6 @@ from portal.core.models import SiteDetalhe
 from portal.core.models import Template
 from portal.core.models import Campus
 from portal.core.models import Selecao, TipoSelecao
-from portal.core.models import PermissaoPublicacao
 from portal.core.forms import MenuForm
 from portal.core.forms import SiteDetalheForm, SiteDetalheFormset
 
@@ -54,11 +51,11 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
 
     def queryset(self, request):
         qs = super(MenuAdmin, self).queryset(request)
-        return qs.filter(site__in=request.user.permissaopublicacao.sites.all()).distinct()
+        return qs.filter(site__in=request.user.permissao.sites.all()).distinct()
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "site":
-            kwargs["queryset"] = request.user.permissaopublicacao.sites.all()
+            kwargs["queryset"] = request.user.permissao.sites.all()
         return super(MenuAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 admin.site.register(Menu, MenuAdmin)
@@ -81,29 +78,6 @@ class SelecaoAdmin(admin.ModelAdmin):
     list_filter = ('status', 'tipo')
 
 admin.site.register(Selecao, SelecaoAdmin)
-
-
-class SiteInline(admin.StackedInline):
-    model = PermissaoPublicacao
-    max_num = 1
-    can_delete = False
-
-
-class PermissaoPublicacaoAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'sites_publicacao')
-    inlines = [SiteInline]
-
-    def sites_publicacao(self, obj):
-        sites_perm = []
-        for site in obj.permissaopublicacao.sites.all():
-            sites_perm.append(site)
-        if sites_perm == []:
-            return ""
-        else:
-            return sites_perm
-
-admin.site.unregister(User)
-admin.site.register(User, PermissaoPublicacaoAdmin)
 
 
 class SiteIndexInline(admin.StackedInline):

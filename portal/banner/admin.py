@@ -23,11 +23,11 @@ class BannerAdmin(admin.ModelAdmin):
 
     def queryset(self, request):
         qs = super(BannerAdmin, self).queryset(request)
-        return qs.filter(sites__in=request.user.permissaopublicacao.sites.all()).distinct()
+        return qs.filter(sites__in=request.user.permissao.sites.all()).distinct()
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":
-            kwargs["queryset"] = request.user.permissaopublicacao.sites.all()
+            kwargs["queryset"] = request.user.permissao.sites.all()
         return super(BannerAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 
@@ -48,11 +48,11 @@ class BannerAcessoRapidoAdmin(admin.ModelAdmin):
 
     def queryset(self, request):
         qs = super(BannerAcessoRapidoAdmin, self).queryset(request)
-        return qs.filter(sites__in=request.user.permissaopublicacao.sites.all()).distinct()
+        return qs.filter(sites__in=request.user.permissao.sites.all()).distinct()
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":
-            kwargs["queryset"] = request.user.permissaopublicacao.sites.all()
+            kwargs["queryset"] = request.user.permissao.sites.all()
         return super(BannerAcessoRapidoAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 

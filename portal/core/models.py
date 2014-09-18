@@ -79,15 +79,6 @@ class Selecao(models.Model):
         return self.titulo
 
 
-class PermissaoPublicacao(models.Model):
-    class Meta:
-        verbose_name = u'Permissão de Publicacão'
-        verbose_name_plural = u'Permissões de Publicação'
-
-    sites = models.ManyToManyField(Site, verbose_name=u'Sites Permitidos')
-    user = models.OneToOneField(User, verbose_name=u'Usuario', primary_key=True)
-
-
 class SiteDetalhe(models.Model):
     site = models.OneToOneField(Site)
     template = models.ForeignKey('Template', help_text=u'Template da página inicial')

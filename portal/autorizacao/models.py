@@ -13,4 +13,4 @@ class Permissao(models.Model):
     user = models.OneToOneField(User, verbose_name=u'Usuario')
 
     def __unicode__(self):
-        return u'Perm_id: %d - Site: %s - Usuários: %s' % (self.pk, self.site, self.user.all())
+        return self.sites.all()
