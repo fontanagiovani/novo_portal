@@ -137,6 +137,15 @@ class Licitacao(models.Model):
     def __unicode__(self):
         return self.titulo
 
+    @staticmethod
+    def get_modalidades_existentes(site):
+        modalidades_existentes = []
+        for modalidade in Licitacao.TIPO_MODALIDADE:
+            if Licitacao.objects.filter(sites__exact=site, modalidade=modalidade[0]).exists():
+                modalidades_existentes.append(modalidade)
+
+        return modalidades_existentes
+
 
 class AnexoLicitacao(models.Model):
     descricao = models.CharField(max_length=250, verbose_name=u'Descrição')

@@ -174,10 +174,17 @@ def licitacao_detalhe(request, licitacao_id):
     return render(request, 'conteudo/licitacao.html', {'licitacao': licitacao})
 
 
-def licitacoes_lista(request):
+def licitacoes_modalidades(request):
+    site = Site.objects.get(domain=request.get_host())
+    modalidades = Licitacao.get_modalidades_existentes(site)
+
+    return render(request, 'conteudo/licitacoes_modalidades.html', {'modalidades': modalidades})
+
+
+def licitacoes_lista(request, modalidade):
     try:
         site = Site.objects.get(domain=request.get_host())
-        paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id), 20)
+        paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade), 20)
     except Site.DoesNotExist, Evento.DoesNotExist:
         raise Http404
 
@@ -190,5 +197,5 @@ def licitacoes_lista(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         licitacoes = paginator.page(paginator.num_pages)
-    #
+
     return render(request, 'conteudo/licitacoes_lista.html', {'licitacoes': licitacoes})

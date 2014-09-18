@@ -2,7 +2,8 @@
 {% load thumbnail %}
 
 {% block breadcrumbs %}
-    <li><a href="{% url 'conteudo:licitacoes_lista' %}">Licitações</a></li>
+    <li><a href="{% url 'conteudo:licitacoes_modalidades' %}">Modalidades de Licitação</a></li>
+    <li><a href="{% url 'conteudo:licitacoes_lista' licitacao.modalidade %}">Licitações</a></li>
     <li class="current"><a href="#">{{ licitacao.titulo|truncatewords:"5" }}</a></li>
 {% endblock %}
 

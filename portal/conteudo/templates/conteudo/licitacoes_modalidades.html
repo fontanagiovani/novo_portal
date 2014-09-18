@@ -1,0 +1,22 @@
+{% extends 'core/lista.html' %}
+{% load thumbnail %}
+
+{% block breadcrumbs %}
+    <li class="current"><a href="{% url 'conteudo:licitacoes_modalidades' %}">Modalidades de Licitacão</a></li>
+{% endblock %}
+
+{% block listagem %}
+    <div class="row padding-top-bottom">
+        <div class="small-12 columns">
+            <h1>MODALIDADES DE LICITAÇÃO</h1>
+
+            <div class="row padding-top-bottom">
+                <ul>
+                {% for x, y in modalidades %}
+                        <a href="{% url 'conteudo:licitacoes_lista' x %}"><li>{{ y }}</li></a>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
