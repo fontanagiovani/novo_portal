@@ -153,3 +153,239 @@ class EventoAdminIndexTest(TestCase):
         # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
         # devem aparecer para o usuario
         self.assertContains(response, 'tituloevento', 6)
+
+
+class PaginaAdminIndexTest(TestCase):
+
+    # Templates
+    from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+    # Remove o context processor que carrega os menus pois nao e importante para o teste
+    TEMPLATE_CONTEXT_PROCESSORS += (
+        'django.core.context_processors.request',
+    )
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def setUp(self):
+
+        contexto = preparar()
+        self.site = contexto['site']
+        self.site2 = contexto['site2']
+        self.site3 = contexto['site3']
+        self.campus = contexto['campus']
+
+        self.client.login(username='admin', password='admin')
+
+        for i in range(0, 2):  # loop 2x
+            n = mommy.make('Pagina', titulo=u'titulopagina%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            # o usuario deve conseguir visualizar estas noticias
+            n.sites.add(self.site)
+            n.sites.add(self.site2)
+
+        for i in range(2, 6):  # loop 4x
+            n = mommy.make('Pagina', titulo=u'titulopagina%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            # o usuario deve conseguir visualizar estas noticias
+            n.sites.add(self.site2)
+
+        for i in range(7, 12):  # loop 5x
+            n = mommy.make('Pagina', titulo=u'titulopagina%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            # o usuario nao deve conseguir visualizar estas noticias pois nao tem permissao para o self.site3
+            n.sites.add(self.site2)
+            n.sites.add(self.site3)
+
+    def tearDown(self):
+        self.client.logout()
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def test_usuario_pode_ver_somente_paginas_permitidas(self):
+        """
+        O usuario so podera ver as noticias que estiverem publicadas nos sites no qual ele tem permissao. Ex.:
+        1 - Uma noticia e publicada no site RTR e CNP
+            1.1 - Caso o usuario tenha permissao para publicacao nos sites RTR e CNP:
+                1.1.1 - O usuario pode visualizar essa noticia na listagem de noticias
+            1.2 - Caso o usuario tenha permissao para publicacao somente no site RTR:
+                1.2.1 - O usuario nao pode visualizar a noticias na listagem de noticias
+        Isto e, somente se o usuario possuir permissao para todos os sites onde a noticia foi publicada ele pode
+        visualiza-la na listagem
+        """
+        response = self.client.get(reverse('admin:conteudo_pagina_changelist'))
+
+        # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
+        # devem aparecer para o usuario
+        self.assertContains(response, 'titulopagina', 6)
+
+
+class VideoAdminIndexTest(TestCase):
+
+    # Templates
+    from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+    # Remove o context processor que carrega os menus pois nao e importante para o teste
+    TEMPLATE_CONTEXT_PROCESSORS += (
+        'django.core.context_processors.request',
+    )
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def setUp(self):
+
+        contexto = preparar()
+        self.site = contexto['site']
+        self.site2 = contexto['site2']
+        self.site3 = contexto['site3']
+        self.campus = contexto['campus']
+
+        self.client.login(username='admin', password='admin')
+
+        for i in range(0, 2):  # loop 2x
+            n = mommy.make('Video', titulo=u'titulovideo%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            # o usuario deve conseguir visualizar estas noticias
+            n.sites.add(self.site)
+            n.sites.add(self.site2)
+
+        for i in range(2, 6):  # loop 4x
+            n = mommy.make('Video', titulo=u'titulovideo%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            # o usuario deve conseguir visualizar estas noticias
+            n.sites.add(self.site2)
+
+        for i in range(7, 12):  # loop 5x
+            n = mommy.make('Video', titulo=u'titulovideo%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            # o usuario nao deve conseguir visualizar estas noticias pois nao tem permissao para o self.site3
+            n.sites.add(self.site2)
+            n.sites.add(self.site3)
+
+    def tearDown(self):
+        self.client.logout()
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def test_usuario_pode_ver_somente_videos_permitidos(self):
+        """
+        O usuario so podera ver as noticias que estiverem publicadas nos sites no qual ele tem permissao. Ex.:
+        1 - Uma noticia e publicada no site RTR e CNP
+            1.1 - Caso o usuario tenha permissao para publicacao nos sites RTR e CNP:
+                1.1.1 - O usuario pode visualizar essa noticia na listagem de noticias
+            1.2 - Caso o usuario tenha permissao para publicacao somente no site RTR:
+                1.2.1 - O usuario nao pode visualizar a noticias na listagem de noticias
+        Isto e, somente se o usuario possuir permissao para todos os sites onde a noticia foi publicada ele pode
+        visualiza-la na listagem
+        """
+        response = self.client.get(reverse('admin:conteudo_video_changelist'))
+
+        # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
+        # devem aparecer para o usuario
+        self.assertContains(response, 'titulovideo', 6)
+
+
+class GaleriaAdminIndexTest(TestCase):
+
+    # Templates
+    from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+    # Remove o context processor que carrega os menus pois nao e importante para o teste
+    TEMPLATE_CONTEXT_PROCESSORS += (
+        'django.core.context_processors.request',
+    )
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def setUp(self):
+
+        contexto = preparar()
+        self.site = contexto['site']
+        self.site2 = contexto['site2']
+        self.site3 = contexto['site3']
+        self.campus = contexto['campus']
+
+        self.client.login(username='admin', password='admin')
+
+        for i in range(0, 2):  # loop 2x
+            n = mommy.make('Galeria', titulo=u'titulogaleria%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            # o usuario deve conseguir visualizar estas noticias
+            n.sites.add(self.site)
+            n.sites.add(self.site2)
+
+        for i in range(2, 6):  # loop 4x
+            n = mommy.make('Galeria', titulo=u'titulogaleria%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            # o usuario deve conseguir visualizar estas noticias
+            n.sites.add(self.site2)
+
+        for i in range(7, 12):  # loop 5x
+            n = mommy.make('Galeria', titulo=u'titulogaleria%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            # o usuario nao deve conseguir visualizar estas noticias pois nao tem permissao para o self.site3
+            n.sites.add(self.site2)
+            n.sites.add(self.site3)
+
+    def tearDown(self):
+        self.client.logout()
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def test_usuario_pode_ver_somente_galerias_permitidas(self):
+        """
+        O usuario so podera ver as noticias que estiverem publicadas nos sites no qual ele tem permissao. Ex.:
+        1 - Uma noticia e publicada no site RTR e CNP
+            1.1 - Caso o usuario tenha permissao para publicacao nos sites RTR e CNP:
+                1.1.1 - O usuario pode visualizar essa noticia na listagem de noticias
+            1.2 - Caso o usuario tenha permissao para publicacao somente no site RTR:
+                1.2.1 - O usuario nao pode visualizar a noticias na listagem de noticias
+        Isto e, somente se o usuario possuir permissao para todos os sites onde a noticia foi publicada ele pode
+        visualiza-la na listagem
+        """
+        response = self.client.get(reverse('admin:conteudo_galeria_changelist'))
+
+        # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
+        # devem aparecer para o usuario
+        self.assertContains(response, 'titulogaleria', 6)
+
+
+class LicitacaoAdminIndexTest(TestCase):
+
+    # Templates
+    from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+    # Remove o context processor que carrega os menus pois nao e importante para o teste
+    TEMPLATE_CONTEXT_PROCESSORS += (
+        'django.core.context_processors.request',
+    )
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def setUp(self):
+
+        contexto = preparar()
+        self.site = contexto['site']
+        self.site2 = contexto['site2']
+        self.site3 = contexto['site3']
+        self.campus = contexto['campus']
+
+        self.client.login(username='admin', password='admin')
+
+        for i in range(0, 2):  # loop 2x
+            n = mommy.make('Licitacao', titulo=u'titulolicitacao%d' % i)
+            # o usuario deve conseguir visualizar estas noticias
+            n.sites.add(self.site)
+            n.sites.add(self.site2)
+
+        for i in range(2, 6):  # loop 4x
+            n = mommy.make('Licitacao', titulo=u'titulolicitacao%d' % i)
+            # o usuario deve conseguir visualizar estas noticias
+            n.sites.add(self.site2)
+
+        for i in range(7, 12):  # loop 5x
+            n = mommy.make('Licitacao', titulo=u'titulolicitacao%d' % i)
+            # o usuario nao deve conseguir visualizar estas noticias pois nao tem permissao para o self.site3
+            n.sites.add(self.site2)
+            n.sites.add(self.site3)
+
+    def tearDown(self):
+        self.client.logout()
+
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def test_usuario_pode_ver_somente_licitacoes_permitidas(self):
+        """
+        O usuario so podera ver as noticias que estiverem publicadas nos sites no qual ele tem permissao. Ex.:
+        1 - Uma noticia e publicada no site RTR e CNP
+            1.1 - Caso o usuario tenha permissao para publicacao nos sites RTR e CNP:
+                1.1.1 - O usuario pode visualizar essa noticia na listagem de noticias
+            1.2 - Caso o usuario tenha permissao para publicacao somente no site RTR:
+                1.2.1 - O usuario nao pode visualizar a noticias na listagem de noticias
+        Isto e, somente se o usuario possuir permissao para todos os sites onde a noticia foi publicada ele pode
+        visualiza-la na listagem
+        """
+        response = self.client.get(reverse('admin:conteudo_licitacao_changelist'))
+
+        # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
+        # devem aparecer para o usuario
+        self.assertContains(response, 'titulolicitacao', 6)

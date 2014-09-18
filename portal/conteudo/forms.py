@@ -71,12 +71,67 @@ class EventoForm(ModelForm):
         return sites_marcados
 
 
+class VideoForm(ModelForm):
+    model = Evento
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(VideoForm, self).__init__(*args, **kwargs)
+
+    def clean_sites(self):
+        sites_marcados = self.cleaned_data['sites']
+
+        for site in sites_marcados:
+            if not site in self.request.user.permissao.sites.all():
+                raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
+                                            u"Os sites permitidos são: %s"
+                                            % (self.request.user.permissao.sites.all()))
+
+        return sites_marcados
+
+
+class GaleriaForm(ModelForm):
+    model = Evento
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(GaleriaForm, self).__init__(*args, **kwargs)
+
+    def clean_sites(self):
+        sites_marcados = self.cleaned_data['sites']
+
+        for site in sites_marcados:
+            if not site in self.request.user.permissao.sites.all():
+                raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
+                                            u"Os sites permitidos são: %s"
+                                            % (self.request.user.permissao.sites.all()))
+
+        return sites_marcados
+
+
 class LicitacaoForm(ModelForm):
+    model = Evento
+
     class Media:
         js = (
             '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
             '/static/js/licitacao.js',
         )
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(LicitacaoForm, self).__init__(*args, **kwargs)
+
+    def clean_sites(self):
+        sites_marcados = self.cleaned_data['sites']
+
+        for site in sites_marcados:
+            if not site in self.request.user.permissao.sites.all():
+                raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
+                                            u"Os sites permitidos são: %s"
+                                            % (self.request.user.permissao.sites.all()))
+
+        return sites_marcados
 
 
 class AnexoFormset(BaseInlineFormSet):
