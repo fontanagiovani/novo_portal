@@ -8,7 +8,7 @@ import json  # json para usar no select com ajax
 from haystack.views import SearchView
 
 from portal.core.models import Menu
-from portal.core.models import portal, campus, blog, pagina, template_redirect
+from portal.core.models import Template
 from portal.core.models import Selecao, TipoSelecao
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
@@ -24,10 +24,10 @@ def home(request):
     try:
         site = Site.objects.get(domain=request.get_host())
 
-        if site.sitedetalhe.template.descricao == template_redirect():
+        if site.sitedetalhe.template.descricao == Template.redirect():
             return redirect(site.sitedetalhe.template.caminho)
 
-        if site.sitedetalhe.template.descricao == portal():
+        if site.sitedetalhe.template.descricao == Template.portal():
             noticias_detaque = sorted(Noticia.objects.filter(destaque=True, sites__id__exact=site.id)[:5],
                                       key=lambda o: o.prioridade_destaque)
             mais_noticias = Noticia.objects.filter(sites__id__exact=site.id).exclude(
@@ -49,7 +49,7 @@ def home(request):
                 'galerias': galerias,
                 'formacao': formacao,
             }
-        if site.sitedetalhe.template.descricao == blog():
+        if site.sitedetalhe.template.descricao == Template.blog():
             noticias = Noticia.objects.all()[:10]
 
             contexto = {

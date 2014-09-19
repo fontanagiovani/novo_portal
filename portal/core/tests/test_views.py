@@ -7,14 +7,14 @@ from model_mommy import mommy
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
 from portal.core.models import Menu
-from portal.core.models import Template, SiteDetalhe, portal
+from portal.core.models import Template, SiteDetalhe
 from portal.core.models import Selecao, TipoSelecao, Campus
 
 
 class HomeTest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
-        template = mommy.make(Template, _quantity=1, descricao=portal(), caminho='core/portal.html')[0]
+        template = mommy.make(Template, _quantity=1, descricao=Template.portal(), caminho='core/portal.html')[0]
         sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=template)[0]
 
         sitedetalhe.site = self.site
@@ -45,7 +45,7 @@ class HomeContextTest(TestCase):
         mommy.make(Evento, _quantity=3, campus_origem=campus, titulo=u'Titulo do evento')
 
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
-        template = mommy.make(Template, _quantity=1, descricao=portal(), caminho='core/portal.html')[0]
+        template = mommy.make(Template, _quantity=1, descricao=Template.portal(), caminho='core/portal.html')[0]
         sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=template)[0]
 
         sitedetalhe.site = self.site
@@ -135,7 +135,7 @@ class SelecaoTest(TestCase):
 class Menutest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
-        self.template = mommy.make(Template, _quantity=1, descricao=portal(), caminho='core/portal.html')[0]
+        self.template = mommy.make(Template, _quantity=1, descricao=Template.portal(), caminho='core/portal.html')[0]
         self.sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=self.template)[0]
 
         self.site.sitedetalhe = self.sitedetalhe

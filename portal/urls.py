@@ -7,7 +7,7 @@ admin.autodiscover()
 
 from haystack.forms import ModelSearchForm
 from haystack.query import SearchQuerySet
-from haystack.views import SearchView, search_view_factory
+from haystack.views import search_view_factory
 from portal.core.views import SearchViewSites
 
 sqs = SearchQuerySet().order_by('-data_publicacao')

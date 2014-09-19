@@ -94,27 +94,29 @@ class Template(models.Model):
     )
 
     descricao = models.CharField(max_length=30, choices=DESC)
-    caminho = models.CharField(max_length=100, help_text=u'Utilize o caminho app/template - Ex.: core/portal.html')
+    caminho = models.CharField(max_length=100, help_text=u'Utilize o caminho app/template - Ex.: core/portal.html'
+                                                         u'<br>Em caso de redirect use a url completa - '
+                                                         u'Ex.: http://www.ifmt.edu.br')
 
     def __unicode__(self):
         return self.descricao
 
+    @staticmethod
+    def portal():
+        return Template.DESC[0][0]
 
-def portal():
-    return Template.DESC[0][0]
+    @staticmethod
+    def campus():
+        return Template.DESC[1][0]
 
+    @staticmethod
+    def blog():
+        return Template.DESC[2][0]
 
-def campus():
-    return Template.DESC[1][0]
+    @staticmethod
+    def pagina():
+        return Template.DESC[3][0]
 
-
-def blog():
-    return Template.DESC[2][0]
-
-
-def pagina():
-    return Template.DESC[3][0]
-
-
-def template_redirect():
-    return Template.DESC[4][0]
+    @staticmethod
+    def redirect():
+        return Template.DESC[4][0]
