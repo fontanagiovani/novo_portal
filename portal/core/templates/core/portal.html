@@ -123,7 +123,7 @@
     {#Container para eventos e guia de curso#}
     <div class="medium-4 columns fundo-cinza">
         <div class="row padding-bottom">
-            <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
+            <h1><a href="{% url 'guiadecursoportal' %}"><i class="fi-list"></i> GUIA DE CURSOS</a></h1>
 
             <form method="post" id="guiadecursoportal" name="guiadecursoportal"
                   action="{% url 'guiadecursoportal' %}">{% csrf_token %}
@@ -149,8 +149,12 @@
                         </label>
                     </div>
                 </div>
-                <div id="resultado"></div>
-                <input type="submit" class="button small expand no-margin" value="Buscar Cursos">
+                <div class="row collapse">
+                    <div class="medium-6 medium-offset-6 columns">
+                        <input type="submit" class="button small expand no-margin" value="Buscar Cursos">
+                    </div>
+                </div>
+
             </form>
         </div>
         {#Fim da div eventos e guia de curso#}
