@@ -1,14 +1,14 @@
 # coding: utf-8
 from collections import OrderedDict
 from django.contrib.sites.models import Site
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse  # httresponse para usar com json
 from django.http.response import Http404
 import json  # json para usar no select com ajax
 from haystack.views import SearchView
 
 from portal.core.models import Menu
-from portal.core.models import portal, campus, blog, pagina
+from portal.core.models import portal, campus, blog, pagina, template_redirect
 from portal.core.models import Selecao, TipoSelecao
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
@@ -23,6 +23,9 @@ def home(request):
     contexto = dict()
     try:
         site = Site.objects.get(domain=request.get_host())
+
+        if site.sitedetalhe.template.descricao == template_redirect():
+            return redirect(site.sitedetalhe.template.caminho)
 
         if site.sitedetalhe.template.descricao == portal():
             noticias_detaque = sorted(Noticia.objects.filter(destaque=True, sites__id__exact=site.id)[:5],
@@ -45,6 +48,12 @@ def home(request):
                 'videos': videos,
                 'galerias': galerias,
                 'formacao': formacao,
+            }
+        if site.sitedetalhe.template.descricao == blog():
+            noticias = Noticia.objects.all()[:10]
+
+            contexto = {
+                'noticias': noticias,
             }
 
         # Adiconar o contexto para os demais tipos de template nos demais condicionais

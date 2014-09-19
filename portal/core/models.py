@@ -90,6 +90,7 @@ class Template(models.Model):
         ('CAMPUS', u'Câmpus'),
         ('BLOG', u'Blog'),
         ('PAGINA', u'Página individual'),
+        ('REDIRECT', u'Redirect'),
     )
 
     descricao = models.CharField(max_length=30, choices=DESC)
@@ -113,3 +114,7 @@ def blog():
 
 def pagina():
     return Template.DESC[3][0]
+
+
+def template_redirect():
+    return Template.DESC[4][0]

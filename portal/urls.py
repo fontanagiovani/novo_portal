@@ -29,8 +29,6 @@ urlpatterns = patterns('',
                            form_class=ModelSearchForm
                            ), name='buscar'),
 
-                       url(r'^$', 'portal.core.views.home', name='home'),
-
                        # url(r'^guiadecursos/', 'portal.cursos.views.listagrupodecursos', name='listagrupodecursos'),
                        url(r'^cursos/(?P<grupo_id>\d+)/$', 'portal.cursos.views.listacursosdogrupo',
                            name='listacursosdogrupo'),
@@ -43,6 +41,8 @@ urlpatterns = patterns('',
                        url(r'^json_campi/(?P<formacao_id>\d+)/$', 'portal.core.views.json_campi', name='json_campi'),
                        url(r'^json_cursos/(?P<formacao_id>\d+)/(?P<campus_id>\d+)/$', 'portal.core.views.json_cursos',
                            name='json_cursos'),
+
+                       url(r'^$', 'portal.core.views.home', name='home'),
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do summernote
