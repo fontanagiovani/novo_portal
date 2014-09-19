@@ -45,6 +45,9 @@
             {% autoescape off %}
                 <article>
                     {{ galeria.texto }}
+                    {% if galeria.campus_origem.site %}
+                        Site de origem: {{ galeria.campus_origem.site }}
+                    {% endif %}
                 </article>
             {% endautoescape %}
 

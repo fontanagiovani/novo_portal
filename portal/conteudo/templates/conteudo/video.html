@@ -39,6 +39,9 @@
             {% autoescape off %}
                 <article>
                     {{ video.texto }}
+                    {% if galeria.campus_origem.site %}
+                        Site de origem: {{ galeria.campus_origem.site }}
+                    {% endif %}
                 </article>
             {% endautoescape %}
 
