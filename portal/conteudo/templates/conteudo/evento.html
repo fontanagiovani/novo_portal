@@ -83,7 +83,7 @@
                     <li class="padding-right">Tags:</li>
                     {% for tag in evento.tags.all %}
                         <li class="padding-all fundo-cinza"><a
-                                href="{% url 'conteudo:tags_lista' tag_slug=tag.slug %}">{{ tag.slug }}</a></li>
+                                href="{% url 'conteudo:tags_lista' slug=tag.slug %}">{{ tag.slug }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
