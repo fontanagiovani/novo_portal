@@ -13,10 +13,10 @@ from portal.conteudo.models import Galeria
 from portal.conteudo.models import Licitacao
 
 
-def noticia_detalhe(request, noticia_id):
+def noticia_detalhe(request, slug):
     try:
         site = Site.objects.get(domain=request.get_host())
-        noticia = Noticia.objects.get(id=noticia_id, sites__id__exact=site.id)
+        noticia = Noticia.objects.get(slug=slug, sites__id__exact=site.id)
     except Site.DoesNotExist, Noticia.DoesNotExist:
         raise Http404
 
@@ -43,20 +43,20 @@ def noticias_lista(request):
     return render(request, 'conteudo/noticias_lista.html', {'noticias': noticias})
 
 
-def pagina_detalhe(request, pagina_id):
+def pagina_detalhe(request, slug):
     try:
         site = Site.objects.get(domain=request.get_host())
-        pagina = Pagina.objects.get(id=pagina_id, sites__id__exact=site.id)
+        pagina = Pagina.objects.get(slug=slug, sites__id__exact=site.id)
     except Site.DoesNotExist, Pagina.DoesNotExist:
         raise Http404
 
     return render(request, 'conteudo/pagina.html', {'pagina': pagina})
 
 
-def evento_detalhe(request, evento_id):
+def evento_detalhe(request, slug):
     try:
         site = Site.objects.get(domain=request.get_host())
-        evento = Evento.objects.get(id=evento_id, sites__id__exact=site.id)
+        evento = Evento.objects.get(slug=slug, sites__id__exact=site.id)
     except Site.DoesNotExist, Evento.DoesNotExist:
         raise Http404
 
@@ -83,8 +83,8 @@ def eventos_lista(request):
     return render(request, 'conteudo/eventos_lista.html', {'eventos': eventos})
 
 
-def video_detalhe(request, video_id):
-    video = get_object_or_404(Video, id=video_id)
+def video_detalhe(request, slug):
+    video = get_object_or_404(Video, slug=slug)
 
     return render(request, 'conteudo/video.html', {'video': video})
 
@@ -109,8 +109,8 @@ def videos_lista(request):
     return render(request, 'conteudo/videos_lista.html', {'videos': videos})
 
 
-def galeria_detalhe(request, galeria_id):
-    galeria = get_object_or_404(Galeria, id=galeria_id)
+def galeria_detalhe(request, slug):
+    galeria = get_object_or_404(Galeria, slug=slug)
 
     return render(request, 'conteudo/galeria.html', {'galeria': galeria})
 
@@ -135,12 +135,12 @@ def galerias_lista(request):
     return render(request, 'conteudo/galerias_lista.html', {'galerias': galerias})
 
 
-def tags_lista(request, tag_slug):
+def tags_lista(request, slug):
     try:
         site = Site.objects.get(domain=request.get_host())
 
         # trecho utilizado para restringir a exibicao de objetos ao site atual
-        tags = TaggedItem.objects.filter(tag__slug__iexact=tag_slug)
+        tags = TaggedItem.objects.filter(tag__slug__iexact=slug)
         itens = []
 
         for i in tags:
@@ -161,7 +161,7 @@ def tags_lista(request, tag_slug):
         # If page is out of range (e.g. 9999), deliver last page of results.
         tags = paginator.page(paginator.num_pages)
 
-    return render(request, 'conteudo/tag_lista.html', {'tags': tags, 'tag_slug': tag_slug})
+    return render(request, 'conteudo/tag_lista.html', {'tags': tags, 'slug': slug})
 
 
 def licitacao_detalhe(request, licitacao_id):

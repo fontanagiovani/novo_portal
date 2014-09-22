@@ -4,31 +4,20 @@ from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from model_mommy import mommy
 
-from portal.core.models import Campus
-
-from portal.conteudo.models import Noticia
-from portal.conteudo.models import Pagina
-from portal.conteudo.models import Evento
-from portal.conteudo.models import Video
-from portal.conteudo.models import Galeria
-
 
 class NoticiaDetalheTest(TestCase):
     def setUp(self):
-        self.noticia = mommy.make(
-            Noticia,
-            titulo='titulo_teste',
-            texto=u'texto_teste',
-            data_publicacao='2014-06-05 10:16:00',
-        )
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
-        self.noticia.sites.add(self.site)
-        self.resp = self.client.get(reverse('conteudo:noticia_detalhe',
-                                            kwargs={'noticia_id': self.noticia.id}), SERVER_NAME='rtr.ifmt.dev')
+        self.obj = mommy.make('Noticia', titulo='titulo_teste', texto=u'texto_teste',
+                              data_publicacao='2014-06-05 10:16:00')
+        self.site = mommy.make(Site, domain='rtr.ifmt.dev')
+        self.obj.sites.add(self.site)
+
+        self.resp = self.client.get(reverse('conteudo:noticia_detalhe', kwargs={'slug': self.obj.slug}),
+                                    SERVER_NAME='rtr.ifmt.dev')
 
     def test_get(self):
         """
-        GET /conteudo/noticia/1/ deve retorno status code 200
+        GET /conteudo/noticia/<slug>/ deve retorno status code 200
         """
         self.assertEqual(200, self.resp.status_code)
 
@@ -50,22 +39,22 @@ class NoticiaDetalheTest(TestCase):
 class NoticiaListaTest(TestCase):
     def setUp(self):
         self.noticias = mommy.make(
-            Noticia,
+            'Noticia',
             titulo='titulo_teste',
             _quantity=50,
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
+            campus_origem=mommy.make('Campus'),
         )
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
         for i in self.noticias:
             i.sites.add(self.site)
 
         # trecho cria um novo site e novas noticias para simular o ambiente real
-        self.site2 = mommy.make(Site, _quantity=1, domain='cba.ifmt.dev')[0]
+        self.site2 = mommy.make('Site', domain='cba.ifmt.dev')
         self.noticias = mommy.make(
-            Noticia,
+            'Noticia',
             titulo='titulo_teste',
             _quantity=10,
-            campus_origem=mommy.make(Campus, _quantity=1, slug='campus2')[0],
+            campus_origem=mommy.make('Campus', slug='campus2'),
         )
         for i in self.noticias:
             i.sites.add(self.site2)
@@ -94,16 +83,16 @@ class NoticiaListaTest(TestCase):
 class PaginaDetalheTest(TestCase):
     def setUp(self):
         self.pagina = mommy.make(
-            Pagina,
+            'Pagina',
             titulo='titulo_teste',
             texto=u'texto_teste',
             data_publicacao='2014-06-05 10:16:00'
         )
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         self.pagina.sites.add(self.site)
 
         self.resp = self.client.get(reverse('conteudo:pagina_detalhe',
-                                            kwargs={'pagina_id': self.pagina.id}), SERVER_NAME='rtr.ifmt.dev')
+                                            kwargs={'slug': self.pagina.slug}), SERVER_NAME='rtr.ifmt.dev')
 
     def test_get(self):
         """
@@ -129,16 +118,16 @@ class PaginaDetalheTest(TestCase):
 class EventoDetalheTest(TestCase):
     def setUp(self):
         self.evento = mommy.make(
-            Evento,
+            'Evento',
             titulo='titulo_teste',
             texto=u'texto_teste',
             data_publicacao='2014-06-05 10:16:00'
         )
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         self.evento.sites.add(self.site)
 
         self.resp = self.client.get(reverse('conteudo:evento_detalhe',
-                                            kwargs={'evento_id': self.evento.id}), SERVER_NAME='rtr.ifmt.dev')
+                                            kwargs={'slug': self.evento.slug}), SERVER_NAME='rtr.ifmt.dev')
 
     def test_get(self):
         """
@@ -164,22 +153,22 @@ class EventoDetalheTest(TestCase):
 class EventoListaTest(TestCase):
     def setUp(self):
         self.eventos = mommy.make(
-            Evento,
+            'Evento',
             titulo='titulo_teste',
             _quantity=50,
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
+            campus_origem=mommy.make('Campus'),
         )
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         for i in self.eventos:
             i.sites.add(self.site)
 
         # trecho cria um novo site e novos videos para simular o ambiente real
-        self.site2 = mommy.make(Site, _quantity=1, domain='cba.ifmt.dev')[0]
+        self.site2 = mommy.make('Site', domain='cba.ifmt.dev')
         self.eventos = mommy.make(
-            Evento,
+            'Evento',
             titulo='titulo_teste',
             _quantity=10,
-            campus_origem=mommy.make(Campus, _quantity=1, slug='campus2')[0],
+            campus_origem=mommy.make('Campus', slug='campus2'),
         )
         for i in self.eventos:
             i.sites.add(self.site2)
@@ -208,20 +197,20 @@ class EventoListaTest(TestCase):
 class VideoDetalheTest(TestCase):
     def setUp(self):
         self.video = mommy.make(
-            Video,
+            'Video',
             titulo='titulo_teste',
             texto=u'texto_teste',
             id_video_youtube=u'ID_teste',
             data_publicacao='2014-06-05 10:16:00',
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
+            campus_origem=mommy.make('Campus'),
         )
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         # as views de detalhe nao precisam de um site para ser exibida, para permitir o relacionamento entre
         # os conteudos dos sites
         # self.video.sites.add(self.site)
 
         self.resp = self.client.get(reverse('conteudo:video_detalhe',
-                                            kwargs={'video_id': self.video.id}), SERVER_NAME='rtr.ifmt.dev')
+                                            kwargs={'slug': self.video.slug}), SERVER_NAME='rtr.ifmt.dev')
 
     def test_get(self):
         """
@@ -248,22 +237,22 @@ class VideoDetalheTest(TestCase):
 class VideosListaTest(TestCase):
     def setUp(self):
         self.videos = mommy.make(
-            Video,
+            'Video',
             titulo='titulo_teste',
             _quantity=50,
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
+            campus_origem=mommy.make('Campus'),
         )
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         for i in self.videos:
             i.sites.add(self.site)
 
         # trecho cria um novo site e novos videos para simular o ambiente real
-        self.site2 = mommy.make(Site, _quantity=1, domain='cba.ifmt.dev')[0]
+        self.site2 = mommy.make('Site', domain='cba.ifmt.dev')
         self.videos = mommy.make(
-            Video,
+            'Video',
             titulo='titulo_teste',
             _quantity=10,
-            campus_origem=mommy.make(Campus, _quantity=1, slug='campus2')[0],
+            campus_origem=mommy.make('Campus', slug='campus2'),
         )
         for i in self.videos:
             i.sites.add(self.site2)
@@ -293,18 +282,18 @@ class VideosListaTest(TestCase):
 class GaleriaDetalheTest(TestCase):
     def setUp(self):
         self.galeria = mommy.make(
-            Galeria,
+            'Galeria',
             titulo='titulo_teste',
             texto=u'texto_teste',
             data_publicacao='2014-06-05 10:16:00'
         )
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         # as views de detalhe nao precisam de um site para ser exibida, para permitir o relacionamento entre
         # os conteudos dos sites
         # self.galeria.sites.add(self.site)
 
         self.resp = self.client.get(reverse('conteudo:galeria_detalhe',
-                                            kwargs={'galeria_id': self.galeria.id}), SERVER_NAME='rtr.ifmt.dev')
+                                            kwargs={'slug': self.galeria.slug}), SERVER_NAME='rtr.ifmt.dev')
 
     def test_get(self):
         """
@@ -330,23 +319,23 @@ class GaleriaDetalheTest(TestCase):
 class GaleriaListaTest(TestCase):
     def setUp(self):
         self.galerias = mommy.make(
-            Galeria,
+            'Galeria',
             titulo='titulo_teste',
             _quantity=50,
-            campus_origem=mommy.make(Campus, _quantity=1, slug='campus1')[0],
+            campus_origem=mommy.make('Campus', slug='campus1'),
         )
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
 
         for i in self.galerias:
             i.sites.add(self.site)
 
         # trecho cria um novo site e novas galerias para simular o ambiente real
-        self.site2 = mommy.make(Site, _quantity=1, domain='cba.ifmt.dev')[0]
+        self.site2 = mommy.make('Site', domain='cba.ifmt.dev')
         self.galerias = mommy.make(
-            Galeria,
+            'Galeria',
             titulo='titulo_teste',
             _quantity=10,
-            campus_origem=mommy.make(Campus, _quantity=1, slug='campus2')[0],
+            campus_origem=mommy.make('Campus', slug='campus2'),
         )
         for i in self.galerias:
             i.sites.add(self.site2)
@@ -375,12 +364,12 @@ class GaleriaListaTest(TestCase):
 class TagListaTest(TestCase):
     def setUp(self):
         self.eventos = mommy.make(
-            Evento,
+            'Evento',
             titulo='titulo_teste',
             _quantity=21,
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
+            campus_origem=mommy.make('Campus')
         )
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
 
         for evento in self.eventos:
             evento.tags.add('ifmt-teste')
@@ -388,7 +377,7 @@ class TagListaTest(TestCase):
             evento.save()
 
         self.resp = self.client.get(reverse('conteudo:tags_lista', args=[],
-                                            kwargs={'tag_slug': 'ifmt-teste'}), SERVER_NAME='rtr.ifmt.dev')
+                                            kwargs={'slug': 'ifmt-teste'}), SERVER_NAME='rtr.ifmt.dev')
 
     def test_get(self):
         """
