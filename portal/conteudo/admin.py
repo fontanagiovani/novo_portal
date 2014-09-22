@@ -269,7 +269,7 @@ class AnexoLicitacaoInLine(admin.StackedInline):
 class LicitacaoAdmin(SummernoteModelAdmin):
     list_display = ('modalidade', 'titulo')
     search_fields = ('modalidade', 'titulo', 'data_publicacao')
-    list_filter = ('modalidade', 'titulo', 'data_publicacao')
+    list_filter = ('modalidade', 'data_publicacao')
 
     inlines = [AnexoLicitacaoInLine,]
     form = LicitacaoForm
