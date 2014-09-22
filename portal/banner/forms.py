@@ -4,6 +4,17 @@ from portal.banner.models import Banner
 from portal.banner.models import BannerAcessoRapido
 
 
+def _generic_clean_sites(obj):
+    sites_marcados = obj.cleaned_data['sites']
+    for site in sites_marcados:
+        if not site in obj.request.user.permissao.sites.all():
+            raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
+                                        u"Os sites permitidos são: %s"
+                                        % (obj.request.user.permissao.sites.all()))
+
+    return sites_marcados
+
+
 class BannerForm(forms.ModelForm):
     model = Banner
 
@@ -12,15 +23,7 @@ class BannerForm(forms.ModelForm):
         super(BannerForm, self).__init__(*args, **kwargs)
 
     def clean_sites(self):
-        sites_marcados = self.cleaned_data['sites']
-
-        for site in sites_marcados:
-            if not site in self.request.user.permissao.sites.all():
-                raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
-                                            u"Os sites permitidos são: %s"
-                                            % (self.request.user.permissao.sites.all()))
-
-        return sites_marcados
+        return _generic_clean_sites(self)
 
 
 class BannerAcessoRapidoForm(forms.ModelForm):
@@ -31,12 +34,4 @@ class BannerAcessoRapidoForm(forms.ModelForm):
         super(BannerAcessoRapidoForm, self).__init__(*args, **kwargs)
 
     def clean_sites(self):
-        sites_marcados = self.cleaned_data['sites']
-
-        for site in sites_marcados:
-            if not site in self.request.user.permissao.sites.all():
-                raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
-                                            u"Os sites permitidos são: %s"
-                                            % (self.request.user.permissao.sites.all()))
-
-        return sites_marcados
+        return _generic_clean_sites(self)

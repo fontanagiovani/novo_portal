@@ -4,6 +4,7 @@ from django.contrib.sites.models import Site
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
 from taggit_autosuggest.managers import TaggableManager
+from portal.conteudo.managers import ConteudoPublicadoManager
 
 
 class Conteudo(models.Model):
@@ -18,6 +19,7 @@ class Conteudo(models.Model):
     videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
     tags = TaggableManager(blank=True)
     sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
+    publicar = models.BooleanField(default=True)
 
     class Meta:
         ordering = ('-data_publicacao', '-id')
@@ -50,9 +52,12 @@ class Noticia(Conteudo):
     destaque = models.BooleanField(default=False)
     prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',
                                            verbose_name=u'Prioridade de destaque')
+    objects = models.Manager()
+    publicados = ConteudoPublicadoManager()
 
     class Meta:
         verbose_name = u'Notícia'
+
         verbose_name_plural = u'Notícias'
         ordering = ('-data_publicacao', '-id')
 
@@ -78,6 +83,8 @@ class Anexo(models.Model):
 
 
 class Pagina(Conteudo):
+    objects = models.Manager()
+    publicados = ConteudoPublicadoManager()
     class Meta:
         verbose_name = u'Página'
         verbose_name_plural = u'Páginas'
@@ -94,6 +101,9 @@ class Evento(Conteudo):
     local = models.CharField(max_length=250)
     data_inicio = models.DateTimeField(verbose_name=u'Data de início')
     data_fim = models.DateTimeField(verbose_name=u'Data de término')
+
+    objects = models.Manager()
+    publicados = ConteudoPublicadoManager()
 
     class Meta:
         verbose_name = u'Evento'
@@ -159,6 +169,9 @@ class Video(Conteudo):
 
     id_video_youtube = models.CharField(max_length=250, verbose_name=u'Id do Video')
 
+    objects = models.Manager()
+    publicados = ConteudoPublicadoManager()
+
     class Meta:
         verbose_name = u'Vídeo'
         verbose_name_plural = u'Vídeos'
@@ -178,6 +191,8 @@ class Video(Conteudo):
 
 
 class Galeria(Conteudo):
+    objects = models.Manager()
+    publicados = ConteudoPublicadoManager()
 
     class Meta:
         verbose_name = u'Galeria'

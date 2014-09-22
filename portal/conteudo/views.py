@@ -16,7 +16,11 @@ from portal.conteudo.models import Licitacao
 def noticia_detalhe(request, slug):
     try:
         site = Site.objects.get(domain=request.get_host())
-        noticia = Noticia.objects.get(slug=slug, sites__id__exact=site.id)
+        if not request.user.is_staff:
+            noticia = Noticia.publicados.get(slug=slug, sites__id__exact=site.id)
+        else:
+            noticia = Noticia.objects.get(slug=slug, sites__id__exact=site.id)
+
     except Site.DoesNotExist, Noticia.DoesNotExist:
         raise Http404
 
@@ -26,7 +30,10 @@ def noticia_detalhe(request, slug):
 def noticias_lista(request):
     try:
         site = Site.objects.get(domain=request.get_host())
-        paginator = Paginator(Noticia.objects.filter(sites__id__exact=site.id), 20)
+        if not request.user.is_staff:
+            paginator = Paginator(Noticia.publicados.filter(sites__id__exact=site.id), 20)
+        else:
+            paginator = Paginator(Noticia.objects.filter(sites__id__exact=site.id), 20)
     except Site.DoesNotExist, Noticia.DoesNotExist:
         raise Http404
 
@@ -46,7 +53,11 @@ def noticias_lista(request):
 def pagina_detalhe(request, slug):
     try:
         site = Site.objects.get(domain=request.get_host())
-        pagina = Pagina.objects.get(slug=slug, sites__id__exact=site.id)
+
+        if not request.user.is_staff:
+            pagina = Pagina.publicados.get(slug=slug, sites__id__exact=site.id)
+        else:
+            pagina = Pagina.objects.get(slug=slug, sites__id__exact=site.id)
     except Site.DoesNotExist, Pagina.DoesNotExist:
         raise Http404
 
@@ -56,7 +67,10 @@ def pagina_detalhe(request, slug):
 def evento_detalhe(request, slug):
     try:
         site = Site.objects.get(domain=request.get_host())
-        evento = Evento.objects.get(slug=slug, sites__id__exact=site.id)
+        if not request.user.is_staff:
+            evento = Evento.publicados.get(slug=slug, sites__id__exact=site.id)
+        else:
+            evento = Evento.objects.get(slug=slug, sites__id__exact=site.id)
     except Site.DoesNotExist, Evento.DoesNotExist:
         raise Http404
 
@@ -66,7 +80,10 @@ def evento_detalhe(request, slug):
 def eventos_lista(request):
     try:
         site = Site.objects.get(domain=request.get_host())
-        paginator = Paginator(Evento.objects.filter(sites__id__exact=site.id), 20)
+        if not request.user.is_staff:
+            paginator = Paginator(Evento.publicados.filter(sites__id__exact=site.id), 20)
+        else:
+            paginator = Paginator(Evento.objects.filter(sites__id__exact=site.id), 20)
     except Site.DoesNotExist, Evento.DoesNotExist:
         raise Http404
 
@@ -84,15 +101,17 @@ def eventos_lista(request):
 
 
 def video_detalhe(request, slug):
-    video = get_object_or_404(Video, slug=slug)
-
+    if not request.user.is_staff:
+        video = get_object_or_404(Video, slug=slug, publicar=True)
+    else:
+        video = get_object_or_404(Video, slug=slug)
     return render(request, 'conteudo/video.html', {'video': video})
 
 
 def videos_lista(request):
     try:
         site = Site.objects.get(domain=request.get_host())
-        paginator = Paginator(Video.objects.filter(sites__id__exact=site.id), 20)
+        paginator = Paginator(Video.publicados.filter(sites__id__exact=site.id), 20)
     except Site.DoesNotExist, Video.DoesNotExist:
         raise Http404
 
@@ -110,15 +129,17 @@ def videos_lista(request):
 
 
 def galeria_detalhe(request, slug):
-    galeria = get_object_or_404(Galeria, slug=slug)
-
+    if not request.user.is_staff:
+        galeria = get_object_or_404(Galeria, slug=slug, publicar=True)
+    else:
+        galeria = get_object_or_404(Galeria, slug=slug)
     return render(request, 'conteudo/galeria.html', {'galeria': galeria})
 
 
 def galerias_lista(request):
     try:
         site = Site.objects.get(domain=request.get_host())
-        paginator = Paginator(Galeria.objects.filter(sites__id__exact=site.id), 20)
+        paginator = Paginator(Galeria.publicados.filter(sites__id__exact=site.id), 20)
     except Site.DoesNotExist, Galeria.DoesNotExist:
         raise Http404
 
