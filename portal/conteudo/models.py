@@ -9,7 +9,8 @@ from taggit_autosuggest.managers import TaggableManager
 class Conteudo(models.Model):
     campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Campus de origem')
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
-    slug = models.SlugField(max_length=250, verbose_name=u'Slug')
+    slug = models.SlugField(max_length=250, verbose_name=u'Slug',
+                            help_text=u'Texto que será utilizado para montar a URL deste item')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     fonte = models.CharField(max_length=250, blank=True, verbose_name=u'Fonte ou Autoria ')

@@ -143,8 +143,13 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'portal.core.context_processors.carregar_menus',
 )
 
+# TEMPLATE_LOADERS = (
+#     'django.template.loaders.filesystem.Loader',
+#     'django.template.loaders.app_directories.Loader',
+# )
+
 TEMPLATE_DIRS = (
-    BASE_DIR.child('templates'),
+    BASE_DIR.child('portal').child('templates'),
 )
 
 WHOOSH_INDEX = BASE_DIR.child('whoosh')
