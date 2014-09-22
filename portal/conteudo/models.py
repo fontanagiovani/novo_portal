@@ -57,7 +57,6 @@ class Noticia(Conteudo):
 
     class Meta:
         verbose_name = u'Notícia'
-
         verbose_name_plural = u'Notícias'
         ordering = ('-data_publicacao', '-id')
 
