@@ -168,7 +168,7 @@ def licitacao_detalhe(request, licitacao_id):
     try:
         site = Site.objects.get(domain=request.get_host())
         licitacao = Licitacao.objects.get(id=licitacao_id, sites__id__exact=site.id)
-    except Site.DoesNotExist, Evento.DoesNotExist:
+    except Site.DoesNotExist, Licitacao.DoesNotExist:
         raise Http404
 
     return render(request, 'conteudo/licitacao.html', {'licitacao': licitacao})
@@ -184,8 +184,9 @@ def licitacoes_modalidades(request):
 def licitacoes_lista(request, modalidade):
     try:
         site = Site.objects.get(domain=request.get_host())
-        paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade), 20)
-    except Site.DoesNotExist, Evento.DoesNotExist:
+        paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade, encerrado=False), 20)
+        anos = Licitacao.objects.filter(encerrado=True).dates('data_publicacao', 'year', order='DESC')
+    except Site.DoesNotExist, Licitacao.DoesNotExist:
         raise Http404
 
     page = request.GET.get('page')
@@ -198,4 +199,4 @@ def licitacoes_lista(request, modalidade):
         # If page is out of range (e.g. 9999), deliver last page of results.
         licitacoes = paginator.page(paginator.num_pages)
 
-    return render(request, 'conteudo/licitacoes_lista.html', {'licitacoes': licitacoes})
+    return render(request, 'conteudo/licitacoes_lista.html', {'licitacoes': licitacoes, 'anos': anos})

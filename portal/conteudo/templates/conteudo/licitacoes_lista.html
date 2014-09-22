@@ -10,29 +10,39 @@
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
             <h1>LICITAÇÕES</h1>
+            <div class="row padding-top-bottom"></div>
+            <div class="row padding-top">
+                {% if licitacoes %}
+                    {% for licitacao in licitacoes %}
+                        <div class="row padding-bottom-duplo">
+                            <div class="row hover-cinza-claro">
+                                <a href="{% url 'conteudo:licitacao_detalhe' licitacao.id %}">
+                                    <div class="row">
+                                        <div class="small-2 medium-1 columns no-padding">
+                                            <p class="padding-top-bottom fundo-verde no-margin espacamento-medio text-center">
+                                                {{ licitacao.data_publicacao|date:"d M" }}
+                                            </p>
+                                        </div>
 
-            <div class="row">
-                {% for licitacao in licitacoes %}
-                    <div class="row padding-bottom-duplo">
-                        <div class="row hover-cinza-claro">
-                            <a href="{% url 'conteudo:licitacao_detalhe' licitacao.id %}">
-                                <div class="row">
-                                    <div class="small-2 medium-1 columns no-padding">
-                                        <p class="padding-top-bottom fundo-verde no-margin espacamento-medio text-center">
-                                            {{ licitacao.data_publicacao|date:"d M" }}
-                                        </p>
+                                        <div class="small-10 medium-11 columns">
+                                            <div class="data-local">
+                                                {{ licitacao.get_campus_origem_display }}</div>
+                                            <p class="no-margin espacamento-medio">{{ licitacao.titulo }}</p>
+                                        </div>
                                     </div>
-
-                                    <div class="small-10 medium-11 columns">
-                                        <div class="data-local">
-                                            {{ licitacao.get_campus_origem_display }}</div>
-                                        <p class="no-margin espacamento-medio">{{ licitacao.titulo }}</p>
-                                    </div>
-                                </div>
-                            </a>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    <p class="padding-top-bottom fundo-vermelho no-margin espacamento-medio text-center">Registro não encontrado.</p>
+                {% endif %}
+                {% if anos %}
+                    Licitações de anos anteriores:
+                    {% for a in anos %}
+                        <span class="round radius label link-branco"><a href="#">{{ a|date:"Y" }}</a></span>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
