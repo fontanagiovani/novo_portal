@@ -128,6 +128,7 @@ class Licitacao(models.Model):
     objeto = models.TextField(verbose_name=u'Objeto')
     alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
     email_contato = models.EmailField(verbose_name=u'Email para contato')
+    tags = TaggableManager(blank=True)
     sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
 
     class Meta:
