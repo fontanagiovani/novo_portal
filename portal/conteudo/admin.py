@@ -4,13 +4,11 @@ from django.contrib.sites.models import Site
 from django.forms import TextInput
 from django.db.models import CharField
 from django_summernote.admin import SummernoteModelAdmin
-
 from portal.conteudo.models import Noticia, Pagina, Evento, Video, Galeria
 from portal.conteudo.models import ImagemGaleria
 from portal.conteudo.models import Anexo
 from portal.conteudo.models import Licitacao
 from portal.conteudo.models import AnexoLicitacao
-
 from portal.conteudo.forms import NoticiaForm
 from portal.conteudo.forms import EventoForm
 from portal.conteudo.forms import PaginaForm
@@ -28,7 +26,7 @@ class AnexoInLine(admin.StackedInline):
 
 
 class NoticiaAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'destaque', 'prioridade_destaque')
+    list_display = ('titulo', 'data_publicacao', 'destaque', 'prioridade_destaque', 'publicar')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     list_filter = ('destaque', 'prioridade_destaque')
@@ -52,6 +50,11 @@ class NoticiaAdmin(SummernoteModelAdmin):
         ('Galerias e Vídeos', {
             'classes': ('collapse',),
             'fields': ('galerias', 'videos')
+        }),
+        (None, {
+            'fields': (
+                'publicar',
+            )
         }),
     )
 
@@ -105,6 +108,11 @@ class PaginaAdmin(SummernoteModelAdmin):
         ('Galerias e Vídeos', {
             'classes': ('collapse',),
             'fields': ('galerias', 'videos')
+        }),
+        (None, {
+            'fields': (
+                'publicar',
+            )
         }),
     )
 
@@ -167,6 +175,11 @@ class EventoAdmin(SummernoteModelAdmin):
             'classes': ('collapse',),
             'fields': ('galerias', 'videos')
         }),
+        (None, {
+            'fields': (
+                'publicar',
+            )
+        }),
     )
 
     inlines = (AnexoInLine, )
@@ -223,6 +236,11 @@ class VideoAdmin(SummernoteModelAdmin):
         ('Galerias e Vídeos', {
             'classes': ('collapse',),
             'fields': ('galerias', 'videos')
+        }),
+        (None, {
+            'fields': (
+                'publicar',
+            )
         }),
     )
 
@@ -283,6 +301,11 @@ class GaleriaAdmin(SummernoteModelAdmin):
         ('Galerias e Vídeos', {
             'classes': ('collapse',),
             'fields': ('galerias', 'videos')
+        }),
+        (None, {
+            'fields': (
+                'publicar',
+            )
         }),
     )
 

@@ -6,7 +6,7 @@ from django.http import HttpResponse  # httresponse para usar com json
 from django.http.response import Http404
 import json  # json para usar no select com ajax
 from haystack.views import SearchView
-
+from portal.conteudo.managers import ConteudoPublicadoManager
 from portal.core.models import Menu
 from portal.core.models import Template
 from portal.core.models import Selecao, TipoSelecao
@@ -28,17 +28,17 @@ def home(request):
             return redirect(site.sitedetalhe.template.caminho)
 
         if site.sitedetalhe.template.descricao == Template.portal():
-            noticias_detaque = sorted(Noticia.objects.filter(destaque=True, sites__id__exact=site.id)[:5],
+            noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
                                       key=lambda o: o.prioridade_destaque)
-            mais_noticias = Noticia.objects.filter(sites__id__exact=site.id).exclude(
+            mais_noticias = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
                 id__in=[obj.id for obj in noticias_detaque])[:10]
-            eventos = Evento.objects.filter(sites__id__exact=site.id)[:3]
+            eventos = Evento.publicados.filter(sites__id__exact=site.id)[:3]
+            videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
+            galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
+
             banners = Banner.objects.filter(sites__id__exact=site.id)[:3]
             acesso_rapido = BannerAcessoRapido.objects.filter(sites__id__exact=site.id)[:5]
-            videos = Video.objects.filter(sites__id__exact=site.id)[:1]
-            galerias = Galeria.objects.filter(sites__id__exact=site.id)[:3]
             formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
-
             contexto = {
                 'noticias_destaque': noticias_detaque,
                 'mais_noticias': mais_noticias,
@@ -50,7 +50,10 @@ def home(request):
                 'formacao': formacao,
             }
         if site.sitedetalhe.template.descricao == Template.blog():
-            noticias = Noticia.objects.all()[:10]
+            if not request.user.is_staff:
+                noticias = Noticia.publicados.all()[:10]
+            else:
+                noticias = Noticia.objects.all()[:10]
 
             contexto = {
                 'noticias': noticias,
