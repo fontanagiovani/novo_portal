@@ -8,7 +8,7 @@ from model_mommy import mommy
 class NoticiaDetalheTest(TestCase):
     def setUp(self):
         self.obj = mommy.make('Noticia', titulo='titulo_teste', texto=u'texto_teste',
-                              data_publicacao='2014-06-05 10:16:00')
+                              data_publicacao='2014-06-05T10:16:00-04:00',)
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
         self.obj.sites.add(self.site)
         self.obj.tags.add('ifmt-teste')
@@ -88,7 +88,8 @@ class PaginaDetalheTest(TestCase):
             'Pagina',
             titulo='titulo_teste',
             texto=u'texto_teste',
-            data_publicacao='2014-06-05 10:16:00'
+            data_publicacao='2014-06-05T10:16:00-04:00',
+            # data_publicacao='2014-06-05 10:16:00'
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         self.obj.sites.add(self.site)
@@ -125,7 +126,7 @@ class EventoDetalheTest(TestCase):
             'Evento',
             titulo='titulo_teste',
             texto=u'texto_teste',
-            data_publicacao='2014-06-05 10:16:00'
+            data_publicacao='2014-06-05T10:16:00-04:00',
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         self.obj.sites.add(self.site)
@@ -207,9 +208,10 @@ class VideoDetalheTest(TestCase):
             titulo='titulo_teste',
             texto=u'texto_teste',
             id_video_youtube=u'ID_teste',
-            data_publicacao='2014-06-05 10:16:00',
+            data_publicacao='2014-06-05T10:16:00-04:00',
             campus_origem=mommy.make('Campus'),
         )
+
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         self.obj.tags.add('ifmt-teste')
         # as views de detalhe nao precisam de um site para ser exibida, para permitir o relacionamento entre
@@ -293,7 +295,7 @@ class GaleriaDetalheTest(TestCase):
             'Galeria',
             titulo='titulo_teste',
             texto=u'texto_teste',
-            data_publicacao='2014-06-05 10:16:00'
+            data_publicacao='2014-06-05T10:16:00-04:00',
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         self.obj.tags.add('ifmt-teste')
