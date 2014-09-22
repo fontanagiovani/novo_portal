@@ -60,7 +60,7 @@ class Noticia(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo:noticia_detalhe', (), {'noticia_id': self.id}
+        return 'conteudo:noticia_detalhe', (), {'slug': self.slug}
 
 
 class Anexo(models.Model):
@@ -86,7 +86,7 @@ class Pagina(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo:pagina_detalhe', (), {'pagina_id': self.id}
+        return 'conteudo:pagina_detalhe', (), {'slug': self.slug}
 
 
 class Evento(Conteudo):
@@ -104,7 +104,7 @@ class Evento(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo:evento_detalhe', (), {'evento_id': self.id}
+        return 'conteudo:evento_detalhe', (), {'slug': self.slug}
 
 
 class Licitacao(models.Model):
@@ -136,6 +136,10 @@ class Licitacao(models.Model):
     def __unicode__(self):
         return self.titulo
 
+    @models.permalink
+    def get_absolute_url(self):
+        return 'conteudo:licitacao_detalhe', (), {'licitacao_id': self.id}
+
 
 class AnexoLicitacao(models.Model):
     descricao = models.CharField(max_length=250, verbose_name=u'Descrição')
@@ -163,7 +167,7 @@ class Video(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo:video_detalhe', (), {'video_id': self.id}
+        return 'conteudo:video_detalhe', (), {'slug': self.slug}
 
     def imagem_sddefault(self):
         return '//i1.ytimg.com/vi/%s/sddefault.jpg' % self.id_video_youtube
@@ -184,7 +188,7 @@ class Galeria(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo:galeria_detalhe', (), {'galeria_id': self.id}
+        return 'conteudo:galeria_detalhe', (), {'slug': self.slug}
 
     def primeira_imagem(self):
         if self.imagemgaleria_set.all().exists():
