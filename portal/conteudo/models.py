@@ -65,7 +65,10 @@ class Noticia(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo:noticia_detalhe', (), {'slug': self.slug}
+        if self.publicar:
+            return 'conteudo:noticia_detalhe', (), {'slug': self.slug}
+        else:
+            return 'conteudo:noticia_detalhe_preview', (), {'slug': self.slug}
 
 
 class Anexo(models.Model):
@@ -93,8 +96,10 @@ class Pagina(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo:pagina_detalhe', (), {'slug': self.slug}
-
+        if self.publicar:
+            return 'conteudo:pagina_detalhe', (), {'slug': self.slug}
+        else:
+            return 'conteudo:pagina_detalhe_preview', (), {'slug': self.slug}
 
 class Evento(Conteudo):
     local = models.CharField(max_length=250)
@@ -114,7 +119,10 @@ class Evento(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo:evento_detalhe', (), {'slug': self.slug}
+        if self.publicar:
+            return 'conteudo:evento_detalhe', (), {'slug': self.slug}
+        else:
+            return 'conteudo:evento_detalhe_preview', (), {'slug': self.slug}
 
 
 class Licitacao(models.Model):
@@ -165,7 +173,6 @@ class AnexoLicitacao(models.Model):
 
 
 class Video(Conteudo):
-
     id_video_youtube = models.CharField(max_length=250, verbose_name=u'Id do Video')
 
     objects = models.Manager()
@@ -180,7 +187,10 @@ class Video(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo:video_detalhe', (), {'slug': self.slug}
+        if self.publicar:
+            return 'conteudo:video_detalhe', (), {'slug': self.slug}
+        else:
+            return 'conteudo:video_detalhe_preview', (), {'slug': self.slug}
 
     def imagem_sddefault(self):
         return '//i1.ytimg.com/vi/%s/sddefault.jpg' % self.id_video_youtube
@@ -203,7 +213,10 @@ class Galeria(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'conteudo:galeria_detalhe', (), {'slug': self.slug}
+        if self.publicar:
+            return 'conteudo:galeria_detalhe', (), {'slug': self.slug}
+        else:
+            return 'conteudo:galeria_detalhe_preview', (), {'slug': self.slug}
 
     def primeira_imagem(self):
         if self.imagemgaleria_set.all().exists():
