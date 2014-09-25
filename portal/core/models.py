@@ -88,11 +88,14 @@ class SiteDetalhe(models.Model):
     mapa_site = models.TextField(null=True, blank=True)
     endereco = models.TextField(null=True, blank=True)
 
+    def __unicode__(self):
+        return self.site
+
 
 class Destino(models.Model):
     TIPO = (
-        ('PORTAL', u'Portal'),
-        ('CAMPUS', u'Câmpus'),
+        ('PORTAL', u'PORTAL'),
+        ('CAMPUS', u'CMPUS'),
         ('BLOG', u'Blog'),
         ('PAGINA', u'Página individual'),
         ('REDIRECT', u'Redirect'),

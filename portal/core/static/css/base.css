@@ -137,6 +137,10 @@ h2 {
     display: inline;
 }
 
+#id_q {
+    margin-bottom: 0;
+}
+
 .separador-direita {
     border-right: 0.0625em solid;
     padding-right: 0.3125em;

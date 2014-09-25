@@ -140,7 +140,7 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
-    'portal.core.context_processors.carregar_menus',
+    'portal.core.context_processors.carregar_site_e_menus',
 )
 
 # TEMPLATE_LOADERS = (

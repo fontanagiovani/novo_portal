@@ -11,7 +11,7 @@ from portal.core.models import Destino
 from portal.core.models import Campus
 from portal.core.models import Selecao, TipoSelecao
 from portal.core.forms import MenuForm
-from portal.core.forms import SiteDetalheForm, SiteDetalheFormset
+from portal.core.forms import SiteDetalheFormset
 
 
 class CampusAdmin(admin.ModelAdmin):
@@ -82,7 +82,6 @@ admin.site.register(Selecao, SelecaoAdmin)
 
 class SiteIndexInline(admin.StackedInline):
     model = SiteDetalhe
-    form = SiteDetalheForm
     formset = SiteDetalheFormset
 
     max_num = 1

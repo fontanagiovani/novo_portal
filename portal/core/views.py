@@ -65,8 +65,6 @@ def home(request):
             Galeria.DoesNotExist):
         raise Http404
 
-    contexto['site'] = site
-
     return render(request, site.sitedetalhe.destino.caminho, contexto)
 
 
