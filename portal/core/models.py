@@ -89,7 +89,7 @@ class SiteDetalhe(models.Model):
     endereco = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
-        return self.site
+        return self.site.domain
 
 
 class Destino(models.Model):
