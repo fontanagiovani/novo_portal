@@ -7,7 +7,7 @@ from adminsortable.admin import SortableAdminMixin
 
 from portal.core.models import Menu
 from portal.core.models import SiteDetalhe
-from portal.core.models import Template
+from portal.core.models import Destino
 from portal.core.models import Campus
 from portal.core.models import Selecao, TipoSelecao
 from portal.core.forms import MenuForm
@@ -97,7 +97,7 @@ admin.site.unregister(Site)
 admin.site.register(Site, SiteIndexAdmin)
 
 
-class TemplateAdmin(admin.ModelAdmin):
+class DestinoAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(Template, TemplateAdmin)
+admin.site.register(Destino, DestinoAdmin)

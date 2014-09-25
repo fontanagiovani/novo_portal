@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.sites.models import Site
+from mptt.models import MPTTModel, TreeForeignKey
+from filer.fields.image import FilerImageField
 
 
 class Campus(MPTTModel):
@@ -80,12 +81,16 @@ class Selecao(models.Model):
 
 class SiteDetalhe(models.Model):
     site = models.OneToOneField(Site)
-    template = models.ForeignKey('Template', help_text=u'Template da página inicial')
-    endereco = models.CharField(max_length=200)
+    destino = models.ForeignKey('Destino', help_text=u'Template da página inicial')
+    logo = FilerImageField()
+    social = models.TextField(null=True, blank=True)
+    links_uteis = models.TextField(null=True, blank=True)
+    mapa_site = models.TextField(null=True, blank=True)
+    endereco = models.TextField(null=True, blank=True)
 
 
-class Template(models.Model):
-    DESC = (
+class Destino(models.Model):
+    TIPO = (
         ('PORTAL', u'Portal'),
         ('CAMPUS', u'Câmpus'),
         ('BLOG', u'Blog'),
@@ -93,30 +98,30 @@ class Template(models.Model):
         ('REDIRECT', u'Redirect'),
     )
 
-    descricao = models.CharField(max_length=30, choices=DESC)
-    caminho = models.CharField(max_length=100, help_text=u'Utilize o caminho app/template - Ex.: core/portal.html'
+    tipo = models.CharField(max_length=100, choices=TIPO)
+    caminho = models.CharField(max_length=200, help_text=u'Utilize o caminho app/template - Ex.: core/portal.html'
                                                          u'<br>Em caso de redirect use a url completa - '
                                                          u'Ex.: http://www.ifmt.edu.br')
 
     def __unicode__(self):
-        return self.descricao
+        return '%s: %s' % (self.tipo, self.caminho)
 
     @staticmethod
     def portal():
-        return Template.DESC[0][0]
+        return Destino.TIPO[0][0]
 
     @staticmethod
     def campus():
-        return Template.DESC[1][0]
+        return Destino.TIPO[1][0]
 
     @staticmethod
     def blog():
-        return Template.DESC[2][0]
+        return Destino.TIPO[2][0]
 
     @staticmethod
     def pagina():
-        return Template.DESC[3][0]
+        return Destino.TIPO[3][0]
 
     @staticmethod
     def redirect():
-        return Template.DESC[4][0]
+        return Destino.TIPO[4][0]
