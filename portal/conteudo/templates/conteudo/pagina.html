@@ -42,7 +42,7 @@
 
         {% autoescape off %}
             <article>
-                {{ pagina.texto }}
+                {{ pagina.texto|safe }}
             </article>
         {% endautoescape %}
 

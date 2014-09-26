@@ -53,7 +53,7 @@
 
         {% autoescape off %}
             <article>
-                {{ evento.texto }}
+                {{ evento.texto|safe }}
             </article>
         {% endautoescape %}
 

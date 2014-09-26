@@ -42,7 +42,7 @@
 
         {% autoescape off %}
             <article>
-                {{ noticia.texto }}
+                {{ noticia.texto|safe }}
             </article>
         {% endautoescape %}
 
