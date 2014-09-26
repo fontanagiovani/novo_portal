@@ -2,11 +2,50 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core.files import File
+from django.utils import timezone
 from filer.models import Image
 from filer.models import File as FileFiler
 from model_mommy import mommy
 
 from portal.core.tests.util import del_midia_filer
+
+
+class ConteudoTest(TestCase):
+    def setUp(self):
+        self.obj = mommy.prepare('Conteudo', titulo=u'Título', campus_origem=mommy.make('Campus'))
+
+    def test_criacao(self):
+        """
+        Noticia deve conter titulo, texto, data_publicacao
+        """
+        self.obj.save()
+        self.assertIsNotNone(self.obj.pk)
+
+    def test_unicode(self):
+        """
+        Noticia deve apresentar o titulo como unicode
+        """
+        self.assertEqual(u'Título', unicode(self.obj))
+
+    def test_esta_publicado(self):
+        """
+        Conteudo para estar publicado deve estar marcado como publicado e tambem possuir data de publicacao
+        posterior a data atual
+        """
+        self.obj.data_publicacao = timezone.now() - timezone.timedelta(days=1)
+        self.obj.publicado = True
+        self.assertTrue(self.obj.esta_publicado)
+
+        self.obj.publicado = False
+        self.assertFalse(self.obj.esta_publicado)
+
+        self.obj.data_publicacao = timezone.now() + timezone.timedelta(days=1)
+        self.obj.publicado = True
+        self.assertFalse(self.obj.esta_publicado)
+
+        self.obj.data_publicacao = timezone.now() - timezone.timedelta(days=1)
+        self.obj.publicado = False
+        self.assertFalse(self.obj.esta_publicado)
 
 
 class NoticiaTest(TestCase):

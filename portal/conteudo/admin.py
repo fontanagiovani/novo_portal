@@ -30,7 +30,7 @@ class AnexoInLine(admin.TabularInline):
 
 
 class NoticiaAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'destaque', 'prioridade_destaque', 'publicar')
+    list_display = ('titulo', 'data_publicacao', 'destaque', 'prioridade_destaque', 'publicado')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     list_filter = ('destaque', 'prioridade_destaque')
@@ -46,7 +46,6 @@ class NoticiaAdmin(SummernoteModelAdmin):
                 'destaque',
                 'prioridade_destaque',
                 'texto',
-                'data_publicacao',
                 'tags',
             )
         }),
@@ -54,9 +53,10 @@ class NoticiaAdmin(SummernoteModelAdmin):
             'classes': ('collapse',),
             'fields': ('galerias', 'videos')
         }),
-        (None, {
+        (u'Regras de publicação', {
             'fields': (
-                'publicar',
+                'data_publicacao',
+                'publicado',
             )
         }),
     )
@@ -90,7 +90,7 @@ admin.site.register(Noticia, NoticiaAdmin)
 
 
 class PaginaAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'get_link', 'publicar')
+    list_display = ('titulo', 'data_publicacao', 'get_link', 'publicado')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     prepopulated_fields = {'slug': ('titulo',)}
@@ -103,7 +103,6 @@ class PaginaAdmin(SummernoteModelAdmin):
                 'titulo',
                 'slug',
                 'texto',
-                'data_publicacao',
                 'tags',
             )
         }),
@@ -111,9 +110,10 @@ class PaginaAdmin(SummernoteModelAdmin):
             'classes': ('collapse',),
             'fields': ('galerias', 'videos')
         }),
-        (None, {
+        (u'Regras de publicação', {
             'fields': (
-                'publicar',
+                'data_publicacao',
+                'publicado',
             )
         }),
     )
@@ -152,7 +152,7 @@ admin.site.register(Pagina, PaginaAdmin)
 
 
 class EventoAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'data_inicio', 'data_fim', 'publicar')
+    list_display = ('titulo', 'data_publicacao', 'data_inicio', 'data_fim', 'publicado')
     search_fields = ('titulo', 'texto', 'data_publicacao', 'data_inicio', 'data_fim')
     date_hierarchy = 'data_publicacao'
     prepopulated_fields = {'slug': ('titulo',)}
@@ -165,10 +165,8 @@ class EventoAdmin(SummernoteModelAdmin):
                 'titulo',
                 'slug',
                 'local',
-                'data_inicio',
-                'data_fim',
+                ('data_inicio', 'data_fim'),
                 'texto',
-                'data_publicacao',
                 'tags',
             )
         }),
@@ -176,9 +174,10 @@ class EventoAdmin(SummernoteModelAdmin):
             'classes': ('collapse',),
             'fields': ('galerias', 'videos')
         }),
-        (None, {
+        (u'Regras de publicação', {
             'fields': (
-                'publicar',
+                'data_publicacao',
+                'publicado',
             )
         }),
     )
@@ -214,7 +213,7 @@ admin.site.register(Evento, EventoAdmin)
 
 
 class VideoAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'publicar')
+    list_display = ('titulo', 'data_publicacao', 'publicado')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     list_filter = ('campus_origem', 'data_publicacao')
@@ -229,7 +228,6 @@ class VideoAdmin(SummernoteModelAdmin):
                 'slug',
                 'id_video_youtube',
                 'texto',
-                'data_publicacao',
                 'tags',
             )
         }),
@@ -237,9 +235,10 @@ class VideoAdmin(SummernoteModelAdmin):
             'classes': ('collapse',),
             'fields': ('galerias', 'videos')
         }),
-        (None, {
+        (u'Regras de publicação', {
             'fields': (
-                'publicar',
+                'data_publicacao',
+                'publicado',
             )
         }),
     )
@@ -275,11 +274,10 @@ admin.site.register(Video, VideoAdmin)
 
 class ImagemGaleriaInline(admin.TabularInline):
     model = ImagemGaleria
-    extra = 5
 
 
 class GaleriaAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'publicar')
+    list_display = ('titulo', 'data_publicacao', 'publicado')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     list_filter = ('campus_origem', 'data_publicacao')
@@ -293,7 +291,6 @@ class GaleriaAdmin(SummernoteModelAdmin):
                 'titulo',
                 'slug',
                 'texto',
-                'data_publicacao',
                 'tags',
             )
         }),
@@ -301,9 +298,10 @@ class GaleriaAdmin(SummernoteModelAdmin):
             'classes': ('collapse',),
             'fields': ('galerias', 'videos')
         }),
-        (None, {
+        (u'Regras de publicação', {
             'fields': (
-                'publicar',
+                'data_publicacao',
+                'publicado',
             )
         }),
     )

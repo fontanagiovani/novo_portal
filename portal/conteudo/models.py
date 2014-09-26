@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.sites.models import Site
+from django.utils import timezone
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
 from taggit_autosuggest.managers import TaggableManager
@@ -18,13 +19,20 @@ class Conteudo(models.Model):
     videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
     tags = TaggableManager(blank=True)
     sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
-    publicar = models.BooleanField(default=True)
+    publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
+
+    objects = models.Manager()
+    publicados = ConteudoPublicadoManager()
 
     class Meta:
         ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
         return self.titulo
+
+    @property
+    def esta_publicado(self):
+        return self.publicado and self.data_publicacao < timezone.now()
 
     def primeira_imagem(self):
         if self.anexo_set.filter(arquivo__image__isnull=False).exists():
@@ -64,7 +72,7 @@ class Noticia(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        if self.publicar:
+        if self.esta_publicado:
             return 'conteudo:noticia_detalhe', (), {'slug': self.slug}
         else:
             return 'conteudo:noticia_detalhe_preview', (), {'slug': self.slug}
@@ -96,7 +104,7 @@ class Pagina(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        if self.publicar:
+        if self.publicado:
             return 'conteudo:pagina_detalhe', (), {'slug': self.slug}
         else:
             return 'conteudo:pagina_detalhe_preview', (), {'slug': self.slug}
@@ -120,7 +128,7 @@ class Evento(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        if self.publicar:
+        if self.esta_publicado:
             return 'conteudo:evento_detalhe', (), {'slug': self.slug}
         else:
             return 'conteudo:evento_detalhe_preview', (), {'slug': self.slug}
@@ -197,7 +205,7 @@ class Video(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        if self.publicar:
+        if self.publicado:
             return 'conteudo:video_detalhe', (), {'slug': self.slug}
         else:
             return 'conteudo:video_detalhe_preview', (), {'slug': self.slug}
@@ -223,7 +231,7 @@ class Galeria(Conteudo):
 
     @models.permalink
     def get_absolute_url(self):
-        if self.publicar:
+        if self.publicado:
             return 'conteudo:galeria_detalhe', (), {'slug': self.slug}
         else:
             return 'conteudo:galeria_detalhe_preview', (), {'slug': self.slug}

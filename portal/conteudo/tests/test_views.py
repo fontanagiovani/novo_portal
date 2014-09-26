@@ -2,6 +2,8 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
+from django.utils import timezone
+
 from model_mommy import mommy
 
 
@@ -203,6 +205,7 @@ class EventoListaTest(TestCase):
 
 class VideoDetalheTest(TestCase):
     def setUp(self):
+        # data_passada = timezone.now() - timezone.timedelta(days=1)
         self.obj = mommy.make(
             'Video',
             titulo='titulo_teste',
@@ -210,6 +213,7 @@ class VideoDetalheTest(TestCase):
             id_video_youtube=u'ID_teste',
             data_publicacao='2014-06-05T10:16:00-04:00',
             campus_origem=mommy.make('Campus'),
+            publicado=True,
         )
 
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
@@ -219,7 +223,7 @@ class VideoDetalheTest(TestCase):
         # self.video.sites.add(self.site)
 
         self.resp = self.client.get(reverse('conteudo:video_detalhe',
-                                            kwargs={'slug': self.obj.slug}), SERVER_NAME='rtr.ifmt.dev')
+                                            kwargs={'slug': self.obj.slug}), SERVER_NAME=self.site.domain)
 
     def test_get(self):
         """
@@ -296,6 +300,7 @@ class GaleriaDetalheTest(TestCase):
             titulo='titulo_teste',
             texto=u'texto_teste',
             data_publicacao='2014-06-05T10:16:00-04:00',
+            publicado=True,
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         self.obj.tags.add('ifmt-teste')
