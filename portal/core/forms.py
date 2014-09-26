@@ -23,12 +23,6 @@ class MenuForm(forms.ModelForm):
         return site_marcado
 
 
-class SiteDetalheForm(forms.ModelForm):
-    model = SiteDetalhe
-
-    endereco = forms.CharField(widget=forms.Textarea)
-
-
 class SiteDetalheFormset(BaseInlineFormSet):
     # pass
     def clean(self):

@@ -6,9 +6,8 @@ from django.http import HttpResponse  # httresponse para usar com json
 from django.http.response import Http404
 import json  # json para usar no select com ajax
 from haystack.views import SearchView
-from portal.conteudo.managers import ConteudoPublicadoManager
 from portal.core.models import Menu
-from portal.core.models import Template
+from portal.core.models import Destino
 from portal.core.models import Selecao, TipoSelecao
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
@@ -24,10 +23,10 @@ def home(request):
     try:
         site = Site.objects.get(domain=request.get_host())
 
-        if site.sitedetalhe.template.descricao == Template.redirect():
-            return redirect(site.sitedetalhe.template.caminho)
+        if site.sitedetalhe.destino.tipo == Destino.redirect():
+            return redirect(site.sitedetalhe.destino.caminho)
 
-        if site.sitedetalhe.template.descricao == Template.portal():
+        if site.sitedetalhe.destino.tipo == Destino.portal():
             noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
                                       key=lambda o: o.prioridade_destaque)
             mais_noticias = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
@@ -49,7 +48,7 @@ def home(request):
                 'galerias': galerias,
                 'formacao': formacao,
             }
-        if site.sitedetalhe.template.descricao == Template.blog():
+        if site.sitedetalhe.destino.tipo == Destino.blog():
             if not request.user.is_staff:
                 noticias = Noticia.publicados.all()[:10]
             else:
@@ -66,9 +65,7 @@ def home(request):
             Galeria.DoesNotExist):
         raise Http404
 
-    contexto['site'] = site
-
-    return render(request, site.sitedetalhe.template.caminho, contexto)
+    return render(request, site.sitedetalhe.destino.caminho, contexto)
 
 
 def selecao(request):
