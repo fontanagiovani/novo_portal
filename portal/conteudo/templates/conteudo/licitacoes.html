@@ -14,9 +14,9 @@
                     Licitações do ano:
                     {% for a in anos %}
                         {% if a|date:"Y" != ano %}
-                            <span class="round radius label link-branco"><a href="{% url 'conteudo:licitacoes_ano' modalidade a|date:"Y" %}">{{ a|date:"Y" }}</a></span>
+                            <span class="round secondary label"><a href="{% url 'conteudo:licitacoes_ano' modalidade a|date:"Y" %}">{{ a|date:"Y" }}</a></span>
                         {% else %}
-                            <span class="round secondary label">{{ a|date:"Y" }}</span>
+                            <span class="round radius label link-branco">{{ a|date:"Y" }}</span>
                         {% endif %}
                     {% endfor %}
             </div>
