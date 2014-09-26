@@ -18,12 +18,13 @@ class AnexoCursoInLine(admin.StackedInline):
     extra = 1
 
     formfield_overrides = {
-        models.CharField: {'widget': TextInput(attrs={'size':'115'})},
+        models.CharField: {'widget': TextInput(attrs={'size': '85'})},
         # models.TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40})},
     }
 
+
 class CursoAdmin(SummernoteModelAdmin):
-    inlines = [AnexoCursoInLine,]
+    inlines = (AnexoCursoInLine, )
 
 
 class GrupoCursosAdmin(SummernoteModelAdmin):
