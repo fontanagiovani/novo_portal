@@ -157,6 +157,28 @@ h2 {
 
 .branco {
     color: white;
+    text-decoration: none;
+}
+
+.link-branco a:link {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.link-branco a:visited {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.link-branco a:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-branco a:active {
+    color: #FFFFFF;
+    text-decoration: none;
 }
 
 .negrito {

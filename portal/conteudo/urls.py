@@ -36,5 +36,7 @@ urlpatterns = patterns('portal.conteudo.views',
 
                        # Licitação
                        url(r'^licitacao/(?P<licitacao_id>\d+)/$', 'licitacao_detalhe', name='licitacao_detalhe'),
-                       url(r'^licitacoes/$', 'licitacoes_lista', name='licitacoes_lista'),
+                       url(r'^licitacoes/$', 'licitacoes', name='licitacoes_modalidades'),
+                       url(r'^licitacoes/(?P<modalidade>\d+)/$', 'licitacoes', name='licitacoes_lista'),
+                       url(r'^licitacoes/(?P<modalidade>\d+)/(?P<ano>\d+)/$', 'licitacoes', name='licitacoes_ano'),
                        )

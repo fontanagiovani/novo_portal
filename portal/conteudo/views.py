@@ -209,27 +209,42 @@ def licitacao_detalhe(request, licitacao_id):
     try:
         site = Site.objects.get(domain=request.get_host())
         licitacao = Licitacao.objects.get(id=licitacao_id, sites__id__exact=site.id)
-    except Site.DoesNotExist, Evento.DoesNotExist:
+    except Site.DoesNotExist, Licitacao.DoesNotExist:
         raise Http404
 
     return render(request, 'conteudo/licitacao.html', {'licitacao': licitacao})
 
 
-def licitacoes_lista(request):
-    try:
-        site = Site.objects.get(domain=request.get_host())
-        paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id), 20)
-    except Site.DoesNotExist, Evento.DoesNotExist:
-        raise Http404
+def licitacoes(request, modalidade=None, ano=None):
+    import datetime
+    if modalidade:
+        try:
+            site = Site.objects.get(domain=request.get_host())
+            modalidade = modalidade
+            hoje = datetime.date.today()
+            if ano:
+                paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade, data_publicacao__year=ano), 25)
+            else:
+                paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade, data_publicacao__year=hoje.year), 25)
+                ano = str(hoje.year)
 
-    page = request.GET.get('page')
-    try:
-        licitacoes = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        licitacoes = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        licitacoes = paginator.page(paginator.num_pages)
-    #
-    return render(request, 'conteudo/licitacoes_lista.html', {'licitacoes': licitacoes})
+        except Site.DoesNotExist, Licitacao.DoesNotExist:
+            raise Http404
+
+        anos = Licitacao.objects.filter().dates('data_publicacao', 'year', order='DESC')
+        page = request.GET.get('page')
+        try:
+            licitacoes = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            licitacoes = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            licitacoes = paginator.page(paginator.num_pages)
+
+        return render(request, 'conteudo/licitacoes.html', {'licitacoes': licitacoes, 'anos': anos, 'ano': ano, 'modalidade': modalidade})
+    else:
+        site = Site.objects.get(domain=request.get_host())
+        modalidades = Licitacao.get_modalidades_existentes(site)
+
+        return render(request, 'conteudo/licitacoes_modalidades.html', {'modalidades': modalidades})

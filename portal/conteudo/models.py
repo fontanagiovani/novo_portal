@@ -142,10 +142,13 @@ class Licitacao(models.Model):
     possui_contrato = models.BooleanField(verbose_name=u'Possui Contrato?')
     vigencia_contrato_inicio = models.DateField(verbose_name=u'Data de início da vigência do contrato', blank=True, null=True)
     vigencia_contrato_fim = models.DateField(verbose_name=u'Data de término da vigência do contrato', blank=True, null=True)
+    encerrado = models.BooleanField(verbose_name=u'Processo encerrado?')
     situacao = models.TextField(verbose_name=u'Situação')
     objeto = models.TextField(verbose_name=u'Objeto')
     alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
     email_contato = models.EmailField(verbose_name=u'Email para contato')
+    tags = TaggableManager(blank=True)
+    sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
 
     class Meta:
         verbose_name = u'Licitação'
@@ -154,9 +157,14 @@ class Licitacao(models.Model):
     def __unicode__(self):
         return self.titulo
 
-    @models.permalink
-    def get_absolute_url(self):
-        return 'conteudo:licitacao_detalhe', (), {'licitacao_id': self.id}
+    @staticmethod
+    def get_modalidades_existentes(site):
+        modalidades_existentes = []
+        for modalidade in Licitacao.TIPO_MODALIDADE:
+            if Licitacao.objects.filter(sites__exact=site, modalidade=modalidade[0]).exists():
+                modalidades_existentes.append(modalidade)
+
+        return modalidades_existentes
 
 
 class AnexoLicitacao(models.Model):
