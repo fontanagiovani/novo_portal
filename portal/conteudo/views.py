@@ -233,3 +233,6 @@ def licitacoes_lista(request):
         licitacoes = paginator.page(paginator.num_pages)
     #
     return render(request, 'conteudo/licitacoes_lista.html', {'licitacoes': licitacoes})
+
+
+
