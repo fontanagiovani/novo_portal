@@ -192,3 +192,41 @@ class Menutest(TestCase):
         A home deve conter sete menus padrão
         """
         self.assertContains(self.resp, u'TituloMenu', 7)
+
+
+class DestinoTest(TestCase):
+    def setUp(self):
+        campus = mommy.make('Campus', slug='abc')
+
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
+
+        self.img_path = 'portal/banner/static/img/images.jpeg'
+        self.img_name = 'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
+
+        destino = mommy.make('Destino', tipo=Destino.portal(), caminho='core/portal.html')
+        mommy.make('SiteDetalhe', site=self.site, destino=destino, logo=midia_image)
+
+        for i in Noticia.objects.all():
+            i.sites.add(self.site)
+
+        for i in Evento.objects.all():
+            i.sites.add(self.site)
+
+        # cria o ambiente de um novo site e conteudos para simular ambiente real
+        self.site2 = mommy.make(Site, _quantity=1, domain='cba.ifmt.dev')[0]
+        noticias_destaque = mommy.make(Noticia, _quantity=4, campus_origem=campus,
+                                       titulo=u'noticia_destaque', destaque=True)
+        noticias = mommy.make(Noticia, _quantity=7, campus_origem=campus, titulo=u'test1')
+        eventos = mommy.make(Evento, _quantity=3, campus_origem=campus, titulo=u'Titulo do evento')
+
+        for i in noticias_destaque:
+            i.sites.add(self.site2)
+        for i in noticias:
+            i.sites.add(self.site2)
+        for i in eventos:
+            i.sites.add(self.site2)
+
+        self.resp = self.client.get(reverse('home'), SERVER_NAME='rtr.ifmt.dev')

@@ -24,7 +24,7 @@ def home(request):
         site = Site.objects.get(domain=request.get_host())
 
         if site.sitedetalhe.destino.tipo == Destino.redirect():
-            return redirect(site.sitedetalhe.template.caminho)
+            return redirect(site.sitedetalhe.destino.caminho)
 
         if site.sitedetalhe.destino.tipo == Destino.portal():
             noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
