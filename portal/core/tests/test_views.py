@@ -1,21 +1,30 @@
 # coding: utf-8
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.core.files import File
 from django.contrib.sites.models import Site
 from model_mommy import mommy
+from filer.models import Image
 
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
 from portal.core.models import Menu
-from portal.core.models import Template, SiteDetalhe
+from portal.core.models import Destino, SiteDetalhe
 from portal.core.models import Selecao, TipoSelecao, Campus
 
 
 class HomeTest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
-        template = mommy.make(Template, _quantity=1, descricao=Template.portal(), caminho='core/portal.html')[0]
-        sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=template)[0]
+
+        self.img_path = 'portal/banner/static/img/images.jpeg'
+        self.img_name = 'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
+
+        destino = mommy.make('Destino', tipo=Destino.portal(), caminho='core/portal.html')
+        sitedetalhe = mommy.make('SiteDetalhe', destino=destino, logo=midia_image)
 
         sitedetalhe.site = self.site
         sitedetalhe.save()
@@ -45,8 +54,15 @@ class HomeContextTest(TestCase):
         mommy.make(Evento, _quantity=3, campus_origem=campus, titulo=u'Titulo do evento')
 
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
-        template = mommy.make(Template, _quantity=1, descricao=Template.portal(), caminho='core/portal.html')[0]
-        sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=template)[0]
+
+        self.img_path = 'portal/banner/static/img/images.jpeg'
+        self.img_name = 'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
+
+        destino = mommy.make('Destino', tipo=Destino.portal(), caminho='core/portal.html')
+        sitedetalhe = mommy.make('SiteDetalhe', destino=destino, logo=midia_image)
 
         sitedetalhe.site = self.site
         sitedetalhe.save()
@@ -85,12 +101,6 @@ class HomeContextTest(TestCase):
         A home deve conter tres eventos
         """
         self.assertContains(self.resp, u'Titulo do evento', 3)
-
-    # def test_conteudo_banner(self):
-    # """
-    #     A home deve conter tres conteudos do tipo banner
-    #     """
-    #     self.assertContains(self.resp, u'Titulo do banner', 3)
 
     def test_conteudo_noticias_destaque(self):
         """
@@ -135,8 +145,16 @@ class SelecaoTest(TestCase):
 class Menutest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
-        self.template = mommy.make(Template, _quantity=1, descricao=Template.portal(), caminho='core/portal.html')[0]
-        self.sitedetalhe = mommy.make(SiteDetalhe, _quantity=1, template=self.template)[0]
+        self.template = mommy.make(Destino, _quantity=1, tipo=Destino.portal(), caminho='core/portal.html')[0]
+
+        self.img_path = 'portal/banner/static/img/images.jpeg'
+        self.img_name = 'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
+
+        destino = mommy.make('Destino', tipo=Destino.portal(), caminho='core/portal.html')
+        self.sitedetalhe = mommy.make('SiteDetalhe', destino=destino, logo=midia_image)
 
         self.site.sitedetalhe = self.sitedetalhe
         self.site.sitedetalhe.save()
@@ -174,3 +192,41 @@ class Menutest(TestCase):
         A home deve conter sete menus padrão
         """
         self.assertContains(self.resp, u'TituloMenu', 7)
+
+
+class DestinoTest(TestCase):
+    def setUp(self):
+        campus = mommy.make('Campus', slug='abc')
+
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
+
+        self.img_path = 'portal/banner/static/img/images.jpeg'
+        self.img_name = 'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
+
+        destino = mommy.make('Destino', tipo=Destino.portal(), caminho='core/portal.html')
+        mommy.make('SiteDetalhe', site=self.site, destino=destino, logo=midia_image)
+
+        for i in Noticia.objects.all():
+            i.sites.add(self.site)
+
+        for i in Evento.objects.all():
+            i.sites.add(self.site)
+
+        # cria o ambiente de um novo site e conteudos para simular ambiente real
+        self.site2 = mommy.make(Site, _quantity=1, domain='cba.ifmt.dev')[0]
+        noticias_destaque = mommy.make(Noticia, _quantity=4, campus_origem=campus,
+                                       titulo=u'noticia_destaque', destaque=True)
+        noticias = mommy.make(Noticia, _quantity=7, campus_origem=campus, titulo=u'test1')
+        eventos = mommy.make(Evento, _quantity=3, campus_origem=campus, titulo=u'Titulo do evento')
+
+        for i in noticias_destaque:
+            i.sites.add(self.site2)
+        for i in noticias:
+            i.sites.add(self.site2)
+        for i in eventos:
+            i.sites.add(self.site2)
+
+        self.resp = self.client.get(reverse('home'), SERVER_NAME='rtr.ifmt.dev')
