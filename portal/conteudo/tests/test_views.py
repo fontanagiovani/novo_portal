@@ -128,7 +128,7 @@ class EventoDetalheTest(TestCase):
             'Evento',
             titulo='titulo_teste',
             texto=u'texto_teste',
-            data_publicacao='2014-06-05T10:16:00-04:00',
+            local=u'Reitoria',
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         self.obj.sites.add(self.site)
@@ -155,7 +155,7 @@ class EventoDetalheTest(TestCase):
         """
         self.assertContains(self.resp, 'titulo_teste')
         self.assertContains(self.resp, u'texto_teste')
-        self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
+        self.assertContains(self.resp, u'Reitoria')
         self.assertContains(self.resp, 'ifmt-teste')
 
 
