@@ -42,11 +42,10 @@
 
         {% autoescape off %}
             <article>
-                {{ pagina.texto }}
+                {{ pagina.texto|safe }}
             </article>
         {% endautoescape %}
 
-        <p>{{ pagina.fonte }}</p>
         </div>
         {% if pagina.imagens %}
             <div class="medium-2 columns">

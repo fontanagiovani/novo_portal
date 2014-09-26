@@ -9,7 +9,7 @@
             <h1>{{ grupo.nome }}</h1>
             {% if grupo.descricao.strip|length > 0 %}
                 {% autoescape off %}
-                    <article><p>Descrição: {{ grupo.descricao }}</p></article>
+                    <article><p>Descrição: {{ grupo.descricao|safe }}</p></article>
                 {% endautoescape %}
                 <hr />
             {% endif %}

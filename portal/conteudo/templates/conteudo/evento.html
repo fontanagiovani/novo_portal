@@ -53,11 +53,10 @@
 
         {% autoescape off %}
             <article>
-                {{ evento.texto }}
+                {{ evento.texto|safe }}
             </article>
         {% endautoescape %}
 
-        <p>{{ evento.fonte }}</p>
         </div>
         {% if evento.imagens %}
             <div class="medium-2 columns">
