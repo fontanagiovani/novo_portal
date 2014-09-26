@@ -14,7 +14,6 @@ class Conteudo(models.Model):
                             help_text=u'Texto que será utilizado para montar a URL deste item')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
-    fonte = models.CharField(max_length=250, blank=True, verbose_name=u'Fonte ou Autoria ')
     galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
     videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
     tags = TaggableManager(blank=True)
@@ -87,6 +86,7 @@ class Anexo(models.Model):
 class Pagina(Conteudo):
     objects = models.Manager()
     publicados = ConteudoPublicadoManager()
+
     class Meta:
         verbose_name = u'Página'
         verbose_name_plural = u'Páginas'
@@ -100,6 +100,7 @@ class Pagina(Conteudo):
             return 'conteudo:pagina_detalhe', (), {'slug': self.slug}
         else:
             return 'conteudo:pagina_detalhe_preview', (), {'slug': self.slug}
+
 
 class Evento(Conteudo):
     local = models.CharField(max_length=250)
@@ -140,15 +141,16 @@ class Licitacao(models.Model):
     pregao_srp = models.BooleanField(verbose_name=u'É um pregão SRP?')
     validade_ata_srp = models.DateField(verbose_name=u'Validade ATA SRP', blank=True, null=True)
     possui_contrato = models.BooleanField(verbose_name=u'Possui Contrato?')
-    vigencia_contrato_inicio = models.DateField(verbose_name=u'Data de início da vigência do contrato', blank=True, null=True)
-    vigencia_contrato_fim = models.DateField(verbose_name=u'Data de término da vigência do contrato', blank=True, null=True)
+    vigencia_contrato_inicio = models.DateField(verbose_name=u'Data de início da vigência do contrato',
+                                                blank=True, null=True)
+    vigencia_contrato_fim = models.DateField(verbose_name=u'Data de término da vigência do contrato',
+                                             blank=True, null=True)
     encerrado = models.BooleanField(verbose_name=u'Processo encerrado?')
     situacao = models.TextField(verbose_name=u'Situação')
     objeto = models.TextField(verbose_name=u'Objeto')
     alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
     email_contato = models.EmailField(verbose_name=u'Email para contato')
     tags = TaggableManager(blank=True)
-    sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
 
     class Meta:
         verbose_name = u'Licitação'

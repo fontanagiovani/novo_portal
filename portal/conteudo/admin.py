@@ -42,7 +42,6 @@ class NoticiaAdmin(SummernoteModelAdmin):
                 'destaque',
                 'prioridade_destaque',
                 'texto',
-                'fonte',
                 'data_publicacao',
                 'tags',
             )
@@ -100,7 +99,6 @@ class PaginaAdmin(SummernoteModelAdmin):
                 'titulo',
                 'slug',
                 'texto',
-                'fonte',
                 'data_publicacao',
                 'tags',
             )
@@ -166,7 +164,6 @@ class EventoAdmin(SummernoteModelAdmin):
                 'data_inicio',
                 'data_fim',
                 'texto',
-                'fonte',
                 'data_publicacao',
                 'tags',
             )
@@ -228,7 +225,6 @@ class VideoAdmin(SummernoteModelAdmin):
                 'slug',
                 'id_video_youtube',
                 'texto',
-                'fonte',
                 'data_publicacao',
                 'tags',
             )
@@ -293,7 +289,6 @@ class GaleriaAdmin(SummernoteModelAdmin):
                 'titulo',
                 'slug',
                 'texto',
-                'fonte',
                 'data_publicacao',
                 'tags',
             )
