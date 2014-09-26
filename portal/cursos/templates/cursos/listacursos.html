@@ -6,16 +6,12 @@
 {% block listagem %}
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
-            <h1>{{ grupo.nome }}</h1>
-            {% if grupo.descricao.strip|length > 0 %}
-                {% autoescape off %}
-                    <article><p>Descrição: {{ grupo.descricao }}</p></article>
-                {% endautoescape %}
-                <hr />
-            {% endif %}
+            <div class="row padding-top-bottom"><h1>{{ grupo.nome }}</h1></div>
+            <div class="row padding-top-bottom">Cursos ofertados:
             {% for c in cursos %}
                 <p><a href="{% url 'exibecurso' c.id %}">{{ c.campus }} | {{ c.nome }} | Turno: {{ c.get_turno_display }}</a></p>
             {% endfor %}
+            </div>
             <hr />
         </div>
     </div>

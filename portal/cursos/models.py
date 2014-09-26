@@ -36,7 +36,6 @@ class Formacao(models.Model):
 class GrupoCursos(models.Model):
     nome = models.CharField(max_length=80, verbose_name=u'Nome Genérico para Curso',
                             help_text=u'Ex.: Licenciatura em Matemática')
-    descricao = models.TextField(verbose_name=u'Descrição sobre o curso')
 
     class Meta:
         verbose_name = u'Grupo de Cursos'
