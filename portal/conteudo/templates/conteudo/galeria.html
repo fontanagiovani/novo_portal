@@ -25,8 +25,12 @@
 
 {% block conteudo %}
     <div class="row padding-bottom">
-        {% if not galeria.publicar %}
-            <div class="row"><h2 class="vermelho padding-top-bottom text-center">NÃO PUBLICADO</h2></div>
+        {% if not galeria.esta_publicado %}
+            <div class="row">
+                <h2 class="vermelho padding-top-bottom text-center">
+                    NÃO PUBLICADO - DATA DE PUBLICAÇÃO: {{ galeria.data_publicacao }}
+                </h2>
+            </div>
         {% endif %}
         <div class="row">
             <h1 class="justificado" id="titulo">{{ galeria.titulo }}</h1>

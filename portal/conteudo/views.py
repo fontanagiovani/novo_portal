@@ -62,6 +62,7 @@ def pagina_detalhe(request, slug):
         raise Http404
     return render(request, 'conteudo/pagina.html', {'pagina': pagina})
 
+
 @login_required
 def pagina_detalhe_preview(request, slug):
     try:
@@ -80,6 +81,7 @@ def evento_detalhe(request, slug):
     except Site.DoesNotExist, Evento.DoesNotExist:
         raise Http404
     return render(request, 'conteudo/evento.html', {'evento': evento})
+
 
 @login_required
 def evento_detalhe_preview(request, slug):
@@ -114,9 +116,14 @@ def eventos_lista(request):
 
 
 def video_detalhe(request, slug):
-    video = get_object_or_404(Video, slug=slug, publicar=True)
+    try:
+        video = Video.publicados.get(slug=slug)
+
+    except Site.DoesNotExist, Video.DoesNotExist:
+        raise Http404
 
     return render(request, 'conteudo/video.html', {'video': video})
+
 
 @login_required
 def video_detalhe_preview(request, slug):
@@ -146,15 +153,21 @@ def videos_lista(request):
 
 
 def galeria_detalhe(request, slug):
-    galeria = get_object_or_404(Galeria, slug=slug, publicar=True)
+    try:
+        galeria = Galeria.publicados.get(slug=slug)
+
+    except Site.DoesNotExist, Video.DoesNotExist:
+        raise Http404
 
     return render(request, 'conteudo/galeria.html', {'galeria': galeria})
+
 
 @login_required
 def galeria_detalhe_preview(request, slug):
-    galeria = get_object_or_404(Galeria, slug=slug)
+    galeria = get_object_or_404(Galeria, slug=slug, publicado=True)
 
     return render(request, 'conteudo/galeria.html', {'galeria': galeria})
+
 
 def galerias_lista(request):
     try:
@@ -223,9 +236,11 @@ def licitacoes(request, modalidade=None, ano=None):
             modalidade = modalidade
             hoje = datetime.date.today()
             if ano:
-                paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade, data_publicacao__year=ano), 25)
+                paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade,
+                                                               data_publicacao__year=ano), 25)
             else:
-                paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade, data_publicacao__year=hoje.year), 25)
+                paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade,
+                                                               data_publicacao__year=hoje.year), 25)
                 ano = str(hoje.year)
 
         except Site.DoesNotExist, Licitacao.DoesNotExist:
@@ -242,7 +257,8 @@ def licitacoes(request, modalidade=None, ano=None):
             # If page is out of range (e.g. 9999), deliver last page of results.
             licitacoes = paginator.page(paginator.num_pages)
 
-        return render(request, 'conteudo/licitacoes.html', {'licitacoes': licitacoes, 'anos': anos, 'ano': ano, 'modalidade': modalidade})
+        return render(request, 'conteudo/licitacoes.html', {'licitacoes': licitacoes, 'anos': anos, 'ano': ano,
+                                                            'modalidade': modalidade})
     else:
         site = Site.objects.get(domain=request.get_host())
         modalidades = Licitacao.get_modalidades_existentes(site)

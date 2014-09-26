@@ -26,8 +26,12 @@
 {% block conteudo %}
     <div class="row padding-bottom">
     <div class="row">
-        {% if not pagina.publicar %}
-            <div class="row"><h2 class="vermelho padding-top-bottom text-center">NÃO PUBLICADO</h2></div>
+        {% if not pagina.esta_publicado %}
+            <div class="row">
+                <h2 class="vermelho padding-top-bottom text-center">
+                    NÃO PUBLICADO - DATA DE PUBLICAÇÃO: {{ pagina.data_publicacao }}
+                </h2>
+            </div>
         {% endif %}
         <h1 class="justificado" id="titulo">{{ pagina.titulo }}</h1>
 
