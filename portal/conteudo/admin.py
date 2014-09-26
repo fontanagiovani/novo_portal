@@ -18,11 +18,15 @@ from portal.conteudo.forms import LicitacaoForm
 from portal.conteudo.forms import AnexoFormset
 
 
-class AnexoInLine(admin.StackedInline):
+class AnexoInLine(admin.TabularInline):
     model = Anexo
     formset = AnexoFormset
 
     extra = 1
+
+    formfield_overrides = {
+        CharField: {'widget': TextInput(attrs={'size': '85'})},
+    }
 
 
 class NoticiaAdmin(SummernoteModelAdmin):
@@ -333,13 +337,13 @@ class GaleriaAdmin(SummernoteModelAdmin):
 admin.site.register(Galeria, GaleriaAdmin)
 
 
-class AnexoLicitacaoInLine(admin.StackedInline):
+class AnexoLicitacaoInLine(admin.TabularInline):
 
     model = AnexoLicitacao
     extra = 1
 
     formfield_overrides = {
-        CharField: {'widget': TextInput(attrs={'size': '115'})},
+        CharField: {'widget': TextInput(attrs={'size': '85'})},
     }
 
 
@@ -348,7 +352,6 @@ class LicitacaoAdmin(SummernoteModelAdmin):
     search_fields = ('modalidade', 'titulo', 'data_publicacao')
     list_filter = ('sites', 'modalidade', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
-
 
     inlines = [AnexoLicitacaoInLine, ]
     form = LicitacaoForm

@@ -71,7 +71,7 @@ class Noticia(Conteudo):
 
 
 class Anexo(models.Model):
-    descricao = models.TextField(verbose_name=u'Descrição')
+    descricao = models.CharField(max_length=250, verbose_name=u'Descrição')
     arquivo = FilerFileField(related_name='anexos_noticia')
     conteudo = models.ForeignKey('Conteudo', verbose_name=u'conteudo')
 
