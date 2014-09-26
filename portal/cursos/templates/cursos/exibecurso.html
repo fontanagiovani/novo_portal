@@ -18,7 +18,7 @@
 
             {% autoescape off %}
                 <article>
-                    <p><strong>Descrição:</strong> {{ curso.descricao }}</p>
+                    <p><strong>Descrição:</strong> {{ curso.descricao|safe }}</p>
                 </article>
             {% endautoescape %}
             {% if curso.email.strip|length > 0 %}

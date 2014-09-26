@@ -47,14 +47,13 @@
             </ul>
             {% autoescape off %}
                 <article>
-                    {{ galeria.texto }}
+                    {{ galeria.texto|safe }}
                     {% if galeria.campus_origem.site %}
                         Site de origem: {{ galeria.campus_origem.site }}
                     {% endif %}
                 </article>
             {% endautoescape %}
 
-            <p>{{ galeria.fonte }}</p>
         </div>
     </div>
 

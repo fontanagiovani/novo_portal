@@ -44,21 +44,21 @@
             <div class="medium-12 columns no-padding">
             {% autoescape off %}
                 <article>
-                    <strong>SITUAÇÃO:</strong> {{ licitacao.situacao }}
+                    <strong>SITUAÇÃO:</strong> {{ licitacao.situacao|safe }}
                 </article>
             {% endautoescape %}
 
             <div class="medium-12 columns no-padding">
             {% autoescape off %}
                 <article>
-                    <strong>OBJETO:</strong> {{ licitacao.objeto }}
+                    <strong>OBJETO:</strong> {{ licitacao.objeto|safe }}
                 </article>
             {% endautoescape %}
 
             {% if licitacao.alteracoes.strip|length > 0 %}
                 {% autoescape off %}
                     <article>
-                        <strong>ALTERAÇÕES:</strong> {{ licitacao.alteracoes }}
+                        <strong>ALTERAÇÕES:</strong> {{ licitacao.alteracoes|safe }}
                     </article>
                 {% endautoescape %}
             {% endif %}
@@ -73,7 +73,7 @@
                         <li class="padding-right">Tags:</li>
                         {% for tag in licitacao.tags.all %}
                             <li class="padding-all fundo-cinza"><a
-                                    href="{% url 'conteudo:tags_lista' tag_slug=tag.slug %}">{{ tag.slug }}</a></li>
+                                    href="{% url 'conteudo:tags_lista' slug=tag.slug %}">{{ tag.slug }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

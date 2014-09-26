@@ -42,11 +42,10 @@
 
         {% autoescape off %}
             <article>
-                {{ noticia.texto }}
+                {{ noticia.texto|safe }}
             </article>
         {% endautoescape %}
 
-        <p>{{ noticia.fonte }}</p>
         </div>
         {% if noticia.imagens %}
             <div class="medium-2 columns">
