@@ -95,6 +95,13 @@ class NoticiaAdminIndexTest(TestCase):
         # devem aparecer para o usuario
         self.assertContains(response, 'titulonoticia', 6)
 
+    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+    def test_sites_filter(self):
+        response = self.client.get(reverse('admin:conteudo_noticia_changelist'))
+
+        self.assertContains(response, self.site.domain, 1)
+        self.assertContains(response, self.site2.domain, 1)
+
 
 class EventoAdminIndexTest(TestCase):
     # Templates
