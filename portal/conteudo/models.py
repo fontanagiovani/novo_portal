@@ -12,7 +12,7 @@ class Conteudo(models.Model):
     campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Origem')
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     slug = models.SlugField(max_length=250, verbose_name=u'Identificador',
-                            help_text=u'Texto que será utilizado para montar a URL deste item')
+                            help_text=u'Texto que identificará a URL deste item (não deve conter espaços ou acentos)')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
@@ -56,7 +56,7 @@ class Noticia(Conteudo):
         ('5', u'5 - Baixa'),
         ('6', u'Nenhuma')
     )
-    destaque = models.BooleanField(default=False)
+    destaque = models.BooleanField(default=False, verbose_name=u'Destaque')
     prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',
                                            verbose_name=u'Prioridade de destaque')
     objects = models.Manager()

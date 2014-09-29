@@ -4,18 +4,12 @@ from django.contrib.sites.models import Site
 from django.forms import TextInput
 from django.db.models import CharField
 from django_summernote.admin import SummernoteModelAdmin
-from portal.conteudo.models import Noticia, Pagina, Evento, Video, Galeria
-from portal.conteudo.models import ImagemGaleria
-from portal.conteudo.models import Anexo
-from portal.conteudo.models import Licitacao
-from portal.conteudo.models import AnexoLicitacao
-from portal.conteudo.forms import NoticiaForm
-from portal.conteudo.forms import EventoForm
-from portal.conteudo.forms import PaginaForm
-from portal.conteudo.forms import VideoForm
-from portal.conteudo.forms import GaleriaForm
-from portal.conteudo.forms import LicitacaoForm
-from portal.conteudo.forms import AnexoFormset
+
+from portal.core.admin import SitesListFilter, EstaPublicadoListFilter
+from portal.conteudo.models import Noticia, Pagina, Evento, Video, Galeria, ImagemGaleria, Anexo, Licitacao, \
+    AnexoLicitacao
+from portal.conteudo.forms import NoticiaForm, EventoForm, PaginaForm, VideoForm, GaleriaForm, LicitacaoForm, \
+    AnexoFormset
 
 
 class AnexoInLine(admin.TabularInline):
@@ -30,10 +24,10 @@ class AnexoInLine(admin.TabularInline):
 
 
 class NoticiaAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'destaque', 'prioridade_destaque', 'publicado')
+    list_display = ('titulo', 'data_publicacao', 'destaque', 'prioridade_destaque', 'get_publicacao')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
-    list_filter = ('destaque', 'prioridade_destaque')
+    list_filter = (SitesListFilter, EstaPublicadoListFilter, 'destaque', 'prioridade_destaque')
     prepopulated_fields = {'slug': ('titulo',)}
 
     fieldsets = (
@@ -66,6 +60,11 @@ class NoticiaAdmin(SummernoteModelAdmin):
     inlines = (AnexoInLine,)
     filter_horizontal = ('galerias', 'videos')
 
+    def get_publicacao(self, obj):
+        return obj.esta_publicado
+    get_publicacao.short_description = u'Publicado'
+    get_publicacao.boolean = True
+
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(NoticiaAdmin, self).get_form(request, obj, **kwargs)
 
@@ -90,9 +89,10 @@ admin.site.register(Noticia, NoticiaAdmin)
 
 
 class PaginaAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'get_link', 'publicado')
+    list_display = ('titulo', 'data_publicacao', 'get_link', 'get_publicacao')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
+    list_filter = (SitesListFilter, EstaPublicadoListFilter, )
     prepopulated_fields = {'slug': ('titulo',)}
 
     fieldsets = (
@@ -125,6 +125,11 @@ class PaginaAdmin(SummernoteModelAdmin):
         return obj.get_absolute_url()
     get_link.short_description = u'Link da página'
 
+    def get_publicacao(self, obj):
+        return obj.esta_publicado
+    get_publicacao.short_description = u'Publicado'
+    get_publicacao.boolean = True
+
     form = PaginaForm
 
     def get_form(self, request, obj=None, **kwargs):
@@ -152,9 +157,10 @@ admin.site.register(Pagina, PaginaAdmin)
 
 
 class EventoAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'data_inicio', 'data_fim', 'publicado')
+    list_display = ('titulo', 'data_publicacao', 'data_inicio', 'data_fim', 'get_publicacao')
     search_fields = ('titulo', 'texto', 'data_publicacao', 'data_inicio', 'data_fim')
     date_hierarchy = 'data_publicacao'
+    list_filter = (SitesListFilter, EstaPublicadoListFilter, )
     prepopulated_fields = {'slug': ('titulo',)}
 
     fieldsets = (
@@ -187,6 +193,11 @@ class EventoAdmin(SummernoteModelAdmin):
 
     form = EventoForm
 
+    def get_publicacao(self, obj):
+        return obj.esta_publicado
+    get_publicacao.short_description = u'Publicado'
+    get_publicacao.boolean = True
+
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(EventoAdmin, self).get_form(request, obj, **kwargs)
 
@@ -213,10 +224,10 @@ admin.site.register(Evento, EventoAdmin)
 
 
 class VideoAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'publicado')
+    list_display = ('titulo', 'data_publicacao', 'get_publicacao')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
-    list_filter = ('campus_origem', 'data_publicacao')
+    list_filter = (SitesListFilter, EstaPublicadoListFilter, )
     prepopulated_fields = {'slug': ('titulo',)}
 
     fieldsets = (
@@ -248,6 +259,11 @@ class VideoAdmin(SummernoteModelAdmin):
 
     form = VideoForm
 
+    def get_publicacao(self, obj):
+        return obj.esta_publicado
+    get_publicacao.short_description = u'Publicado'
+    get_publicacao.boolean = True
+
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(VideoAdmin, self).get_form(request, obj, **kwargs)
 
@@ -277,10 +293,10 @@ class ImagemGaleriaInline(admin.TabularInline):
 
 
 class GaleriaAdmin(SummernoteModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'publicado')
+    list_display = ('titulo', 'data_publicacao', 'get_publicacao')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
-    list_filter = ('campus_origem', 'data_publicacao')
+    list_filter = (SitesListFilter, EstaPublicadoListFilter, )
     prepopulated_fields = {'slug': ('titulo',)}
 
     fieldsets = (
@@ -310,6 +326,11 @@ class GaleriaAdmin(SummernoteModelAdmin):
     filter_horizontal = ('galerias', 'videos')
 
     form = GaleriaForm
+
+    def get_publicacao(self, obj):
+        return obj.esta_publicado
+    get_publicacao.short_description = u'Publicado'
+    get_publicacao.boolean = True
 
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(GaleriaAdmin, self).get_form(request, obj, **kwargs)
@@ -348,7 +369,7 @@ class AnexoLicitacaoInLine(admin.TabularInline):
 class LicitacaoAdmin(SummernoteModelAdmin):
     list_display = ('modalidade', 'titulo', 'data_publicacao')
     search_fields = ('modalidade', 'titulo', 'data_publicacao')
-    list_filter = ('sites', 'modalidade', 'data_publicacao')
+    list_filter = (SitesListFilter, 'modalidade', )
     date_hierarchy = 'data_publicacao'
 
     inlines = [AnexoLicitacaoInLine, ]

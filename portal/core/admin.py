@@ -2,6 +2,8 @@
 from django.contrib import admin
 from django.contrib.sites.admin import SiteAdmin
 from django.contrib.sites.models import Site
+from django.db.models import Q
+from django.utils import timezone
 from mptt.admin import MPTTModelAdmin
 from adminsortable.admin import SortableAdminMixin
 
@@ -12,6 +14,125 @@ from portal.core.models import Campus
 from portal.core.models import Selecao, TipoSelecao
 from portal.core.forms import MenuForm
 from portal.core.forms import SiteDetalheFormset
+
+
+class SiteListFilter(admin.SimpleListFilter):
+    # USAGE
+    # list_filter = (CategoryListFilter,)
+
+    # Human-readable title which will be displayed in the
+    # right admin sidebar just above the filter options.
+    title = 'Site(s)'
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = 'sites__id__exact'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar.
+        """
+        list_tuple = []
+        for site in request.user.permissao.sites.all():
+            list_tuple.append((site.id, site.domain))
+        return list_tuple
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        # Compare the requested value (either '80s' or 'other')
+        # to decide how to filter the queryset.
+        if self.value():
+            return queryset.filter(site__id__exact=self.value())
+        else:
+            return queryset
+
+
+class SitesListFilter(admin.SimpleListFilter):
+    # USAGE
+    # list_filter = (CategoryListFilter,)
+
+    # Human-readable title which will be displayed in the
+    # right admin sidebar just above the filter options.
+    title = 'Site(s)'
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = 'sites__id__exact'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar.
+        """
+        list_tuple = []
+        for site in request.user.permissao.sites.all():
+            list_tuple.append((site.id, site.domain))
+        return list_tuple
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        # Compare the requested value (either '80s' or 'other')
+        # to decide how to filter the queryset.
+        if self.value():
+            return queryset.filter(site__id__exact=self.value())
+        else:
+            return queryset
+
+
+class EstaPublicadoListFilter(admin.SimpleListFilter):
+    # USAGE
+    # list_filter = (CategoryListFilter,)
+
+    # Human-readable title which will be displayed in the
+    # right admin sidebar just above the filter options.
+    title = 'Publicado'
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = 'publicado__exact'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar.
+        """
+        list_tuple = list()
+        list_tuple.append((1, u'Sim'))
+        list_tuple.append((0, u'Não'))
+        # for site in request.user.permissao.sites.all():
+        #     list_tuple.append((site.id, site.domain))
+        return list_tuple
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        # Compare the requested value (either '80s' or 'other')
+        # to decide how to filter the queryset.
+        if self.value():
+            if self.value() == '0':
+                return queryset.filter(Q(publicado=False) | Q(data_publicacao__gt=timezone.now()))
+            else:
+                return queryset.filter(publicado=True, data_publicacao__lte=timezone.now())
+        else:
+            return queryset
 
 
 class CampusAdmin(admin.ModelAdmin):
@@ -31,7 +152,7 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
     list_display = ('titulo', 'menu_raiz', 'site')
     search_fields = ('titulo',)
     prepopulated_fields = {'slug': ('titulo',)}
-    list_filter = ('site', )
+    list_filter = (SiteListFilter, )
 
     change_list_template = 'core/mptt_sortable_change_list.html'
     add_form_template = 'core/mptt_sortable_change_form.html'

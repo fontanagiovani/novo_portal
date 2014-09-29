@@ -2,6 +2,7 @@
 from django.contrib import admin
 from django.contrib.sites.models import Site
 
+from portal.core.admin import SitesListFilter, EstaPublicadoListFilter
 from portal.banner.models import Banner
 from portal.banner.models import BannerAcessoRapido
 from portal.banner.forms import BannerForm
@@ -12,6 +13,7 @@ class BannerAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'data_publicacao', 'arquivo')
     search_fields = ('titulo', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
+    list_filter = (SitesListFilter, )
 
     form = BannerForm
 
@@ -40,6 +42,7 @@ class BannerAcessoRapidoAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'data_publicacao', 'midia_image')
     search_fields = ('titulo', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
+    list_filter = (SitesListFilter, )
 
     form = BannerAcessoRapidoForm
 
