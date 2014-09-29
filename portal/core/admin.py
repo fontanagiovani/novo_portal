@@ -87,7 +87,7 @@ class SitesListFilter(admin.SimpleListFilter):
         # Compare the requested value (either '80s' or 'other')
         # to decide how to filter the queryset.
         if self.value():
-            return queryset.filter(site__id__exact=self.value())
+            return queryset.filter(sites__id__exact=self.value())
         else:
             return queryset
 

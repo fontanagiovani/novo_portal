@@ -5,7 +5,7 @@ from filer.fields.image import FilerImageField
 
 
 class Campus(models.Model):
-    site = models.OneToOneField('sites.Site', verbose_name='Link de origem', default=None, null=True)
+    site = models.ForeignKey('sites.Site', verbose_name=u'Origem', default=None, null=True)
     sigla = models.CharField(max_length=3, verbose_name=u'Sigla do Câmpus')
     nome = models.CharField(max_length=50, verbose_name=u'Nome do Câmpus')
 

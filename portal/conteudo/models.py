@@ -11,7 +11,8 @@ class Conteudo(models.Model):
     campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Origem')
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     slug = models.SlugField(max_length=250, verbose_name=u'Identificador',
-                            help_text=u'Texto que identificará a URL deste item (não deve conter espaços ou acentos)')
+                            help_text=u'Texto que identificará a URL deste item (não deve conter espaços ou '
+                                      u'caracteres especiais)')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
