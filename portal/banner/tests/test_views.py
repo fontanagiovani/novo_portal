@@ -58,7 +58,7 @@ class HomeAcessoRapidoContextTest(TestCase):
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
 
         self.banner = mommy.make(BannerAcessoRapido, _quantity=5, titulo=u'Titulo do banner acesso rapido',
-                                 midia_image=midia_image)
+                                 arquivo=midia_image)
 
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
         destino = mommy.make(Destino, tipo=Destino.portal(), caminho='core/portal.html')

@@ -58,7 +58,7 @@ class NoticiaListaTest(TestCase):
             'Noticia',
             titulo='titulo_teste',
             _quantity=10,
-            campus_origem=mommy.make('Campus', slug='campus2'),
+            campus_origem=mommy.make('Campus'),
         )
         for i in self.noticias:
             i.sites.add(self.site2)
@@ -177,7 +177,7 @@ class EventoListaTest(TestCase):
             'Evento',
             titulo='titulo_teste',
             _quantity=10,
-            campus_origem=mommy.make('Campus', slug='campus2'),
+            campus_origem=mommy.make('Campus'),
         )
         for i in self.eventos:
             i.sites.add(self.site2)
@@ -266,7 +266,7 @@ class VideosListaTest(TestCase):
             'Video',
             titulo='titulo_teste',
             _quantity=10,
-            campus_origem=mommy.make('Campus', slug='campus2'),
+            campus_origem=mommy.make('Campus'),
         )
         for i in self.videos:
             i.sites.add(self.site2)
@@ -339,7 +339,7 @@ class GaleriaListaTest(TestCase):
             'Galeria',
             titulo='titulo_teste',
             _quantity=50,
-            campus_origem=mommy.make('Campus', slug='campus1'),
+            campus_origem=mommy.make('Campus'),
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
 
@@ -352,7 +352,7 @@ class GaleriaListaTest(TestCase):
             'Galeria',
             titulo='titulo_teste',
             _quantity=10,
-            campus_origem=mommy.make('Campus', slug='campus2'),
+            campus_origem=mommy.make('Campus'),
         )
         for i in self.galerias:
             i.sites.add(self.site2)

@@ -66,10 +66,10 @@ class SelecaoTest(TestCase):
 class MenuTest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
-        self.menu = Menu(
+        self.menu = mommy.make(
+            'Menu',
             parent=None,
             titulo=u'TituloMenu',
-            slug=u'menu-slug',
             url=u'http.www.menuteste@url.com',
             ordem=1,
             site=self.site

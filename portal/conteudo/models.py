@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.sites.models import Site
 from django.utils import timezone
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
@@ -12,13 +11,14 @@ class Conteudo(models.Model):
     campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Origem')
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
     slug = models.SlugField(max_length=250, verbose_name=u'Identificador',
-                            help_text=u'Texto que identificará a URL deste item (não deve conter espaços ou acentos)')
+                            help_text=u'Texto que identificará a URL deste item (não deve conter espaços ou '
+                                      u'caracteres especiais)')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
     videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
     tags = TaggableManager(blank=True)
-    sites = models.ManyToManyField(Site, verbose_name=u'Site(s)')
+    sites = models.ManyToManyField('sites.Site', verbose_name=u'Site(s)')
     publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
 
     objects = models.Manager()
@@ -141,7 +141,7 @@ class Licitacao(models.Model):
         ('3', u'Tomada de preço'),
         ('4', u'Concorrência'),
     )
-    sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
+    sites = models.ManyToManyField('sites.Site', verbose_name=u'Sites para publicação')
     modalidade = models.CharField(max_length=1, choices=TIPO_MODALIDADE, verbose_name=u'Tipo de Modalidade')
     titulo = models.CharField(max_length=100, verbose_name=u'Título')
     data_publicacao = models.DateField(verbose_name=u'Data de publicação')

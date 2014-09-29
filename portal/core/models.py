@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.contrib.sites.models import Site
 from mptt.models import MPTTModel, TreeForeignKey
 from filer.fields.image import FilerImageField
 
 
-class Campus(MPTTModel):
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Nivel 1')
+class Campus(models.Model):
+    site = models.ForeignKey('sites.Site', verbose_name=u'Origem', default=None, null=True)
     sigla = models.CharField(max_length=3, verbose_name=u'Sigla do Câmpus')
     nome = models.CharField(max_length=50, verbose_name=u'Nome do Câmpus')
-    slug = models.SlugField(max_length=100, blank=True, unique=True, verbose_name=u'Identificador')
-    site = models.OneToOneField(Site, verbose_name='Link de origem', default=None, null=True)
 
     class Meta:
         verbose_name = u'Campus'
@@ -21,11 +18,10 @@ class Campus(MPTTModel):
 
 
 class Menu(MPTTModel):
-    site = models.ForeignKey(Site)
+    site = models.ForeignKey('sites.Site')
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name=u'Menu pai')
     titulo = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, blank=True, unique=True, verbose_name=u'Identificador')
-    url = models.CharField(max_length=250, blank=True,)
+    url = models.CharField(max_length=250)
     ordem = models.PositiveIntegerField()
 
     class Meta(object):
@@ -83,7 +79,7 @@ class Selecao(models.Model):
 
 
 class SiteDetalhe(models.Model):
-    site = models.OneToOneField(Site)
+    site = models.OneToOneField('sites.Site')
     destino = models.ForeignKey('Destino', help_text=u'Destino da página inicial')
     logo = FilerImageField()
     social = models.TextField(null=True, blank=True)

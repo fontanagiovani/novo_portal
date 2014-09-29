@@ -39,7 +39,7 @@ class BannerAdmin(admin.ModelAdmin):
 
 
 class BannerAcessoRapidoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'midia_image')
+    list_display = ('titulo', 'data_publicacao', 'arquivo')
     search_fields = ('titulo', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     list_filter = (SitesListFilter, )
