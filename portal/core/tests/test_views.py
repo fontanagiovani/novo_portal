@@ -46,7 +46,7 @@ class HomeTest(TestCase):
 
 class HomeContextTest(TestCase):
     def setUp(self):
-        campus = mommy.make(Campus, _quantity=1, slug='abc')[0]
+        campus = mommy.make(Campus)
         mommy.make(Noticia, _quantity=4, campus_origem=campus, titulo=u'noticia_destaque', destaque=True)
         mommy.make(Noticia, _quantity=7, campus_origem=campus, titulo=u'test1')
         mommy.make(Noticia, _quantity=4, campus_origem=campus, titulo=u'noticia_destaque', destaque=True)
@@ -160,11 +160,9 @@ class Menutest(TestCase):
         self.site.sitedetalhe.save()
 
         for i in range(0, 7):
-            slug = u'TituloMenu - %d' % i
             self.menu = Menu(
                 parent=None,
                 titulo=u'TituloMenu',
-                slug=slug,
                 url=u'url_menu',
                 ordem=1,
                 site=self.site,
@@ -174,11 +172,9 @@ class Menutest(TestCase):
         # cria um novo site e menus pertencentes a este novo site para simular ambiente real
         self.site2 = mommy.make(Site, _quantity=1, domain='cba.ifmt.dev')[0]
         for i in range(10, 17):
-            slug = u'TituloMenu - %d' % i
             self.menu2 = Menu(
                 parent=None,
                 titulo=u'TituloMenu',
-                slug=slug,
                 url=u'url_menu',
                 ordem=1,
                 site=self.site2,
@@ -196,7 +192,7 @@ class Menutest(TestCase):
 
 class DestinoTest(TestCase):
     def setUp(self):
-        campus = mommy.make('Campus', slug='abc')
+        campus = mommy.make('Campus')
 
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
 

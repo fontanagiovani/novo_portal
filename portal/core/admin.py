@@ -136,9 +136,8 @@ class EstaPublicadoListFilter(admin.SimpleListFilter):
 
 
 class CampusAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'sigla', 'parent',)
+    list_display = ('nome', 'sigla',)
     search_fields = ('nome',)
-    prepopulated_fields = {'slug': ('nome',)}
 
 admin.site.register(Campus, CampusAdmin)
 
@@ -151,7 +150,6 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
     """
     list_display = ('titulo', 'menu_raiz', 'site')
     search_fields = ('titulo',)
-    prepopulated_fields = {'slug': ('titulo',)}
     list_filter = (SiteListFilter, )
 
     change_list_template = 'core/mptt_sortable_change_list.html'

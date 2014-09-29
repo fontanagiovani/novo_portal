@@ -50,7 +50,7 @@ class AcessoRapidoTest(TestCase):
         self.banner_acr = BannerAcessoRapido(
             titulo=u'Titulo Banner Acesso Rapido',
             data_publicacao=timezone.now(),
-            midia_image=midia_image,
+            arquivo=midia_image,
 
         )
 

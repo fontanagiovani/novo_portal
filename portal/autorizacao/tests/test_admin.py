@@ -474,18 +474,18 @@ class BannerARAdminIndexTest(TestCase):
         self.client.login(username='admin', password='admin')
 
         for i in range(0, 2):  # loop 2x
-            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, midia_image=self.midia_image)
+            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
             # o usuario deve conseguir visualizar estes banners
             banner.sites.add(self.site)
             banner.sites.add(self.site2)
 
         for i in range(2, 6):  # loop 4x
-            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, midia_image=self.midia_image)
+            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
             # o usuario deve conseguir visualizar estes banners
             banner.sites.add(self.site2)
 
         for i in range(7, 12):  # loop 5x
-            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, midia_image=self.midia_image)
+            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
             # o usuario nao deve conseguir visualizar estes banners pois nao tem permissao para o self.site3
             banner.sites.add(self.site2)
             banner.sites.add(self.site3)
@@ -530,16 +530,16 @@ class MenuAdminIndexTest(TestCase):
 
         self.client.login(username='admin', password='admin')
 
-        for i in range(0, 2):  # loop 2x
-            mommy.make('Menu', titulo=u'titulomenu%d' % i, slug=u'slug%d' % i, site=self.site)
+        # for i in range(0, 2):  # loop 2x
+        mommy.make('Menu', _quantity=2, titulo=u'titulomenu', site=self.site)
             # o usuario deve conseguir visualizar estas noticias
 
-        for i in range(2, 6):  # loop 4x
-            mommy.make('Menu', titulo=u'titulomenu%d' % i, slug=u'slug%d' % i, site=self.site2)
+        # for i in range(2, 6):  # loop 4x
+        mommy.make('Menu', _quantity=4, titulo=u'titulomenu', site=self.site2)
             # o usuario deve conseguir visualizar estas noticias
 
-        for i in range(7, 12):  # loop 5x
-            mommy.make('Menu', titulo=u'titulomenu%d' % i, slug=u'slug%d' % i, site=self.site3)
+        # for i in range(7, 12):  # loop 5x
+        mommy.make('Menu', _quantity=5, titulo=u'titulomenu', site=self.site3)
             # o usuario nao deve conseguir visualizar estas noticias pois nao tem permissao para o self.site3
 
     def tearDown(self):
@@ -824,7 +824,7 @@ class ChangeViewSitesTest(TestCase):
         """
         Na admin add view deve estar disponivel somente os sites que o usuario tem permissao
         """
-        self.obj = mommy.make('Menu', titulo=u'titulomenu', slug=u'slug', site=self.site)
+        self.obj = mommy.make('Menu', titulo=u'titulomenu', site=self.site)
 
         response = self.client.get(reverse('admin:core_menu_change', args=(self.obj.id,)))
 
@@ -867,7 +867,7 @@ class ChangeViewSitesTest(TestCase):
             file_obj = File(img, name=img_name)
             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
 
-        self.obj = mommy.make('BannerAcessoRapido', titulo=u'titulobanneracessorapido', midia_image=self.midia_image)
+        self.obj = mommy.make('BannerAcessoRapido', titulo=u'titulobanneracessorapido', arquivo=self.midia_image)
         self.obj.sites.add(self.site)
 
         response = self.client.get(reverse('admin:banner_banneracessorapido_change', args=(self.obj.id,)))
