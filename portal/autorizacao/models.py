@@ -10,7 +10,7 @@ class Permissao(models.Model):
         verbose_name_plural = u'Permissões de Publicação'
 
     sites = models.ManyToManyField(Site, verbose_name=u'Sites Permitidos')
-    user = models.OneToOneField(User, verbose_name=u'Usuario')
+    user = models.OneToOneField(User, verbose_name=u'Usuário')
 
     def __unicode__(self):
         return self.sites.all()

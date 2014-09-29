@@ -9,16 +9,16 @@ from portal.conteudo.managers import ConteudoPublicadoManager
 
 
 class Conteudo(models.Model):
-    campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Campus de origem')
+    campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Origem')
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
-    slug = models.SlugField(max_length=250, verbose_name=u'Slug',
+    slug = models.SlugField(max_length=250, verbose_name=u'Identificador',
                             help_text=u'Texto que será utilizado para montar a URL deste item')
     texto = models.TextField()
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     galerias = models.ManyToManyField('Galeria', verbose_name=u'Galerias Relacionadas', blank=True)
     videos = models.ManyToManyField('Video', verbose_name=u'Videos Relacionadas', blank=True)
     tags = TaggableManager(blank=True)
-    sites = models.ManyToManyField(Site, verbose_name=u'Sites para publicação')
+    sites = models.ManyToManyField(Site, verbose_name=u'Site(s)')
     publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
 
     objects = models.Manager()

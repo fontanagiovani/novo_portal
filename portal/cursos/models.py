@@ -59,7 +59,7 @@ class Curso(models.Model):
     nome = models.CharField(max_length=100, verbose_name=u'Nome do Curso',
                             help_text=u'Ex.: Licenciatura em Matemática Noturno')
     formacao = models.ForeignKey('Formacao', verbose_name=u'Tipo de Formação')
-    campus = models.ForeignKey('core.Campus', verbose_name=u'Campus')
+    campus = models.ForeignKey('core.Campus', verbose_name=u'Câmpus')
     turno = models.CharField(max_length=3, choices=TURNO, verbose_name=u'Turno do Curso')
     descricao = models.TextField(verbose_name=u'Descrição')
     email = models.EmailField(verbose_name=u'email', null=True, blank=True)

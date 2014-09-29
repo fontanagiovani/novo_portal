@@ -7,9 +7,9 @@ from filer.fields.image import FilerImageField
 
 class Campus(MPTTModel):
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Nivel 1')
-    sigla = models.CharField(max_length=3, verbose_name=u'Sigla do Campus')
-    nome = models.CharField(max_length=50, verbose_name=u'Nome do Campus')
-    slug = models.SlugField(max_length=100, blank=True, unique=True)
+    sigla = models.CharField(max_length=3, verbose_name=u'Sigla do Câmpus')
+    nome = models.CharField(max_length=50, verbose_name=u'Nome do Câmpus')
+    slug = models.SlugField(max_length=100, blank=True, unique=True, verbose_name=u'Identificador')
     site = models.OneToOneField(Site, verbose_name='Link de origem', default=None, null=True)
 
     class Meta:
@@ -24,7 +24,7 @@ class Menu(MPTTModel):
     site = models.ForeignKey(Site)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name=u'Menu pai')
     titulo = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, blank=True, unique=True)
+    slug = models.SlugField(max_length=100, blank=True, unique=True, verbose_name=u'Identificador')
     url = models.CharField(max_length=250, blank=True,)
     ordem = models.PositiveIntegerField()
 
@@ -44,27 +44,25 @@ class Menu(MPTTModel):
 
 
 class TipoSelecao(MPTTModel):
-    class Meta:
-        ordering = ('titulo',)
-
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Tipo pai')
     titulo = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, verbose_name=u'Identificador')
+
+    class Meta:
+        ordering = ('titulo',)
+        verbose_name = u'Tipo de seleção'
+        verbose_name_plural = u'Tipos de seleção'
 
     def __unicode__(self):
         return self.titulo
 
 
 class Selecao(models.Model):
-
     STATUS = (
         ('ABT', 'Aberto'),
         ('AND', 'Em Andamento'),
         ('FNZ', 'Finalizado')
     )
-
-    class Meta:
-        ordering = ('titulo', 'status', 'data_abertura_edital')
 
     tipo = TreeForeignKey('TipoSelecao')
     titulo = models.CharField(max_length=100)
@@ -75,13 +73,18 @@ class Selecao(models.Model):
     data_encerramento_inscricoes = models.DateTimeField(verbose_name=u'Data de Fechamento das Incrições')
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
 
+    class Meta:
+        ordering = ('titulo', 'status', 'data_abertura_edital')
+        verbose_name = u'Seleção'
+        verbose_name_plural = u'Seleções'
+
     def __unicode__(self):
         return self.titulo
 
 
 class SiteDetalhe(models.Model):
     site = models.OneToOneField(Site)
-    destino = models.ForeignKey('Destino', help_text=u'Template da página inicial')
+    destino = models.ForeignKey('Destino', help_text=u'Destino da página inicial')
     logo = FilerImageField()
     social = models.TextField(null=True, blank=True)
     links_uteis = models.TextField(null=True, blank=True)
