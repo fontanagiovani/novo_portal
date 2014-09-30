@@ -84,7 +84,7 @@
         <div class="row">
             <div class="medium-12 columns">
                 {% if licitacao.anexolicitacao_set.all %}
-                    <h2 class="fundo-vermelho no-padding text-center">Anexos</h2>
+                    <h2 class="fundo-vermelho text-center">Anexos</h2>
                     {% for arq in licitacao.anexolicitacao_set.all %}
                         <div class="row padding-bottom">
                             <a href="{{ arq.arquivo.url }}" target="_blank"><i class="fi-download texto-tamanho-medio alinhamento-vertical">
