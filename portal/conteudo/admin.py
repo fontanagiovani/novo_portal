@@ -9,8 +9,7 @@ from portal.core.models import Campus
 from portal.core.admin import SitesListFilter, EstaPublicadoListFilter
 from portal.conteudo.models import Noticia, Pagina, Evento, Video, Galeria, ImagemGaleria, Anexo, Licitacao, \
     AnexoLicitacao
-from portal.conteudo.forms import NoticiaForm, EventoForm, PaginaForm, VideoForm, GaleriaForm, LicitacaoForm, \
-    AnexoFormset
+from portal.conteudo.forms import ConteudoForm, LicitacaoForm, AnexoFormset, NoticiaForm
 
 
 class AnexoInLine(admin.TabularInline):
@@ -127,7 +126,7 @@ class PaginaAdmin(ConteudoAdmin):
         }),
     )
 
-    form = PaginaForm
+    form = ConteudoForm
 
     inlines = (AnexoInLine, )
     filter_horizontal = ('galerias', 'videos')
@@ -174,7 +173,7 @@ class EventoAdmin(ConteudoAdmin):
     inlines = (AnexoInLine, )
     filter_horizontal = ('galerias', 'videos')
 
-    form = EventoForm
+    form = ConteudoForm
 
 admin.site.register(Evento, EventoAdmin)
 
@@ -213,7 +212,7 @@ class VideoAdmin(ConteudoAdmin):
     inlines = (AnexoInLine, )
     filter_horizontal = ('galerias', 'videos')
 
-    form = VideoForm
+    form = ConteudoForm
 
 admin.site.register(Video, VideoAdmin)
 
@@ -255,7 +254,7 @@ class GaleriaAdmin(ConteudoAdmin):
     inlines = (ImagemGaleriaInline, )
     filter_horizontal = ('galerias', 'videos')
 
-    form = GaleriaForm
+    form = ConteudoForm
 
 admin.site.register(Galeria, GaleriaAdmin)
 
