@@ -47,7 +47,7 @@ class ConteudoAdmin(SummernoteModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "campus_origem":
-            kwargs["queryset"] = Campus.objects.filter(sitedetalhe__in=request.user.permissao.sites.all()).distinct()
+            kwargs["queryset"] = Campus.objects.filter(sitedetalhe__site=request.user.permissao.sites.all()).distinct()
         return super(ConteudoAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):

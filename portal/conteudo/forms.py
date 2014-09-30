@@ -3,6 +3,7 @@ from django import forms
 from django.forms import ModelForm
 from django.forms.models import BaseInlineFormSet
 
+from portal.core.models import Campus
 from portal.conteudo.models import Conteudo
 from portal.conteudo.models import Licitacao
 
@@ -13,6 +14,12 @@ class ConteudoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(ConteudoForm, self).__init__(*args, **kwargs)
+
+        if self.request.user.permissao.sites.all().count() == 1:
+            self.initial['sites'] = self.request.user.permissao.sites.all()
+
+        if Campus.objects.filter(sitedetalhe__site=self.request.user.permissao.sites.all()).distinct().count() == 1:
+            self.initial['campus_origem'] = self.request.user.permissao.sites.first().sitedetalhe.campus
 
     def clean_sites(self):
         sites_marcados = self.cleaned_data['sites']
@@ -46,6 +53,9 @@ class LicitacaoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(LicitacaoForm, self).__init__(*args, **kwargs)
+
+        if self.request.user.permissao.sites.all().count() == 1:
+            self.initial['sites'] = self.request.user.permissao.sites.all()
 
     def clean_sites(self):
         sites_marcados = self.cleaned_data['sites']
