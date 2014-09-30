@@ -15,10 +15,10 @@
 /.coverage
 /.env
 /.idea
-/media
+#/media
 /staticfiles
 /logs
 !/logs/.dummy
-/whoosh
+#/whoosh
 .floo
 .flooignore
