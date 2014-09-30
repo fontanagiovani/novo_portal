@@ -5,8 +5,6 @@ from filer.fields.image import FilerImageField
 
 
 class Campus(models.Model):
-    site = models.ForeignKey('sites.Site', verbose_name=u'Origem', default=None, null=True)
-    sigla = models.CharField(max_length=3, verbose_name=u'Sigla do Câmpus')
     nome = models.CharField(max_length=50, verbose_name=u'Nome do Câmpus')
 
     class Meta:
@@ -80,6 +78,7 @@ class Selecao(models.Model):
 
 class SiteDetalhe(models.Model):
     site = models.OneToOneField('sites.Site')
+    campus = models.ForeignKey('Campus', help_text=u'Câmpus ou local que este site está relacionado')
     destino = models.ForeignKey('Destino', help_text=u'Destino da página inicial')
     logo = FilerImageField()
     social = models.TextField(null=True, blank=True)

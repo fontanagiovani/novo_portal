@@ -35,7 +35,8 @@
         {% endif %}
         <h1 class="justificado" id="titulo">{{ pagina.titulo }}</h1>
 
-        <p class="padding-top-bottom">{{ pagina.data_publicacao }}</p>
+        <p class="padding-top-bottom texto-tamanho-pequeno">Publicado em: {{ pagina.campus_origem }} /
+                {{ pagina.data_publicacao }}</p>
     </div>
     <div class="row">
         {% if pagina.imagens %}

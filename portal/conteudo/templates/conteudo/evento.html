@@ -45,7 +45,8 @@
             </div>
         </div>
 
-        <p class="padding-top-bottom">Local: {{ evento.local }}</p>
+        <p class="padding-top-bottom texto-tamanho-pequeno">Publicado em: {{ evento.campus_origem }} /
+            Local do evento: {{ evento.local }}</p>
 
     </div>
     <div class="row">
@@ -55,11 +56,9 @@
             <div class="medium-12 columns no-padding">
         {% endif %}
 
-        {% autoescape off %}
-            <article>
-                {{ evento.texto|safe }}
-            </article>
-        {% endautoescape %}
+        <article>
+            {{ evento.texto|safe }}
+        </article>
 
         </div>
         {% if evento.imagens %}
