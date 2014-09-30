@@ -136,7 +136,7 @@ class EstaPublicadoListFilter(admin.SimpleListFilter):
 
 
 class CampusAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'sigla',)
+    list_display = ('nome', )
     search_fields = ('nome',)
 
 admin.site.register(Campus, CampusAdmin)
