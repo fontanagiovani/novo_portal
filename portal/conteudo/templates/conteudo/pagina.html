@@ -89,7 +89,7 @@
     <div class="row">
         <div class="medium-4 columns">
             {% if pagina.documentos %}
-                <h2 class="fundo-vermelho padding-top-bottom text-center">Arquivos relacionados</h2>
+                <h2 class="fundo-vermelho text-center">Arquivos relacionados</h2>
                 {% for documento in pagina.documentos %}
                     <div class="row padding-bottom">
                         <a href="{{ documento.arquivo.url }}" target="_blank"><i
@@ -103,7 +103,7 @@
 
         <div class="medium-4 columns">
             {% if pagina.galerias.all %}
-                <h2 class="fundo-vermelho padding-top-bottom text-center">Galerias relacionados</h2>
+                <h2 class="fundo-vermelho text-center">Galerias relacionados</h2>
                 {% for galeria in pagina.galerias.all %}
                     <div class="row padding-bottom">
                         <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
@@ -117,7 +117,7 @@
 
         <div class="medium-4 columns">
             {% if pagina.videos.all %}
-                <h2 class="fundo-vermelho padding-top-bottom text-center">Vídeos relacionados</h2>
+                <h2 class="fundo-vermelho text-center">Vídeos relacionados</h2>
                 {% for video in pagina.videos.all %}
                     <div class="row padding-bottom">
                         <a href="{{ video.get_absolute_url }}" target="_blank"><i
