@@ -144,7 +144,7 @@ class Licitacao(models.Model):
     sites = models.ManyToManyField('sites.Site', verbose_name=u'Sites para publicação')
     modalidade = models.CharField(max_length=1, choices=TIPO_MODALIDADE, verbose_name=u'Tipo de Modalidade')
     titulo = models.CharField(max_length=100, verbose_name=u'Título')
-    data_publicacao = models.DateField(verbose_name=u'Data de publicação')
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     data_abertura = models.DateField(verbose_name=u'Data de abertura')
     pregao_srp = models.BooleanField(verbose_name=u'É um pregão SRP?')
     validade_ata_srp = models.DateField(verbose_name=u'Validade ATA SRP', blank=True, null=True)
@@ -158,7 +158,11 @@ class Licitacao(models.Model):
     objeto = models.TextField(verbose_name=u'Objeto')
     alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
     email_contato = models.EmailField(verbose_name=u'Email para contato')
+    publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
     tags = TaggableManager(blank=True)
+
+    objects = models.Manager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Licitação'
@@ -166,6 +170,10 @@ class Licitacao(models.Model):
 
     def __unicode__(self):
         return self.titulo
+
+    @property
+    def esta_publicado(self):
+        return self.publicado and self.data_publicacao < timezone.now()
 
     @staticmethod
     def get_modalidades_existentes(site):

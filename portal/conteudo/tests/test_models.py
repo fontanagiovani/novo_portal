@@ -228,3 +228,41 @@ class ImagemGaleriaTest(TestCase):
 
     def tearDown(self):
         del_midia_filer(self.img_name)
+
+
+class LiciatacaoTest(TestCase):
+    def setUp(self):
+        self.obj = mommy.prepare('Licitacao', titulo=u'Título', publicado=True)
+
+    def test_criacao(self):
+        """
+        Noticia deve conter titulo, texto, data_publicacao
+        """
+        self.obj.save()
+        self.assertIsNotNone(self.obj.pk)
+
+    def test_unicode(self):
+        """
+        Noticia deve apresentar o titulo como unicode
+        """
+        self.assertEqual(u'Título', unicode(self.obj))
+
+    def test_esta_publicado(self):
+        """
+        Conteudo para estar publicado deve estar marcado como publicado e tambem possuir data de publicacao
+        posterior a data atual
+        """
+        self.obj.data_publicacao = timezone.now() - timezone.timedelta(days=1)
+        self.obj.publicado = True
+        self.assertTrue(self.obj.esta_publicado)
+
+        self.obj.publicado = False
+        self.assertFalse(self.obj.esta_publicado)
+
+        self.obj.data_publicacao = timezone.now() + timezone.timedelta(days=1)
+        self.obj.publicado = True
+        self.assertFalse(self.obj.esta_publicado)
+
+        self.obj.data_publicacao = timezone.now() - timezone.timedelta(days=1)
+        self.obj.publicado = False
+        self.assertFalse(self.obj.esta_publicado)

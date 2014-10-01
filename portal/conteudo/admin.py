@@ -270,13 +270,45 @@ class AnexoLicitacaoInLine(admin.TabularInline):
 
 
 class LicitacaoAdmin(SummernoteModelAdmin):
-    list_display = ('modalidade', 'titulo', 'data_publicacao')
+    list_display = ('modalidade', 'titulo', 'data_publicacao', 'get_publicacao')
     search_fields = ('modalidade', 'titulo', 'data_publicacao')
-    list_filter = (SitesListFilter, 'modalidade', )
+    list_filter = (SitesListFilter, EstaPublicadoListFilter, 'modalidade', )
     date_hierarchy = 'data_publicacao'
 
     inlines = [AnexoLicitacaoInLine, ]
     form = LicitacaoForm
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'sites',
+                'modalidade',
+                'titulo',
+                'data_abertura',
+                'pregao_srp',
+                'validade_ata_srp',
+                'possui_contrato',
+                ('vigencia_contrato_inicio', 'vigencia_contrato_fim'),
+                'encerrado',
+                'situacao',
+                'objeto',
+                'alteracoes',
+                'email_contato',
+                'tags',
+            )
+        }),
+        (u'Regras de publicação', {
+            'fields': (
+                'data_publicacao',
+                'publicado',
+            )
+        }),
+    )
+
+    def get_publicacao(self, obj):
+        return obj.esta_publicado
+    get_publicacao.short_description = u'Publicado'
+    get_publicacao.boolean = True
 
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(LicitacaoAdmin, self).get_form(request, obj, **kwargs)

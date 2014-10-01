@@ -39,7 +39,7 @@ def noticias_lista(request):
         site = Site.objects.get(domain=request.get_host())
         paginator = Paginator(Noticia.publicados.filter(sites__id__exact=site.id), 20)
     except Site.DoesNotExist, Noticia.DoesNotExist:
-            raise Http404
+        raise Http404
 
     page = request.GET.get('page')
     try:
@@ -60,6 +60,7 @@ def pagina_detalhe(request, slug):
         pagina = Pagina.publicados.get(slug=slug, sites__id__exact=site.id)
     except Site.DoesNotExist, Pagina.DoesNotExist:
         raise Http404
+
     return render(request, 'conteudo/pagina.html', {'pagina': pagina})
 
 
@@ -119,7 +120,7 @@ def video_detalhe(request, slug):
     try:
         video = Video.publicados.get(slug=slug)
 
-    except Site.DoesNotExist, Video.DoesNotExist:
+    except Video.DoesNotExist:
         raise Http404
 
     return render(request, 'conteudo/video.html', {'video': video})
@@ -164,7 +165,7 @@ def galeria_detalhe(request, slug):
 
 @login_required
 def galeria_detalhe_preview(request, slug):
-    galeria = get_object_or_404(Galeria, slug=slug, publicado=True)
+    galeria = get_object_or_404(Galeria, slug=slug)
 
     return render(request, 'conteudo/galeria.html', {'galeria': galeria})
 
@@ -221,32 +222,33 @@ def tags_lista(request, slug):
 def licitacao_detalhe(request, licitacao_id):
     try:
         site = Site.objects.get(domain=request.get_host())
-        licitacao = Licitacao.objects.get(id=licitacao_id, sites__id__exact=site.id)
+        licitacao = Licitacao.publicados.get(id=licitacao_id, sites__id__exact=site.id)
     except Site.DoesNotExist, Licitacao.DoesNotExist:
         raise Http404
 
     return render(request, 'conteudo/licitacao.html', {'licitacao': licitacao})
 
 
-def licitacoes(request, modalidade=None, ano=None):
+def licitacoes_lista(request, modalidade=None, ano=None):
     import datetime
+
     if modalidade:
         try:
             site = Site.objects.get(domain=request.get_host())
             modalidade = modalidade
             hoje = datetime.date.today()
             if ano:
-                paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade,
-                                                               data_publicacao__year=ano), 25)
+                paginator = Paginator(Licitacao.publicados.filter(sites__id__exact=site.id, modalidade=modalidade,
+                                                                  data_publicacao__year=ano), 25)
             else:
-                paginator = Paginator(Licitacao.objects.filter(sites__id__exact=site.id, modalidade=modalidade,
-                                                               data_publicacao__year=hoje.year), 25)
+                paginator = Paginator(Licitacao.publicados.filter(sites__id__exact=site.id, modalidade=modalidade,
+                                                                  data_publicacao__year=hoje.year), 25)
                 ano = str(hoje.year)
 
         except Site.DoesNotExist, Licitacao.DoesNotExist:
             raise Http404
 
-        anos = Licitacao.objects.filter().dates('data_publicacao', 'year', order='DESC')
+        anos = Licitacao.publicados.filter().datetimes('data_publicacao', 'year', order='DESC')
         page = request.GET.get('page')
         try:
             licitacoes = paginator.page(page)
@@ -257,8 +259,8 @@ def licitacoes(request, modalidade=None, ano=None):
             # If page is out of range (e.g. 9999), deliver last page of results.
             licitacoes = paginator.page(paginator.num_pages)
 
-        return render(request, 'conteudo/licitacoes.html', {'licitacoes': licitacoes, 'anos': anos, 'ano': ano,
-                                                            'modalidade': modalidade})
+        return render(request, 'conteudo/licitacoes_lista.html', {'licitacoes': licitacoes, 'anos': anos, 'ano': ano,
+                                                                  'modalidade': modalidade})
     else:
         site = Site.objects.get(domain=request.get_host())
         modalidades = Licitacao.get_modalidades_existentes(site)
