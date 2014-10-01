@@ -6,16 +6,37 @@ from portal.core.admin import SitesListFilter, EstaPublicadoListFilter
 from portal.banner.models import Banner
 from portal.banner.models import BannerAcessoRapido
 from portal.banner.forms import BannerForm
-from portal.banner.forms import BannerAcessoRapidoForm
 
 
 class BannerAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'arquivo')
+    list_display = ('titulo', 'data_publicacao', 'arquivo', 'get_publicacao')
     search_fields = ('titulo', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
-    list_filter = (SitesListFilter, )
+    list_filter = (SitesListFilter, EstaPublicadoListFilter)
 
     form = BannerForm
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'sites',
+                'titulo',
+                'url',
+                'arquivo',
+            )
+        }),
+        (u'Regras de publicação', {
+            'fields': (
+                'data_publicacao',
+                'publicado',
+            )
+        }),
+    )
+
+    def get_publicacao(self, obj):
+        return obj.esta_publicado
+    get_publicacao.short_description = u'Publicado'
+    get_publicacao.boolean = True
 
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(BannerAdmin, self).get_form(request, obj, **kwargs)
@@ -39,12 +60,34 @@ class BannerAdmin(admin.ModelAdmin):
 
 
 class BannerAcessoRapidoAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'data_publicacao', 'arquivo')
+    list_display = ('titulo', 'data_publicacao', 'arquivo', 'get_publicacao')
     search_fields = ('titulo', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
-    list_filter = (SitesListFilter, )
+    list_filter = (SitesListFilter, EstaPublicadoListFilter)
 
-    form = BannerAcessoRapidoForm
+    form = BannerForm
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'sites',
+                'titulo',
+                'url',
+                'arquivo',
+            )
+        }),
+        (u'Regras de publicação', {
+            'fields': (
+                'data_publicacao',
+                'publicado',
+            )
+        }),
+    )
+
+    def get_publicacao(self, obj):
+        return obj.esta_publicado
+    get_publicacao.short_description = u'Publicado'
+    get_publicacao.boolean = True
 
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(BannerAcessoRapidoAdmin, self).get_form(request, obj, **kwargs)
