@@ -248,7 +248,7 @@ def licitacoes_lista(request, modalidade=None, ano=None):
         except Site.DoesNotExist, Licitacao.DoesNotExist:
             raise Http404
 
-        anos = Licitacao.objects.filter().dates('data_publicacao', 'year', order='DESC')
+        anos = Licitacao.publicados.filter().datetimes('data_publicacao', 'year', order='DESC')
         page = request.GET.get('page')
         try:
             licitacoes = paginator.page(page)
