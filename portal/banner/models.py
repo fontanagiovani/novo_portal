@@ -3,6 +3,8 @@ from django.db import models
 from django.utils import timezone
 from filer.fields.image import FilerImageField
 
+from portal.conteudo.managers import PublicadoManager
+
 
 class Banner(models.Model):
     sites = models.ManyToManyField('sites.Site', verbose_name=u'Sites para publicação')
@@ -11,6 +13,9 @@ class Banner(models.Model):
     url = models.URLField(help_text=u'Insira http://', verbose_name=u'URL')
     arquivo = FilerImageField(verbose_name=u'Imagem', related_name='banners', default=None)
     publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
+
+    objects = models.Manager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Banner'
@@ -32,6 +37,9 @@ class BannerAcessoRapido(models.Model):
     url = models.URLField(help_text=u'Insira http://', verbose_name=u'URL')
     arquivo = FilerImageField(verbose_name=u'Imagem', related_name='banners_ar', default=None)
     publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
+
+    objects = models.Manager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Banner de acesso rápido'
