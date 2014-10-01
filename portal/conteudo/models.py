@@ -4,7 +4,7 @@ from django.utils import timezone
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
 from taggit_autosuggest.managers import TaggableManager
-from portal.conteudo.managers import ConteudoPublicadoManager
+from portal.conteudo.managers import PublicadoManager
 
 
 class Conteudo(models.Model):
@@ -22,7 +22,7 @@ class Conteudo(models.Model):
     publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
 
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         ordering = ('-data_publicacao', '-id')
@@ -60,7 +60,7 @@ class Noticia(Conteudo):
     prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',
                                            verbose_name=u'Prioridade de destaque')
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Notícia'
@@ -93,7 +93,7 @@ class Anexo(models.Model):
 
 class Pagina(Conteudo):
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Página'
@@ -116,7 +116,7 @@ class Evento(Conteudo):
     data_fim = models.DateTimeField(verbose_name=u'Data de término')
 
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Evento'
@@ -194,7 +194,7 @@ class Video(Conteudo):
     id_video_youtube = models.CharField(max_length=250, verbose_name=u'Id do Video')
 
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Vídeo'
@@ -219,7 +219,7 @@ class Video(Conteudo):
 
 class Galeria(Conteudo):
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Galeria'

@@ -35,8 +35,8 @@ def home(request):
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
 
-            banners = Banner.objects.filter(sites__id__exact=site.id)[:3]
-            acesso_rapido = BannerAcessoRapido.objects.filter(sites__id__exact=site.id)[:5]
+            banners = Banner.publicados.filter(sites__id__exact=site.id)[:4]
+            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)[:5]
             formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
             contexto = {
                 'noticias_destaque': noticias_detaque,
@@ -49,11 +49,7 @@ def home(request):
                 'formacao': formacao,
             }
         if site.sitedetalhe.destino.tipo == Destino.blog():
-            if not request.user.is_staff:
-                noticias = Noticia.publicados.all()[:10]
-            else:
-                noticias = Noticia.objects.all()[:10]
-
+            noticias = Noticia.publicados.all()[:10]
             contexto = {
                 'noticias': noticias,
             }
@@ -62,7 +58,7 @@ def home(request):
 
     except (Site.DoesNotExist, Noticia.DoesNotExist, Evento.DoesNotExist,
             Banner.DoesNotExist, BannerAcessoRapido.DoesNotExist, Video.DoesNotExist,
-            Galeria.DoesNotExist):
+            Galeria.DoesNotExist, Curso.DoesNotExist):
         raise Http404
 
     return render(request, site.sitedetalhe.destino.caminho, contexto)
