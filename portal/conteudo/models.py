@@ -158,7 +158,11 @@ class Licitacao(models.Model):
     objeto = models.TextField(verbose_name=u'Objeto')
     alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
     email_contato = models.EmailField(verbose_name=u'Email para contato')
+    publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
     tags = TaggableManager(blank=True)
+
+    objects = models.Manager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Licitação'
@@ -166,6 +170,10 @@ class Licitacao(models.Model):
 
     def __unicode__(self):
         return self.titulo
+
+    @property
+    def esta_publicado(self):
+        return self.publicado and self.data_publicacao < timezone.now()
 
     @staticmethod
     def get_modalidades_existentes(site):

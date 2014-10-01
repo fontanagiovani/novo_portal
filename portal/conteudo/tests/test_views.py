@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
@@ -10,10 +11,13 @@ from model_mommy import mommy
 class NoticiaDetalheTest(TestCase):
     def setUp(self):
         self.obj = mommy.make('Noticia', titulo='titulo_teste', texto=u'texto_teste',
-                              data_publicacao='2014-06-05T10:16:00-04:00',)
+                              data_publicacao='2014-06-05T10:16:00-04:00', )
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
         self.obj.sites.add(self.site)
         self.obj.tags.add('ifmt-teste')
+
+        self.obj_nao_publicado = mommy.make('Noticia', publicado=False)
+        self.obj_nao_publicado.sites.add(self.site)
 
         self.resp = self.client.get(reverse('conteudo:noticia_detalhe', kwargs={'slug': self.obj.slug}),
                                     SERVER_NAME='rtr.ifmt.dev')
@@ -38,6 +42,17 @@ class NoticiaDetalheTest(TestCase):
         self.assertContains(self.resp, u'texto_teste')
         self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
         self.assertContains(self.resp, 'ifmt-teste')
+
+    def test_noticia_nao_publicada(self):
+        """
+        Noticia nao publicada nao deve ser exibida ao usuario
+        """
+        try:
+            self.resp = self.client.get(
+                reverse('conteudo:noticia_detalhe', kwargs={'slug': self.obj_nao_publicado.slug}),
+                SERVER_NAME='rtr.ifmt.dev')
+        except ObjectDoesNotExist:
+            self.assertRaises(ObjectDoesNotExist)
 
 
 class NoticiaListaTest(TestCase):
@@ -97,6 +112,9 @@ class PaginaDetalheTest(TestCase):
         self.obj.sites.add(self.site)
         self.obj.tags.add('ifmt-teste')
 
+        self.obj_nao_publicado = mommy.make('Pagina', publicado=False)
+        self.obj_nao_publicado.sites.add(self.site)
+
         self.resp = self.client.get(reverse('conteudo:pagina_detalhe',
                                             kwargs={'slug': self.obj.slug}), SERVER_NAME='rtr.ifmt.dev')
 
@@ -121,6 +139,17 @@ class PaginaDetalheTest(TestCase):
         self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
         self.assertContains(self.resp, 'ifmt-teste')
 
+    def test_pagina_nao_publicada(self):
+        """
+        Pagina nao publicada nao deve ser exibida ao usuario
+        """
+        try:
+            self.resp2 = self.client.get(
+                reverse('conteudo:pagina_detalhe', kwargs={'slug': self.obj_nao_publicado.slug}),
+                SERVER_NAME='rtr.ifmt.dev')
+        except ObjectDoesNotExist:
+            self.assertRaises(ObjectDoesNotExist)
+
 
 class EventoDetalheTest(TestCase):
     def setUp(self):
@@ -133,6 +162,9 @@ class EventoDetalheTest(TestCase):
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         self.obj.sites.add(self.site)
         self.obj.tags.add('ifmt-teste')
+
+        self.obj_nao_publicado = mommy.make('Evento', publicado=False)
+        self.obj_nao_publicado.sites.add(self.site)
 
         self.resp = self.client.get(reverse('conteudo:evento_detalhe',
                                             kwargs={'slug': self.obj.slug}), SERVER_NAME='rtr.ifmt.dev')
@@ -157,6 +189,17 @@ class EventoDetalheTest(TestCase):
         self.assertContains(self.resp, u'texto_teste')
         self.assertContains(self.resp, u'Reitoria')
         self.assertContains(self.resp, 'ifmt-teste')
+
+    def test_evento_nao_publicada(self):
+        """
+        Evento nao publicado nao deve ser exibido ao usuario
+        """
+        try:
+            self.resp = self.client.get(
+                reverse('conteudo:evento_detalhe', kwargs={'slug': self.obj_nao_publicado.slug}),
+                SERVER_NAME='rtr.ifmt.dev')
+        except ObjectDoesNotExist:
+            self.assertRaises(ObjectDoesNotExist)
 
 
 class EventoListaTest(TestCase):
@@ -222,6 +265,8 @@ class VideoDetalheTest(TestCase):
         # os conteudos dos sites
         # self.video.sites.add(self.site)
 
+        self.obj_nao_publicado = mommy.make('Video', publicado=False)
+
         self.resp = self.client.get(reverse('conteudo:video_detalhe',
                                             kwargs={'slug': self.obj.slug}), SERVER_NAME=self.site.domain)
 
@@ -246,6 +291,17 @@ class VideoDetalheTest(TestCase):
         self.assertContains(self.resp, u'ID_teste')
         self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
         self.assertContains(self.resp, 'ifmt-teste')
+
+    def test_video_nao_publicada(self):
+        """
+        Video nao publicado nao deve ser exibido ao usuario
+        """
+        try:
+            self.resp = self.client.get(
+                reverse('conteudo:video_detalhe', kwargs={'slug': self.obj_nao_publicado.slug}),
+                SERVER_NAME='rtr.ifmt.dev')
+        except ObjectDoesNotExist:
+            self.assertRaises(ObjectDoesNotExist)
 
 
 class VideosListaTest(TestCase):
@@ -308,6 +364,8 @@ class GaleriaDetalheTest(TestCase):
         # os conteudos dos sites
         # self.galeria.sites.add(self.site)
 
+        self.obj_nao_publicado = mommy.make('Noticia', publicado=False)
+
         self.resp = self.client.get(reverse('conteudo:galeria_detalhe',
                                             kwargs={'slug': self.obj.slug}), SERVER_NAME='rtr.ifmt.dev')
 
@@ -331,6 +389,17 @@ class GaleriaDetalheTest(TestCase):
         self.assertContains(self.resp, u'texto_teste')
         self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
         self.assertContains(self.resp, 'ifmt-teste')
+
+    def test_galeria_nao_publicada(self):
+        """
+        Galeria nao publicada nao deve ser exibida ao usuario
+        """
+        try:
+            self.resp = self.client.get(
+                reverse('conteudo:galeria_detalhe', kwargs={'slug': self.obj_nao_publicado.slug}),
+                SERVER_NAME='rtr.ifmt.dev')
+        except ObjectDoesNotExist:
+            self.assertRaises(ObjectDoesNotExist)
 
 
 class GaleriaListaTest(TestCase):
@@ -419,3 +488,76 @@ class TagListaTest(TestCase):
         HTML de listagem deve conter o 20 (numero de paginacao) eventos (modelo base)
         """
         self.assertContains(self.resp, 'titulo_teste', 20)
+
+
+class LicitacaoListaTest(TestCase):
+    def setUp(self):
+        # modalidade 1 = Pregao
+        licitacoes_publicadas = mommy.make('Licitacao', _quantity=10, titulo='titulo_licitacao', modalidade=1)
+        licitacoes_nao_publicadas = mommy.make('Licitacao', _quantity=10, titulo='titulo_licitacao',
+                                               modalidade=1, publicado=False)
+        site = mommy.make('Site', domain='rtr.ifmt.dev')
+
+        for i in licitacoes_publicadas:
+            i.sites.add(site)
+
+        for i in licitacoes_nao_publicadas:
+            i.sites.add(site)
+
+        self.resp = self.client.get(reverse('conteudo:licitacoes_lista', kwargs={'modalidade': 1}),
+                                    SERVER_NAME='rtr.ifmt.dev')
+
+    def test_template(self):
+        """
+        Licitacao lista deve renderizar o template licitacoes_lista.html
+        """
+        self.assertTemplateUsed(self.resp, 'conteudo/licitacoes_lista.html')
+
+    def test_html(self):
+        """
+        HTML deve conter o titulo
+        """
+        self.assertContains(self.resp, 'titulo_licitacao', 10)
+
+
+class LicitacaoDetalheTest(TestCase):
+    def setUp(self):
+        self.obj = mommy.make('Licitacao', titulo='titulo_teste')
+        self.site = mommy.make('Site', domain='rtr.ifmt.dev')
+        self.obj.sites.add(self.site)
+        self.obj.tags.add('ifmt-teste')
+        self.licitacao_nao_publicada = mommy.make('Licitacao', titulo='titulo_nao_publicado', publicado=False)
+        self.licitacao_nao_publicada.sites.add(self.site)
+
+        self.resp = self.client.get(reverse('conteudo:licitacao_detalhe', kwargs={'licitacao_id': self.obj.id}),
+                                    SERVER_NAME='rtr.ifmt.dev')
+
+    def test_get(self):
+        """
+        GET /conteudo/noticia/<slug>/ deve retorno status code 200
+        """
+        self.assertEqual(200, self.resp.status_code)
+
+    def test_template(self):
+        """
+        Licitacao detalhe deve renderizar o template noticia.html
+        """
+        self.assertTemplateUsed(self.resp, 'conteudo/licitacao.html')
+
+    def test_html(self):
+        """
+        HTML deve conter o titulo, tags
+        """
+        self.assertContains(self.resp, 'titulo_teste')
+        self.assertContains(self.resp, 'ifmt-teste')
+
+    def test_licitacao_nao_publicada(self):
+        """
+        Licitacao nao publicada nao deve ser exibida ao usuario
+        """
+        try:
+            self.resp = self.client.get(
+                reverse('conteudo:licitacao_detalhe', kwargs={'licitacao_id': self.licitacao_nao_publicada.id}),
+                SERVER_NAME='rtr.ifmt.dev')
+        except ObjectDoesNotExist:
+            self.assertRaises(ObjectDoesNotExist)

@@ -9,6 +9,7 @@ from portal.conteudo.models import Evento
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Galeria
 from portal.conteudo.models import Video
+from portal.conteudo.models import Licitacao
 
 
 class ConteudoManagerTest(TestCase):
@@ -164,4 +165,29 @@ class GaleriaManagerTest(TestCase):
         de publicacao anterior a data atual
         """
         qtd_registros = Galeria.publicados.all().count()
+        self.assertEqual(qtd_registros, 3)
+
+
+class LicitacaoManagerTest(TestCase):
+    def setUp(self):
+        data_passada = timezone.now() - timezone.timedelta(days=1)
+        data_futura = timezone.now() + timezone.timedelta(days=1)
+        mommy.make('Licitacao', _quantity=2, titulo=u'Título',
+                   data_publicacao=data_passada, publicado=False)
+
+        mommy.make('Licitacao', _quantity=3, titulo=u'Título',
+                   data_publicacao=data_passada, publicado=True)
+
+        mommy.make('Licitacao', _quantity=4, titulo=u'Título',
+                   data_publicacao=data_futura, publicado=False)
+
+        mommy.make('Licitacao', _quantity=1, titulo=u'Título',
+                   data_publicacao=data_futura, publicado=True)
+
+    def test_publicados(self):
+        """
+        O manager publicados deve retornar somente os registros que estao marcados como publicados e com data
+        de publicacao anterior a data atual
+        """
+        qtd_registros = Licitacao.publicados.all().count()
         self.assertEqual(qtd_registros, 3)
