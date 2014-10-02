@@ -1,6 +1,7 @@
 #coding: utf-8
 from django.contrib import admin
 from django.contrib.sites.models import Site
+import reversion
 
 from portal.core.admin import SitesListFilter, EstaPublicadoListFilter
 from portal.banner.models import Banner
@@ -8,7 +9,7 @@ from portal.banner.models import BannerAcessoRapido
 from portal.banner.forms import BannerForm
 
 
-class BannerAdmin(admin.ModelAdmin):
+class BannerAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     list_display = ('titulo', 'data_publicacao', 'arquivo', 'get_publicacao')
     search_fields = ('titulo', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
@@ -59,7 +60,7 @@ class BannerAdmin(admin.ModelAdmin):
         return super(BannerAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 
-class BannerAcessoRapidoAdmin(admin.ModelAdmin):
+class BannerAcessoRapidoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     list_display = ('titulo', 'data_publicacao', 'arquivo', 'get_publicacao')
     search_fields = ('titulo', 'data_publicacao')
     date_hierarchy = 'data_publicacao'

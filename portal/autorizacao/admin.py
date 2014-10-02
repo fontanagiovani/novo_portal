@@ -2,6 +2,7 @@ from django.contrib import admin
 from portal.autorizacao.models import Permissao
 from django.contrib.auth.admin import User
 from django.contrib.auth.admin import UserAdmin
+import reversion
 
 
 class SiteInline(admin.StackedInline):
@@ -10,7 +11,7 @@ class SiteInline(admin.StackedInline):
     can_delete = False
 
 
-class PermissaoAdmin(UserAdmin):
+class PermissaoAdmin(reversion.VersionAdmin, UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'permissao')
     inlines = [SiteInline]
 

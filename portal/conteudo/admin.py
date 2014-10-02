@@ -4,6 +4,7 @@ from django.contrib.sites.models import Site
 from django.forms import TextInput
 from django.db.models import CharField
 from django_summernote.admin import SummernoteModelAdmin
+import reversion
 
 from portal.core.models import Campus
 from portal.core.admin import SitesListFilter, EstaPublicadoListFilter
@@ -23,7 +24,11 @@ class AnexoInLine(admin.TabularInline):
     }
 
 
-class ConteudoAdmin(SummernoteModelAdmin):
+class ConteudoAdmin(reversion.VersionAdmin, SummernoteModelAdmin):
+
+    inlines = (AnexoInLine,)
+    filter_horizontal = ('galerias', 'videos')
+
     def get_publicacao(self, obj):
         return obj.esta_publicado
     get_publicacao.short_description = u'Publicado'
@@ -89,9 +94,6 @@ class NoticiaAdmin(ConteudoAdmin):
     )
 
     form = NoticiaForm
-
-    inlines = (AnexoInLine,)
-    filter_horizontal = ('galerias', 'videos')
 
 admin.site.register(Noticia, NoticiaAdmin)
 
@@ -269,8 +271,8 @@ class AnexoLicitacaoInLine(admin.TabularInline):
     }
 
 
-class LicitacaoAdmin(SummernoteModelAdmin):
-    list_display = ('modalidade', 'titulo', 'data_publicacao', 'get_publicacao')
+class LicitacaoAdmin(reversion.VersionAdmin, SummernoteModelAdmin):
+    list_display = ('titulo', 'modalidade', 'data_publicacao', 'get_publicacao')
     search_fields = ('modalidade', 'titulo', 'data_publicacao')
     list_filter = (SitesListFilter, EstaPublicadoListFilter, 'modalidade', )
     date_hierarchy = 'data_publicacao'

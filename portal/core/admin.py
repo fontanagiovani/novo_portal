@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.utils import timezone
 from mptt.admin import MPTTModelAdmin
 from adminsortable.admin import SortableAdminMixin
+import reversion
 
 from portal.core.models import Menu
 from portal.core.models import SiteDetalhe
@@ -135,14 +136,14 @@ class EstaPublicadoListFilter(admin.SimpleListFilter):
             return queryset
 
 
-class CampusAdmin(admin.ModelAdmin):
+class CampusAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     list_display = ('nome', )
     search_fields = ('nome',)
 
 admin.site.register(Campus, CampusAdmin)
 
 
-class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
+class MenuAdmin(reversion.VersionAdmin, SortableAdminMixin, MPTTModelAdmin):
     """
     Para obter a renderizacao adequada a classe deve herdar de SortableAdminMixin e MPTTModelAdmin nesta ordem
     e o atributo change_list_template deve ser definido para sobrescrever os definidos pela classes
@@ -180,7 +181,7 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
 admin.site.register(Menu, MenuAdmin)
 
 
-class TipoSelecaoAdmin(admin.ModelAdmin):
+class TipoSelecaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     list_display = ('titulo', 'parent',)
     search_fields = ('titulo',)
     prepopulated_fields = {'slug': ('titulo',)}
@@ -188,7 +189,7 @@ class TipoSelecaoAdmin(admin.ModelAdmin):
 admin.site.register(TipoSelecao, TipoSelecaoAdmin)
 
 
-class SelecaoAdmin(admin.ModelAdmin):
+class SelecaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     list_display = ('titulo', 'tipo', 'status', 'data_abertura_edital', 'data_abertura_inscricoes',
                     'data_encerramento_inscricoes', )
     search_fields = ('titulo', 'tipo', 'status', 'data_abertura_edital', 'data_abertura_inscricoes',
@@ -207,7 +208,7 @@ class SiteIndexInline(admin.StackedInline):
     can_delete = False
 
 
-class SiteIndexAdmin(SiteAdmin):
+class SiteIndexAdmin(reversion.VersionAdmin, SiteAdmin):
 
     inlines = [SiteIndexInline]
 
@@ -215,7 +216,7 @@ admin.site.unregister(Site)
 admin.site.register(Site, SiteIndexAdmin)
 
 
-class DestinoAdmin(admin.ModelAdmin):
+class DestinoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     pass
 
 admin.site.register(Destino, DestinoAdmin)
