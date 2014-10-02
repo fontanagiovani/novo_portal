@@ -1,5 +1,6 @@
 # coding: utf-8
 from collections import OrderedDict
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import Site
 from django.shortcuts import render, redirect
 from django.http import HttpResponse  # httresponse para usar com json
@@ -115,6 +116,7 @@ def json_cursos(request, formacao_id, campus_id):
     return HttpResponse(json.dumps(dados), content_type="application/json")
 
 
+@login_required
 def admin_site_menu(request, site_id):
     try:
         site = Site.objects.get(id=site_id)

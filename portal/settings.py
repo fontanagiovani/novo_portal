@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     'haystack',
     'whoosh',
     'taggit_autosuggest',
+    'reversion',
 
     # Project apps
     'portal.core',

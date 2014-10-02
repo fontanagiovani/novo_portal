@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
+import reversion
+
 from portal.cursos.models import Curso
 from portal.cursos.models import Formacao
 from portal.cursos.models import GrupoCursos
 from portal.cursos.models import AnexoCurso
 
 
-class FormacaoAdmin(admin.ModelAdmin):
+class FormacaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     pass
 
 
@@ -23,11 +25,11 @@ class AnexoCursoInLine(admin.StackedInline):
     }
 
 
-class CursoAdmin(SummernoteModelAdmin):
+class CursoAdmin(reversion.VersionAdmin, SummernoteModelAdmin):
     inlines = (AnexoCursoInLine, )
 
 
-class GrupoCursosAdmin(SummernoteModelAdmin):
+class GrupoCursosAdmin(reversion.VersionAdmin, SummernoteModelAdmin):
     pass
 
 
