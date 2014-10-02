@@ -1,5 +1,6 @@
 {% extends 'core/lista.html' %}
 {% load thumbnail %}
+{% load i18n %}
 
 {% block breadcrumbs %}
     <li class="current"><a href="{% url 'conteudo:galerias_lista' %}">Galerias</a></li>
@@ -11,7 +12,7 @@
             <h1>GALERIAS</h1>
 
             <div class="row">
-                {% for galeria in galerias %}
+                {% for galeria in galerias.object_list %}
                     <div class="row padding-bottom-duplo">
                         <div class="row hover-cinza-claro">
                             <a href="{{ galeria.get_absolute_url }}">
@@ -38,25 +39,42 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 {% block paginacao %}
     {#Início da paginação#}
-    {% if galerias.paginator.num_pages > 1 %}
-        <div class="pagination-centered">
-            <ul class="pagination">
-                {% if galerias.has_previous %}
-                    <li class="arrow"><a href="?page={{ galerias.previous_page_number }}">&laquo;</a></li>
-                {% endif %}
+    <div class="pagination-centered">
+        <ul class="pagination" role="menubar" aria-label="Pagination" >
+                {% if galerias_obj.has_previous %}
+                    <li class="arrow unavailable" aria-disabled="true">
+                            <a href="?{{ galerias_obj.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo;
+                                {% trans "previous" %}
+                            </a>
+                    </li>
+                    {% endif %}
+                    {% for page in galerias_obj.pages %}
+                        {% if page %}
+                            {% ifequal page galerias_obj.number %}
+                                <span class="current page"><a href="">{{ page }}</a></span>
+                            {% else %}
+                                <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                            {% endifequal %}
+                        {% else %}
+                            <li class="unavailable" aria-disabled="true"><a href=""></a>&hellip;</li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if galerias_obj.has_next %}
+                        <li>
+                            <a href="?{{ galerias_obj.next_page_number.querystring }}" class="next">
+                            {% trans "next" %} &rsaquo;&rsaquo;
+                            </a>
+                        </li>
+                    {% endif %}
 
-                <li class="current"><a href="">Página {{ galerias.number }} de {{ galerias.paginator.num_pages }}</a>
-                </li>
+            {{ galerias.render }}
+        </ul>
+    </div>
 
-                {% if galerias.has_next %}
-                    <li class="arrow"><a href="?page={{ galerias.next_page_number }}">&raquo;</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    {% endif %}
     {#Fim da paginação#}
 {% endblock %}

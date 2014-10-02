@@ -1,5 +1,6 @@
 {% extends 'core/lista.html' %}
 {% load thumbnail %}
+{% load i18n %}
 
 {% block breadcrumbs %}
     <li class="current"><a href="{% url 'conteudo:eventos_lista' %}">Eventos</a></li>
@@ -11,7 +12,7 @@
             <h1>EVENTOS</h1>
 
             <div class="row">
-                {% for evento in eventos %}
+                {% for evento in eventos.object_list %}
                     <div class="row padding-bottom-duplo">
                         <div class="row hover-cinza-claro">
                             <a href="{{ evento.get_absolute_url }}">
@@ -22,7 +23,6 @@
                                             {{ evento.data_inicio|date:"Y" }}
                                         </p>
                                     </div>
-
                                     <div class="small-2 medium-1 columns no-padding">
                                         <p class="padding-top-bottom fundo-vermelho no-margin espacamento-medio text-center">
                                             {{ evento.data_fim|date:"d M" }}
@@ -46,19 +46,35 @@
 
 {% block paginacao %}
     {#Início da paginação#}
-    {% if eventos.paginator.num_pages > 1 %}
-        <div class="pagination-centered">
-            <ul class="pagination">
-                {% if eventos.has_previous %}
-                    <li class="arrow"><a href="?page={{ eventos.previous_page_number }}">&laquo;</a></li>
-                {% endif %}
-                <li class="current"><a href="">Página {{ eventos.number }} de {{ eventos.paginator.num_pages }}</a>
+    <div class="pagination-centered">
+        <ul class="pagination" role="menubar" aria-label="Pagination" >
+            {% if eventos_obj.has_previous %}
+                <li class="arrow unavailable" aria-disabled="true">
+                    <a href="?{{ eventos_obj.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo;
+                                {% trans "previous" %}
+                    </a>
                 </li>
-                {% if eventos.has_next %}
-                    <li class="arrow"><a href="?page={{ eventos.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+            {% for page in eventos_obj.pages %}
+                {% if page %}
+                    {% ifequal page eventos_obj.number %}
+                            <span class="current page"><a href="">{{ page }}</a></span>
+                    {% else %}
+                            <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                    {% endifequal %}
+                {% else %}
+                    <li class="unavailable" aria-disabled="true"><a href=""></a>&hellip;</li>
                 {% endif %}
-            </ul>
-        </div>
-    {% endif %}
+            {% endfor %}
+                    {% if eventos_obj.has_next %}
+                        <li>
+                            <a href="?{{ eventos_obj.next_page_number.querystring }}" class="next">
+                            {% trans "next" %} &rsaquo;&rsaquo;
+                            </a>
+                        </li>
+                {% endif %}
+            {{ eventos.render }}
+        </ul>
+    </div>
     {#Fim da paginação#}
 {% endblock %}

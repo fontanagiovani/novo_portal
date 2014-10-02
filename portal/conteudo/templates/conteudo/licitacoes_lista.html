@@ -1,5 +1,6 @@
 {% extends 'core/lista.html' %}
 {% load thumbnail %}
+{% load i18n %}
 
 {% block breadcrumbs %}
     <li><a href="{% url 'conteudo:licitacoes_modalidades' %}">Modalidades de Licitação</a></li>
@@ -23,7 +24,7 @@
             <div class="row padding-top-bottom">
                 {% endif %}
                 {% if licitacoes %}
-                    {% for licitacao in licitacoes %}
+                    {% for licitacao in licitacoes.object_list %}
                         <div class="row padding-bottom-duplo">
                             <div class="row hover-cinza-claro">
                                 <a href="{% url 'conteudo:licitacao_detalhe' licitacao.id %}">
@@ -37,7 +38,6 @@
                                                 {{ licitacao.data_publicacao|date:"d M" }}
                                             </p>
                                         </div>
-
                                         <div class="small-10 medium-11 columns">
                                             <div class="data-local">
                                                 {{ licitacao.get_campus_origem_display }}</div>
@@ -58,19 +58,35 @@
 
 {% block paginacao %}
     {#Início da paginação#}
-    {% if licitacoes.paginator.num_pages > 1 %}
-        <div class="pagination-centered">
-            <ul class="pagination">
-                {% if licitacoes.has_previous %}
-                    <li class="arrow"><a href="?page={{ licitacoes.previous_page_number }}">&laquo;</a></li>
-                {% endif %}
-                <li class="current"><a href="">Página {{ licitacoes.number }} de {{ licitacoes.paginator.num_pages }}</a>
+    <div class="pagination-centered">
+        <ul class="pagination" role="menubar" aria-label="Pagination" >
+            {% if licitacoes_obj.has_previous %}
+                <li class="arrow unavailable" aria-disabled="true">
+                    <a href="?{{ licitacoes_obj.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo;
+                                {% trans "previous" %}
+                    </a>
                 </li>
-                {% if licitacoes.has_next %}
-                    <li class="arrow"><a href="?page={{ licitacoes.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+            {% for page in licitacoes_obj.pages %}
+                {% if page %}
+                    {% ifequal page licitacoes_obj.number %}
+                            <span class="current page"><a href="">{{ page }}</a></span>
+                    {% else %}
+                            <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                    {% endifequal %}
+                {% else %}
+                    <li class="unavailable" aria-disabled="true"><a href=""></a>&hellip;</li>
                 {% endif %}
-            </ul>
-        </div>
-    {% endif %}
+            {% endfor %}
+                    {% if licitacoes_obj.has_next %}
+                        <li>
+                            <a href="?{{ licitacoes_obj.next_page_number.querystring }}" class="next">
+                            {% trans "next" %} &rsaquo;&rsaquo;
+                            </a>
+                        </li>
+                {% endif %}
+            {{ licitacoes.render }}
+        </ul>
+    </div>
     {#Fim da paginação#}
 {% endblock %}
