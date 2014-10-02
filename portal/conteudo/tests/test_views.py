@@ -79,7 +79,7 @@ class NoticiaListaTest(TestCase):
         """
         HTML deve conter o 20 titulos, que e a quantidade para paginacao
         """
-        self.assertContains(self.resp, 'titulo_teste', 20)
+        self.assertContains(self.resp, 'titulo_teste', 25)
 
 
 class PaginaDetalheTest(TestCase):
@@ -198,7 +198,7 @@ class EventoListaTest(TestCase):
         """
         HTML deve conter o 20 titulos, que e a quantidade para paginacao
         """
-        self.assertContains(self.resp, 'titulo_teste', 20)
+        self.assertContains(self.resp, 'titulo_teste', 25)
 
 
 class VideoDetalheTest(TestCase):
@@ -286,7 +286,7 @@ class VideosListaTest(TestCase):
         HTML deve conter o 40 titulos,(20 para titulo da noticia, 20 para o alt da imagem)
         que e a quantidade para paginacao
         """
-        self.assertContains(self.resp, 'titulo_teste', 40)
+        self.assertContains(self.resp, 'titulo_teste', 50)
 
 
 class GaleriaDetalheTest(TestCase):
@@ -370,7 +370,7 @@ class GaleriaListaTest(TestCase):
         """
         HTML deve conter o 20 titulos, que e a quantidade para paginacao
         """
-        self.assertContains(self.resp, 'titulo_teste', 20)
+        self.assertContains(self.resp, 'titulo_teste', 25)
 
 
 class TagListaTest(TestCase):
@@ -378,7 +378,7 @@ class TagListaTest(TestCase):
         self.eventos = mommy.make(
             'Evento',
             titulo='titulo_teste',
-            _quantity=21,
+            _quantity=26,
             campus_origem=mommy.make('Campus')
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
@@ -413,4 +413,4 @@ class TagListaTest(TestCase):
         """
         HTML de listagem deve conter o 20 (numero de paginacao) eventos (modelo base)
         """
-        self.assertContains(self.resp, 'titulo_teste', 20)
+        self.assertContains(self.resp, 'titulo_teste', 25)

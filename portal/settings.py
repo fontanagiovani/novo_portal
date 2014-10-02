@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     'haystack',
     'whoosh',
     'taggit_autosuggest',
+    'pure_pagination',
 
     # Project apps
     'portal.core',
@@ -181,6 +182,11 @@ THUMBNAIL_PROCESSORS = (
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
 )
+
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 10,
+    'MARGIN_PAGES_DISPLAYED': 2,
+}
 
 SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',

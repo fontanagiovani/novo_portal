@@ -16,13 +16,11 @@
                                 <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}"
                                      alt="{{ noticia.titulo }}"/>
                             {% endif %}
-
                             <div class="orbit-caption">
                                 <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                     {{ noticia.data_publicacao|date:"d M" }}
                                     {#                                    {{ noticia.data_publicacao|date:"Y" }}#}
                                 </div>
-
                                 <div class="small-10 columns">
                                     <div class="data-local branco negrito texto-tamanho-pequeno">
                                         {{ noticia.get_campus_origem_display }}
@@ -66,7 +64,6 @@
                         </div>
                     </a>
                 </div>
-
             {% endfor %}
             <div class="row collapse padding-bottom">
                 <a href="">
@@ -129,7 +126,7 @@
                   action="{% url 'guiadecursoportal' %}">{% csrf_token %}
                 <div class="row collapse padding-bottom">
                     <div class="medium-12 columns">
-                        <label>Selecione uma tipo de formação
+                        <label>Selecione um tipo de formação
                             <select id="formacao" name="formacao">
                                 <option value="0">--------</option>
                                 {% for f in formacao %}
@@ -154,7 +151,6 @@
                         <input type="submit" class="button small expand no-margin" value="Buscar Cursos">
                     </div>
                 </div>
-
             </form>
         </div>
         {#Fim da div eventos e guia de curso#}
@@ -253,13 +249,11 @@
                                             src="{% thumbnail galeria.primeira_imagem 640x470 crop quality=80 %}"
                                             alt="{{ galeria.titulo }}"/>
                                 {% endif %}
-
                                 <div class="orbit-caption">
                                     <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                         {{ galeria.data_publicacao|date:"d M" }}
-                                        {#                                        {{ galeria.data_publicacao|date:"Y" }}#}
+                                                                                {{ galeria.data_publicacao|date:"Y" }}
                                     </div>
-
                                     <div class="small-10 columns">
                                         <div class="data-local branco negrito texto-tamanho-pequeno">
                                             {{ galeria.get_campus_origem_display }}
@@ -295,7 +289,6 @@
                         <iframe src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
                     </div>
                 </div>
-
                 <div class="row">
                     <a href="{{ video.get_absolute_url }}">
                         <div class="data-local texto-tamanho-xsmall">{{ video.data_publicacao|date:"d M" }}
@@ -317,7 +310,7 @@
     <script>
         $(document).ready(function () {
             $("#formacao").change(function () {
-                {#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
+{#                            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
                 $.ajax({
                     url: '/json_campi/' + $(this).val() + '/',
                     type: 'POST',
