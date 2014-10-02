@@ -16,16 +16,7 @@
                         <div class="row hover-cinza-claro">
                             <a href="{{ noticia.get_absolute_url }}">
                                 <div class="row">
-
-                                    <div class="small-2 medium-1 columns no-padding">
-                                        {% if noticia.primeira_imagem %}
-                                            <img
-                                                    src="{% thumbnail noticia.primeira_imagem 200x200 crop quality=80 %}"
-                                                    alt="{{ noticia.titulo }}">
-                                        {% endif %}
-                                    </div>
-
-                                    <div class="small-10 medium-11 columns">
+                                    <div class="small-12 columns borda-esquerda">
                                         <div class="data-local texto-tamanho-xsmall">{{ noticia.data_publicacao|date:"d M" }}
                                             - {{ noticia.campus_origem.nome }}</div>
                                         <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
