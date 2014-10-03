@@ -93,10 +93,10 @@ class SiteDetalhe(models.Model):
 class Destino(models.Model):
     TIPO = (
         ('PORTAL', u'PORTAL'),
-        ('CAMPUS', u'CMPUS'),
-        ('BLOG', u'Blog'),
-        ('PAGINA', u'Página individual'),
-        ('REDIRECT', u'Redirect'),
+        ('PORTAL_SECUNDARIO', u'PORTAL SECUNDÁRIO'),
+        ('BLOG', u'BLOG'),
+        ('PAGINA', u'PÁGINA INDIVIDUAL'),
+        ('REDIRECT', u'REDIRECIONAMENTO'),
     )
 
     tipo = models.CharField(max_length=100, choices=TIPO)
@@ -112,7 +112,7 @@ class Destino(models.Model):
         return Destino.TIPO[0][0]
 
     @staticmethod
-    def campus():
+    def portal_secundario():
         return Destino.TIPO[1][0]
 
     @staticmethod
