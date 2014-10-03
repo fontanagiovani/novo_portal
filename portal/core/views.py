@@ -49,6 +49,30 @@ def home(request):
                 'galerias': galerias,
                 'formacao': formacao,
             }
+
+        if site.sitedetalhe.destino.tipo == Destino.portal_secundario():
+            noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
+                                      key=lambda o: o.prioridade_destaque)
+            mais_noticias = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
+                id__in=[obj.id for obj in noticias_detaque])[:6]
+            eventos = Evento.publicados.filter(sites__id__exact=site.id)[:3]
+            videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
+            galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
+
+            banners = Banner.publicados.filter(sites__id__exact=site.id)[:4]
+            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)[:5]
+            formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
+            contexto = {
+                'noticias_destaque': noticias_detaque,
+                'mais_noticias': mais_noticias,
+                'eventos': eventos,
+                'banners': banners,
+                'acesso_rapido': acesso_rapido,
+                'videos': videos,
+                'galerias': galerias,
+                'formacao': formacao,
+            }
+
         if site.sitedetalhe.destino.tipo == Destino.blog():
             noticias = Noticia.publicados.all()[:10]
             contexto = {
