@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
+from django.db.models.signals import post_save
+from django.contrib.auth.models import User
+from filer.models import Folder
 from filer.fields.image import FilerImageField
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 class Campus(models.Model):
@@ -126,3 +129,15 @@ class Destino(models.Model):
     @staticmethod
     def redirect():
         return Destino.TIPO[4][0]
+
+
+# cria um diretorio no filer para cada novo usuario
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        diretorio = Folder(
+            owner=instance,
+            name=instance.username,
+        )
+        diretorio.save()
+
+post_save.connect(create_user_profile, sender=User)
