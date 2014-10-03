@@ -80,7 +80,7 @@ class Noticia(Conteudo):
 
 class Anexo(models.Model):
     descricao = models.CharField(max_length=250, verbose_name=u'Descrição')
-    arquivo = FilerFileField(related_name='anexos_noticia')
+    arquivo = FilerFileField(related_name='anexos_conteudo')
     conteudo = models.ForeignKey('Conteudo', verbose_name=u'conteudo')
 
     class Meta:
@@ -191,8 +191,8 @@ class AnexoLicitacao(models.Model):
     licitacao = models.ForeignKey('Licitacao', verbose_name=u'Licitação')
 
     class Meta:
-        verbose_name = u'Anexo'
-        verbose_name_plural = u'Anexos'
+        verbose_name = u'Anexo da licitação'
+        verbose_name_plural = u'Anexos da licitação'
 
     def __unicode__(self):
         return self.descricao
@@ -259,8 +259,8 @@ class ImagemGaleria(models.Model):
     galeria = models.ForeignKey('Galeria', verbose_name=u'Galeria')
 
     class Meta:
-        verbose_name = u'Anexo de página'
-        verbose_name_plural = u'Anexos de página'
+        verbose_name = u'Anexo de galeria'
+        verbose_name_plural = u'Anexos de galeria'
 
     def __unicode__(self):
         return self.descricao
