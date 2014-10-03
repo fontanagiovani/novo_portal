@@ -133,7 +133,7 @@ class Destino(models.Model):
 
 # cria um diretorio no filer para cada novo usuario
 def create_user_profile(sender, instance, created, **kwargs):
-    if created:
+    if created and not instance.is_superuser:
         diretorio = Folder(
             owner=instance,
             name=instance.username,
