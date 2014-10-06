@@ -48,7 +48,9 @@
         <ul class="pagination" role="menubar" aria-label="Pagination">
             {% if galerias.has_previous %}
                 <li class="arrow" aria-disabled="true">
-                    <a href="?{{ galerias.previous_page_number.querystring }}">&laquo; Anterior</a>
+                    <a href="?{{ galerias.previous_page_number.querystring }}">
+                        <i class="fi-rewind"></i>
+                    </a>
                 </li>
             {% endif %}
             {% for page in galerias.pages %}
@@ -64,7 +66,9 @@
             {% endfor %}
             {% if galerias.has_next %}
                 <li class="arrow">
-                    <a href="?{{ galerias.next_page_number.querystring }}" class="arrow">Próxima &raquo;</a>
+                    <a href="?{{ galerias.next_page_number.querystring }}" class="arrow">
+                        <i class="fi-fast-forward"></i>
+                    </a>
                 </li>
             {% endif %}
         </ul>

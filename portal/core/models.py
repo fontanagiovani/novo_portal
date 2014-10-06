@@ -100,6 +100,7 @@ class Destino(models.Model):
         ('BLOG', u'BLOG'),
         ('PAGINA', u'PÁGINA INDIVIDUAL'),
         ('REDIRECT', u'REDIRECIONAMENTO'),
+        ('BLOG_SLIDER', u'BLOG_SLIDER'),
     )
 
     tipo = models.CharField(max_length=100, choices=TIPO)
@@ -129,6 +130,10 @@ class Destino(models.Model):
     @staticmethod
     def redirect():
         return Destino.TIPO[4][0]
+
+    @staticmethod
+    def blog_slider():
+        return Destino.TIPO[5][0]
 
 
 # cria um diretorio no filer para cada novo usuario

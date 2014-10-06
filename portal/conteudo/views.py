@@ -235,7 +235,7 @@ def licitacoes_lista(request, modalidade=None, ano=None):
             modalidade = modalidade
 
             if not ano:
-                ano = timezone.now().year
+                ano = str(timezone.now().year)
 
             objects = Licitacao.publicados.filter(sites__id__exact=site.id, modalidade=modalidade,
                                                   data_publicacao__year=ano)
