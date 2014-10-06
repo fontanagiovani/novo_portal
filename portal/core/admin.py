@@ -136,6 +136,47 @@ class EstaPublicadoListFilter(admin.SimpleListFilter):
             return queryset
 
 
+class ContemInativoListFilter(admin.SimpleListFilter):
+    # USAGE
+    # list_filter = (CategoryListFilter,)
+
+    # Human-readable title which will be displayed in the
+    # right admin sidebar just above the filter options.
+    title = 'Inativo'
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = 'domain__contains'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar.
+        """
+        list_tuple = list()
+        list_tuple.append(('inativo', u'Inativos'))
+        # list_tuple.append((0, u'Não'))
+        # for site in request.user.permissao.sites.all():
+        #     list_tuple.append((site.id, site.domain))
+        return list_tuple
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        # Compare the requested value (either '80s' or 'other')
+        # to decide how to filter the queryset.
+        if self.value():
+            if self.value():
+                return queryset.filter(domain__contains='inativo')
+        else:
+            return queryset
+
+
 class CampusAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     list_display = ('nome', )
     search_fields = ('nome',)
@@ -209,7 +250,7 @@ class SiteIndexInline(admin.StackedInline):
 
 
 class SiteIndexAdmin(reversion.VersionAdmin, SiteAdmin):
-
+    list_filter = (ContemInativoListFilter, )
     inlines = [SiteIndexInline]
 
 admin.site.unregister(Site)
