@@ -35,33 +35,28 @@
 {% block paginacao %}
     {#Início da paginação#}
     <div class="pagination-centered">
-        <ul class="pagination" role="menubar" aria-label="Pagination" >
-            {% if noticias_obj.has_previous %}
-                <li class="arrow unavailable" aria-disabled="true">
-                    <a href="?{{ noticias_obj.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo;
-                                {% trans "previous" %}
-                    </a>
+        <ul class="pagination" role="menubar" aria-label="Pagination">
+            {% if noticias.has_previous %}
+                <li class="arrow" aria-disabled="true">
+                    <a href="?{{ noticias.previous_page_number.querystring }}">&laquo; Anterior</a>
                 </li>
             {% endif %}
-            {% for page in noticias_obj.pages %}
+            {% for page in noticias.pages %}
                 {% if page %}
-                    {% ifequal page noticias_obj.number %}
-                            <span class="current page"><a href="">{{ page }}</a></span>
+                    {% ifequal page noticias.number %}
+                        <li class="current"><a href="">{{ page }}</a></li>
                     {% else %}
-                            <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                        <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
                     {% endifequal %}
                 {% else %}
-                    <li class="unavailable" aria-disabled="true"><a href=""></a>&hellip;</li>
+                    <li class="unavailable" aria-disabled="true"><a href="">&hellip;</a></li>
                 {% endif %}
             {% endfor %}
-                {% if noticias_obj.has_next %}
-                    <li>
-                        <a href="?{{ noticias_obj.next_page_number.querystring }}" class="next">
-                            {% trans "next" %} &rsaquo;&rsaquo;
-                        </a>
-                    </li>
-                {% endif %}
-            {{ noticias.render }}
+            {% if noticias.has_next %}
+                <li class="arrow">
+                    <a href="?{{ noticias.next_page_number.querystring }}" class="arrow">Próxima &raquo;</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
     {#Fim da paginação#}

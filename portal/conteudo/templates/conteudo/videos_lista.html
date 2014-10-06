@@ -39,33 +39,28 @@
 {% block paginacao %}
     {#Início da paginação#}
     <div class="pagination-centered">
-        <ul class="pagination" role="menubar" aria-label="Pagination" >
-            {% if videos_obj.has_previous %}
-                <li class="arrow unavailable" aria-disabled="true">
-                    <a href="?{{ videos_obj.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo;
-                                {% trans "previous" %}
-                    </a>
+        <ul class="pagination" role="menubar" aria-label="Pagination">
+            {% if videos.has_previous %}
+                <li class="arrow" aria-disabled="true">
+                    <a href="?{{ videos.previous_page_number.querystring }}">&laquo; Anterior</a>
                 </li>
             {% endif %}
-            {% for page in videos_obj.pages %}
+            {% for page in videos.pages %}
                 {% if page %}
-                    {% ifequal page videos_obj.number %}
-                            <span class="current page"><a href="">{{ page }}</a></span>
+                    {% ifequal page videos.number %}
+                        <li class="current"><a href="">{{ page }}</a></li>
                     {% else %}
-                            <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                        <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
                     {% endifequal %}
                 {% else %}
-                    <li class="unavailable" aria-disabled="true"><a href=""></a>&hellip;</li>
+                    <li class="unavailable" aria-disabled="true"><a href="">&hellip;</a></li>
                 {% endif %}
             {% endfor %}
-                    {% if videos_obj.has_next %}
-                        <li>
-                            <a href="?{{ videos_obj.next_page_number.querystring }}" class="next">
-                            {% trans "next" %} &rsaquo;&rsaquo;
-                            </a>
-                        </li>
-                {% endif %}
-            {{ videos.render }}
+            {% if videos.has_next %}
+                <li class="arrow">
+                    <a href="?{{ videos.next_page_number.querystring }}" class="arrow">Próxima &raquo;</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
     {#Fim da paginação#}
