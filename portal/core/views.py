@@ -82,16 +82,12 @@ def home(request):
             except PageNotAnInteger:
                 page = 1
 
-            try:
-                noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
-                                          key=lambda o: o.prioridade_destaque)
-                objects = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
-                    id__in=[obj.id for obj in noticias_detaque])
-                paginator = Paginator(objects, request=request, per_page=5)
-                mais_noticias = paginator.page(page)
-
-            except Site.DoesNotExist, Noticia.DoesNotExist:
-                raise Http404
+            noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
+                                      key=lambda o: o.prioridade_destaque)
+            objects = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
+                id__in=[obj.id for obj in noticias_detaque])
+            paginator = Paginator(objects, request=request, per_page=5)
+            mais_noticias = paginator.page(page)
 
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
@@ -111,13 +107,9 @@ def home(request):
             except PageNotAnInteger:
                 page = 1
 
-            try:
-                objects = Noticia.publicados.filter(sites__id__exact=site.id)
-                paginator = Paginator(objects, request=request, per_page=5)
-                noticias = paginator.page(page)
-
-            except Site.DoesNotExist, Noticia.DoesNotExist:
-                raise Http404
+            objects = Noticia.publicados.filter(sites__id__exact=site.id)
+            paginator = Paginator(objects, request=request, per_page=5)
+            noticias = paginator.page(page)
 
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
@@ -127,6 +119,13 @@ def home(request):
                 'videos': videos,
                 'galerias': galerias,
                 'acesso_rapido': acesso_rapido,
+            }
+
+        if site.sitedetalhe.destino.tipo == Destino.banners():
+            banners = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)
+
+            contexto = {
+                'banners': banners,
             }
 
             # Adiconar o contexto para os demais tipos de template nos demais condicionais

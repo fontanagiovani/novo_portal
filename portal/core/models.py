@@ -98,7 +98,7 @@ class Destino(models.Model):
         ('PORTAL', u'PORTAL'),
         ('PORTAL_SECUNDARIO', u'PORTAL SECUNDÁRIO'),
         ('BLOG', u'BLOG'),
-        ('PAGINA', u'PÁGINA INDIVIDUAL'),
+        ('BANNERS', u'BANNERS'),
         ('REDIRECT', u'REDIRECIONAMENTO'),
         ('BLOG_SLIDER', u'BLOG_SLIDER'),
     )
@@ -124,7 +124,7 @@ class Destino(models.Model):
         return Destino.TIPO[2][0]
 
     @staticmethod
-    def pagina():
+    def banners():
         return Destino.TIPO[3][0]
 
     @staticmethod
