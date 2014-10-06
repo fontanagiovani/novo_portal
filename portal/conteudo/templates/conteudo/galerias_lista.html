@@ -45,36 +45,29 @@
 {% block paginacao %}
     {#Início da paginação#}
     <div class="pagination-centered">
-        <ul class="pagination" role="menubar" aria-label="Pagination" >
-                {% if galerias_obj.has_previous %}
-                    <li class="arrow unavailable" aria-disabled="true">
-                            <a href="?{{ galerias_obj.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo;
-                                {% trans "previous" %}
-                            </a>
-                    </li>
-                    {% endif %}
-                    {% for page in galerias_obj.pages %}
-                        {% if page %}
-                            {% ifequal page galerias_obj.number %}
-                                <span class="current page"><a href="">{{ page }}</a></span>
-                            {% else %}
-                                <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
-                            {% endifequal %}
-                        {% else %}
-                            <li class="unavailable" aria-disabled="true"><a href=""></a>&hellip;</li>
-                        {% endif %}
-                    {% endfor %}
-                    {% if galerias_obj.has_next %}
-                        <li>
-                            <a href="?{{ galerias_obj.next_page_number.querystring }}" class="next">
-                            {% trans "next" %} &rsaquo;&rsaquo;
-                            </a>
-                        </li>
-                    {% endif %}
-
-            {{ galerias.render }}
+        <ul class="pagination" role="menubar" aria-label="Pagination">
+            {% if galerias.has_previous %}
+                <li class="arrow" aria-disabled="true">
+                    <a href="?{{ galerias.previous_page_number.querystring }}">&laquo; Anterior</a>
+                </li>
+            {% endif %}
+            {% for page in galerias.pages %}
+                {% if page %}
+                    {% ifequal page galerias.number %}
+                        <li class="current"><a href="">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                    {% endifequal %}
+                {% else %}
+                    <li class="unavailable" aria-disabled="true"><a href="">&hellip;</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if galerias.has_next %}
+                <li class="arrow">
+                    <a href="?{{ galerias.next_page_number.querystring }}" class="arrow">Próxima &raquo;</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
-
     {#Fim da paginação#}
 {% endblock %}
