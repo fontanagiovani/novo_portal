@@ -1,6 +1,14 @@
 IFMT
 ====
 
+Requerimentos:
+
+- como requisito do python-ldap, executar:
+
+$ sudo aptitude install python-dev libldap2-dev libsasl2-dev libssl-dev
+
+
+
 Desenvolvimento do novo portal do IFMT
 
 ----
