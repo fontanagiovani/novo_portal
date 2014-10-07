@@ -217,18 +217,18 @@
                             </li>
                         {% endfor %}
                     </ul>
-                </div>
 
-                <ul class="small-block-grid-3 padding-top">
-                    {% for galeria in galerias %}
-                        <li>
-                            <a data-orbit-link="{{ galeria.id }}">
-                                <img src="{% thumbnail galeria.primeira_imagem 112x60 crop quality=80 %}"
-                                     alt="{{ galeria.titulo }}"/>
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                    <ul class="small-block-grid-3 padding-top">
+                        {% for galeria in galerias %}
+                            <li>
+                                <a data-orbit-link="{{ galeria.id }}">
+                                    <img src="{% thumbnail galeria.primeira_imagem 190x100 crop quality=80 %}"
+                                         alt="{{ galeria.titulo }}"/>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
             {#Fim da div galeria de fotos#}
 
