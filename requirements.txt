@@ -29,3 +29,4 @@ Whoosh==2.6.0
 django-taggit-autosuggest==0.2.4
 django-reversion==1.8.4
 django-pure-pagination==0.2.1
+python-ldap==2.4.17

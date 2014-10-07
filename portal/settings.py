@@ -241,6 +241,36 @@ SUMMERNOTE_CONFIG = {
     ],
 }
 
+AUTHENTICATION_BACKENDS = (
+    'portal.ldapauth.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
+# ldap settings for ldap backend
+import ldap
+
+LDAP_DEBUG = True
+LDAP_SERVER_URI = config('LDAP_SERVER_URI')
+LDAP_PREBINDDN = config('LDAP_PREBINDDN')
+LDAP_PREBINDPW = config('LDAP_PREBINDPW')
+LDAP_SEARCHDN = config('LDAP_SEARCHDN')
+LDAP_SEARCH_FILTER = 'cn=%s' #or sAMAccountName
+LDAP_SCOPE = ldap.SCOPE_SUBTREE
+LDAP_UPDATE_FIELDS = True
+
+#Required unless LDAP_FULL_NAME is set:
+LDAP_FIRST_NAME = 'givenName'
+LDAP_LAST_NAME = 'sn'
+
+#Optional Settings:
+LDAP_FULL_NAME = 'displayName'
+#LDAP_GID -- string, LDAP attribute to get group name/number from
+#LDAP_SU_GIDS -- list of strings, group names/numbers that are superusers
+#LDAP_STAFF_GIDS -- list of strings, group names/numbers that are staff
+LDAP_EMAIL = 'mail'
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
