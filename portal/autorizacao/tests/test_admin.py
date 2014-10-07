@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.files import File
 from django.contrib.auth.models import User
 from filer.models import Image
 from model_mommy import mommy
+
+# Nao utiliza o ldap backend para os testes
+settings.AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 def preparar():
