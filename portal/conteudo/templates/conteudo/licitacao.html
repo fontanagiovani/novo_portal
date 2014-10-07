@@ -14,7 +14,7 @@
             {% if user|tem_permissao:licitacao %}
                 <div class="row padding-top">
                     <div class="medium-12 columns text-right">
-                        <a href="{% url 'admin:conteudo_licitacao_change' licitacao.id %}" target="_blank">
+                        <a href="{% url 'admin:conteudo_licitacao_change' licitacao.id %}">
                             <i class="fi-page-edit"></i> Editar licitação
                         </a>
                     </div>
@@ -26,49 +26,39 @@
 
 {% block conteudo %}
     <div class="row padding-bottom">
-        <div class="row">
-            <h1 class="justificado" id="titulo">{{ licitacao.titulo }}</h1>
-        </div>
-        <div class="row">
-            <p class="no-padding"><strong>DATA DE PUBLICAÇÃO:</strong> {{ licitacao.data_publicacao }}</p>
-        </div>
-        <div class="row">
-            <p class="no-padding"><strong>DATA DE ABERTURA:</strong> {{ licitacao.data_abertura }}</p>
-        </div>
+        <h1 id="titulo">{{ licitacao.titulo }}</h1>
+        <p><strong>Publicado em:</strong> {{ licitacao.campus_origem.nome }} / {{ licitacao.data_publicacao }}</p>
+        <p><strong>Data de abertura:</strong> {{ licitacao.data_abertura }}</p>
         {% if licitacao.pregao_srp %}
-        <div class="row">
-            <p class="no-padding"><strong>VALIDADE ATA SRP:</strong> {{ licitacao.validade_ata_srp }}</p>
-        </div>
+            <p class="no-padding"><strong>Validade da Ata SRP:</strong> {{ licitacao.validade_ata_srp }}</p>
         {% endif %}
         {% if licitacao.possui_contrato %}
-        <div class="row">
-            <p class="no-padding"><strong>VIGÊNCIA DO CONTRATO:</strong> {{ licitacao.vigencia_contrato_inicio }} ATÉ {{ licitacao.vigencia_contrato_fim }}</p>
-        </div>
+            <p class="no-padding"><strong>Vigência do contrato:</strong> {{ licitacao.vigencia_contrato_inicio }} ATÉ {{ licitacao.vigencia_contrato_fim }}</p>
         {% endif %}
         <div class="row">
             <div class="medium-12 columns no-padding">
             {% autoescape off %}
                 <article>
-                    <strong>SITUAÇÃO:</strong> {{ licitacao.situacao|safe }}
+                    <strong>Situação:</strong> {{ licitacao.situacao|safe }}
                 </article>
             {% endautoescape %}
 
             <div class="medium-12 columns no-padding">
             {% autoescape off %}
                 <article>
-                    <strong>OBJETO:</strong> {{ licitacao.objeto|safe }}
+                    <strong>Objeto:</strong> {{ licitacao.objeto|safe }}
                 </article>
             {% endautoescape %}
 
             {% if licitacao.alteracoes.strip|length > 0 %}
                 {% autoescape off %}
                     <article>
-                        <strong>ALTERAÇÕES:</strong> {{ licitacao.alteracoes|safe }}
+                        <strong>Alterações:</strong> {{ licitacao.alteracoes|safe }}
                     </article>
                 {% endautoescape %}
             {% endif %}
 
-            <p><strong>CONTATO:</strong> {{ licitacao.email_contato }}</p>
+            <p><strong>Contato:</strong> {{ licitacao.email_contato }}</p>
         </div>
 
         {% if licitacao.tags.all %}

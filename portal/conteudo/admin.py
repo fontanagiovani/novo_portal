@@ -284,6 +284,7 @@ class LicitacaoAdmin(reversion.VersionAdmin, SummernoteModelAdmin):
         (None, {
             'fields': (
                 'sites',
+                'campus_origem',
                 'modalidade',
                 'titulo',
                 'data_abertura',
@@ -327,6 +328,11 @@ class LicitacaoAdmin(reversion.VersionAdmin, SummernoteModelAdmin):
         excluidos = Site.objects.exclude(id__in=request.user.permissao.sites.values_list('id'))
 
         return qs.exclude(sites__in=excluidos)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "campus_origem":
+            kwargs["queryset"] = Campus.objects.filter(sitedetalhe__site=request.user.permissao.sites.all()).distinct()
+        return super(LicitacaoAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":

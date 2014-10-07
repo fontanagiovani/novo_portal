@@ -1,5 +1,6 @@
 # coding: utf-8
 from collections import OrderedDict
+from django.db import models
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import Site
 from django.shortcuts import render, redirect
@@ -214,9 +215,29 @@ def serialize_menus(queryset):
 class SearchViewSites(SearchView):
     # sobrescrita do metodo para filtar pelo dominio da requisicao
     def get_results(self):
-        results = super(SearchViewSites, self).get_results()
+        results = self.searchqueryset.filter(text__startswith=self.query)
+
+        search_models = []
+
+        if self.form.is_valid():
+            for model in self.form.cleaned_data['models']:
+                search_models.append(models.get_model(*model.split('.')))
+
+            results = results.models(*search_models)
+
         results = results.filter(text__contains=self.request.get_host())
 
-        # import ipdb
-        # ipdb.set_trace()
         return results
+
+    def build_page(self):
+        try:
+            page = self.request.GET.get('page', 1)
+
+        except PageNotAnInteger:
+            page = 1
+
+        page = int(page)
+        paginator = Paginator(self.results, request=self.request, per_page=25)
+        page_results = paginator.page(page)
+
+        return paginator, page_results

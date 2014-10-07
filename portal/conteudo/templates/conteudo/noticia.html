@@ -18,7 +18,7 @@
             {% if user|tem_permissao:noticia %}
                 <div class="row padding-top">
                     <div class="medium-12 columns text-right">
-                        <a href="{% url 'admin:conteudo_noticia_change' noticia.id %}" target="_blank">
+                        <a href="{% url 'admin:conteudo_noticia_change' noticia.id %}">
                             <i class="fi-page-edit"></i> Editar notícia
                         </a>
                     </div>
