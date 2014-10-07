@@ -232,7 +232,8 @@ class ImagemGaleriaTest(TestCase):
 
 class LiciatacaoTest(TestCase):
     def setUp(self):
-        self.obj = mommy.prepare('Licitacao', titulo=u'Título', publicado=True)
+        campus_origem = mommy.make('Campus')
+        self.obj = mommy.prepare('Licitacao', titulo=u'Título', publicado=True, campus_origem=campus_origem)
 
     def test_criacao(self):
         """
