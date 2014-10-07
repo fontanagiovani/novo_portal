@@ -98,13 +98,19 @@ class Destino(models.Model):
         ('PORTAL', u'PORTAL'),
         ('PORTAL_SECUNDARIO', u'PORTAL SECUNDÁRIO'),
         ('BLOG', u'BLOG'),
-        ('PAGINA', u'PÁGINA INDIVIDUAL'),
+        ('BLOG_SLIDER', u'BLOG SLIDER'),
+        ('BANNERS', u'BANNERS'),
         ('REDIRECT', u'REDIRECIONAMENTO'),
     )
 
     tipo = models.CharField(max_length=100, choices=TIPO)
-    caminho = models.CharField(max_length=200, help_text=u'Utilize o caminho app/template - Ex.: core/portal.html'
-                                                         u'<br>Em caso de redirect use a url completa - '
+    caminho = models.CharField(max_length=200, help_text=u'Utilize o caminho app/template - Templates disponíveis:'
+                                                         u'<br>core/portal.html'
+                                                         u'<br>core/portal_secundario.html'
+                                                         u'<br>core/blog.html'
+                                                         u'<br>core/blog_slider.html'
+                                                         u'<br>core/banners.html'
+                                                         u'<br><br>Em caso de redirect use a url completa - '
                                                          u'Ex.: http://www.ifmt.edu.br')
 
     def __unicode__(self):
@@ -112,23 +118,27 @@ class Destino(models.Model):
 
     @staticmethod
     def portal():
-        return Destino.TIPO[0][0]
+        return 'PORTAL'
 
     @staticmethod
     def portal_secundario():
-        return Destino.TIPO[1][0]
+        return 'PORTAL_SECUNDARIO'
 
     @staticmethod
     def blog():
-        return Destino.TIPO[2][0]
+        return 'BLOG'
 
     @staticmethod
-    def pagina():
-        return Destino.TIPO[3][0]
+    def blog_slider():
+        return 'BLOG_SLIDER'
+
+    @staticmethod
+    def banners():
+        return 'BANNERS'
 
     @staticmethod
     def redirect():
-        return Destino.TIPO[4][0]
+        return 'REDIRECT'
 
 
 # cria um diretorio no filer para cada novo usuario

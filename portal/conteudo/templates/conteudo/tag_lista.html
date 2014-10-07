@@ -36,7 +36,9 @@
         <ul class="pagination" role="menubar" aria-label="Pagination">
             {% if tags.has_previous %}
                 <li class="arrow" aria-disabled="true">
-                    <a href="?{{ tags.previous_page_number.querystring }}">&laquo; Anterior</a>
+                    <a href="?{{ tags.previous_page_number.querystring }}">
+                        <i class="fi-rewind"></i>
+                    </a>
                 </li>
             {% endif %}
             {% for page in tags.pages %}
@@ -52,7 +54,9 @@
             {% endfor %}
             {% if tags.has_next %}
                 <li class="arrow">
-                    <a href="?{{ tags.next_page_number.querystring }}" class="arrow">Próxima &raquo;</a>
+                    <a href="?{{ tags.next_page_number.querystring }}" class="arrow">
+                        <i class="fi-fast-forward"></i>
+                    </a>
                 </li>
             {% endif %}
         </ul>
