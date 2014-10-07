@@ -13,13 +13,18 @@
 
 {% block edicao %}
     {% if user.is_authenticated %}
-        <div class="row padding-top">
-            <div class="medium-12 columns text-right">
-                <a href="{% url 'admin:conteudo_video_change' video.id %}" target="_blank">
-                    <i class="fi-page-edit"></i> Editar Video
-                </a>
-            </div>
-        </div>
+        {% if perms.conteudo.change_video %}
+            {% load permissao_tags %}
+            {% if user|tem_permissao:video %}
+                <div class="row padding-top">
+                    <div class="medium-12 columns text-right">
+                        <a href="{% url 'admin:conteudo_video_change' video.id %}" target="_blank">
+                            <i class="fi-page-edit"></i> Editar vídeo
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
     {% endif %}
 {% endblock edicao %}
 

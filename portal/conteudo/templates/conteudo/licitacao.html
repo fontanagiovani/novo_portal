@@ -9,13 +9,18 @@
 
 {% block edicao %}
     {% if user.is_authenticated %}
-        <div class="row padding-top">
-            <div class="medium-12 columns text-right">
-                <a href="{% url 'admin:conteudo_licitacao_change' licitacao.id %}" target="_blank">
-                    <i class="fi-page-edit"></i> Editar licitação
-                </a>
-            </div>
-        </div>
+        {% if perms.conteudo.change_licitacao %}
+            {% load permissao_tags %}
+            {% if user|tem_permissao:licitacao %}
+                <div class="row padding-top">
+                    <div class="medium-12 columns text-right">
+                        <a href="{% url 'admin:conteudo_licitacao_change' licitacao.id %}" target="_blank">
+                            <i class="fi-page-edit"></i> Editar licitação
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
     {% endif %}
 {% endblock edicao %}
 

@@ -13,13 +13,18 @@
 
 {% block edicao %}
     {% if user.is_authenticated %}
-        <div class="row padding-top">
-            <div class="medium-12 columns text-right">
-                <a href="{% url 'admin:conteudo_pagina_change' pagina.id %}" target="_blank">
-                    <i class="fi-page-edit"></i> Editar Página
-                </a>
-            </div>
-        </div>
+        {% if perms.conteudo.change_pagina %}
+            {% load permissao_tags %}
+            {% if user|tem_permissao:pagina %}
+                <div class="row padding-top">
+                    <div class="medium-12 columns text-right">
+                        <a href="{% url 'admin:conteudo_pagina_change' pagina.id %}" target="_blank">
+                            <i class="fi-page-edit"></i> Editar página
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
     {% endif %}
 {% endblock edicao %}
 
