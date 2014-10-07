@@ -13,7 +13,7 @@
             <div class="row padding-top-bottom">
                 <ul>
                 {% for x, y in modalidades %}
-                        <a href="{% url 'conteudo:licitacoes_lista' x %}"><li>{{ y }}</li></a>
+                        <li><a href="{% url 'conteudo:licitacoes_lista' x %}">{{ y }}</a></li>
                 {% endfor %}
                 </ul>
             </div>

@@ -7,6 +7,8 @@ from django.http import HttpResponse  # httresponse para usar com json
 from django.http.response import Http404
 import json  # json para usar no select com ajax
 from haystack.views import SearchView
+from pure_pagination import Paginator, PageNotAnInteger
+
 from portal.core.models import Menu
 from portal.core.models import Destino
 from portal.core.models import Selecao, TipoSelecao
@@ -73,13 +75,60 @@ def home(request):
                 'formacao': formacao,
             }
 
-        if site.sitedetalhe.destino.tipo == Destino.blog():
-            noticias = Noticia.publicados.all()[:10]
+        if site.sitedetalhe.destino.tipo == Destino.blog_slider():
+            try:
+                page = request.GET.get('page', 1)
+
+            except PageNotAnInteger:
+                page = 1
+
+            noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
+                                      key=lambda o: o.prioridade_destaque)
+            objects = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
+                id__in=[obj.id for obj in noticias_detaque])
+            paginator = Paginator(objects, request=request, per_page=5)
+            mais_noticias = paginator.page(page)
+
+            videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
+            galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
+            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)
             contexto = {
-                'noticias': noticias,
+                'noticias_destaque': noticias_detaque,
+                'mais_noticias': mais_noticias,
+                'videos': videos,
+                'galerias': galerias,
+                'acesso_rapido': acesso_rapido,
             }
 
-        # Adiconar o contexto para os demais tipos de template nos demais condicionais
+        if site.sitedetalhe.destino.tipo == Destino.blog():
+            try:
+                page = request.GET.get('page', 1)
+
+            except PageNotAnInteger:
+                page = 1
+
+            objects = Noticia.publicados.filter(sites__id__exact=site.id)
+            paginator = Paginator(objects, request=request, per_page=5)
+            noticias = paginator.page(page)
+
+            videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
+            galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
+            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)
+            contexto = {
+                'noticias': noticias,
+                'videos': videos,
+                'galerias': galerias,
+                'acesso_rapido': acesso_rapido,
+            }
+
+        if site.sitedetalhe.destino.tipo == Destino.banners():
+            banners = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)
+
+            contexto = {
+                'banners': banners,
+            }
+
+            # Adiconar o contexto para os demais tipos de template nos demais condicionais
 
     except (Site.DoesNotExist, Noticia.DoesNotExist, Evento.DoesNotExist,
             Banner.DoesNotExist, BannerAcessoRapido.DoesNotExist, Video.DoesNotExist,
