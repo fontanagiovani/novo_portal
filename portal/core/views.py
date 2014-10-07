@@ -228,3 +228,16 @@ class SearchViewSites(SearchView):
         results = results.filter(text__contains=self.request.get_host())
 
         return results
+
+    def build_page(self):
+        try:
+            page = self.request.GET.get('page', 1)
+
+        except PageNotAnInteger:
+            page = 1
+
+        page = int(page)
+        paginator = Paginator(self.results, request=self.request, per_page=25)
+        page_results = paginator.page(page)
+
+        return paginator, page_results
