@@ -142,6 +142,7 @@ class Licitacao(models.Model):
         ('4', u'Concorrência'),
     )
     sites = models.ManyToManyField('sites.Site', verbose_name=u'Sites para publicação')
+    campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Origem')
     modalidade = models.CharField(max_length=1, choices=TIPO_MODALIDADE, verbose_name=u'Tipo de Modalidade')
     titulo = models.CharField(max_length=100, verbose_name=u'Título')
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
@@ -183,6 +184,10 @@ class Licitacao(models.Model):
                 modalidades_existentes.append(modalidade)
 
         return modalidades_existentes
+
+    @models.permalink
+    def get_absolute_url(self):
+        return 'conteudo:licitacao_detalhe', (), {'licitacao_id': self.id}
 
 
 class AnexoLicitacao(models.Model):
