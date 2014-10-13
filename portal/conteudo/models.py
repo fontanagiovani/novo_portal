@@ -147,14 +147,14 @@ class Licitacao(models.Model):
     titulo = models.CharField(max_length=100, verbose_name=u'Título')
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     data_abertura = models.DateField(verbose_name=u'Data de abertura')
-    pregao_srp = models.BooleanField(verbose_name=u'É um pregão SRP?')
+    pregao_srp = models.BooleanField(verbose_name=u'É um pregão SRP?', default=False)
     validade_ata_srp = models.DateField(verbose_name=u'Validade ATA SRP', blank=True, null=True)
-    possui_contrato = models.BooleanField(verbose_name=u'Possui Contrato?')
+    possui_contrato = models.BooleanField(verbose_name=u'Possui Contrato?', default=False)
     vigencia_contrato_inicio = models.DateField(verbose_name=u'Data de início da vigência do contrato',
                                                 blank=True, null=True)
     vigencia_contrato_fim = models.DateField(verbose_name=u'Data de término da vigência do contrato',
                                              blank=True, null=True)
-    encerrado = models.BooleanField(verbose_name=u'Processo encerrado?')
+    encerrado = models.BooleanField(verbose_name=u'Processo encerrado?', default=False)
     situacao = models.TextField(verbose_name=u'Situação')
     objeto = models.TextField(verbose_name=u'Objeto')
     alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
