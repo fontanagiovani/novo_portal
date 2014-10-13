@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from django_summernote.admin import SummernoteModelAdmin
 import reversion
 
 from portal.cursos.models import Curso
 from portal.cursos.models import Formacao
 from portal.cursos.models import GrupoCursos
 from portal.cursos.models import AnexoCurso
+from portal.cursos.forms import CursoForm
 
 
 class FormacaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     pass
+
+admin.site.register(Formacao, FormacaoAdmin)
 
 
 class AnexoCursoInLine(admin.StackedInline):
@@ -25,14 +27,15 @@ class AnexoCursoInLine(admin.StackedInline):
     }
 
 
-class CursoAdmin(reversion.VersionAdmin, SummernoteModelAdmin):
+class CursoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
+    form = CursoForm
+
     inlines = (AnexoCursoInLine, )
 
+admin.site.register(Curso, CursoAdmin)
 
-class GrupoCursosAdmin(reversion.VersionAdmin, SummernoteModelAdmin):
+
+class GrupoCursosAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     pass
 
-
-admin.site.register(Formacao, FormacaoAdmin)
-admin.site.register(Curso, CursoAdmin)
 admin.site.register(GrupoCursos, GrupoCursosAdmin)

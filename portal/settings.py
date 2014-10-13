@@ -65,7 +65,6 @@ INSTALLED_APPS = (
     'devserver',
     'south',
     'mptt',
-    'django_summernote',
     'filer',
     'easy_thumbnails',
     'taggit',
@@ -218,28 +217,6 @@ else:  # Assume development mode
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
     }
-
-# Summernote configuration
-SUMMERNOTE_CONFIG = {
-    # Change editor size
-    'width': '100%',
-
-    # Set editor language/locale
-    'lang': 'pt-BR',
-
-    # Customize toolbar buttons
-    'toolbar': [
-        # ['style', ['style']],
-        ['font', ['bold', 'italic', 'underline', 'clear']],
-        # ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
-        # 'strikethrough', 'clear']],
-        # ['para', ['ul', 'ol']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'video']],
-        ['misc', ['codeview']]
-    ],
-}
 
 AUTHENTICATION_BACKENDS = (
     'portal.ldapauth.LDAPBackend',

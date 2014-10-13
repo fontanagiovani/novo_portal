@@ -6,3 +6,11 @@
 #id_sites, #id_permissao-0-sites {
     height: 10em;
 }
+
+.mce-window-head {
+    padding: 20px 15px !important;
+}
+
+.mce-tinymce {
+    margin-left: 107px !important;
+}
