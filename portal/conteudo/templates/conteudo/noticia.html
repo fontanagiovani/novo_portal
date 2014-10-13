@@ -81,7 +81,7 @@
         <div class="row collapse padding-bottom-duplo">
             <div class="small-12 columns">
                 <ul class="sem-marcador no-margin">
-                    <li class="padding-right">Tags:</li>
+                    <li class="padding-right">Marcadores:</li>
                     {% for tag in noticia.tags.all %}
                         <li class="padding-all fundo-cinza"><a
                                 href="{% url 'conteudo:tags_lista' slug=tag.slug %}">{{ tag.slug }}</a></li>

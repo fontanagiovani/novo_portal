@@ -3,13 +3,13 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-    <li class="current">Tags</li>
+    <li class="current">Marcadores</li>
 {% endblock %}
 
 {% block listagem %}
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
-            <h1>Publicações com a tag: {{ slug }}</h1>
+            <h1>Publicações com o marcador: {{ slug }}</h1>
 
             <div class="row padding-top-duplo">
                 {% for tag in tags.object_list %}
