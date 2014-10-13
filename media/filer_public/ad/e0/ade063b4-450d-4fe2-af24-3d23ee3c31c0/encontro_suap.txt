@@ -1,0 +1,29 @@
+Acompanhar commits dia-a-dia
+
+Estratégia de copiar tudo (quando a app será totalmente diferente)
+
+
+
+Estratégia marionete:
+- Importar os modelos/views que devem ser modificados e o restante importado;
+- Desinstalar a app deles e utilizar a nossa;
+
+
+Biblioteca SH - automatização de tarefas
+
+
+Admin
+get_add_form
+
+
+----
+
+customizar logentry do admin
+apps de auditoria
+
+----
+
+https://pypi.python.org/pypi/sh
+https://www.djangopackages.com/grids/g/model-audit/
+
+----
