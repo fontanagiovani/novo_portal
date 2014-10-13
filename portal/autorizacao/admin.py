@@ -4,9 +4,12 @@ from django.contrib.auth.admin import User
 from django.contrib.auth.admin import UserAdmin
 import reversion
 
+from portal.autorizacao.forms import PermissaoFormset
+
 
 class SiteInline(admin.StackedInline):
     model = Permissao
+    formset = PermissaoFormset
     max_num = 1
     can_delete = False
 
