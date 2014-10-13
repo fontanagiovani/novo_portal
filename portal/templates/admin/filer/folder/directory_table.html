@@ -46,8 +46,9 @@
             <tr class="{% cycle rowcolors %}">
 
             {% if is_popup %}
+                {% load thumbnail %}
                 <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="opener.dismissRelatedImageLookupPopup(window, {{ file.id }}, '{{ file.icons.48|escapejs }}', '{{ file.label|escapejs }}'); return false;" title="{% trans "Select this file" %}">Anexo</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>
-                <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="dismissRelatedImageLookupPopupTinyMCE('{{ file.url|escapejs }}');" title="{% trans "Inserir no editor" %}">Editor</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>
+                <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="dismissRelatedImageLookupPopupTinyMCE('{{ file.url|escapejs }}', '{% thumbnail file 1000x0 crop %}');" title="{% trans "Inserir no editor" %}">Editor</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>
             {% else %}
                 <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="opener.dismissRelatedImageLookupPopup(window, {{ file.id }}, '{{ file.icons.48|escapejs }}', '{{ file.label|escapejs }}'); return false;" title="{% trans "Select this file" %}">&nbsp;</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>
             {% endif %}
@@ -99,12 +100,16 @@
 </div>
 
 <script>
-    dismissRelatedImageLookupPopupTinyMCE = function(FileURL) {
+    dismissRelatedImageLookupPopupTinyMCE = function(FileURL, FileThumb) {
+        url = FileURL;
+        if (FileThumb != '') {
+            url = FileThumb
+        }
         parentWin = (!window.frameElement && window.dialogArguments) || opener || parent || top;
         tinymce = tinyMCE = parentWin.tinymce;
         self.editor = tinymce.EditorManager.activeEditor;
         self.params = self.editor.windowManager.getParams();
-        parentWin.document.getElementById(self.params.input).value = FileURL;
+        parentWin.document.getElementById(self.params.input).value = url;
         self.editor.windowManager.close(parentWin);
 	};
 </script>
