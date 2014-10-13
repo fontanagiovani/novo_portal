@@ -45,62 +45,64 @@ class TinyMCEEditor(forms.Textarea):
 
     def render(self, name, value, attrs=None):
         rendered = super(TinyMCEEditor, self).render(name, value, attrs)
-        return rendered + mark_safe(u'''<script type="text/javascript">
-    tinyMCE.init({
-        // selector:'textarea',
-        mode: "textareas",
-        //plugins: [
-        //    "hr link image charmap paste print preview anchor pagebreak searchreplace visualblocks visualchars code fullscreen",
-        //    "insertdatetime media nonbreaking save table emoticons template textcolor wordcount",
-        //],
-        plugins: [
-            "hr link paste image preview pagebreak searchreplace visualblocks visualchars code fullscreen",
-            "media table wordcount",
-        ],
-        toolbar: "undo redo removeformat blockquote subscript superscript formatbar | " +
-            "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify " +
-            "| bullist numlist outdent indent | link image media | visualblocks preview fullscreen",
+        return rendered + mark_safe(u'''
+        <script type="text/javascript">
+            tinyMCE.init({
+                // selector:'textarea',
+                mode: "textareas",
+                //plugins: [
+                //    "hr link image charmap paste print preview anchor pagebreak searchreplace visualblocks
+                // visualchars code fullscreen",
+                //    "insertdatetime media nonbreaking save table emoticons template textcolor wordcount",
+                //],
+                plugins: [
+                    "hr link paste image preview pagebreak searchreplace visualblocks visualchars code fullscreen",
+                    "media table wordcount",
+                ],
+                toolbar: "undo redo removeformat blockquote subscript superscript formatbar | " +
+                    "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify " +
+                    "| bullist numlist outdent indent | link image media | visualblocks preview fullscreen",
 
-        language: 'pt_BR',
-        content_css: '/static/css/base.css,/static/css/detalhe.css,/static/css/tinymce.css',
-        height: 360,
-        width: 1040,
-        visualblocks_default_state: true,
-        plugin_preview_width : '1040',
-        paste_as_text: true,
-        relative_urls : false,
+                language: 'pt_BR',
+                content_css: '/static/css/base.css,/static/css/detalhe.css,/static/css/tinymce.css',
+                height: 360,
+                width: 1040,
+                visualblocks_default_state: true,
+                plugin_preview_width : '1040',
+                paste_as_text: true,
+                relative_urls : false,
 
-        style_formats: [
-            {title: 'Headers', items: [
-                {title: 'h1', block: 'h1'},
-                {title: 'h2', block: 'h2'},
-                {title: 'h3', block: 'h3'},
-            ]},
-            {title: 'Blocks', items: [
-                {title: 'p', block: 'p'},
-                {title: 'div', block: 'div'},
-            ]},
-            {title: 'Adic. margem lateral à imagem', selector: 'img', styles: {
-                'margin': '5px 10px 5px 10px'
-            }},
-        ],
+                style_formats: [
+                    {title: 'Headers', items: [
+                        {title: 'h1', block: 'h1'},
+                        {title: 'h2', block: 'h2'},
+                        {title: 'h3', block: 'h3'},
+                    ]},
+                    {title: 'Blocks', items: [
+                        {title: 'p', block: 'p'},
+                        {title: 'div', block: 'div'},
+                    ]},
+                    {title: 'Adic. margem lateral à imagem', selector: 'img', styles: {
+                        'margin': '5px 10px 5px 10px'
+                    }},
+                ],
 
-        file_browser_callback: function(input_id, input_value, type, win){
-        var cmsURL = '/admin/filer/folder/?_popup=1';
+                file_browser_callback: function(input_id, input_value, type, win){
+                var cmsURL = '/admin/filer/folder/?_popup=1';
 
-        tinymce.activeEditor.windowManager.open({
-            file: cmsURL,
-            width: 1000,  // Your dimensions may differ - toy around with them!
-            height: 500,
-            resizable: 'yes',
-            scrollbars: 'yes',
-            inline: 'yes',  // This parameter only has an effect if you use the inlinepopups plugin!
-            close_previous: 'no'
-        }, {
-            window: win,
-            input: input_id,
-        });
-        return false;
-        },
-    });
-</script>''')
+                tinymce.activeEditor.windowManager.open({
+                    file: cmsURL,
+                    width: 1000,  // Your dimensions may differ - toy around with them!
+                    height: 500,
+                    resizable: 'yes',
+                    scrollbars: 'yes',
+                    inline: 'yes',  // This parameter only has an effect if you use the inlinepopups plugin!
+                    close_previous: 'no'
+                }, {
+                    window: win,
+                    input: input_id,
+                });
+                return false;
+                },
+            });
+        </script>''')

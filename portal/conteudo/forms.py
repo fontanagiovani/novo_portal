@@ -10,9 +10,11 @@ from portal.core.forms import TinyMCEEditor
 
 
 class ConteudoForm(ModelForm):
-    model = Conteudo
-
-    texto = forms.CharField(widget=TinyMCEEditor())
+    class Meta:
+        model = Conteudo
+        widgets = {
+            'texto': TinyMCEEditor(),
+        }
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
@@ -45,11 +47,11 @@ class NoticiaForm(ConteudoForm):
 
 
 class LicitacaoForm(ModelForm):
-    model = Licitacao
-
-    situacao = forms.CharField(widget=TinyMCEEditor())
-    objeto = forms.CharField(widget=TinyMCEEditor())
-    alteracoes = forms.CharField(widget=TinyMCEEditor())
+    class Meta:
+        model = Licitacao
+        widgets = {
+            'situacao': TinyMCEEditor(),
+        }
 
     class Media:
         js = (
