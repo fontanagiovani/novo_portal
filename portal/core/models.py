@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+import re
+from unicodedata import normalize
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
-from filer.models import Folder
+from filer.models import File, Image, Folder
 from filer.fields.image import FilerImageField
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -151,3 +153,24 @@ def create_user_profile(sender, instance, created, **kwargs):
         diretorio.save()
 
 post_save.connect(create_user_profile, sender=User)
+
+
+_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_ºª`{|},:]+')
+
+def slugify(text, delim=u'-'):
+    """Generates an slightly worse ASCII-only slug."""
+    result = []
+    for word in _punct_re.split(text.lower()):
+        word = normalize('NFKD', word).encode('ascii', 'ignore')
+        if word:
+            result.append(word)
+    return unicode(delim.join(result))
+
+
+def unicode_filename(sender, instance, created, **kwargs):
+    if not instance.original_filename == slugify(instance.original_filename):
+        instance.original_filename = slugify(instance.original_filename)
+        instance.save()
+
+post_save.connect(unicode_filename, sender=File)
+post_save.connect(unicode_filename, sender=Image)

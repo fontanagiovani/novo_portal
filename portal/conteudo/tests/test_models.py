@@ -78,10 +78,13 @@ class AnexoTest(TestCase):
     def setUp(self):
         self.obj = mommy.make('Conteudo', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
-        arquivo = FileFiler()
-        arquivo.save()
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
 
-        self.anexo = mommy.prepare('Anexo', conteudo=self.obj, descricao=u'foto1', arquivo=arquivo)
+        self.anexo = mommy.prepare('Anexo', conteudo=self.obj, descricao=u'foto1', arquivo=midia_image)
 
     def test_criacao(self):
         """
@@ -205,8 +208,8 @@ class ImagemGaleriaTest(TestCase):
     def setUp(self):
         self.obj = mommy.make('Galeria', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)

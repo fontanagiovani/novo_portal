@@ -19,8 +19,8 @@ class HomeTest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
@@ -57,8 +57,8 @@ class HomePortalContextTest(TestCase):
 
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
@@ -125,8 +125,8 @@ class HomeBlogContextTest(TestCase):
 
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
@@ -186,8 +186,8 @@ class HomeBlogSliderContextTest(TestCase):
 
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
@@ -253,8 +253,8 @@ class HomePortalSecundarioContextTest(TestCase):
 
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
@@ -325,8 +325,8 @@ class HomeBannersContextTest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
@@ -404,8 +404,8 @@ class Menutest(TestCase):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
         self.template = mommy.make(Destino, _quantity=1, tipo=Destino.portal(), caminho='core/portal.html')[0]
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
@@ -453,8 +453,8 @@ class DestinoTest(TestCase):
 
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)

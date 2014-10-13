@@ -10,8 +10,8 @@ from portal.banner.models import Banner, BannerAcessoRapido
 
 class BannerManagerTest(TestCase):
     def setUp(self):
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             arquivo = Image.objects.create(original_filename=self.img_name, file=file_obj)
@@ -41,8 +41,8 @@ class BannerManagerTest(TestCase):
 
 class BannerARManagerTest(TestCase):
     def setUp(self):
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             arquivo = Image.objects.create(original_filename=self.img_name, file=file_obj)

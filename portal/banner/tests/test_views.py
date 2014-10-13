@@ -14,8 +14,8 @@ from portal.core.models import Destino
 
 class HomeBannerContextTest(TestCase):
     def setUp(self):
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as self.img:
             self.file_obj = File(self.img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=self.file_obj)
@@ -30,7 +30,7 @@ class HomeBannerContextTest(TestCase):
         mommy.make('Banner', _quantity=5, titulo=u'Titulo do banner publicado',
                    arquivo=midia_image, publicado=True, data_publicacao=data_futura)
 
-        self.img_name = 'logo'
+        self.img_name = u'logo'
         with open(self.img_path) as self.img:
             self.file_obj = File(self.img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=self.file_obj)
@@ -60,8 +60,8 @@ class HomeBannerContextTest(TestCase):
 
 class HomeAcessoRapidoContextTest(TestCase):
     def setUp(self):
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagemacessorapido'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagemacessorapido'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)

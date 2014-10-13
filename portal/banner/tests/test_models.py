@@ -10,8 +10,8 @@ from portal.core.tests.util import del_midia_filer
 
 class BannerTest(TestCase):
     def setUp(self):
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
@@ -65,8 +65,8 @@ class BannerTest(TestCase):
 
 class AcessoRapidoTest(TestCase):
     def setUp(self):
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagemBanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagemBanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)

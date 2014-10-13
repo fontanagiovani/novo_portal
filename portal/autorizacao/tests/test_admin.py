@@ -409,8 +409,8 @@ class BannerAdminIndexTest(TestCase):
         self.site2 = contexto['site2']
         self.site3 = contexto['site3']
 
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagembanner'
+        img_path = u'portal/banner/static/img/images.jpeg'
+        img_name = u'imagembanner'
         with open(img_path) as img:
             file_obj = File(img, name=img_name)
             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
@@ -471,8 +471,8 @@ class BannerARAdminIndexTest(TestCase):
         self.site2 = contexto['site2']
         self.site3 = contexto['site3']
 
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagembanner'
+        img_path = u'portal/banner/static/img/images.jpeg'
+        img_name = u'imagembanner'
         with open(img_path) as img:
             file_obj = File(img, name=img_name)
             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
@@ -845,8 +845,8 @@ class ChangeViewSitesTest(TestCase):
         """
         Na admin add view deve estar disponivel somente os sites que o usuario tem permissao
         """
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagembanner'
+        img_path = u'portal/banner/static/img/images.jpeg'
+        img_name = u'imagembanner'
         with open(img_path) as img:
             file_obj = File(img, name=img_name)
             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
@@ -867,8 +867,8 @@ class ChangeViewSitesTest(TestCase):
         """
         Na admin add view deve estar disponivel somente os sites que o usuario tem permissao
         """
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagembanner'
+        img_path = u'portal/banner/static/img/images.jpeg'
+        img_name = u'imagembanner'
         with open(img_path) as img:
             file_obj = File(img, name=img_name)
             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
