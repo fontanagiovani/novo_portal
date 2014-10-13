@@ -210,8 +210,8 @@ class MenuAdmin(reversion.VersionAdmin, SortableAdminMixin, MPTTModelAdmin):
 
         return ModelFormMetaClass
 
-    def queryset(self, request):
-        qs = super(MenuAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(MenuAdmin, self).get_queryset(request)
         return qs.filter(site__in=request.user.permissao.sites.all()).distinct()
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):

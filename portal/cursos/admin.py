@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.db.models import CharField
+from django.forms import TextInput
 import reversion
 
 from portal.cursos.models import Curso
@@ -16,14 +18,14 @@ admin.site.register(Formacao, FormacaoAdmin)
 
 
 class AnexoCursoInLine(admin.StackedInline):
-    from django.forms import TextInput, Textarea
-    from django.db import models
+
     model = AnexoCurso
     extra = 1
 
     formfield_overrides = {
-        models.CharField: {'widget': TextInput(attrs={'size': '85'})},
-        # models.TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40})},
+        CharField: {'widget': TextInput(attrs={'size': '85'})},
+        # from django.forms import Textarea
+        # TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40})},
     }
 
 
