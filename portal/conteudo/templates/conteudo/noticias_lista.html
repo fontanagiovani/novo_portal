@@ -1,5 +1,6 @@
 {% extends 'core/lista.html' %}
 {% load thumbnail %}
+{% load i18n %}
 
 {% block breadcrumbs %}
     <li class="current"><a href="{% url 'conteudo:noticias_lista' %}">Notícias</a></li>
@@ -11,21 +12,12 @@
             <h1>NOTÍCIAS</h1>
 
             <div class="row">
-                {% for noticia in noticias %}
+                {% for noticia in noticias.object_list %}
                     <div class="row padding-bottom-duplo">
                         <div class="row hover-cinza-claro">
                             <a href="{{ noticia.get_absolute_url }}">
                                 <div class="row">
-
-                                    <div class="small-2 medium-1 columns no-padding">
-                                        {% if noticia.primeira_imagem %}
-                                            <img
-                                                    src="{% thumbnail noticia.primeira_imagem 200x200 crop quality=80 %}"
-                                                    alt="{{ noticia.titulo }}">
-                                        {% endif %}
-                                    </div>
-
-                                    <div class="small-10 medium-11 columns">
+                                    <div class="small-12 columns borda-esquerda">
                                         <div class="data-local texto-tamanho-xsmall">{{ noticia.data_publicacao|date:"d M" }}
                                             - {{ noticia.campus_origem.nome }}</div>
                                         <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
@@ -42,21 +34,34 @@
 
 {% block paginacao %}
     {#Início da paginação#}
-    {% if noticias.paginator.num_pages > 1 %}
-        <div class="pagination-centered">
-            <ul class="pagination">
-                {% if noticias.has_previous %}
-                    <li class="arrow"><a href="?page={{ noticias.previous_page_number }}">&laquo;</a></li>
-                {% endif %}
-
-                <li class="current"><a href="">Página {{ noticias.number }} de {{ noticias.paginator.num_pages }}</a>
+    <div class="pagination-centered">
+        <ul class="pagination" role="menubar" aria-label="Pagination">
+            {% if noticias.has_previous %}
+                <li class="arrow" aria-disabled="true">
+                    <a href="?{{ noticias.previous_page_number.querystring }}">
+                        <i class="fi-rewind"></i>
+                    </a>
                 </li>
-
-                {% if noticias.has_next %}
-                    <li class="arrow"><a href="?page={{ noticias.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+            {% for page in noticias.pages %}
+                {% if page %}
+                    {% ifequal page noticias.number %}
+                        <li class="current"><a href="">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                    {% endifequal %}
+                {% else %}
+                    <li class="unavailable" aria-disabled="true"><a href="">&hellip;</a></li>
                 {% endif %}
-            </ul>
-        </div>
-    {% endif %}
+            {% endfor %}
+            {% if noticias.has_next %}
+                <li class="arrow">
+                    <a href="?{{ noticias.next_page_number.querystring }}" class="arrow">
+                        <i class="fi-fast-forward"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
     {#Fim da paginação#}
 {% endblock %}

@@ -1,6 +1,18 @@
 IFMT
 ====
 
+Pré-requisitos do requirements.txt:
+
+- requisito do python-ldap, executar:
+
+$ sudo aptitude install python-dev libldap2-dev libsasl2-dev libssl-dev
+
+- requisito para instalar PIL:
+
+$ sudo aptitude install libjpeg libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev
+
+
+
 Desenvolvimento do novo portal do IFMT
 
 ----

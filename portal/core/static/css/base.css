@@ -89,6 +89,10 @@ h2 {
     color: #DA251D;
 }
 
+.borda-esquerda {
+    border-left: 0.675em solid #DA251D;
+}
+
 .fundo-cinza {
     background-color: #e4e4e4;
 }

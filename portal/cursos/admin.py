@@ -1,36 +1,43 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from django_summernote.admin import SummernoteModelAdmin
+from django.db.models import CharField
+from django.forms import TextInput
+import reversion
+
 from portal.cursos.models import Curso
 from portal.cursos.models import Formacao
 from portal.cursos.models import GrupoCursos
 from portal.cursos.models import AnexoCurso
+from portal.cursos.forms import CursoForm
 
 
-class FormacaoAdmin(admin.ModelAdmin):
+class FormacaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     pass
+
+admin.site.register(Formacao, FormacaoAdmin)
 
 
 class AnexoCursoInLine(admin.StackedInline):
-    from django.forms import TextInput, Textarea
-    from django.db import models
+
     model = AnexoCurso
     extra = 1
 
     formfield_overrides = {
-        models.CharField: {'widget': TextInput(attrs={'size': '85'})},
-        # models.TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40})},
+        CharField: {'widget': TextInput(attrs={'size': '85'})},
+        # from django.forms import Textarea
+        # TextField: {'widget': Textarea(attrs={'rows':4, 'cols':40})},
     }
 
 
-class CursoAdmin(SummernoteModelAdmin):
+class CursoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
+    form = CursoForm
+
     inlines = (AnexoCursoInLine, )
 
+admin.site.register(Curso, CursoAdmin)
 
-class GrupoCursosAdmin(SummernoteModelAdmin):
+
+class GrupoCursosAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     pass
 
-
-admin.site.register(Formacao, FormacaoAdmin)
-admin.site.register(Curso, CursoAdmin)
 admin.site.register(GrupoCursos, GrupoCursosAdmin)

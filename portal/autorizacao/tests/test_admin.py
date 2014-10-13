@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 from django.test.testcases import TestCase
 from django.test.utils import override_settings
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.files import File
 from django.contrib.auth.models import User
 from filer.models import Image
 from model_mommy import mommy
+
+# Nao utiliza o ldap backend para os testes
+settings.AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 def preparar():
@@ -403,8 +409,8 @@ class BannerAdminIndexTest(TestCase):
         self.site2 = contexto['site2']
         self.site3 = contexto['site3']
 
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagembanner'
+        img_path = u'portal/banner/static/img/images.jpeg'
+        img_name = u'imagembanner'
         with open(img_path) as img:
             file_obj = File(img, name=img_name)
             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
@@ -465,8 +471,8 @@ class BannerARAdminIndexTest(TestCase):
         self.site2 = contexto['site2']
         self.site3 = contexto['site3']
 
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagembanner'
+        img_path = u'portal/banner/static/img/images.jpeg'
+        img_name = u'imagembanner'
         with open(img_path) as img:
             file_obj = File(img, name=img_name)
             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
@@ -839,8 +845,8 @@ class ChangeViewSitesTest(TestCase):
         """
         Na admin add view deve estar disponivel somente os sites que o usuario tem permissao
         """
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagembanner'
+        img_path = u'portal/banner/static/img/images.jpeg'
+        img_name = u'imagembanner'
         with open(img_path) as img:
             file_obj = File(img, name=img_name)
             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
@@ -861,8 +867,8 @@ class ChangeViewSitesTest(TestCase):
         """
         Na admin add view deve estar disponivel somente os sites que o usuario tem permissao
         """
-        img_path = 'portal/banner/static/img/images.jpeg'
-        img_name = 'imagembanner'
+        img_path = u'portal/banner/static/img/images.jpeg'
+        img_name = u'imagembanner'
         with open(img_path) as img:
             file_obj = File(img, name=img_name)
             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)

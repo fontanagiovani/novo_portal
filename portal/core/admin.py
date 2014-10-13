@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.utils import timezone
 from mptt.admin import MPTTModelAdmin
 from adminsortable.admin import SortableAdminMixin
+import reversion
 
 from portal.core.models import Menu
 from portal.core.models import SiteDetalhe
@@ -135,14 +136,55 @@ class EstaPublicadoListFilter(admin.SimpleListFilter):
             return queryset
 
 
-class CampusAdmin(admin.ModelAdmin):
+class ContemInativoListFilter(admin.SimpleListFilter):
+    # USAGE
+    # list_filter = (CategoryListFilter,)
+
+    # Human-readable title which will be displayed in the
+    # right admin sidebar just above the filter options.
+    title = 'Inativo'
+
+    # Parameter for the filter that will be used in the URL query.
+    parameter_name = 'domain__contains'
+
+    def lookups(self, request, model_admin):
+        """
+        Returns a list of tuples. The first element in each
+        tuple is the coded value for the option that will
+        appear in the URL query. The second element is the
+        human-readable name for the option that will appear
+        in the right sidebar.
+        """
+        list_tuple = list()
+        list_tuple.append(('inativo', u'Inativos'))
+        # list_tuple.append((0, u'Não'))
+        # for site in request.user.permissao.sites.all():
+        #     list_tuple.append((site.id, site.domain))
+        return list_tuple
+
+    def queryset(self, request, queryset):
+        """
+        Returns the filtered queryset based on the value
+        provided in the query string and retrievable via
+        `self.value()`.
+        """
+        # Compare the requested value (either '80s' or 'other')
+        # to decide how to filter the queryset.
+        if self.value():
+            if self.value():
+                return queryset.filter(domain__contains='inativo')
+        else:
+            return queryset
+
+
+class CampusAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     list_display = ('nome', )
     search_fields = ('nome',)
 
 admin.site.register(Campus, CampusAdmin)
 
 
-class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
+class MenuAdmin(reversion.VersionAdmin, SortableAdminMixin, MPTTModelAdmin):
     """
     Para obter a renderizacao adequada a classe deve herdar de SortableAdminMixin e MPTTModelAdmin nesta ordem
     e o atributo change_list_template deve ser definido para sobrescrever os definidos pela classes
@@ -168,8 +210,8 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
 
         return ModelFormMetaClass
 
-    def queryset(self, request):
-        qs = super(MenuAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(MenuAdmin, self).get_queryset(request)
         return qs.filter(site__in=request.user.permissao.sites.all()).distinct()
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -180,7 +222,7 @@ class MenuAdmin(SortableAdminMixin, MPTTModelAdmin):
 admin.site.register(Menu, MenuAdmin)
 
 
-class TipoSelecaoAdmin(admin.ModelAdmin):
+class TipoSelecaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     list_display = ('titulo', 'parent',)
     search_fields = ('titulo',)
     prepopulated_fields = {'slug': ('titulo',)}
@@ -188,7 +230,7 @@ class TipoSelecaoAdmin(admin.ModelAdmin):
 admin.site.register(TipoSelecao, TipoSelecaoAdmin)
 
 
-class SelecaoAdmin(admin.ModelAdmin):
+class SelecaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     list_display = ('titulo', 'tipo', 'status', 'data_abertura_edital', 'data_abertura_inscricoes',
                     'data_encerramento_inscricoes', )
     search_fields = ('titulo', 'tipo', 'status', 'data_abertura_edital', 'data_abertura_inscricoes',
@@ -207,15 +249,15 @@ class SiteIndexInline(admin.StackedInline):
     can_delete = False
 
 
-class SiteIndexAdmin(SiteAdmin):
-
+class SiteIndexAdmin(reversion.VersionAdmin, SiteAdmin):
+    list_filter = (ContemInativoListFilter, )
     inlines = [SiteIndexInline]
 
 admin.site.unregister(Site)
 admin.site.register(Site, SiteIndexAdmin)
 
 
-class DestinoAdmin(admin.ModelAdmin):
+class DestinoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     pass
 
 admin.site.register(Destino, DestinoAdmin)

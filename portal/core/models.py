@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
+import re
+from unicodedata import normalize
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
+from django.db.models.signals import post_save
+from django.contrib.auth.models import User
+from filer.models import File, Image, Folder
 from filer.fields.image import FilerImageField
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 class Campus(models.Model):
@@ -93,15 +98,21 @@ class SiteDetalhe(models.Model):
 class Destino(models.Model):
     TIPO = (
         ('PORTAL', u'PORTAL'),
-        ('CAMPUS', u'CMPUS'),
-        ('BLOG', u'Blog'),
-        ('PAGINA', u'Página individual'),
-        ('REDIRECT', u'Redirect'),
+        ('PORTAL_SECUNDARIO', u'PORTAL SECUNDÁRIO'),
+        ('BLOG', u'BLOG'),
+        ('BLOG_SLIDER', u'BLOG SLIDER'),
+        ('BANNERS', u'BANNERS'),
+        ('REDIRECT', u'REDIRECIONAMENTO'),
     )
 
     tipo = models.CharField(max_length=100, choices=TIPO)
-    caminho = models.CharField(max_length=200, help_text=u'Utilize o caminho app/template - Ex.: core/portal.html'
-                                                         u'<br>Em caso de redirect use a url completa - '
+    caminho = models.CharField(max_length=200, help_text=u'Utilize o caminho app/template - Templates disponíveis:'
+                                                         u'<br>core/portal.html'
+                                                         u'<br>core/portal_secundario.html'
+                                                         u'<br>core/blog.html'
+                                                         u'<br>core/blog_slider.html'
+                                                         u'<br>core/banners.html'
+                                                         u'<br><br>Em caso de redirect use a url completa - '
                                                          u'Ex.: http://www.ifmt.edu.br')
 
     def __unicode__(self):
@@ -109,20 +120,57 @@ class Destino(models.Model):
 
     @staticmethod
     def portal():
-        return Destino.TIPO[0][0]
+        return 'PORTAL'
 
     @staticmethod
-    def campus():
-        return Destino.TIPO[1][0]
+    def portal_secundario():
+        return 'PORTAL_SECUNDARIO'
 
     @staticmethod
     def blog():
-        return Destino.TIPO[2][0]
+        return 'BLOG'
 
     @staticmethod
-    def pagina():
-        return Destino.TIPO[3][0]
+    def blog_slider():
+        return 'BLOG_SLIDER'
+
+    @staticmethod
+    def banners():
+        return 'BANNERS'
 
     @staticmethod
     def redirect():
-        return Destino.TIPO[4][0]
+        return 'REDIRECT'
+
+
+# cria um diretorio no filer para cada novo usuario
+def create_user_profile(sender, instance, created, **kwargs):
+    if created and not instance.is_superuser:
+        diretorio = Folder(
+            owner=instance,
+            name=instance.username,
+        )
+        diretorio.save()
+
+post_save.connect(create_user_profile, sender=User)
+
+
+_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_ºª`{|},:]+')
+
+def slugify(text, delim=u'-'):
+    """Generates an slightly worse ASCII-only slug."""
+    result = []
+    for word in _punct_re.split(text.lower()):
+        word = normalize('NFKD', word).encode('ascii', 'ignore')
+        if word:
+            result.append(word)
+    return unicode(delim.join(result))
+
+
+def unicode_filename(sender, instance, created, **kwargs):
+    if not instance.original_filename == slugify(instance.original_filename):
+        instance.original_filename = slugify(instance.original_filename)
+        instance.save()
+
+post_save.connect(unicode_filename, sender=File)
+post_save.connect(unicode_filename, sender=Image)

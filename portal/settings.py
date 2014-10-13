@@ -65,7 +65,6 @@ INSTALLED_APPS = (
     'devserver',
     'south',
     'mptt',
-    'django_summernote',
     'filer',
     'easy_thumbnails',
     'taggit',
@@ -75,6 +74,8 @@ INSTALLED_APPS = (
     'haystack',
     'whoosh',
     'taggit_autosuggest',
+    'reversion',
+    'pure_pagination',
 
     # Project apps
     'portal.core',
@@ -124,7 +125,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -182,6 +183,11 @@ THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.filters',
 )
 
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 6,
+    'MARGIN_PAGES_DISPLAYED': 2,
+}
+
 SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
     'taggit': 'taggit.south_migrations',
@@ -212,27 +218,35 @@ else:  # Assume development mode
         }
     }
 
-# Summernote configuration
-SUMMERNOTE_CONFIG = {
-    # Change editor size
-    'width': '100%',
+AUTHENTICATION_BACKENDS = (
+    'portal.ldapauth.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
-    # Set editor language/locale
-    'lang': 'pt-BR',
 
-    # Customize toolbar buttons
-    'toolbar': [
-        # ['style', ['style']],
-        ['font', ['bold', 'italic', 'underline', 'clear']],
-        # ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
-        # 'strikethrough', 'clear']],
-        # ['para', ['ul', 'ol']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'video']],
-        ['misc', ['codeview']]
-    ],
-}
+# ldap settings for ldap backend
+import ldap
+
+LDAP_DEBUG = True
+LDAP_SERVER_URI = config('LDAP_SERVER_URI', default='')
+LDAP_PREBINDDN = config('LDAP_PREBINDDN', default='')
+LDAP_PREBINDPW = config('LDAP_PREBINDPW', default='')
+LDAP_SEARCHDN = config('LDAP_SEARCHDN', default='')
+LDAP_SEARCH_FILTER = 'cn=%s'  # or sAMAccountName
+LDAP_SCOPE = ldap.SCOPE_SUBTREE
+LDAP_UPDATE_FIELDS = True
+
+#Required unless LDAP_FULL_NAME is set:
+LDAP_FIRST_NAME = 'givenName'
+LDAP_LAST_NAME = 'sn'
+
+#Optional Settings:
+LDAP_FULL_NAME = 'displayName'
+#LDAP_GID -- string, LDAP attribute to get group name/number from
+#LDAP_SU_GIDS -- list of strings, group names/numbers that are superusers
+#LDAP_STAFF_GIDS -- list of strings, group names/numbers that are staff
+LDAP_EMAIL = 'mail'
+
 
 LOGGING = {
     'version': 1,

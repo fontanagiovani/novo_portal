@@ -13,13 +13,18 @@
 
 {% block edicao %}
     {% if user.is_authenticated %}
-        <div class="row padding-top">
-            <div class="medium-12 columns text-right">
-                <a href="{% url 'admin:conteudo_noticia_change' noticia.id %}" target="_blank">
-                    <i class="fi-page-edit"></i> Editar notícia
-                </a>
-            </div>
-        </div>
+        {% if perms.conteudo.change_noticia %}
+            {% load permissao_tags %}
+            {% if user|tem_permissao:noticia %}
+                <div class="row padding-top">
+                    <div class="medium-12 columns text-right">
+                        <a href="{% url 'admin:conteudo_noticia_change' noticia.id %}">
+                            <i class="fi-page-edit"></i> Editar notícia
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
     {% endif %}
 {% endblock edicao %}
 
@@ -76,7 +81,7 @@
         <div class="row collapse padding-bottom-duplo">
             <div class="small-12 columns">
                 <ul class="sem-marcador no-margin">
-                    <li class="padding-right">Tags:</li>
+                    <li class="padding-right">Marcadores:</li>
                     {% for tag in noticia.tags.all %}
                         <li class="padding-all fundo-cinza"><a
                                 href="{% url 'conteudo:tags_lista' slug=tag.slug %}">{{ tag.slug }}</a></li>

@@ -1,18 +1,6 @@
 #coding: utf-8
 from django import forms
 from portal.banner.models import Banner
-from portal.banner.models import BannerAcessoRapido
-
-
-def _generic_clean_sites(obj):
-    sites_marcados = obj.cleaned_data['sites']
-    for site in sites_marcados:
-        if not site in obj.request.user.permissao.sites.all():
-            raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
-                                        u"Os sites permitidos são: %s"
-                                        % (obj.request.user.permissao.sites.all()))
-
-    return sites_marcados
 
 
 class BannerForm(forms.ModelForm):
@@ -21,17 +9,15 @@ class BannerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(BannerForm, self).__init__(*args, **kwargs)
+        if self.request.user.permissao.sites.all().count() == 1:
+            self.initial['sites'] = self.request.user.permissao.sites.all()
 
     def clean_sites(self):
-        return _generic_clean_sites(self)
+        sites_marcados = self.cleaned_data['sites']
+        for site in sites_marcados:
+            if not site in self.request.user.permissao.sites.all():
+                raise forms.ValidationError(u"Você não tem permissão para publicar neste site. "
+                                            u"Os sites permitidos são: %s"
+                                            % (self.request.user.permissao.sites.all()))
 
-
-class BannerAcessoRapidoForm(forms.ModelForm):
-    model = BannerAcessoRapido
-
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        super(BannerAcessoRapidoForm, self).__init__(*args, **kwargs)
-
-    def clean_sites(self):
-        return _generic_clean_sites(self)
+        return sites_marcados

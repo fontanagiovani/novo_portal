@@ -1,22 +1,23 @@
 {% extends 'core/lista.html' %}
 {% load thumbnail %}
+{% load i18n %}
 
 {% block breadcrumbs %}
-    <li class="current">Tags</li>
+    <li class="current">Marcadores</li>
 {% endblock %}
 
 {% block listagem %}
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
-            <h1>Publicações com a tag: {{ slug }}</h1>
+            <h1>Publicações com o marcador: {{ slug }}</h1>
 
             <div class="row padding-top-duplo">
-                {% for tag in tags %}
+                {% for tag in tags.object_list %}
                     <div class="row padding-bottom-duplo">
                         <div class="row hover-cinza-claro">
                             <a href="{{ tag.content_object.get_absolute_url }}">
                                 <div class="row">
-                                    <div class="small-12 columns">
+                                    <div class="small-12 columns borda-esquerda">
                                         {{ tag.content_type.name }} - {{ tag.content_object.titulo }}
                                     </div>
                                 </div>
@@ -31,20 +32,34 @@
 
 {% block paginacao %}
     {#Início da paginação#}
-    {% if tags.paginator.num_pages > 1 %}
-        <div class="pagination-centered">
-            <ul class="pagination">
-                {% if tags.has_previous %}
-                    <li class="arrow"><a href="?page={{ tags.previous_page_number }}">&laquo;</a></li>
+    <div class="pagination-centered">
+        <ul class="pagination" role="menubar" aria-label="Pagination">
+            {% if tags.has_previous %}
+                <li class="arrow" aria-disabled="true">
+                    <a href="?{{ tags.previous_page_number.querystring }}">
+                        <i class="fi-rewind"></i>
+                    </a>
+                </li>
+            {% endif %}
+            {% for page in tags.pages %}
+                {% if page %}
+                    {% ifequal page tags.number %}
+                        <li class="current"><a href="">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                    {% endifequal %}
+                {% else %}
+                    <li class="unavailable" aria-disabled="true"><a href="">&hellip;</a></li>
                 {% endif %}
-
-                <li class="current"><a href="">Página {{ tags.number }} de {{ tags.paginator.num_pages }}</a></li>
-
-                {% if tags.has_next %}
-                    <li class="arrow"><a href="?page={{ tags.next_page_number }}">&raquo;</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    {% endif %}
+            {% endfor %}
+            {% if tags.has_next %}
+                <li class="arrow">
+                    <a href="?{{ tags.next_page_number.querystring }}" class="arrow">
+                        <i class="fi-fast-forward"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
     {#Fim da paginação#}
 {% endblock %}

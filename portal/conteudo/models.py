@@ -4,7 +4,7 @@ from django.utils import timezone
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
 from taggit_autosuggest.managers import TaggableManager
-from portal.conteudo.managers import ConteudoPublicadoManager
+from portal.conteudo.managers import PublicadoManager
 
 
 class Conteudo(models.Model):
@@ -22,7 +22,7 @@ class Conteudo(models.Model):
     publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
 
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         ordering = ('-data_publicacao', '-id')
@@ -60,7 +60,7 @@ class Noticia(Conteudo):
     prioridade_destaque = models.CharField(max_length=1, choices=PRIORIDADE_DESTAQUE, default='6',
                                            verbose_name=u'Prioridade de destaque')
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Notícia'
@@ -80,7 +80,7 @@ class Noticia(Conteudo):
 
 class Anexo(models.Model):
     descricao = models.CharField(max_length=250, verbose_name=u'Descrição')
-    arquivo = FilerFileField(related_name='anexos_noticia')
+    arquivo = FilerFileField(related_name='anexos_conteudo')
     conteudo = models.ForeignKey('Conteudo', verbose_name=u'conteudo')
 
     class Meta:
@@ -93,7 +93,7 @@ class Anexo(models.Model):
 
 class Pagina(Conteudo):
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Página'
@@ -116,7 +116,7 @@ class Evento(Conteudo):
     data_fim = models.DateTimeField(verbose_name=u'Data de término')
 
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Evento'
@@ -142,23 +142,28 @@ class Licitacao(models.Model):
         ('4', u'Concorrência'),
     )
     sites = models.ManyToManyField('sites.Site', verbose_name=u'Sites para publicação')
+    campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Origem')
     modalidade = models.CharField(max_length=1, choices=TIPO_MODALIDADE, verbose_name=u'Tipo de Modalidade')
     titulo = models.CharField(max_length=100, verbose_name=u'Título')
-    data_publicacao = models.DateField(verbose_name=u'Data de publicação')
+    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     data_abertura = models.DateField(verbose_name=u'Data de abertura')
-    pregao_srp = models.BooleanField(verbose_name=u'É um pregão SRP?')
+    pregao_srp = models.BooleanField(verbose_name=u'É um pregão SRP?', default=False)
     validade_ata_srp = models.DateField(verbose_name=u'Validade ATA SRP', blank=True, null=True)
-    possui_contrato = models.BooleanField(verbose_name=u'Possui Contrato?')
+    possui_contrato = models.BooleanField(verbose_name=u'Possui Contrato?', default=False)
     vigencia_contrato_inicio = models.DateField(verbose_name=u'Data de início da vigência do contrato',
                                                 blank=True, null=True)
     vigencia_contrato_fim = models.DateField(verbose_name=u'Data de término da vigência do contrato',
                                              blank=True, null=True)
-    encerrado = models.BooleanField(verbose_name=u'Processo encerrado?')
+    encerrado = models.BooleanField(verbose_name=u'Processo encerrado?', default=False)
     situacao = models.TextField(verbose_name=u'Situação')
     objeto = models.TextField(verbose_name=u'Objeto')
     alteracoes = models.TextField(verbose_name=u'Alterações', blank=True, null=True)
     email_contato = models.EmailField(verbose_name=u'Email para contato')
+    publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
     tags = TaggableManager(blank=True)
+
+    objects = models.Manager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Licitação'
@@ -166,6 +171,10 @@ class Licitacao(models.Model):
 
     def __unicode__(self):
         return self.titulo
+
+    @property
+    def esta_publicado(self):
+        return self.publicado and self.data_publicacao < timezone.now()
 
     @staticmethod
     def get_modalidades_existentes(site):
@@ -176,6 +185,10 @@ class Licitacao(models.Model):
 
         return modalidades_existentes
 
+    @models.permalink
+    def get_absolute_url(self):
+        return 'conteudo:licitacao_detalhe', (), {'licitacao_id': self.id}
+
 
 class AnexoLicitacao(models.Model):
     descricao = models.CharField(max_length=250, verbose_name=u'Descrição')
@@ -183,8 +196,8 @@ class AnexoLicitacao(models.Model):
     licitacao = models.ForeignKey('Licitacao', verbose_name=u'Licitação')
 
     class Meta:
-        verbose_name = u'Anexo'
-        verbose_name_plural = u'Anexos'
+        verbose_name = u'Anexo da licitação'
+        verbose_name_plural = u'Anexos da licitação'
 
     def __unicode__(self):
         return self.descricao
@@ -194,7 +207,7 @@ class Video(Conteudo):
     id_video_youtube = models.CharField(max_length=250, verbose_name=u'Id do Video')
 
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Vídeo'
@@ -219,7 +232,7 @@ class Video(Conteudo):
 
 class Galeria(Conteudo):
     objects = models.Manager()
-    publicados = ConteudoPublicadoManager()
+    publicados = PublicadoManager()
 
     class Meta:
         verbose_name = u'Galeria'
@@ -251,8 +264,8 @@ class ImagemGaleria(models.Model):
     galeria = models.ForeignKey('Galeria', verbose_name=u'Galeria')
 
     class Meta:
-        verbose_name = u'Anexo de página'
-        verbose_name_plural = u'Anexos de página'
+        verbose_name = u'Anexo de galeria'
+        verbose_name_plural = u'Anexos de galeria'
 
     def __unicode__(self):
         return self.descricao

@@ -6,10 +6,13 @@ from django.forms.models import BaseInlineFormSet
 from portal.core.models import Campus
 from portal.conteudo.models import Conteudo
 from portal.conteudo.models import Licitacao
+from portal.core.forms import TinyMCEEditor
 
 
 class ConteudoForm(ModelForm):
     model = Conteudo
+
+    texto = forms.CharField(widget=TinyMCEEditor())
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
@@ -43,6 +46,10 @@ class NoticiaForm(ConteudoForm):
 
 class LicitacaoForm(ModelForm):
     model = Licitacao
+
+    situacao = forms.CharField(widget=TinyMCEEditor())
+    objeto = forms.CharField(widget=TinyMCEEditor())
+    alteracoes = forms.CharField(widget=TinyMCEEditor())
 
     class Media:
         js = (
@@ -90,3 +97,5 @@ class AnexoFormset(BaseInlineFormSet):
 
             if not imagem:
                 raise forms.ValidationError(u'Uma notícia de destaque precisa de uma imagem anexada.')
+
+

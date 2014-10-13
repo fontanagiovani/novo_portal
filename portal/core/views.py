@@ -1,11 +1,15 @@
 # coding: utf-8
 from collections import OrderedDict
+from django.db import models
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import Site
 from django.shortcuts import render, redirect
 from django.http import HttpResponse  # httresponse para usar com json
 from django.http.response import Http404
 import json  # json para usar no select com ajax
 from haystack.views import SearchView
+from pure_pagination import Paginator, PageNotAnInteger
+
 from portal.core.models import Menu
 from portal.core.models import Destino
 from portal.core.models import Selecao, TipoSelecao
@@ -35,8 +39,8 @@ def home(request):
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
 
-            banners = Banner.objects.filter(sites__id__exact=site.id)[:3]
-            acesso_rapido = BannerAcessoRapido.objects.filter(sites__id__exact=site.id)[:5]
+            banners = Banner.publicados.filter(sites__id__exact=site.id)[:4]
+            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)[:5]
             formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
             contexto = {
                 'noticias_destaque': noticias_detaque,
@@ -48,21 +52,88 @@ def home(request):
                 'galerias': galerias,
                 'formacao': formacao,
             }
-        if site.sitedetalhe.destino.tipo == Destino.blog():
-            if not request.user.is_staff:
-                noticias = Noticia.publicados.all()[:10]
-            else:
-                noticias = Noticia.objects.all()[:10]
 
+        if site.sitedetalhe.destino.tipo == Destino.portal_secundario():
+            noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
+                                      key=lambda o: o.prioridade_destaque)
+            mais_noticias = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
+                id__in=[obj.id for obj in noticias_detaque])[:6]
+            eventos = Evento.publicados.filter(sites__id__exact=site.id)[:3]
+            videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
+            galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
+
+            banners = Banner.publicados.filter(sites__id__exact=site.id)[:4]
+            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)[:5]
+            formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
             contexto = {
-                'noticias': noticias,
+                'noticias_destaque': noticias_detaque,
+                'mais_noticias': mais_noticias,
+                'eventos': eventos,
+                'banners': banners,
+                'acesso_rapido': acesso_rapido,
+                'videos': videos,
+                'galerias': galerias,
+                'formacao': formacao,
             }
 
-        # Adiconar o contexto para os demais tipos de template nos demais condicionais
+        if site.sitedetalhe.destino.tipo == Destino.blog_slider():
+            try:
+                page = request.GET.get('page', 1)
+
+            except PageNotAnInteger:
+                page = 1
+
+            noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
+                                      key=lambda o: o.prioridade_destaque)
+            objects = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
+                id__in=[obj.id for obj in noticias_detaque])
+            paginator = Paginator(objects, request=request, per_page=5)
+            mais_noticias = paginator.page(page)
+
+            videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
+            galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
+            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)
+            contexto = {
+                'noticias_destaque': noticias_detaque,
+                'mais_noticias': mais_noticias,
+                'videos': videos,
+                'galerias': galerias,
+                'acesso_rapido': acesso_rapido,
+            }
+
+        if site.sitedetalhe.destino.tipo == Destino.blog():
+            try:
+                page = request.GET.get('page', 1)
+
+            except PageNotAnInteger:
+                page = 1
+
+            objects = Noticia.publicados.filter(sites__id__exact=site.id)
+            paginator = Paginator(objects, request=request, per_page=5)
+            noticias = paginator.page(page)
+
+            videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
+            galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
+            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)
+            contexto = {
+                'noticias': noticias,
+                'videos': videos,
+                'galerias': galerias,
+                'acesso_rapido': acesso_rapido,
+            }
+
+        if site.sitedetalhe.destino.tipo == Destino.banners():
+            banners = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)
+
+            contexto = {
+                'banners': banners,
+            }
+
+            # Adiconar o contexto para os demais tipos de template nos demais condicionais
 
     except (Site.DoesNotExist, Noticia.DoesNotExist, Evento.DoesNotExist,
             Banner.DoesNotExist, BannerAcessoRapido.DoesNotExist, Video.DoesNotExist,
-            Galeria.DoesNotExist):
+            Galeria.DoesNotExist, Curso.DoesNotExist):
         raise Http404
 
     return render(request, site.sitedetalhe.destino.caminho, contexto)
@@ -119,6 +190,7 @@ def json_cursos(request, formacao_id, campus_id):
     return HttpResponse(json.dumps(dados), content_type="application/json")
 
 
+@login_required
 def admin_site_menu(request, site_id):
     try:
         site = Site.objects.get(id=site_id)
@@ -143,9 +215,29 @@ def serialize_menus(queryset):
 class SearchViewSites(SearchView):
     # sobrescrita do metodo para filtar pelo dominio da requisicao
     def get_results(self):
-        results = super(SearchViewSites, self).get_results()
+        results = self.searchqueryset.filter(text__startswith=self.query)
+
+        search_models = []
+
+        if self.form.is_valid():
+            for model in self.form.cleaned_data['models']:
+                search_models.append(models.get_model(*model.split('.')))
+
+            results = results.models(*search_models)
+
         results = results.filter(text__contains=self.request.get_host())
 
-        # import ipdb
-        # ipdb.set_trace()
         return results
+
+    def build_page(self):
+        try:
+            page = self.request.GET.get('page', 1)
+
+        except PageNotAnInteger:
+            page = 1
+
+        page = int(page)
+        paginator = Paginator(self.results, request=self.request, per_page=25)
+        page_results = paginator.page(page)
+
+        return paginator, page_results

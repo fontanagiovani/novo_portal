@@ -1,5 +1,6 @@
 {% extends 'core/lista.html' %}
 {% load thumbnail %}
+{% load i18n %}
 
 {% block breadcrumbs %}
     <li class="current"><a href="{% url 'conteudo:galerias_lista' %}">Vídeos</a></li>
@@ -11,17 +12,15 @@
             <h1>VÍDEOS</h1>
 
             <div class="row">
-                {% for video in videos %}
+                {% for video in videos.object_list %}
                     <div class="row padding-bottom-duplo">
                         <div class="row hover-cinza-claro">
                             <a href="{{ video.get_absolute_url }}">
                                 <div class="row">
-
                                     <div class="small-2 medium-1 columns no-padding">
                                         <img src="{{ video.imagem_sddefault }}"
                                              alt="{{ video.titulo }}"/>
                                     </div>
-
                                     <div class="small-10 medium-11 columns">
                                         <div class="data-local texto-tamanho-xsmall">{{ video.data_publicacao|date:"d M" }}
                                             - {{ video.campus_origem.nome }}</div>
@@ -39,20 +38,34 @@
 
 {% block paginacao %}
     {#Início da paginação#}
-    {% if videos.paginator.num_pages > 1 %}
-        <div class="pagination-centered">
-            <ul class="pagination">
-                {% if videos.has_previous %}
-                    <li class="arrow"><a href="?page={{ videos.previous_page_number }}">&laquo;</a></li>
+    <div class="pagination-centered">
+        <ul class="pagination" role="menubar" aria-label="Pagination">
+            {% if videos.has_previous %}
+                <li class="arrow" aria-disabled="true">
+                    <a href="?{{ videos.previous_page_number.querystring }}">
+                        <i class="fi-rewind"></i>
+                    </a>
+                </li>
+            {% endif %}
+            {% for page in videos.pages %}
+                {% if page %}
+                    {% ifequal page videos.number %}
+                        <li class="current"><a href="">{{ page }}</a></li>
+                    {% else %}
+                        <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                    {% endifequal %}
+                {% else %}
+                    <li class="unavailable" aria-disabled="true"><a href="">&hellip;</a></li>
                 {% endif %}
-
-                <li class="current"><a href="">Página {{ videos.number }} de {{ videos.paginator.num_pages }}</a></li>
-
-                {% if videos.has_next %}
-                    <li class="arrow"><a href="?page={{ videos.next_page_number }}">&raquo;</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    {% endif %}
+            {% endfor %}
+            {% if videos.has_next %}
+                <li class="arrow">
+                    <a href="?{{ videos.next_page_number.querystring }}" class="arrow">
+                        <i class="fi-fast-forward"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
     {#Fim da paginação#}
 {% endblock %}

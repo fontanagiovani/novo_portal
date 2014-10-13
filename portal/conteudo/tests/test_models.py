@@ -78,10 +78,13 @@ class AnexoTest(TestCase):
     def setUp(self):
         self.obj = mommy.make('Conteudo', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
-        arquivo = FileFiler()
-        arquivo.save()
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
 
-        self.anexo = mommy.prepare('Anexo', conteudo=self.obj, descricao=u'foto1', arquivo=arquivo)
+        self.anexo = mommy.prepare('Anexo', conteudo=self.obj, descricao=u'foto1', arquivo=midia_image)
 
     def test_criacao(self):
         """
@@ -205,8 +208,8 @@ class ImagemGaleriaTest(TestCase):
     def setUp(self):
         self.obj = mommy.make('Galeria', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
@@ -228,3 +231,42 @@ class ImagemGaleriaTest(TestCase):
 
     def tearDown(self):
         del_midia_filer(self.img_name)
+
+
+class LiciatacaoTest(TestCase):
+    def setUp(self):
+        campus_origem = mommy.make('Campus')
+        self.obj = mommy.prepare('Licitacao', titulo=u'Título', publicado=True, campus_origem=campus_origem)
+
+    def test_criacao(self):
+        """
+        Noticia deve conter titulo, texto, data_publicacao
+        """
+        self.obj.save()
+        self.assertIsNotNone(self.obj.pk)
+
+    def test_unicode(self):
+        """
+        Noticia deve apresentar o titulo como unicode
+        """
+        self.assertEqual(u'Título', unicode(self.obj))
+
+    def test_esta_publicado(self):
+        """
+        Conteudo para estar publicado deve estar marcado como publicado e tambem possuir data de publicacao
+        posterior a data atual
+        """
+        self.obj.data_publicacao = timezone.now() - timezone.timedelta(days=1)
+        self.obj.publicado = True
+        self.assertTrue(self.obj.esta_publicado)
+
+        self.obj.publicado = False
+        self.assertFalse(self.obj.esta_publicado)
+
+        self.obj.data_publicacao = timezone.now() + timezone.timedelta(days=1)
+        self.obj.publicado = True
+        self.assertFalse(self.obj.esta_publicado)
+
+        self.obj.data_publicacao = timezone.now() - timezone.timedelta(days=1)
+        self.obj.publicado = False
+        self.assertFalse(self.obj.esta_publicado)

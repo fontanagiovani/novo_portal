@@ -1,8 +1,8 @@
 # Local development dependencies go here
 -r requirements.txt
 
-ipython==2.0.0
+ipython==2.3.0
 ipdb==0.8
-Werkzeug==0.9.4
-Fabric==1.9.0
+Werkzeug==0.9.6
+Fabric==1.10.0
 cuisine==0.7.1

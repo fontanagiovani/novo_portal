@@ -6,6 +6,7 @@ from portal.conteudo.models import Evento
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Video
 from portal.conteudo.models import Galeria
+from portal.conteudo.models import Licitacao
 
 
 class NoticiaIndex(indexes.SearchIndex, indexes.Indexable):
@@ -80,4 +81,23 @@ class GaleriaIndex(indexes.SearchIndex, indexes.Indexable):
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
-        return self.get_model().objects.all()
+        return self.get_model().publicados.all()
+
+
+class LicitacaoIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    modalidade = indexes.CharField(model_attr='modalidade')
+    titulo = indexes.CharField(model_attr='titulo')
+    situacao = indexes.CharField(model_attr='situacao')
+    objeto = indexes.CharField(model_attr='objeto')
+    alteracoes = indexes.CharField(model_attr='alteracoes')
+    data_publicacao = indexes.CharField(model_attr='data_publicacao')
+    data_abertura = indexes.CharField(model_attr='data_abertura')
+    sites = indexes.MultiValueField()
+
+    def get_model(self):
+        return Licitacao
+
+    def index_queryset(self, using=None):
+        """Used when the entire index for model is updated."""
+        return self.get_model().publicados.all()

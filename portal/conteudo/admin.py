@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.sites.models import Site
 from django.forms import TextInput
 from django.db.models import CharField
-from django_summernote.admin import SummernoteModelAdmin
+import reversion
 
 from portal.core.models import Campus
 from portal.core.admin import SitesListFilter, EstaPublicadoListFilter
@@ -23,7 +23,11 @@ class AnexoInLine(admin.TabularInline):
     }
 
 
-class ConteudoAdmin(SummernoteModelAdmin):
+class ConteudoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
+
+    inlines = (AnexoInLine,)
+    filter_horizontal = ('galerias', 'videos')
+
     def get_publicacao(self, obj):
         return obj.esta_publicado
     get_publicacao.short_description = u'Publicado'
@@ -39,13 +43,13 @@ class ConteudoAdmin(SummernoteModelAdmin):
 
         return ModelFormMetaClass
 
-    def queryset(self, request):
-        qs = super(ConteudoAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(ConteudoAdmin, self).get_queryset(request)
         excluidos = Site.objects.exclude(id__in=request.user.permissao.sites.values_list('id'))
 
         return qs.exclude(sites__in=excluidos)
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == "campus_origem":
             kwargs["queryset"] = Campus.objects.filter(sitedetalhe__site=request.user.permissao.sites.all()).distinct()
         return super(ConteudoAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
@@ -89,9 +93,6 @@ class NoticiaAdmin(ConteudoAdmin):
     )
 
     form = NoticiaForm
-
-    inlines = (AnexoInLine,)
-    filter_horizontal = ('galerias', 'videos')
 
 admin.site.register(Noticia, NoticiaAdmin)
 
@@ -269,14 +270,47 @@ class AnexoLicitacaoInLine(admin.TabularInline):
     }
 
 
-class LicitacaoAdmin(SummernoteModelAdmin):
-    list_display = ('modalidade', 'titulo', 'data_publicacao')
+class LicitacaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
+    list_display = ('titulo', 'modalidade', 'data_publicacao', 'get_publicacao')
     search_fields = ('modalidade', 'titulo', 'data_publicacao')
-    list_filter = (SitesListFilter, 'modalidade', )
+    list_filter = (SitesListFilter, EstaPublicadoListFilter, 'modalidade', )
     date_hierarchy = 'data_publicacao'
 
     inlines = [AnexoLicitacaoInLine, ]
     form = LicitacaoForm
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'sites',
+                'campus_origem',
+                'modalidade',
+                'titulo',
+                'data_abertura',
+                'pregao_srp',
+                'validade_ata_srp',
+                'possui_contrato',
+                ('vigencia_contrato_inicio', 'vigencia_contrato_fim'),
+                'encerrado',
+                'situacao',
+                'objeto',
+                'alteracoes',
+                'email_contato',
+                'tags',
+            )
+        }),
+        (u'Regras de publicação', {
+            'fields': (
+                'data_publicacao',
+                'publicado',
+            )
+        }),
+    )
+
+    def get_publicacao(self, obj):
+        return obj.esta_publicado
+    get_publicacao.short_description = u'Publicado'
+    get_publicacao.boolean = True
 
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(LicitacaoAdmin, self).get_form(request, obj, **kwargs)
@@ -287,12 +321,17 @@ class LicitacaoAdmin(SummernoteModelAdmin):
                 return modelform(*args, **kwargs)
         return ModelFormMetaClass
 
-    def queryset(self, request):
-        qs = super(LicitacaoAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(LicitacaoAdmin, self).get_queryset(request)
 
         excluidos = Site.objects.exclude(id__in=request.user.permissao.sites.values_list('id'))
 
         return qs.exclude(sites__in=excluidos)
+
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if db_field.name == "campus_origem":
+            kwargs["queryset"] = Campus.objects.filter(sitedetalhe__site=request.user.permissao.sites.all()).distinct()
+        return super(LicitacaoAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":
