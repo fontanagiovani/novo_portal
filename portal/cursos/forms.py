@@ -6,6 +6,8 @@ from portal.core.forms import TinyMCEEditor
 
 
 class CursoForm(ModelForm):
-    model = Curso
-
-    descricao = forms.CharField(widget=TinyMCEEditor())
+    class Meta:
+        model = Curso
+        widgets = {
+            'descricao': TinyMCEEditor(),
+        }
