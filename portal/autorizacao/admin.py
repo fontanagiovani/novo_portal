@@ -10,6 +10,8 @@ class SiteInline(admin.StackedInline):
     max_num = 1
     can_delete = False
 
+    filter_horizontal = ('sites', )
+
 
 class PermissaoAdmin(reversion.VersionAdmin, UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'permissao')
