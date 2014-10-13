@@ -48,8 +48,8 @@ class BannerAdmin(reversion.VersionAdmin, admin.ModelAdmin):
                 return modelform(*args, **kwargs)
         return ModelFormMetaClass
 
-    def queryset(self, request):
-        qs = super(BannerAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(BannerAdmin, self).get_queryset(request)
         excluidos = Site.objects.exclude(id__in=request.user.permissao.sites.values_list('id'))
 
         return qs.exclude(sites__in=excluidos)
@@ -99,8 +99,8 @@ class BannerAcessoRapidoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
                 return modelform(*args, **kwargs)
         return ModelFormMetaClass
 
-    def queryset(self, request):
-        qs = super(BannerAcessoRapidoAdmin, self).queryset(request)
+    def get_queryset(self, request):
+        qs = super(BannerAcessoRapidoAdmin, self).get_queryset(request)
         excluidos = Site.objects.exclude(id__in=request.user.permissao.sites.values_list('id'))
 
         return qs.exclude(sites__in=excluidos)

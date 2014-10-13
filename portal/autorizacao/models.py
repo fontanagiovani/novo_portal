@@ -13,4 +13,4 @@ class Permissao(models.Model):
     user = models.OneToOneField(User, verbose_name=u'Usuário')
 
     def __unicode__(self):
-        return self.sites.all()
+        return str(self.sites.all())
