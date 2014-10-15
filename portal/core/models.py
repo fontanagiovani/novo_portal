@@ -168,9 +168,10 @@ def slugify(text, delim=u'-'):
 
 
 def unicode_filename(sender, instance, created, **kwargs):
-    if not instance.original_filename == slugify(instance.original_filename):
-        instance.original_filename = slugify(instance.original_filename)
-        instance.save()
+    if instance.original_filename:
+        if not instance.original_filename == slugify(instance.original_filename):
+            instance.original_filename = slugify(instance.original_filename)
+            instance.save()
 
 post_save.connect(unicode_filename, sender=File)
 post_save.connect(unicode_filename, sender=Image)
