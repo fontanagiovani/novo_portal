@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+    {{ site.sitedetalhe.modal|safe }}
     {#Container central para as 2 colunas#}
     <div class="row">
 
@@ -195,4 +196,12 @@
     </div>
     {#Fim da div central para as 3 colunas#}
 
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $('#modal').foundation('reveal', 'open');
+        });
+    </script>
 {% endblock %}
