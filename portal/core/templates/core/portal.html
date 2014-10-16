@@ -2,6 +2,7 @@
 {% load thumbnail %}
 
 {% block content %}
+    {{ site.sitedetalhe.modal|safe }}
     {#Container para as notícias de destaque e banners especiais#}
     <div class="row padding-bottom">
 
@@ -301,6 +302,7 @@
 {% block javascript %}
     <script>
         $(document).ready(function () {
+            $('#modal').foundation('reveal', 'open');
             $("#formacao").change(function () {
                 {#                            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
                 $.ajax({
