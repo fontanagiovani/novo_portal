@@ -18,7 +18,6 @@ from portal.conteudo.models import Evento
 from portal.conteudo.models import Video
 from portal.conteudo.models import Galeria
 from portal.banner.models import Banner
-from portal.banner.models import BannerAcessoRapido
 from portal.cursos.models import Curso
 
 
@@ -39,15 +38,17 @@ def home(request):
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
 
-            banners = Banner.publicados.filter(sites__id__exact=site.id)[:4]
-            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)[:5]
+            banners_destaque = Banner.destaque.filter(sites__id__exact=site.id)[:4]
+            banners_linkdeacesso = Banner.linkdeacesso.filter(sites__id__exact=site.id)[:5]
+            banners_governamental = Banner.governamental.filter(sites__id__exact=site.id)
             formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
             contexto = {
                 'noticias_destaque': noticias_detaque,
                 'mais_noticias': mais_noticias,
                 'eventos': eventos,
-                'banners': banners,
-                'acesso_rapido': acesso_rapido,
+                'banners_destaque': banners_destaque,
+                'banners_linkdeacesso': banners_linkdeacesso,
+                'banners_governamental': banners_governamental,
                 'videos': videos,
                 'galerias': galerias,
                 'formacao': formacao,
@@ -62,15 +63,17 @@ def home(request):
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
 
-            banners = Banner.publicados.filter(sites__id__exact=site.id)[:4]
-            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)[:5]
+            banners_destaque = Banner.destaque.filter(sites__id__exact=site.id)[:4]
+            banners_linkdeacesso = Banner.linkdeacesso.filter(sites__id__exact=site.id)[:5]
+            banners_governamental = Banner.governamental.filter(sites__id__exact=site.id)
             formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
             contexto = {
                 'noticias_destaque': noticias_detaque,
                 'mais_noticias': mais_noticias,
                 'eventos': eventos,
-                'banners': banners,
-                'acesso_rapido': acesso_rapido,
+                'banners_destaque': banners_destaque,
+                'banners_linkdeacesso': banners_linkdeacesso,
+                'banners_governamental': banners_governamental,
                 'videos': videos,
                 'galerias': galerias,
                 'formacao': formacao,
@@ -92,13 +95,13 @@ def home(request):
 
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
-            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)
+            banners = Banner.publicados.filter(sites__id__exact=site.id).order_by('tipo')
             contexto = {
                 'noticias_destaque': noticias_detaque,
                 'mais_noticias': mais_noticias,
                 'videos': videos,
                 'galerias': galerias,
-                'acesso_rapido': acesso_rapido,
+                'banners': banners,
             }
 
         if site.sitedetalhe.destino.tipo == Destino.blog():
@@ -114,16 +117,16 @@ def home(request):
 
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
-            acesso_rapido = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)
+            banners = Banner.publicados.filter(sites__id__exact=site.id).order_by('tipo')
             contexto = {
                 'noticias': noticias,
                 'videos': videos,
                 'galerias': galerias,
-                'acesso_rapido': acesso_rapido,
+                'banners': banners,
             }
 
         if site.sitedetalhe.destino.tipo == Destino.banners():
-            banners = BannerAcessoRapido.publicados.filter(sites__id__exact=site.id)
+            banners = Banner.publicados.filter(sites__id__exact=site.id)
 
             contexto = {
                 'banners': banners,
@@ -132,7 +135,7 @@ def home(request):
             # Adiconar o contexto para os demais tipos de template nos demais condicionais
 
     except (Site.DoesNotExist, Noticia.DoesNotExist, Evento.DoesNotExist,
-            Banner.DoesNotExist, BannerAcessoRapido.DoesNotExist, Video.DoesNotExist,
+            Banner.DoesNotExist, Video.DoesNotExist,
             Galeria.DoesNotExist, Curso.DoesNotExist):
         raise Http404
 

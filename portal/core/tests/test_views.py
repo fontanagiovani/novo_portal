@@ -9,7 +9,7 @@ from filer.models import Image
 
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
-from portal.banner.models import BannerAcessoRapido
+from portal.banner.models import Banner
 from portal.core.models import Menu
 from portal.core.models import Destino
 from portal.core.models import Selecao, TipoSelecao, Campus
@@ -245,13 +245,13 @@ class HomeBlogSliderContextTest(TestCase):
 class HomePortalSecundarioContextTest(TestCase):
     def setUp(self):
         campus = mommy.make(Campus)
-        mommy.make(Noticia, _quantity=4, campus_origem=campus, titulo=u'noticia_destaque', destaque=True)
-        mommy.make(Noticia, _quantity=7, campus_origem=campus, titulo=u'test1')
-        mommy.make(Noticia, _quantity=4, campus_origem=campus, titulo=u'noticia_destaque', destaque=True)
-        mommy.make(Noticia, _quantity=5, campus_origem=campus, titulo=u'test1')
-        mommy.make(Evento, _quantity=3, campus_origem=campus, titulo=u'Titulo do evento')
+        mommy.make('Noticia', _quantity=4, campus_origem=campus, titulo=u'noticia_destaque', destaque=True)
+        mommy.make('Noticia', _quantity=7, campus_origem=campus, titulo=u'test1')
+        mommy.make('Noticia', _quantity=4, campus_origem=campus, titulo=u'noticia_destaque', destaque=True)
+        mommy.make('Noticia', _quantity=5, campus_origem=campus, titulo=u'test1')
+        mommy.make('Evento', _quantity=3, campus_origem=campus, titulo=u'Titulo do evento')
 
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.site = mommy.make(Site, domain='rtr.ifmt.dev')
 
         self.img_path = u'portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
@@ -261,6 +261,8 @@ class HomePortalSecundarioContextTest(TestCase):
 
         destino = mommy.make('Destino', tipo=Destino.portal_secundario(), caminho='core/portal_secundario.html')
         sitedetalhe = mommy.make('SiteDetalhe', destino=destino, logo=midia_image)
+        mommy.make('Banner', _quantity=5, titulo=u'Titulo do banner destaque', arquivo=midia_image, tipo=1)
+        mommy.make('Banner', _quantity=5, titulo=u'Titulo do banner link de acesso', arquivo=midia_image, tipo=2)
 
         sitedetalhe.site = self.site
         sitedetalhe.save()
@@ -271,18 +273,28 @@ class HomePortalSecundarioContextTest(TestCase):
         for i in Evento.objects.all():
             i.sites.add(self.site)
 
+        for i in Banner.objects.all():
+            i.sites.add(self.site)
+
         # cria o ambiente de um novo site e conteudos para simular ambiente real
-        self.site2 = mommy.make(Site, _quantity=1, domain='cba.ifmt.dev')[0]
+        self.site2 = mommy.make(Site, domain='cba.ifmt.dev')
         noticias_destaque = mommy.make(Noticia, _quantity=4, campus_origem=campus,
                                        titulo=u'noticia_destaque', destaque=True)
         noticias = mommy.make(Noticia, _quantity=7, campus_origem=campus, titulo=u'test1')
         eventos = mommy.make(Evento, _quantity=3, campus_origem=campus, titulo=u'Titulo do evento')
+        banners = mommy.make('Banner', _quantity=5, titulo=u'Titulo do banner destaque', arquivo=midia_image, tipo=1)
+        banners_link = mommy.make('Banner', _quantity=5, titulo=u'Titulo do banner link de acesso',
+                                  arquivo=midia_image, tipo=2)
 
         for i in noticias_destaque:
             i.sites.add(self.site2)
         for i in noticias:
             i.sites.add(self.site2)
         for i in eventos:
+            i.sites.add(self.site2)
+        for i in banners:
+            i.sites.add(self.site2)
+        for i in banners_link:
             i.sites.add(self.site2)
 
         self.resp = self.client.get(reverse('home'), SERVER_NAME='rtr.ifmt.dev')
@@ -312,6 +324,18 @@ class HomePortalSecundarioContextTest(TestCase):
         """
         self.assertContains(self.resp, u'Titulo do evento', 3)
 
+    def test_banners_destaque(self):
+        """
+        A home deve conter 4 banners (duplicado devido ao tooltip)
+        """
+        self.assertContains(self.resp, u'Titulo do banner destaque', 8)
+
+    def test_banners_linkdeacesso(self):
+        """
+        A home deve conter 5 banners (duplicado devido ao tooltip)
+        """
+        self.assertContains(self.resp, u'Titulo do banner link de acesso', 10)
+
     def test_conteudo_noticias_destaque(self):
         """
         A home de conter noticias de destaque no topo e pode tambem existir na listagem
@@ -334,14 +358,14 @@ class HomeBannersContextTest(TestCase):
         destino = mommy.make('Destino', tipo=Destino.banners(), caminho='core/banners.html')
         mommy.make('SiteDetalhe', destino=destino, logo=midia_image, site=self.site)
 
-        mommy.make('BannerAcessoRapido', _quantity=4, titulo=u'banner', arquivo=midia_image)
+        mommy.make('Banner', _quantity=4, titulo=u'banner', arquivo=midia_image)
 
-        for i in BannerAcessoRapido.objects.all():
+        for i in Banner.objects.all():
             i.sites.add(self.site)
 
         # cria o ambiente de um novo site e conteudos para simular ambiente real
         self.site2 = mommy.make('Site', domain='cba.ifmt.dev')
-        outros_banners = mommy.make('BannerAcessoRapido', _quantity=4, titulo=u'banner', arquivo=midia_image)
+        outros_banners = mommy.make('Banner', _quantity=4, titulo=u'banner', arquivo=midia_image)
 
         for i in outros_banners:
             i.sites.add(self.site2)

@@ -418,21 +418,29 @@ class BannerAdminIndexTest(TestCase):
         self.client.login(username='admin', password='admin')
 
         for i in range(0, 2):  # loop 2x
-            banner = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
+            banner1 = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image, tipo=1)
+            banner2 = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image, tipo=2)
             # o usuario deve conseguir visualizar estes banners
-            banner.sites.add(self.site)
-            banner.sites.add(self.site2)
+            banner1.sites.add(self.site)
+            banner2.sites.add(self.site)
+            banner1.sites.add(self.site2)
+            banner2.sites.add(self.site2)
 
         for i in range(2, 6):  # loop 4x
-            banner = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
+            banner1 = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image, tipo=1)
+            banner2 = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image, tipo=2)
             # o usuario deve conseguir visualizar estes banners
-            banner.sites.add(self.site2)
+            banner1.sites.add(self.site2)
+            banner2.sites.add(self.site2)
 
         for i in range(7, 12):  # loop 5x
-            banner = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
+            banner1 = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image, tipo=1)
+            banner2 = mommy.make('Banner', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image, tipo=2)
             # o usuario nao deve conseguir visualizar estes banners pois nao tem permissao para o self.site3
-            banner.sites.add(self.site2)
-            banner.sites.add(self.site3)
+            banner1.sites.add(self.site2)
+            banner2.sites.add(self.site2)
+            banner1.sites.add(self.site3)
+            banner2.sites.add(self.site3)
 
     def tearDown(self):
         self.client.logout()
@@ -451,71 +459,71 @@ class BannerAdminIndexTest(TestCase):
         """
         response = self.client.get(reverse('admin:banner_banner_changelist'))
 
-        # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
+        # neste caso somente os 12 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
         # devem aparecer para o usuario
-        self.assertContains(response, 'BannerTesteTitulo', 6)
+        self.assertContains(response, 'BannerTesteTitulo', 12)
 
 
-class BannerARAdminIndexTest(TestCase):
-    # Templates
-    from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-    # Remove o context processor que carrega os menus pois nao e importante para o teste
-    TEMPLATE_CONTEXT_PROCESSORS += (
-        'django.core.context_processors.request',
-    )
-
-    def setUp(self):
-
-        contexto = preparar()
-        self.site = contexto['site']
-        self.site2 = contexto['site2']
-        self.site3 = contexto['site3']
-
-        img_path = u'portal/banner/static/img/images.jpeg'
-        img_name = u'imagembanner'
-        with open(img_path) as img:
-            file_obj = File(img, name=img_name)
-            self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
-
-        self.client.login(username='admin', password='admin')
-
-        for i in range(0, 2):  # loop 2x
-            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
-            # o usuario deve conseguir visualizar estes banners
-            banner.sites.add(self.site)
-            banner.sites.add(self.site2)
-
-        for i in range(2, 6):  # loop 4x
-            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
-            # o usuario deve conseguir visualizar estes banners
-            banner.sites.add(self.site2)
-
-        for i in range(7, 12):  # loop 5x
-            banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
-            # o usuario nao deve conseguir visualizar estes banners pois nao tem permissao para o self.site3
-            banner.sites.add(self.site2)
-            banner.sites.add(self.site3)
-
-    def tearDown(self):
-        self.client.logout()
-
-    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
-    def test_banners_permitidos(self):
-        """
-        O usuario so podera ver as noticias que estiverem publicadas nos sites no qual ele tem permissao. Ex.:
-        1 - Uma noticia e publicada no site RTR e CNP
-            1.1 - Caso o usuario tenha permissao para publicacao nos sites RTR e CNP:
-                1.1.1 - O usuario pode visualizar essa noticia na listagem de noticias
-            1.2 - Caso o usuario tenha permissao para publicacao somente no site RTR:
-                1.2.1 - O usuario nao pode visualizar a noticias na listagem de noticias
-        Isto e, somente se o usuario possuir permissao para todos os sites onde a noticia foi publicada ele pode
-        visualiza-la na listagem
-        """
-        response = self.client.get(reverse('admin:banner_banneracessorapido_changelist'))
-
-        # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
-        # devem aparecer para o usuario
-        self.assertContains(response, 'BannerTesteTitulo', 6)
+# class BannerARAdminIndexTest(TestCase):
+#     # Templates
+#     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+#     # Remove o context processor que carrega os menus pois nao e importante para o teste
+#     TEMPLATE_CONTEXT_PROCESSORS += (
+#         'django.core.context_processors.request',
+#     )
+#
+#     def setUp(self):
+#
+#         contexto = preparar()
+#         self.site = contexto['site']
+#         self.site2 = contexto['site2']
+#         self.site3 = contexto['site3']
+#
+#         img_path = u'portal/banner/static/img/images.jpeg'
+#         img_name = u'imagembanner'
+#         with open(img_path) as img:
+#             file_obj = File(img, name=img_name)
+#             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
+#
+#         self.client.login(username='admin', password='admin')
+#
+#         for i in range(0, 2):  # loop 2x
+#             banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
+#             # o usuario deve conseguir visualizar estes banners
+#             banner.sites.add(self.site)
+#             banner.sites.add(self.site2)
+#
+#         for i in range(2, 6):  # loop 4x
+#             banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
+#             # o usuario deve conseguir visualizar estes banners
+#             banner.sites.add(self.site2)
+#
+#         for i in range(7, 12):  # loop 5x
+#             banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
+#             # o usuario nao deve conseguir visualizar estes banners pois nao tem permissao para o self.site3
+#             banner.sites.add(self.site2)
+#             banner.sites.add(self.site3)
+#
+#     def tearDown(self):
+#         self.client.logout()
+#
+#     @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
+#     def test_banners_permitidos(self):
+#         """
+#         O usuario so podera ver as noticias que estiverem publicadas nos sites no qual ele tem permissao. Ex.:
+#         1 - Uma noticia e publicada no site RTR e CNP
+#             1.1 - Caso o usuario tenha permissao para publicacao nos sites RTR e CNP:
+#                 1.1.1 - O usuario pode visualizar essa noticia na listagem de noticias
+#             1.2 - Caso o usuario tenha permissao para publicacao somente no site RTR:
+#                 1.2.1 - O usuario nao pode visualizar a noticias na listagem de noticias
+#         Isto e, somente se o usuario possuir permissao para todos os sites onde a noticia foi publicada ele pode
+#         visualiza-la na listagem
+#         """
+#         response = self.client.get(reverse('admin:banner_banneracessorapido_changelist'))
+#
+#         # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
+#         # devem aparecer para o usuario
+#         self.assertContains(response, 'BannerTesteTitulo', 6)
 
 
 class MenuAdminIndexTest(TestCase):
@@ -694,19 +702,6 @@ class AddViewSitesTest(TestCase):
         self.assertContains(response, self.site2.domain, 1)
         self.assertContains(response, self.site3.domain, 0)
 
-    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
-    def test_sites_bannersacessorapido_permitidas(self):
-        """
-        Na admin add view deve estar disponivel somente os sites que o usuario tem permissao
-        """
-        response = self.client.get(reverse('admin:banner_banneracessorapido_add'))
-
-        # o usuario tem permissao somente para os self.site e self.site2
-        # (devendo aparecer o dominio desses sites 1 vez cada)
-        self.assertContains(response, self.site.domain, 1)
-        self.assertContains(response, self.site2.domain, 1)
-        self.assertContains(response, self.site3.domain, 0)
-
 
 class ChangeViewSitesTest(TestCase):
     # Templates
@@ -861,27 +856,3 @@ class ChangeViewSitesTest(TestCase):
         self.assertContains(response, self.site.domain, 1)
         self.assertContains(response, self.site2.domain, 1)
         self.assertContains(response, self.site3.domain, 0)
-
-    @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
-    def test_sites_banneracessorapido(self):
-        """
-        Na admin add view deve estar disponivel somente os sites que o usuario tem permissao
-        """
-        img_path = u'portal/banner/static/img/images.jpeg'
-        img_name = u'imagembanner'
-        with open(img_path) as img:
-            file_obj = File(img, name=img_name)
-            self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
-
-        self.obj = mommy.make('BannerAcessoRapido', titulo=u'titulobanneracessorapido', arquivo=self.midia_image)
-        self.obj.sites.add(self.site)
-
-        response = self.client.get(reverse('admin:banner_banneracessorapido_change', args=(self.obj.id,)))
-
-        # o usuario tem permissao somente para os self.site e self.site2
-        # (devendo aparecer o dominio desses sites 1 vez cada)
-        self.assertContains(response, self.site.domain, 1)
-        self.assertContains(response, self.site2.domain, 1)
-        self.assertContains(response, self.site3.domain, 0)
-
-
