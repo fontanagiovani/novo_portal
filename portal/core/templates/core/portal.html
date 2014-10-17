@@ -48,7 +48,7 @@
 
         {#Container para os banners especiais#}
         <div class="medium-4 columns">
-            {% for banner in banners %}
+            {% for banner in banners_destaque %}
                 <div class="row collapse padding-bottom">
                     <a href="{{ banner.url }}">
                         <div class="row collapse hover-cinza-claro">
@@ -178,17 +178,17 @@
         {#Acesso rápido#}
         <div class="row">
             <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
-            {% for ac_rap in acesso_rapido %}
+            {% for banner in banners_linkdeacesso %}
                 <div class="row collapse padding-bottom hover-cinza-medio">
-                    <a href="{{ ac_rap.url }}">
+                    <a href="{{ banner.url }}">
                         <div class="row collapse">
                             <div class="small-2 medium-12 columns">
-                                <img src="{% thumbnail ac_rap.arquivo 303x90 crop quality=80 %}"
+                                <img src="{% thumbnail banner.arquivo 303x90 crop quality=80 %}"
                                      data-tooltip class="has-tip"
-                                     title="{{ ac_rap.titulo }}">
+                                     title="{{ banner.titulo }}">
                             </div>
                             <div class="small-10 columns show-for-small-only">
-                                <p class="padding-left espacamento-medio">{{ ac_rap.titulo }}</p>
+                                <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
                             </div>
                         </div>
                     </a>
@@ -297,6 +297,35 @@
     {#Fim da div da coluna à direita#}
     </div>
     {#Fim da div central para as 3 colunas#}
+
+    {# Banners governamentais #}
+    <div class="row">
+        <div class="small-12 columns">
+            <h1><i class="fi-link"></i> LINKS GOVERNAMENTAIS</h1>
+
+            <ul class="small-block-grid-1 medium-block-grid-5">
+                {% for banner in banners_governamental %}
+                    <li>
+                        <a href="{{ banner.url }}">
+                            <div class="row collapse hover-cinza-claro">
+                                <div class="small-2 medium-12 columns">
+                                    <img src="{% thumbnail banner.arquivo 303x90 crop quality=80 %}"
+                                         data-tooltip class="has-tip"
+                                         title="{{ banner.titulo }}">
+                                </div>
+                                <div class="small-10 columns show-for-small-only">
+                                    <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
+                                </div>
+                            </div>
+                        </a>
+
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+    {# Fim banners governamentais #}
 
 {% endblock %}
 {% block javascript %}
