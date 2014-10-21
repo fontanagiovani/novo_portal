@@ -222,23 +222,23 @@ class MenuAdmin(reversion.VersionAdmin, SortableAdminMixin, MPTTModelAdmin):
 admin.site.register(Menu, MenuAdmin)
 
 
-class TipoSelecaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
-    list_display = ('titulo', 'parent',)
-    search_fields = ('titulo',)
-    prepopulated_fields = {'slug': ('titulo',)}
-
-admin.site.register(TipoSelecao, TipoSelecaoAdmin)
-
-
-class SelecaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
-    list_display = ('titulo', 'tipo', 'status', 'data_abertura_edital', 'data_abertura_inscricoes',
-                    'data_encerramento_inscricoes', )
-    search_fields = ('titulo', 'tipo', 'status', 'data_abertura_edital', 'data_abertura_inscricoes',
-                     'data_encerramento_inscricoes', )
-    date_hierarchy = 'data_abertura_edital'
-    list_filter = ('status', 'tipo')
-
-admin.site.register(Selecao, SelecaoAdmin)
+# class TipoSelecaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
+#     list_display = ('titulo', 'parent',)
+#     search_fields = ('titulo',)
+#     prepopulated_fields = {'slug': ('titulo',)}
+#
+# admin.site.register(TipoSelecao, TipoSelecaoAdmin)
+#
+#
+# class SelecaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
+#     list_display = ('titulo', 'tipo', 'status', 'data_abertura_edital', 'data_abertura_inscricoes',
+#                     'data_encerramento_inscricoes', )
+#     search_fields = ('titulo', 'tipo', 'status', 'data_abertura_edital', 'data_abertura_inscricoes',
+#                      'data_encerramento_inscricoes', )
+#     date_hierarchy = 'data_abertura_edital'
+#     list_filter = ('status', 'tipo')
+#
+# admin.site.register(Selecao, SelecaoAdmin)
 
 
 class SiteIndexInline(admin.StackedInline):
