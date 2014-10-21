@@ -29,7 +29,7 @@ def home(request):
         if site.sitedetalhe.destino.tipo == Destino.redirect():
             return redirect(site.sitedetalhe.destino.caminho)
 
-        if site.sitedetalhe.destino.tipo == Destino.portal():
+        elif site.sitedetalhe.destino.tipo == Destino.portal():
             noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
                                       key=lambda o: o.prioridade_destaque)
             mais_noticias = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
@@ -54,7 +54,7 @@ def home(request):
                 'formacao': formacao,
             }
 
-        if site.sitedetalhe.destino.tipo == Destino.portal_secundario():
+        elif site.sitedetalhe.destino.tipo == Destino.portal_secundario():
             noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
                                       key=lambda o: o.prioridade_destaque)
             mais_noticias = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
@@ -79,7 +79,7 @@ def home(request):
                 'formacao': formacao,
             }
 
-        if site.sitedetalhe.destino.tipo == Destino.blog_slider():
+        elif site.sitedetalhe.destino.tipo == Destino.blog_slider():
             try:
                 page = request.GET.get('page', 1)
 
@@ -104,7 +104,7 @@ def home(request):
                 'banners': banners,
             }
 
-        if site.sitedetalhe.destino.tipo == Destino.blog():
+        elif site.sitedetalhe.destino.tipo == Destino.blog():
             try:
                 page = request.GET.get('page', 1)
 
@@ -125,14 +125,12 @@ def home(request):
                 'banners': banners,
             }
 
-        if site.sitedetalhe.destino.tipo == Destino.banners():
+        elif site.sitedetalhe.destino.tipo == Destino.banners():
             banners = Banner.publicados.filter(sites__id__exact=site.id)
 
             contexto = {
                 'banners': banners,
             }
-
-            # Adiconar o contexto para os demais tipos de template nos demais condicionais
 
     except (Site.DoesNotExist, Noticia.DoesNotExist, Evento.DoesNotExist,
             Banner.DoesNotExist, Video.DoesNotExist,
