@@ -2,7 +2,6 @@
 from django.test import TestCase
 from django.contrib.sites.models import Site
 from django.utils import timezone
-from portal.core.models import Menu
 from portal.core.models import Selecao, TipoSelecao
 from model_mommy import mommy
 

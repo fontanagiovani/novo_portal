@@ -83,6 +83,7 @@ INSTALLED_APPS = (
     'portal.banner',
     'portal.cursos',
     'portal.autorizacao',
+    'portal.menu',
 )
 
 MIDDLEWARE_CLASSES = (

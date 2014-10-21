@@ -20,28 +20,6 @@ class Campus(models.Model):
         return self.nome
 
 
-class Menu(MPTTModel):
-    site = models.ForeignKey('sites.Site')
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name=u'Menu pai')
-    titulo = models.CharField(max_length=100)
-    url = models.CharField(max_length=250)
-    ordem = models.PositiveIntegerField()
-
-    class Meta(object):
-        ordering = ('ordem',)
-
-    class MPTTMeta:
-        order_insertion_by = ('ordem', )
-
-    def __unicode__(self):
-        return self.titulo
-
-    def menu_raiz(self):
-        if self.parent is None:
-            return ""
-        return self.parent
-
-
 class TipoSelecao(MPTTModel):
     parent = TreeForeignKey('self', null=True, blank=True, related_name='pai', verbose_name='Tipo pai')
     titulo = models.CharField(max_length=100)
@@ -157,6 +135,7 @@ post_save.connect(create_user_profile, sender=User)
 
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_ºª`{|},:]+')
+
 
 def slugify(text, delim=u'-'):
     """Generates an slightly worse ASCII-only slug."""
