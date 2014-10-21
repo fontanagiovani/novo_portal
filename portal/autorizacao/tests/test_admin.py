@@ -464,68 +464,6 @@ class BannerAdminIndexTest(TestCase):
         self.assertContains(response, 'BannerTesteTitulo', 12)
 
 
-# class BannerARAdminIndexTest(TestCase):
-#     # Templates
-#     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-#     # Remove o context processor que carrega os menus pois nao e importante para o teste
-#     TEMPLATE_CONTEXT_PROCESSORS += (
-#         'django.core.context_processors.request',
-#     )
-#
-#     def setUp(self):
-#
-#         contexto = preparar()
-#         self.site = contexto['site']
-#         self.site2 = contexto['site2']
-#         self.site3 = contexto['site3']
-#
-#         img_path = u'portal/banner/static/img/images.jpeg'
-#         img_name = u'imagembanner'
-#         with open(img_path) as img:
-#             file_obj = File(img, name=img_name)
-#             self.midia_image = Image.objects.create(original_filename=img_name, file=file_obj)
-#
-#         self.client.login(username='admin', password='admin')
-#
-#         for i in range(0, 2):  # loop 2x
-#             banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
-#             # o usuario deve conseguir visualizar estes banners
-#             banner.sites.add(self.site)
-#             banner.sites.add(self.site2)
-#
-#         for i in range(2, 6):  # loop 4x
-#             banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
-#             # o usuario deve conseguir visualizar estes banners
-#             banner.sites.add(self.site2)
-#
-#         for i in range(7, 12):  # loop 5x
-#             banner = mommy.make('BannerAcessoRapido', titulo=u'BannerTesteTitulo%d' % i, arquivo=self.midia_image)
-#             # o usuario nao deve conseguir visualizar estes banners pois nao tem permissao para o self.site3
-#             banner.sites.add(self.site2)
-#             banner.sites.add(self.site3)
-#
-#     def tearDown(self):
-#         self.client.logout()
-#
-#     @override_settings(TEMPLATE_CONTEXT_PROCESSORS=TEMPLATE_CONTEXT_PROCESSORS)
-#     def test_banners_permitidos(self):
-#         """
-#         O usuario so podera ver as noticias que estiverem publicadas nos sites no qual ele tem permissao. Ex.:
-#         1 - Uma noticia e publicada no site RTR e CNP
-#             1.1 - Caso o usuario tenha permissao para publicacao nos sites RTR e CNP:
-#                 1.1.1 - O usuario pode visualizar essa noticia na listagem de noticias
-#             1.2 - Caso o usuario tenha permissao para publicacao somente no site RTR:
-#                 1.2.1 - O usuario nao pode visualizar a noticias na listagem de noticias
-#         Isto e, somente se o usuario possuir permissao para todos os sites onde a noticia foi publicada ele pode
-#         visualiza-la na listagem
-#         """
-#         response = self.client.get(reverse('admin:banner_banneracessorapido_changelist'))
-#
-#         # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
-#         # devem aparecer para o usuario
-#         self.assertContains(response, 'BannerTesteTitulo', 6)
-
-
 class MenuAdminIndexTest(TestCase):
     # Templates
     from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
@@ -571,7 +509,7 @@ class MenuAdminIndexTest(TestCase):
         Isto e, somente se o usuario possuir permissao para todos os sites onde a noticia foi publicada ele pode
         visualiza-la na listagem
         """
-        response = self.client.get(reverse('admin:core_menu_changelist'))
+        response = self.client.get(reverse('admin:menu_menu_changelist'))
 
         # neste caso somente os 6 titulos referentes ao self.site e self.site2 (primeiro e segundo for loop do setUp)
         # devem aparecer para o usuario
@@ -681,7 +619,7 @@ class AddViewSitesTest(TestCase):
         """
         Na admin add view deve estar disponivel somente os sites que o usuario tem permissao
         """
-        response = self.client.get(reverse('admin:core_menu_add'))
+        response = self.client.get(reverse('admin:menu_menu_add'))
 
         # o usuario tem permissao somente para os self.site e self.site2
         # (devendo aparecer o dominio desses sites 1 vez cada)
@@ -827,7 +765,7 @@ class ChangeViewSitesTest(TestCase):
         """
         self.obj = mommy.make('Menu', titulo=u'titulomenu', site=self.site)
 
-        response = self.client.get(reverse('admin:core_menu_change', args=(self.obj.id,)))
+        response = self.client.get(reverse('admin:menu_menu_change', args=(self.obj.id,)))
 
         # o usuario tem permissao somente para os self.site e self.site2
         # (devendo aparecer o dominio desses sites 1 vez cada)

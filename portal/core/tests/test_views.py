@@ -10,7 +10,7 @@ from filer.models import Image
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Evento
 from portal.banner.models import Banner
-from portal.core.models import Menu
+from portal.menu.models import Menu
 from portal.core.models import Destino
 from portal.core.models import Selecao, TipoSelecao, Campus
 

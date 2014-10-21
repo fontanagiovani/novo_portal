@@ -10,7 +10,7 @@ import json  # json para usar no select com ajax
 from haystack.views import SearchView
 from pure_pagination import Paginator, PageNotAnInteger
 
-from portal.core.models import Menu
+from portal.menu.models import Menu
 from portal.core.models import Destino
 from portal.core.models import Selecao, TipoSelecao
 from portal.conteudo.models import Noticia
