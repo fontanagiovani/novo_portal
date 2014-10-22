@@ -57,9 +57,8 @@ def noticias_lista(request):
 
 def pagina_detalhe(request, slug):
     try:
-        site = Site.objects.get(domain=request.get_host())
-        pagina = Pagina.publicados.get(slug=slug, sites__id__exact=site.id)
-    except Site.DoesNotExist, Pagina.DoesNotExist:
+        pagina = Pagina.publicados.get(slug=slug)
+    except Pagina.DoesNotExist:
         raise Http404
 
     return render(request, 'conteudo/pagina.html', {'pagina': pagina})

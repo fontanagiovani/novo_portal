@@ -29,7 +29,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
+# DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 TESTING = 'test' in sys.argv
 
@@ -61,6 +61,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 
     # External apps
+    'debug_toolbar',
     'gunicorn',
     'devserver',
     'south',
@@ -68,7 +69,6 @@ INSTALLED_APPS = (
     'filer',
     'easy_thumbnails',
     'taggit',
-    'debug_toolbar',
     'django_extensions',
     'adminsortable',
     'haystack',
