@@ -4,6 +4,8 @@ from django.utils import timezone
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
 from taggit_autosuggest.managers import TaggableManager
+from embed_video.fields import EmbedVideoField
+
 from portal.conteudo.managers import PublicadoManager
 
 
@@ -204,7 +206,7 @@ class AnexoLicitacao(models.Model):
 
 
 class Video(Conteudo):
-    id_video_youtube = models.CharField(max_length=250, verbose_name=u'Id do Video')
+    url = EmbedVideoField()
 
     objects = models.Manager()
     publicados = PublicadoManager()
@@ -222,12 +224,6 @@ class Video(Conteudo):
             return 'conteudo:video_detalhe', (), {'slug': self.slug}
         else:
             return 'conteudo:video_detalhe_preview', (), {'slug': self.slug}
-
-    def imagem_sddefault(self):
-        return '//i1.ytimg.com/vi/%s/sddefault.jpg' % self.id_video_youtube
-
-    def embed(self):
-        return '//www.youtube.com/embed/%s' % self.id_video_youtube
 
 
 class Galeria(Conteudo):

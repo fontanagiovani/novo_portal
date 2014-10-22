@@ -76,6 +76,7 @@ INSTALLED_APPS = (
     'taggit_autosuggest',
     'reversion',
     'pure_pagination',
+    'embed_video',
 
     # Project apps
     'portal.core',

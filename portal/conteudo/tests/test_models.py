@@ -154,7 +154,8 @@ class EventoTest(TestCase):
 
 class VideoTest(TestCase):
     def setUp(self):
-        self.obj = mommy.prepare('Video', titulo=u'Título', campus_origem=mommy.make('Campus'))
+        self.obj = mommy.prepare('Video', titulo=u'Título', campus_origem=mommy.make('Campus'),
+                                 url='https://www.youtube.com/watch?v=GbHBXOqI7hc')
 
     def test_criacao(self):
         """

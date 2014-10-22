@@ -1,5 +1,6 @@
 {% extends 'core/detalhe.html' %}
 {% load thumbnail %}
+{% load embed_video_tags %}
 
 {% block stylesheet %}
     {{ block.super }}
@@ -46,17 +47,15 @@
         <div class="row">
 
             <div class="flex-video">
-                <iframe src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
+                {% video video.url %}
             </div>
 
-            {% autoescape off %}
-                <article>
-                    {{ video.texto|safe }}
-                    {% if galeria.campus_origem.site %}
-                        Site de origem: {{ galeria.campus_origem.site }}
-                    {% endif %}
-                </article>
-            {% endautoescape %}
+            <article>
+                {{ video.texto|safe }}
+                {% if galeria.campus_origem.site %}
+                    Site de origem: {{ galeria.campus_origem.site }}
+                {% endif %}
+            </article>
 
         </div>
     </div>

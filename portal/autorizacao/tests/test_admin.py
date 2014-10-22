@@ -242,18 +242,21 @@ class VideoAdminIndexTest(TestCase):
         self.client.login(username='admin', password='admin')
 
         for i in range(0, 2):  # loop 2x
-            n = mommy.make('Video', titulo=u'titulovideo%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            n = mommy.make('Video', titulo=u'titulovideo%d' % i, slug=u'slug%d' % i, campus_origem=self.campus,
+                           url='https://www.youtube.com/watch?v=GbHBXOqI7hc',)
             # o usuario deve conseguir visualizar estas noticias
             n.sites.add(self.site)
             n.sites.add(self.site2)
 
         for i in range(2, 6):  # loop 4x
-            n = mommy.make('Video', titulo=u'titulovideo%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            n = mommy.make('Video', titulo=u'titulovideo%d' % i, slug=u'slug%d' % i, campus_origem=self.campus,
+                           url='https://www.youtube.com/watch?v=GbHBXOqI7hc',)
             # o usuario deve conseguir visualizar estas noticias
             n.sites.add(self.site2)
 
         for i in range(7, 12):  # loop 5x
-            n = mommy.make('Video', titulo=u'titulovideo%d' % i, slug=u'slug%d' % i, campus_origem=self.campus)
+            n = mommy.make('Video', titulo=u'titulovideo%d' % i, slug=u'slug%d' % i, campus_origem=self.campus,
+                           url='https://www.youtube.com/watch?v=GbHBXOqI7hc',)
             # o usuario nao deve conseguir visualizar estas noticias pois nao tem permissao para o self.site3
             n.sites.add(self.site2)
             n.sites.add(self.site3)
@@ -715,7 +718,8 @@ class ChangeViewSitesTest(TestCase):
         """
         Na admin add view deve estar disponivel somente os sites que o usuario tem permissao
         """
-        self.obj = mommy.make('Video', titulo=u'titulovideo', slug=u'slug', campus_origem=self.campus)
+        self.obj = mommy.make('Video', titulo=u'titulovideo', slug=u'slug', campus_origem=self.campus,
+                              url='https://www.youtube.com/watch?v=GbHBXOqI7hc',)
         self.obj.sites.add(self.site)
 
         response = self.client.get(reverse('admin:conteudo_video_change', args=(self.obj.id,)))

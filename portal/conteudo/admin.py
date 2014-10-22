@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.sites.models import Site
 from django.forms import TextInput
 from django.db.models import CharField
+from embed_video.admin import AdminVideoMixin
 import reversion
 
 from portal.core.models import Campus
@@ -179,7 +180,7 @@ class EventoAdmin(ConteudoAdmin):
 admin.site.register(Evento, EventoAdmin)
 
 
-class VideoAdmin(ConteudoAdmin):
+class VideoAdmin(AdminVideoMixin, ConteudoAdmin):
     list_display = ('titulo', 'data_publicacao', 'get_publicacao')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
@@ -193,7 +194,7 @@ class VideoAdmin(ConteudoAdmin):
                 'campus_origem',
                 'titulo',
                 'slug',
-                'id_video_youtube',
+                'url',
                 'texto',
                 'tags',
             )

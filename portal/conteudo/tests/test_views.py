@@ -253,10 +253,10 @@ class VideoDetalheTest(TestCase):
             'Video',
             titulo='titulo_teste',
             texto=u'texto_teste',
-            id_video_youtube=u'ID_teste',
             data_publicacao='2014-06-05 10:16:00',
             campus_origem=mommy.make('Campus'),
             publicado=True,
+            url='https://www.youtube.com/watch?v=GbHBXOqI7hc',
         )
         # data_publicacao='2014-06-05T10:16:00-04:00',
 
@@ -266,7 +266,8 @@ class VideoDetalheTest(TestCase):
         # os conteudos dos sites
         # self.video.sites.add(self.site)
 
-        self.obj_nao_publicado = mommy.make('Video', publicado=False)
+        self.obj_nao_publicado = mommy.make('Video', publicado=False,
+                                            url='https://www.youtube.com/watch?v=GbHBXOqI7hc',)
 
         self.resp = self.client.get(reverse('conteudo:video_detalhe',
                                             kwargs={'slug': self.obj.slug}), SERVER_NAME=self.site.domain)
@@ -289,7 +290,7 @@ class VideoDetalheTest(TestCase):
         """
         self.assertContains(self.resp, 'titulo_teste')
         self.assertContains(self.resp, u'texto_teste')
-        self.assertContains(self.resp, u'ID_teste')
+        self.assertContains(self.resp, u'GbHBXOqI7hc')
         self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
         self.assertContains(self.resp, 'ifmt-teste')
 
@@ -312,6 +313,7 @@ class VideosListaTest(TestCase):
             titulo='titulo_teste',
             _quantity=50,
             campus_origem=mommy.make('Campus'),
+            url='https://www.youtube.com/watch?v=GbHBXOqI7hc',
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         for i in self.videos:
@@ -324,6 +326,7 @@ class VideosListaTest(TestCase):
             titulo='titulo_teste',
             _quantity=10,
             campus_origem=mommy.make('Campus'),
+            url='https://www.youtube.com/watch?v=GbHBXOqI7hc',
         )
         for i in self.videos:
             i.sites.add(self.site2)

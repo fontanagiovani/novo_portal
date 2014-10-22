@@ -122,16 +122,16 @@ class VideoManagerTest(TestCase):
         data_passada = timezone.now() - timezone.timedelta(days=1)
         data_futura = timezone.now() + timezone.timedelta(days=1)
         mommy.make('Video', _quantity=2, titulo=u'Título', campus_origem=campus_origem,
-                   data_publicacao=data_passada, publicado=False)
+                   data_publicacao=data_passada, publicado=False, url='https://www.youtube.com/watch?v=GbHBXOqI7hc',)
 
         mommy.make('Video', _quantity=3, titulo=u'Título', campus_origem=campus_origem,
-                   data_publicacao=data_passada, publicado=True)
+                   data_publicacao=data_passada, publicado=True, url='https://www.youtube.com/watch?v=GbHBXOqI7hc',)
 
         mommy.make('Video', _quantity=4, titulo=u'Título', campus_origem=campus_origem,
-                   data_publicacao=data_futura, publicado=False)
+                   data_publicacao=data_futura, publicado=False, url='https://www.youtube.com/watch?v=GbHBXOqI7hc',)
 
         mommy.make('Video', _quantity=1, titulo=u'Título', campus_origem=campus_origem,
-                   data_publicacao=data_futura, publicado=True)
+                   data_publicacao=data_futura, publicado=True, url='https://www.youtube.com/watch?v=GbHBXOqI7hc',)
 
     def test_publicados(self):
         """
