@@ -16,202 +16,203 @@
     {% else %}
         <div class="small-12 columns padding-bottom">
     {% endif %}
-<div class="row padding-bottom-duplo">
-    <ul class="example-orbit" data-orbit
-        data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
-        {% for noticia in noticias_destaque %}
-            <li data-orbit-slide="{{ noticia.id }}">
-                <a href="{{ noticia.get_absolute_url }}">
-                    {% if noticia.primeira_imagem %}
-                        {% if banners or videos or galerias %}
-                            <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}"
-                                 alt="{{ noticia.titulo }}"/>
-                        {% else %}
-                            <img src="{% thumbnail noticia.primeira_imagem 1000x400 crop quality=80 %}"
-                                 alt="{{ noticia.titulo }}"/>
+    <div class="row padding-bottom-duplo">
+        <ul class="example-orbit" data-orbit
+            data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+            {% for noticia in noticias_destaque %}
+                <li data-orbit-slide="{{ noticia.id }}">
+                    <a href="{{ noticia.get_absolute_url }}">
+                        {% if noticia.primeira_imagem %}
+                            {% if banners or videos or galerias %}
+                                <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}"
+                                     alt="{{ noticia.titulo }}"/>
+                            {% else %}
+                                <img src="{% thumbnail noticia.primeira_imagem 1000x400 crop quality=80 %}"
+                                     alt="{{ noticia.titulo }}"/>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                    <div class="orbit-caption">
-                        <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
-                            {{ noticia.data_publicacao|date:"d M" }}
-                            {#                                    {{ noticia.data_publicacao|date:"Y" }}#}
-                        </div>
-                        <div class="small-10 columns">
-                            <div class="data-local branco negrito texto-tamanho-pequeno">
-                                {{ noticia.get_campus_origem_display }}
+                        <div class="orbit-caption">
+                            <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
+                                {{ noticia.data_publicacao|date:"d M" }}
+                                {#                                    {{ noticia.data_publicacao|date:"Y" }}#}
                             </div>
-                            <p class="no-margin espacamento-medio branco texto-tamanho-pequeno">{{ noticia.titulo }}</p>
+                            <div class="small-10 columns">
+                                <div class="data-local branco negrito texto-tamanho-pequeno">
+                                    {{ noticia.get_campus_origem_display }}
+                                </div>
+                                <p class="no-margin espacamento-medio branco texto-tamanho-pequeno">{{ noticia.titulo }}</p>
+                            </div>
                         </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    <h1><a href="{% url 'conteudo:noticias_lista' %}"><i class="fi-plus"></i> NOTÍCIAS</a></h1>
+    {% for noticia in mais_noticias.object_list %}
+        <div class="row padding-bottom-duplo collapse">
+            <div class="small-12 columns">
+                <p class="data-local texto-tamanho-xsmall no-margin">{{ noticia.data_publicacao|date:"d M" }}
+                    - {{ noticia.campus_origem.nome }}</p>
+
+                <h1><a href="{{ noticia.get_absolute_url }}">{{ noticia.titulo }}</a></h1>
+
+                <article>
+                    {{ noticia.texto|safe|truncatewords:'100' }}
+                </article>
+
+                <div class="row collapse">
+                    <div class="medium-4 medium-offset-8 columns">
+
+                        <a href="{{ noticia.get_absolute_url }}" class="button small expand no-margin">Continue
+                            lendo &raquo;</a>
+                        {#                                <input type="submit" class="button small expand no-margin" value="Buscar Cursos">#}
                     </div>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-
-</div>
-<h1><a href="{% url 'conteudo:noticias_lista' %}"><i class="fi-plus"></i> NOTÍCIAS</a></h1>
-{% for noticia in mais_noticias.object_list %}
-    <div class="row padding-bottom-duplo collapse">
-        <div class="small-12 columns">
-            <p class="data-local texto-tamanho-xsmall no-margin">{{ noticia.data_publicacao|date:"d M" }}
-                - {{ noticia.campus_origem.nome }}</p>
-
-            <h1><a href="{{ noticia.get_absolute_url }}">{{ noticia.titulo }}</a></h1>
-
-            <article>
-                {{ noticia.texto|safe|truncatewords:'100' }}
-            </article>
-
-            <div class="row collapse">
-                <div class="medium-4 medium-offset-8 columns">
-
-                    <a href="{{ noticia.get_absolute_url }}" class="button small expand no-margin">Continue
-                        lendo &raquo;</a>
-                    {#                                <input type="submit" class="button small expand no-margin" value="Buscar Cursos">#}
                 </div>
             </div>
         </div>
-    </div>
-{% endfor %}
+    {% endfor %}
 
-{% block paginacao %}
-    {#Início da paginação#}
-    <div class="pagination-centered">
-        <ul class="pagination" role="menubar" aria-label="Pagination">
-            {% if mais_noticias.has_previous %}
-                <li class="arrow" aria-disabled="true">
-                    <a href="?{{ mais_noticias.previous_page_number.querystring }}">
-                        <i class="fi-rewind"></i>
-                    </a>
-                </li>
-            {% endif %}
-            {% for page in mais_noticias.pages %}
-                {% if page %}
-                    {% ifequal page mais_noticias.number %}
-                        <li class="current"><a href="">{{ page }}</a></li>
-                    {% else %}
-                        <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
-                    {% endifequal %}
-                {% else %}
-                    <li class="unavailable" aria-disabled="true"><a href="">&hellip;</a></li>
+    {% block paginacao %}
+        {#Início da paginação#}
+        <div class="pagination-centered">
+            <ul class="pagination" role="menubar" aria-label="Pagination">
+                {% if mais_noticias.has_previous %}
+                    <li class="arrow" aria-disabled="true">
+                        <a href="?{{ mais_noticias.previous_page_number.querystring }}">
+                            <i class="fi-rewind"></i>
+                        </a>
+                    </li>
                 {% endif %}
-            {% endfor %}
-            {% if mais_noticias.has_next %}
-                <li class="arrow">
-                    <a href="?{{ mais_noticias.next_page_number.querystring }}" class="arrow">
-                        <i class="fi-fast-forward"></i>
-                    </a>
-                </li>
-            {% endif %}
-        </ul>
+                {% for page in mais_noticias.pages %}
+                    {% if page %}
+                        {% ifequal page mais_noticias.number %}
+                            <li class="current"><a href="">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% else %}
+                        <li class="unavailable" aria-disabled="true"><a href="">&hellip;</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if mais_noticias.has_next %}
+                    <li class="arrow">
+                        <a href="?{{ mais_noticias.next_page_number.querystring }}" class="arrow">
+                            <i class="fi-fast-forward"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        {#Fim da paginação#}
+    {% endblock %}
     </div>
-    {#Fim da paginação#}
-{% endblock %}
-</div>
-{#Fim da div mais notícias#}
+    {#Fim da div mais notícias#}
 
-{#Container para coluna à direita#}
-{% if banners or videos or galerias %}
-    <div class="medium-4 columns padding-bottom">
+    {#Container para coluna à direita#}
+    {% if banners or videos or galerias %}
+        <div class="medium-4 columns padding-bottom">
 
-        {#Galeria de fotos#}
-        {% if galerias %}
-            <div class="row">
-                <h1><a href="{% url 'conteudo:galerias_lista' %}"><i class="fi-plus"></i> GALERIAS</a></h1>
-
+            {#Galeria de fotos#}
+            {% if galerias %}
                 <div class="row">
-                    <ul class="example-orbit" data-orbit
-                        data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
-                        {% for galeria in galerias %}
-                            <li data-orbit-slide="{{ galeria.id }}">
-                                <a href="{{ galeria.get_absolute_url }}">
-                                    {% if galeria.primeira_imagem %}
-                                        <img
-                                                src="{% thumbnail galeria.primeira_imagem 640x350 crop quality=80 %}"
-                                                alt="{{ galeria.titulo }}"/>
-                                    {% endif %}
-                                    <div class="orbit-caption">
-                                        <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
-                                            {{ galeria.data_publicacao|date:"d M" }}
-                                        </div>
-                                        <div class="small-10 columns">
-                                            <div class="data-local branco negrito texto-tamanho-pequeno">
-                                                {{ galeria.get_campus_origem_display }}
+                    <h1><a href="{% url 'conteudo:galerias_lista' %}"><i class="fi-plus"></i> GALERIAS</a></h1>
+
+                    <div class="row">
+                        <ul class="example-orbit" data-orbit
+                            data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+                            {% for galeria in galerias %}
+                                <li data-orbit-slide="{{ galeria.id }}">
+                                    <a href="{{ galeria.get_absolute_url }}">
+                                        {% if galeria.primeira_imagem %}
+                                            <img
+                                                    src="{% thumbnail galeria.primeira_imagem 640x350 crop quality=80 %}"
+                                                    alt="{{ galeria.titulo }}"/>
+                                        {% endif %}
+                                        <div class="orbit-caption">
+                                            <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
+                                                {{ galeria.data_publicacao|date:"d M" }}
                                             </div>
-                                            <p class="no-margin espacamento-medio branco texto-tamanho-pequeno">{{ galeria.titulo|truncatechars:'60' }}</p>
+                                            <div class="small-10 columns">
+                                                <div class="data-local branco negrito texto-tamanho-pequeno">
+                                                    {{ galeria.get_campus_origem_display }}
+                                                </div>
+                                                <p class="no-margin espacamento-medio branco texto-tamanho-pequeno">{{ galeria.titulo|truncatechars:'60' }}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <ul class="small-block-grid-3 padding-top">
+                            {% for galeria in galerias %}
+                                <li>
+                                    <a data-orbit-link="{{ galeria.id }}">
+                                        <img src="{% thumbnail galeria.primeira_imagem 190x100 crop quality=80 %}"
+                                             alt="{{ galeria.titulo }}"/>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+            {#Fim da div galeria de fotos#}
+
+            {#Vídeos#}
+            {% if videos %}
+                <div class="row padding-bottom-duplo">
+                    <h1><a href="{% url 'conteudo:videos_lista' %}"><i class="fi-plus"></i> VÍDEOS</a></h1>
+                    {% for video in videos %}
+                        <div class="row">
+                            <div class="flex-video">
+                                <iframe src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <a href="{{ video.get_absolute_url }}">
+                                <div class="data-local texto-tamanho-xsmall">{{ video.data_publicacao|date:"d M" }}
+                                    - {{ video.campus_origem.nome }}</div>
+                                <p class="espacamento-medio">{{ video.titulo }}</p>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {#Fim da div vídeos#}
+
+            {#Container para os banners especiais#}
+            {% if banners %}
+                <div class="row">
+                    <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
+                    {% for banner in banners %}
+                        <div class="row collapse padding-bottom">
+                            <a href="{{ banner.url }}">
+                                <div class="row collapse hover-cinza-claro">
+                                    <div class="small-2 medium-12 columns">
+                                        <img src="{% thumbnail banner.arquivo 460x200 crop quality=80 %}"
+                                             data-tooltip class="has-tip"
+                                             title="{{ banner.titulo }}"/>
+                                    </div>
+                                    <div class="small-10 columns show-for-small-only">
+                                        <div class="padding-left">
+                                            <p class="espacamento-medio">{{ banner.titulo }}</p>
                                         </div>
                                     </div>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-                    <ul class="small-block-grid-3 padding-top">
-                        {% for galeria in galerias %}
-                            <li>
-                                <a data-orbit-link="{{ galeria.id }}">
-                                    <img src="{% thumbnail galeria.primeira_imagem 190x100 crop quality=80 %}"
-                                         alt="{{ galeria.titulo }}"/>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        {% endif %}
-        {#Fim da div galeria de fotos#}
-
-        {#Vídeos#}
-        {% if videos %}
-            <div class="row padding-bottom-duplo">
-                <h1><a href="{% url 'conteudo:videos_lista' %}"><i class="fi-plus"></i> VÍDEOS</a></h1>
-                {% for video in videos %}
-                    <div class="row">
-                        <div class="flex-video">
-                            <iframe src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                    <div class="row">
-                        <a href="{{ video.get_absolute_url }}">
-                            <div class="data-local texto-tamanho-xsmall">{{ video.data_publicacao|date:"d M" }}
-                                - {{ video.campus_origem.nome }}</div>
-                            <p class="espacamento-medio">{{ video.titulo }}</p>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-        {#Fim da div vídeos#}
-
-        {#Container para os banners especiais#}
-        {% if banners %}
-            <div class="row">
-                <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
-                {% for banner in banners %}
-                    <div class="row collapse padding-bottom">
-                        <a href="{{ banner.url }}">
-                            <div class="row collapse hover-cinza-claro">
-                                <div class="small-2 medium-12 columns">
-                                    <img src="{% thumbnail banner.arquivo 460x200 crop quality=80 %}"
-                                         data-tooltip class="has-tip"
-                                         title="{{ banner.titulo }}"/>
-                                </div>
-                                <div class="small-10 columns show-for-small-only">
-                                    <div class="padding-left">
-                                        <p class="espacamento-medio">{{ banner.titulo }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+    {#Fim da div da coluna à direita#}
     </div>
-{% endif %}
-{#Fim da div da coluna à direita#}
-</div>
     {#Fim da div central para as 3 colunas#}
+    </div>
 
 {% endblock %}
 
