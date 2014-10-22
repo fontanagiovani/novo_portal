@@ -49,11 +49,11 @@
         {#Container para os banners especiais#}
         <div class="medium-4 columns">
             {% for banner in banners_destaque %}
-                <div class="row collapse padding-bottom">
-                    <a href="{{ banner.url }}">
-                        <div class="row collapse hover-cinza-claro">
+                <div class="row collapse">
+                    <a class="th" href="{{ banner.url }}">
+                        <div class="row collapse">
                             <div class="small-2 medium-12 columns">
-                                <img src="{% thumbnail banner.arquivo 460x200 crop quality=80 %}"
+                                <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
                                      data-tooltip class="has-tip"
                                      title="{{ banner.titulo }}"/>
                             </div>
@@ -77,7 +77,7 @@
     <div class="medium-4 columns padding-bottom">
         <h1><a href="{% url 'conteudo:noticias_lista' %}"><i class="fi-plus"></i> NOTÍCIAS</a></h1>
         {% for noticia in mais_noticias %}
-            <div class="row padding-bottom-duplo">
+            <div class="row padding-bottom-duplo show-for-medium-up">
                 <div class="row collapse hover-cinza-claro">
                     {% if noticia.primeira_imagem %}
                         <a href="{{ noticia.get_absolute_url }}">
@@ -179,11 +179,11 @@
         <div class="row">
             <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
             {% for banner in banners_linkdeacesso %}
-                <div class="row collapse padding-bottom hover-cinza-medio">
-                    <a href="{{ banner.url }}">
+                <div class="row collapse">
+                    <a class="th" href="{{ banner.url }}">
                         <div class="row collapse">
                             <div class="small-2 medium-12 columns">
-                                <img src="{% thumbnail banner.arquivo 303x90 crop quality=80 %}"
+                                <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
                                      data-tooltip class="has-tip"
                                      title="{{ banner.titulo }}">
                             </div>
@@ -303,13 +303,13 @@
         <div class="small-12 columns">
             <h1><i class="fi-link"></i> LINKS GOVERNAMENTAIS</h1>
 
-            <ul class="small-block-grid-1 medium-block-grid-5">
+            <ul class="small-block-grid-1 medium-block-grid-5 show-for-medium-up">
                 {% for banner in banners_governamental %}
                     <li>
-                        <a href="{{ banner.url }}">
-                            <div class="row collapse hover-cinza-claro">
+                        <a class="th"  href="{{ banner.url }}">
+                            <div class="row collapse">
                                 <div class="small-2 medium-12 columns">
-                                    <img src="{% thumbnail banner.arquivo 303x90 crop quality=80 %}"
+                                    <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
                                          data-tooltip class="has-tip"
                                          title="{{ banner.titulo }}">
                                 </div>

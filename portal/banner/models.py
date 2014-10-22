@@ -3,7 +3,8 @@ from django.db import models
 from django.utils import timezone
 from filer.fields.image import FilerImageField
 
-from portal.banner.managers import PublicadoManager, DestaqueManager, LinkDeAcessoManager, GovernamentalManager
+from portal.banner.managers import PublicadoManager, DestaqueManager, LinkDeAcessoManager, GovernamentalManager, \
+    HotsiteManager
 
 
 class Banner(models.Model):
@@ -11,6 +12,7 @@ class Banner(models.Model):
         ('1', 'Destaque'),
         ('2', 'Link de acesso'),
         ('3', 'Governamental'),
+        ('4', 'Hotsite'),
     )
 
     sites = models.ManyToManyField('sites.Site', verbose_name=u'Sites para publicação')
@@ -27,6 +29,7 @@ class Banner(models.Model):
     destaque = DestaqueManager()
     linkdeacesso = LinkDeAcessoManager()
     governamental = GovernamentalManager()
+    hotsite = HotsiteManager()
 
     class Meta:
         verbose_name = u'Banner'

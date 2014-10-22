@@ -355,22 +355,22 @@ class HomeBannersContextTest(TestCase):
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
 
-        destino = mommy.make('Destino', tipo=Destino.banners(), caminho='core/banners.html')
-        mommy.make('SiteDetalhe', destino=destino, logo=midia_image, site=self.site)
+        destino = mommy.make('Destino', tipo=Destino.portal(), caminho='core/portal.html')
+        mommy.make('SiteDetalhe', destino=destino, logo=midia_image, site=self.site, hotsite=True)
 
-        mommy.make('Banner', _quantity=4, titulo=u'banner', arquivo=midia_image)
+        mommy.make('Banner', _quantity=4, titulo=u'banner', arquivo=midia_image, tipo=4)
 
         for i in Banner.objects.all():
             i.sites.add(self.site)
 
         # cria o ambiente de um novo site e conteudos para simular ambiente real
         self.site2 = mommy.make('Site', domain='cba.ifmt.dev')
-        outros_banners = mommy.make('Banner', _quantity=4, titulo=u'banner', arquivo=midia_image)
+        outros_banners = mommy.make('Banner', _quantity=4, titulo=u'banner', arquivo=midia_image, tipo=4)
 
         for i in outros_banners:
             i.sites.add(self.site2)
 
-        self.resp = self.client.get(reverse('home'), SERVER_NAME='rtr.ifmt.dev')
+        self.resp = self.client.get(reverse('hotsite'), SERVER_NAME='rtr.ifmt.dev')
 
     def test_get(self):
         """

@@ -25,3 +25,9 @@ class GovernamentalManager(models.Manager):
     def get_queryset(self):
         return super(GovernamentalManager, self).get_queryset().filter(publicado=True, tipo=3,
                                                                        data_publicacao__lte=timezone.now())
+
+
+class HotsiteManager(models.Manager):
+    def get_queryset(self):
+        return super(HotsiteManager, self).get_queryset().filter(publicado=True, tipo=4,
+                                                                 data_publicacao__lte=timezone.now())

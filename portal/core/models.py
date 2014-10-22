@@ -64,6 +64,7 @@ class SiteDetalhe(models.Model):
     campus = models.ForeignKey('Campus', help_text=u'Câmpus ou local que este site está relacionado')
     destino = models.ForeignKey('Destino', help_text=u'Destino da página inicial')
     logo = FilerImageField()
+    hotsite = models.BooleanField(default=False)
     modal = models.TextField(null=True, blank=True)
     social = models.TextField(null=True, blank=True)
     links_uteis = models.TextField(null=True, blank=True)
@@ -80,7 +81,6 @@ class Destino(models.Model):
         ('PORTAL_SECUNDARIO', u'PORTAL SECUNDÁRIO'),
         ('BLOG', u'BLOG'),
         ('BLOG_SLIDER', u'BLOG SLIDER'),
-        ('BANNERS', u'BANNERS'),
         ('REDIRECT', u'REDIRECIONAMENTO'),
     )
 
@@ -112,10 +112,6 @@ class Destino(models.Model):
     @staticmethod
     def blog_slider():
         return 'BLOG_SLIDER'
-
-    @staticmethod
-    def banners():
-        return 'BANNERS'
 
     @staticmethod
     def redirect():

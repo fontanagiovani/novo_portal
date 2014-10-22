@@ -21,15 +21,31 @@ from portal.banner.models import Banner
 from portal.cursos.models import Curso
 
 
+def hotsite(request):
+    try:
+        site = Site.objects.get(domain=request.get_host())
+
+        if site.sitedetalhe.hotsite:
+            banners = Banner.hotsite.filter(sites__id__exact=site.id)
+
+            contexto = {
+                'banners': banners,
+            }
+            return render(request, 'core/banners.html', contexto)
+
+        else:
+            return home(request)
+    except (Site.DoesNotExist, Banner.DoesNotExist):
+        raise Http404
+
+
 def home(request):
     contexto = dict()
     try:
         site = Site.objects.get(domain=request.get_host())
+        tipo_destino = site.sitedetalhe.destino.tipo
 
-        if site.sitedetalhe.destino.tipo == Destino.redirect():
-            return redirect(site.sitedetalhe.destino.caminho)
-
-        elif site.sitedetalhe.destino.tipo == Destino.portal():
+        if tipo_destino == Destino.portal():
             noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
                                       key=lambda o: o.prioridade_destaque)
             mais_noticias = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
@@ -54,7 +70,7 @@ def home(request):
                 'formacao': formacao,
             }
 
-        elif site.sitedetalhe.destino.tipo == Destino.portal_secundario():
+        elif tipo_destino == Destino.portal_secundario():
             noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
                                       key=lambda o: o.prioridade_destaque)
             mais_noticias = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
@@ -79,7 +95,7 @@ def home(request):
                 'formacao': formacao,
             }
 
-        elif site.sitedetalhe.destino.tipo == Destino.blog_slider():
+        elif tipo_destino == Destino.blog_slider():
             try:
                 page = request.GET.get('page', 1)
 
@@ -104,7 +120,7 @@ def home(request):
                 'banners': banners,
             }
 
-        elif site.sitedetalhe.destino.tipo == Destino.blog():
+        elif tipo_destino == Destino.blog():
             try:
                 page = request.GET.get('page', 1)
 
@@ -125,12 +141,8 @@ def home(request):
                 'banners': banners,
             }
 
-        elif site.sitedetalhe.destino.tipo == Destino.banners():
-            banners = Banner.publicados.filter(sites__id__exact=site.id)
-
-            contexto = {
-                'banners': banners,
-            }
+        elif tipo_destino == Destino.redirect():
+            return redirect(site.sitedetalhe.destino.caminho)
 
     except (Site.DoesNotExist, Noticia.DoesNotExist, Evento.DoesNotExist,
             Banner.DoesNotExist, Video.DoesNotExist,
