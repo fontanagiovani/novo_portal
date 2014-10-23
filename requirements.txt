@@ -2,7 +2,7 @@
 #	requirements.txt in the root directory of a project.
 
 
-Django==1.6.7
+Django==1.6.8
 South==1.0
 dj-database-url==0.3.0
 Unipath==1.0
