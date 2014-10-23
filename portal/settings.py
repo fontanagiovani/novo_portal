@@ -43,7 +43,7 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 EMAIL_USE_TLS = True
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '200.129.244.17', '.herokuapp.com']
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '.ifmt.edu.br', '.herokuapp.com']
 
 
 # Application definition
