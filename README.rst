@@ -16,6 +16,19 @@ $ sudo aptitude install libjpeg libjpeg-dev libfreetype6 libfreetype6-dev zlib1g
 Desenvolvimento do novo portal do IFMT
 
 ----
+Versão 1.0
+
+- Melhorias nas apps de conteúdo;
+
+- Permissões por site para cada usuário;
+
+- Adição do tinymce como editor wysiwyg;
+
+- Adição da app django-reversion;
+
+- Ajuste das cores dos templates;
+
+----
 Versão 0.2
 
 - Adicionado guia de curso;
