@@ -16,6 +16,11 @@ $ sudo aptitude install libjpeg libjpeg-dev libfreetype6 libfreetype6-dev zlib1g
 Desenvolvimento do novo portal do IFMT
 
 ----
+Versão 1.1
+
+- Atualização do django para versão 1.6.8
+
+----
 Versão 1.0
 
 - Melhorias nas apps de conteúdo;
