@@ -16,7 +16,7 @@ class Migration(SchemaMigration):
             ('slug', self.gf('django.db.models.fields.SlugField')(max_length=250)),
             ('texto', self.gf('django.db.models.fields.TextField')()),
             ('data_publicacao', self.gf('django.db.models.fields.DateTimeField')()),
-            ('fonte', self.gf('django.db.models.fields.CharField')(max_length=250, blank=True)),
+            ('publicado', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
         db.send_create_signal(u'conteudo', ['Conteudo'])
 
@@ -58,8 +58,8 @@ class Migration(SchemaMigration):
         # Adding model 'Anexo'
         db.create_table(u'conteudo_anexo', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('descricao', self.gf('django.db.models.fields.TextField')()),
-            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='anexos_noticia', to=orm['filer.File'])),
+            ('descricao', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='anexos_conteudo', to=orm['filer.File'])),
             ('conteudo', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['conteudo.Conteudo'])),
         ))
         db.send_create_signal(u'conteudo', ['Anexo'])
@@ -82,19 +82,22 @@ class Migration(SchemaMigration):
         # Adding model 'Licitacao'
         db.create_table(u'conteudo_licitacao', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('campus_origem', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Campus'])),
             ('modalidade', self.gf('django.db.models.fields.CharField')(max_length=1)),
             ('titulo', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('data_publicacao', self.gf('django.db.models.fields.DateField')()),
+            ('data_publicacao', self.gf('django.db.models.fields.DateTimeField')()),
             ('data_abertura', self.gf('django.db.models.fields.DateField')()),
-            ('pregao_srp', self.gf('django.db.models.fields.BooleanField')()),
+            ('pregao_srp', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('validade_ata_srp', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
-            ('possui_contrato', self.gf('django.db.models.fields.BooleanField')()),
+            ('possui_contrato', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('vigencia_contrato_inicio', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
             ('vigencia_contrato_fim', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
+            ('encerrado', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('situacao', self.gf('django.db.models.fields.TextField')()),
             ('objeto', self.gf('django.db.models.fields.TextField')()),
             ('alteracoes', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('email_contato', self.gf('django.db.models.fields.EmailField')(max_length=75)),
+            ('publicado', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
         db.send_create_signal(u'conteudo', ['Licitacao'])
 
@@ -119,7 +122,7 @@ class Migration(SchemaMigration):
         # Adding model 'Video'
         db.create_table(u'conteudo_video', (
             (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
-            ('id_video_youtube', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('url', self.gf('embed_video.fields.EmbedVideoField')(max_length=200)),
         ))
         db.send_create_signal(u'conteudo', ['Video'])
 
@@ -222,9 +225,9 @@ class Migration(SchemaMigration):
         },
         u'conteudo.anexo': {
             'Meta': {'object_name': 'Anexo'},
-            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'anexos_noticia'", 'to': u"orm['filer.File']"}),
+            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'anexos_conteudo'", 'to': u"orm['filer.File']"}),
             'conteudo': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['conteudo.Conteudo']"}),
-            'descricao': ('django.db.models.fields.TextField', [], {}),
+            'descricao': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
         u'conteudo.anexolicitacao': {
@@ -238,9 +241,9 @@ class Migration(SchemaMigration):
             'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Conteudo'},
             'campus_origem': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Campus']"}),
             'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
-            'fonte': ('django.db.models.fields.CharField', [], {'max_length': '250', 'blank': 'True'}),
             'galerias': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['conteudo.Galeria']", 'symmetrical': 'False', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'publicado': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['sites.Site']", 'symmetrical': 'False'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '250'}),
             'texto': ('django.db.models.fields.TextField', [], {}),
@@ -268,14 +271,17 @@ class Migration(SchemaMigration):
         u'conteudo.licitacao': {
             'Meta': {'object_name': 'Licitacao'},
             'alteracoes': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'campus_origem': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Campus']"}),
             'data_abertura': ('django.db.models.fields.DateField', [], {}),
-            'data_publicacao': ('django.db.models.fields.DateField', [], {}),
+            'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
             'email_contato': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
+            'encerrado': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modalidade': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'objeto': ('django.db.models.fields.TextField', [], {}),
-            'possui_contrato': ('django.db.models.fields.BooleanField', [], {}),
-            'pregao_srp': ('django.db.models.fields.BooleanField', [], {}),
+            'possui_contrato': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'pregao_srp': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'publicado': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['sites.Site']", 'symmetrical': 'False'}),
             'situacao': ('django.db.models.fields.TextField', [], {}),
             'titulo': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
@@ -296,20 +302,12 @@ class Migration(SchemaMigration):
         u'conteudo.video': {
             'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Video', '_ormbases': [u'conteudo.Conteudo']},
             u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'}),
-            'id_video_youtube': ('django.db.models.fields.CharField', [], {'max_length': '250'})
+            'url': ('embed_video.fields.EmbedVideoField', [], {'max_length': '200'})
         },
         u'core.campus': {
             'Meta': {'object_name': 'Campus'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            u'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            u'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'nome': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'parent': ('mptt.fields.TreeForeignKey', [], {'blank': 'True', 'related_name': "'pai'", 'null': 'True', 'to': u"orm['core.Campus']"}),
-            u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'sigla': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
-            'site': ('django.db.models.fields.related.OneToOneField', [], {'default': 'None', 'to': u"orm['sites.Site']", 'unique': 'True', 'null': 'True'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100', 'blank': 'True'}),
-            u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
+            'nome': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
         u'filer.file': {
             'Meta': {'object_name': 'File'},

@@ -11,10 +11,12 @@ class Migration(SchemaMigration):
         # Adding model 'Banner'
         db.create_table(u'banner_banner', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('tipo', self.gf('django.db.models.fields.CharField')(default=1, max_length=2)),
             ('titulo', self.gf('django.db.models.fields.CharField')(default='', max_length=250)),
             ('data_publicacao', self.gf('django.db.models.fields.DateTimeField')()),
-            ('url', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
-            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(default=None, related_name='midia_banner', to=orm['filer.Image'])),
+            ('url', self.gf('django.db.models.fields.URLField')(default='http://', max_length=200)),
+            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(default=None, related_name='banners', to=orm['filer.Image'])),
+            ('publicado', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
         db.send_create_signal(u'banner', ['Banner'])
 
@@ -27,25 +29,6 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(m2m_table_name, ['banner_id', 'site_id'])
 
-        # Adding model 'BannerAcessoRapido'
-        db.create_table(u'banner_banneracessorapido', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('titulo', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('data_publicacao', self.gf('django.db.models.fields.DateTimeField')()),
-            ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
-            ('midia_image', self.gf('django.db.models.fields.related.ForeignKey')(default=None, related_name='ar_banner', to=orm['filer.Image'])),
-        ))
-        db.send_create_signal(u'banner', ['BannerAcessoRapido'])
-
-        # Adding M2M table for field sites on 'BannerAcessoRapido'
-        m2m_table_name = db.shorten_name(u'banner_banneracessorapido_sites')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('banneracessorapido', models.ForeignKey(orm[u'banner.banneracessorapido'], null=False)),
-            ('site', models.ForeignKey(orm[u'sites.site'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['banneracessorapido_id', 'site_id'])
-
 
     def backwards(self, orm):
         # Deleting model 'Banner'
@@ -53,12 +36,6 @@ class Migration(SchemaMigration):
 
         # Removing M2M table for field sites on 'Banner'
         db.delete_table(db.shorten_name(u'banner_banner_sites'))
-
-        # Deleting model 'BannerAcessoRapido'
-        db.delete_table(u'banner_banneracessorapido')
-
-        # Removing M2M table for field sites on 'BannerAcessoRapido'
-        db.delete_table(db.shorten_name(u'banner_banneracessorapido_sites'))
 
 
     models = {
@@ -93,21 +70,14 @@ class Migration(SchemaMigration):
         },
         u'banner.banner': {
             'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Banner'},
-            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'midia_banner'", 'to': "orm['filer.Image']"}),
+            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'banners'", 'to': "orm['filer.Image']"}),
             'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'publicado': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['sites.Site']", 'symmetrical': 'False'}),
+            'tipo': ('django.db.models.fields.CharField', [], {'default': '1', 'max_length': '2'}),
             'titulo': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '250'}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
-        },
-        u'banner.banneracessorapido': {
-            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'BannerAcessoRapido'},
-            'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'midia_image': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'ar_banner'", 'to': "orm['filer.Image']"}),
-            'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['sites.Site']", 'symmetrical': 'False'}),
-            'titulo': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
+            'url': ('django.db.models.fields.URLField', [], {'default': "'http://'", 'max_length': '200'})
         },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
