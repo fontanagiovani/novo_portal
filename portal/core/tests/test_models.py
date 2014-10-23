@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
+from django.contrib.sites.models import Site
 from django.utils import timezone
-from portal.core.models import Menu
 from portal.core.models import Selecao, TipoSelecao
-from django.core.files import File
-from filer.models import Image
-from filer.models import File as FileFiler
-from django.core.urlresolvers import reverse
 from model_mommy import mommy
-from mptt.models import *
 
 
 class TipoSelecaoTest(TestCase):
@@ -69,12 +64,14 @@ class SelecaoTest(TestCase):
 
 class MenuTest(TestCase):
     def setUp(self):
-        self.menu = Menu(
+        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.menu = mommy.make(
+            'Menu',
             parent=None,
             titulo=u'TituloMenu',
-            slug=u'menu-slug',
             url=u'http.www.menuteste@url.com',
             ordem=1,
+            site=self.site
         )
 
     def test_criacao(self):

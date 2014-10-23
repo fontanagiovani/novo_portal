@@ -1,4 +1,16 @@
 /*id dos textfields alterados*/
-#id_titulo, #id_slug, #id_local, #id_fonte, #id_tags, #id_url, #id_sigla, #id_nome, #id_email {
+#id_titulo, #id_slug, #id_local, #id_tags, #id_url, #id_sigla, #id_nome, #id_email {
     width: 40em;
+}
+
+#id_sites, #id_permissao-0-sites {
+    height: 10em;
+}
+
+.mce-window-head {
+    padding: 20px 15px !important;
+}
+
+.mce-tinymce {
+    margin-left: 107px !important;
 }

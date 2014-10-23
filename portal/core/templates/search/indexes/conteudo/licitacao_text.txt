@@ -1,0 +1,11 @@
+{{ object.modalidade }}
+{{ object.titulo }}
+{{ object.texto }}
+{{ object.situacao }}
+{{ object.objeto }}
+{{ object.alteracoes }}
+{{ object.data_publicacao }}
+{{ object.data_abertura }}
+{% for site in object.sites.all %}
+    {{ site }}
+{% endfor %}

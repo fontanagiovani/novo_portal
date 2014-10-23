@@ -2,7 +2,7 @@
 {% load thumbnail %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/pagina.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/detalhe.css">
 {% endblock %}
 
 {% block content %}
@@ -14,7 +14,7 @@
         <div class="row">
             <div class="small-12 columns">
                 <ul class="breadcrumbs no-margin">
-                    <li><a href="{% url 'home' %}">Portal</a></li>
+                    <li><a href="{% url 'home' %}">Início</a></li>
                     {% block breadcrumbs %}
                     {% endblock %}
                 </ul>

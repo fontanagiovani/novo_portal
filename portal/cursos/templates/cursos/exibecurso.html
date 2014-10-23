@@ -1,9 +1,9 @@
 {% extends 'core/detalhe.html' %}
 
 {% block breadcrumbs %}
-    <li><a href="{% url 'listagrupodecursos' %}">Guia de Cursos</a></li>
+    <li><a href="{% url 'guiadecursoportal' %}">Guia de Cursos</a></li>
     <li><a href="{% url 'listacursosdogrupo' curso.grupo.id %}">Cursos</a></li>
-    <li class="current"><a href="{% url 'exibecurso' curso.id %}">{{ curso.nome|truncatewords:"3" }}</a></li>
+    <li class="current"><a href="{% url 'exibecurso' curso.id %}">{{ curso.nome|truncatewords:"5" }}</a></li>
 {% endblock %}
 
 {% block conteudo %}
@@ -12,13 +12,35 @@
             <h1 class="justificado" id="titulo">Curso: {{ curso.nome }}</h1>
         </div>
         <div class="row">
+            <p><strong>Formação:</strong> {{ curso.formacao }}</p>
+            <p><strong>Campus:</strong> {{ curso.campus }}</p>
+            <p><strong>Turno:</strong> {{ curso.get_turno_display }}</p>
+
             {% autoescape off %}
                 <article>
-                    <p>Turno: {{ curso.get_turno_display }}</p>
-                    <p>Contato: {{ curso.email }}</p>
-                    <p>Site do curso: <a href="{{ curso.url }}">{{ curso.url }}</a></p>
+                    <p><strong>Descrição:</strong> {{ curso.descricao|safe }}</p>
                 </article>
             {% endautoescape %}
+            {% if curso.email.strip|length > 0 %}
+                <p><strong>Contato:</strong> {{ curso.email }}</p>
+            {% endif %}
+            {% if curso.url.strip|length > 0 %}
+                <p><strong>Site do curso:</strong> <a href="{{ curso.url }}">{{ curso.url }}</a></p>
+            {% endif %}
         </div>
     </div>
+        <div class="row">
+            <div class="medium-12 columns">
+                {% if curso.anexocurso_set.all %}
+                    <h2 class="fundo-vermelho no-padding text-center">Anexos</h2>
+                    {% for arq in curso.anexocurso_set.all %}
+                        <div class="row padding-bottom">
+                            <a href="{{ arq.arquivo.url }}" target="_blank"><i class="fi-download texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ arq.descricao }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
 {% endblock conteudo %}

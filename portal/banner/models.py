@@ -1,13 +1,35 @@
 #coding: utf-8
 from django.db import models
+from django.utils import timezone
 from filer.fields.image import FilerImageField
+
+from portal.banner.managers import PublicadoManager, DestaqueManager, LinkDeAcessoManager, GovernamentalManager, \
+    HotsiteManager
 
 
 class Banner(models.Model):
+    TIPO = (
+        ('1', 'Destaque'),
+        ('2', 'Link de acesso'),
+        ('3', 'Governamental'),
+        ('4', 'Hotsite'),
+    )
+
+    sites = models.ManyToManyField('sites.Site', verbose_name=u'Sites para publicação')
+    tipo = models.CharField(max_length=2, default=1, choices=TIPO)
     titulo = models.CharField(max_length=250, verbose_name=u'Título', default='')
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
-    url = models.URLField(help_text=u'Insira http://', verbose_name=u'URL', null=True, blank=True)
-    arquivo = FilerImageField(related_name='midia_banner', default=None)
+    url = models.URLField(help_text=u'Insira o endereço completo (com http://). Ex.: http://www.ifmt.edu.br/',
+                          verbose_name=u'URL', default='http://')
+    arquivo = FilerImageField(verbose_name=u'Imagem', related_name='banners', default=None)
+    publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
+
+    objects = models.Manager()
+    publicados = PublicadoManager()
+    destaque = DestaqueManager()
+    linkdeacesso = LinkDeAcessoManager()
+    governamental = GovernamentalManager()
+    hotsite = HotsiteManager()
 
     class Meta:
         verbose_name = u'Banner'
@@ -17,27 +39,6 @@ class Banner(models.Model):
     def __unicode__(self):
         return self.titulo
 
-#     def delete(self, *args, **kwargs):
-#         if kwargs.pop('include_images', False):
-#             for field in self._meta.fields:
-#                 if type(field) == Image:
-#                     image = self.__getattribute__(field.name)
-#                     if image.name != '':
-#                         image.storage.delete(image.name)
-#         super(Image, self).delete(*args, **kwargs)
-# #models.ImageField:
-
-
-class BannerAcessoRapido(models.Model):
-    titulo = models.CharField(max_length=250, verbose_name=u'Título')
-    data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
-    url = models.URLField(help_text=u'Insira http://', verbose_name=u'URL')
-    midia_image = FilerImageField(verbose_name=u'Mídia', related_name='ar_banner', default=None)
-
-    class Meta:
-        verbose_name = u'Banner de acesso rápido'
-        verbose_name_plural = u'Banners de acesso rápido'
-        ordering = ('-data_publicacao', '-id')
-
-    def __unicode__(self):
-        return self.titulo
+    @property
+    def esta_publicado(self):
+        return self.publicado and self.data_publicacao < timezone.now()

@@ -1,7 +1,9 @@
 {% extends 'core/base.html' %}
 {% load thumbnail %}
+{% load embed_video_tags %}
 
 {% block content %}
+    {{ site.sitedetalhe.modal|safe }}
     {#Container para as notícias de destaque e banners especiais#}
     <div class="row padding-bottom">
 
@@ -16,13 +18,11 @@
                                 <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}"
                                      alt="{{ noticia.titulo }}"/>
                             {% endif %}
-
                             <div class="orbit-caption">
                                 <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                     {{ noticia.data_publicacao|date:"d M" }}
                                     {#                                    {{ noticia.data_publicacao|date:"Y" }}#}
                                 </div>
-
                                 <div class="small-10 columns">
                                     <div class="data-local branco negrito texto-tamanho-pequeno">
                                         {{ noticia.get_campus_origem_display }}
@@ -49,12 +49,12 @@
 
         {#Container para os banners especiais#}
         <div class="medium-4 columns">
-            {% for banner in banners %}
-                <div class="row collapse padding-bottom">
-                    <a href="{{ banner.url }}">
-                        <div class="row collapse hover-cinza-claro">
+            {% for banner in banners_destaque %}
+                <div class="row collapse">
+                    <a class="th" href="{{ banner.url }}">
+                        <div class="row collapse">
                             <div class="small-2 medium-12 columns">
-                                <img src="{% thumbnail banner.arquivo 460x200 crop quality=80 %}"
+                                <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
                                      data-tooltip class="has-tip"
                                      title="{{ banner.titulo }}"/>
                             </div>
@@ -66,16 +66,7 @@
                         </div>
                     </a>
                 </div>
-
             {% endfor %}
-            <div class="row collapse padding-bottom">
-                <a href="">
-                    <div class="row collapse hover-cinza-claro">
-                        <img src="{{ STATIC_URL }}img/exame_vestibular.jpg"/>
-                    </div>
-                </a>
-
-            </div>
         </div>
     </div>
     {#Fim da div para as notícias de destaque e banners especiais#}
@@ -87,7 +78,7 @@
     <div class="medium-4 columns padding-bottom">
         <h1><a href="{% url 'conteudo:noticias_lista' %}"><i class="fi-plus"></i> NOTÍCIAS</a></h1>
         {% for noticia in mais_noticias %}
-            <div class="row padding-bottom-duplo">
+            <div class="row padding-bottom-duplo show-for-medium-up">
                 <div class="row collapse hover-cinza-claro">
                     {% if noticia.primeira_imagem %}
                         <a href="{{ noticia.get_absolute_url }}">
@@ -123,13 +114,13 @@
     {#Container para eventos e guia de curso#}
     <div class="medium-4 columns fundo-cinza">
         <div class="row padding-bottom">
-            <h1><i class="fi-list"></i> GUIA DE CURSOS</h1>
+            <h1><a href="{% url 'guiadecursoportal' %}"><i class="fi-list"></i> GUIA DE CURSOS</a></h1>
 
             <form method="post" id="guiadecursoportal" name="guiadecursoportal"
                   action="{% url 'guiadecursoportal' %}">{% csrf_token %}
                 <div class="row collapse padding-bottom">
                     <div class="medium-12 columns">
-                        <label>Selecione uma tipo de formação
+                        <label>Selecione um tipo de formação
                             <select id="formacao" name="formacao">
                                 <option value="0">--------</option>
                                 {% for f in formacao %}
@@ -137,7 +128,7 @@
                                 {% endfor %}
                             </select>
                         </label>
-                        <label>Selecione um Câmpus
+                        <label>Selecione um câmpus
                             <select id="campi" name="campi">
                                 <option value="0">--------</option>
                             </select>
@@ -149,8 +140,11 @@
                         </label>
                     </div>
                 </div>
-                <div id="resultado"></div>
-                <input type="submit" class="button small expand no-margin" value="Buscar">
+                <div class="row collapse">
+                    <div class="medium-6 medium-offset-6 columns">
+                        <input type="submit" class="button small expand no-margin" value="Buscar Cursos">
+                    </div>
+                </div>
             </form>
         </div>
         {#Fim da div eventos e guia de curso#}
@@ -184,16 +178,18 @@
 
         {#Acesso rápido#}
         <div class="row">
-            <h1><i class="fi-list-thumbnails"></i> ACESSO RÁPIDO</h1>
-            {% for ac_rap in acesso_rapido %}
-                <div class="row collapse padding-bottom hover-cinza-medio">
-                    <a href="{{ ac_rap.url }}">
+            <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
+            {% for banner in banners_linkdeacesso %}
+                <div class="row collapse">
+                    <a class="th" href="{{ banner.url }}">
                         <div class="row collapse">
-                            <div class="small-2 medium-5 columns">
-                                <img src="{% thumbnail ac_rap.midia_image 150x100 crop quality=80 %}">
+                            <div class="small-2 medium-12 columns">
+                                <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
+                                     data-tooltip class="has-tip"
+                                     title="{{ banner.titulo }}">
                             </div>
-                            <div class="small-10 medium-7 columns">
-                                <p class="padding-left espacamento-medio">{{ ac_rap.titulo }}</p>
+                            <div class="small-10 columns show-for-small-only">
+                                <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
                             </div>
                         </div>
                     </a>
@@ -201,7 +197,6 @@
             {% endfor %}
         </div>
         {#Fim da div acesso rápido#}
-
     </div>
     {#Fim da div para eventos e guia de curso#}
 
@@ -248,13 +243,10 @@
                                             src="{% thumbnail galeria.primeira_imagem 640x470 crop quality=80 %}"
                                             alt="{{ galeria.titulo }}"/>
                                 {% endif %}
-
                                 <div class="orbit-caption">
                                     <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                         {{ galeria.data_publicacao|date:"d M" }}
-                                        {#                                        {{ galeria.data_publicacao|date:"Y" }}#}
                                     </div>
-
                                     <div class="small-10 columns">
                                         <div class="data-local branco negrito texto-tamanho-pequeno">
                                             {{ galeria.get_campus_origem_display }}
@@ -266,18 +258,19 @@
                         </li>
                     {% endfor %}
                 </ul>
+
+                <ul class="small-block-grid-3 padding-top">
+                    {% for galeria in galerias %}
+                        <li>
+                            <a data-orbit-link="{{ galeria.id }}">
+                                <img src="{% thumbnail galeria.primeira_imagem 190x100 crop quality=80 %}"
+                                     alt="{{ galeria.titulo }}"/>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
 
-            <ul class="small-block-grid-3 padding-top">
-                {% for galeria in galerias %}
-                    <li>
-                        <a data-orbit-link="{{ galeria.id }}">
-                            <img src="{% thumbnail galeria.primeira_imagem 112x60 crop quality=80 %}"
-                                 alt="{{ galeria.titulo }}"/>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
         </div>
         {#Fim da div galeria de fotos#}
 
@@ -287,10 +280,9 @@
             {% for video in videos %}
                 <div class="row">
                     <div class="flex-video">
-                        <iframe src="{{ video.embed }}" frameborder="0" allowfullscreen></iframe>
+                        {% video video.url %}
                     </div>
                 </div>
-
                 <div class="row">
                     <a href="{{ video.get_absolute_url }}">
                         <div class="data-local texto-tamanho-xsmall">{{ video.data_publicacao|date:"d M" }}
@@ -307,12 +299,42 @@
     </div>
     {#Fim da div central para as 3 colunas#}
 
+    {# Banners governamentais #}
+    <div class="row">
+        <div class="small-12 columns">
+            <h1><i class="fi-link"></i> LINKS GOVERNAMENTAIS</h1>
+
+            <ul class="small-block-grid-1 medium-block-grid-5">
+                {% for banner in banners_governamental %}
+                    <li>
+                        <a class="th"  href="{{ banner.url }}">
+                            <div class="row collapse">
+                                <div class="small-2 medium-12 columns">
+                                    <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
+                                         data-tooltip class="has-tip"
+                                         title="{{ banner.titulo }}">
+                                </div>
+                                <div class="small-10 columns show-for-small-only">
+                                    <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
+                                </div>
+                            </div>
+                        </a>
+
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+    {# Fim banners governamentais #}
+
 {% endblock %}
 {% block javascript %}
     <script>
         $(document).ready(function () {
+            $('#modal').foundation('reveal', 'open');
             $("#formacao").change(function () {
-                {#            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
+                {#                            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
                 $.ajax({
                     url: '/json_campi/' + $(this).val() + '/',
                     type: 'POST',

@@ -2,6 +2,14 @@ p {
     text-align: justify;
 }
 
+h1 {
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.1em;
+}
+
 .compartilhar {
     list-style: none;
 }
@@ -19,14 +27,9 @@ p {
     vertical-align: middle;
 }
 
-
 #custom-tweet-button a {
-
     display: block;
-
     padding: 2px 5px 2px 20px;
-
     background: url('https://twitter.com/favicons/favicon.ico') 1px center no-repeat;
-
     border: 1px solid #ccc;
 }

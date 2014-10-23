@@ -1,0 +1,54 @@
+{% load mptt_tags %}
+{% load thumbnail %}
+<!DOCTYPE html> <!--[if IE 9]><html class="lt-ie10" lang="pt-br" > <![endif]-->
+<html class="no-js" lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site.name }}</title>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-ifmt.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-icons/foundation-icons.css"/>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css">
+
+    {#Bloco para estilos personalizados para templates específicos#}
+    {% block stylesheet %}
+    {% endblock %}
+
+    <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
+</head>
+<body> <!-- body content here -->
+{#Container geral do portal#}
+<div class="row padding-top-duplo">
+    <div class="small-12 columns">
+        <ul class="small-block-grid-1 medium-block-grid-2">
+            {% for banner in banners %}
+                <li>
+                    <a class="th" href="{{ banner.url }}">
+                        <img src="{% thumbnail banner.arquivo 640x0 upscale quality=80 %}"
+                             data-tooltip class="has-tip"
+                             title="{{ banner.titulo }}"/>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{#Fim da div geral do portal#}
+
+<script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
+<script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.clearing.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.orbit.js"></script>
+<script> $(document).foundation(); </script>
+
+{#Bloco para javascript personalizado para templates específicos#}
+{% block javascript %}
+{% endblock %}
+
+</body>
+</html>

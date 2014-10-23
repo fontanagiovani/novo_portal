@@ -1,33 +1,56 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from django.utils import timezone
+from django.core.urlresolvers import reverse
 from django.core.files import File
+from django.utils import timezone
 from filer.models import Image
 from filer.models import File as FileFiler
-from django.core.urlresolvers import reverse
 from model_mommy import mommy
 
-from portal.core.models import Campus
-
-from portal.conteudo.models import Conteudo
-from portal.conteudo.models import Noticia
-from portal.conteudo.models import Pagina
-from portal.conteudo.models import Evento
-from portal.conteudo.models import Video
-from portal.conteudo.models import Galeria
-from portal.conteudo.models import ImagemGaleria
-from portal.conteudo.models import Anexo
 from portal.core.tests.util import del_midia_filer
+
+
+class ConteudoTest(TestCase):
+    def setUp(self):
+        self.obj = mommy.prepare('Conteudo', titulo=u'Título', campus_origem=mommy.make('Campus'))
+
+    def test_criacao(self):
+        """
+        Noticia deve conter titulo, texto, data_publicacao
+        """
+        self.obj.save()
+        self.assertIsNotNone(self.obj.pk)
+
+    def test_unicode(self):
+        """
+        Noticia deve apresentar o titulo como unicode
+        """
+        self.assertEqual(u'Título', unicode(self.obj))
+
+    def test_esta_publicado(self):
+        """
+        Conteudo para estar publicado deve estar marcado como publicado e tambem possuir data de publicacao
+        posterior a data atual
+        """
+        self.obj.data_publicacao = timezone.now() - timezone.timedelta(days=1)
+        self.obj.publicado = True
+        self.assertTrue(self.obj.esta_publicado)
+
+        self.obj.publicado = False
+        self.assertFalse(self.obj.esta_publicado)
+
+        self.obj.data_publicacao = timezone.now() + timezone.timedelta(days=1)
+        self.obj.publicado = True
+        self.assertFalse(self.obj.esta_publicado)
+
+        self.obj.data_publicacao = timezone.now() - timezone.timedelta(days=1)
+        self.obj.publicado = False
+        self.assertFalse(self.obj.esta_publicado)
 
 
 class NoticiaTest(TestCase):
     def setUp(self):
-        self.obj = Noticia(
-            titulo=u'Título',
-            texto=u'seu texto aqui!!!',
-            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
-        )
+        self.obj = mommy.prepare('Noticia', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
     def test_criacao(self):
         """
@@ -47,28 +70,21 @@ class NoticiaTest(TestCase):
         Noticia deve ter um url de acesso direto
         """
         self.obj.save()
-        self.assertEqual(reverse('conteudo:noticia_detalhe', kwargs={'noticia_id': self.obj.id}),
+        self.assertEqual(reverse('conteudo:noticia_detalhe', kwargs={'slug': self.obj.slug}),
                          self.obj.get_absolute_url())
 
 
 class AnexoTest(TestCase):
     def setUp(self):
-        self.conteudo = Conteudo(
-            titulo=u'Título',
-            texto=u'seu texto aqui!!!',
-            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
-        )
-        self.conteudo.save()
+        self.obj = mommy.make('Conteudo', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
-        arquivo = FileFiler()
-        arquivo.save()
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
 
-        self.anexo = Anexo(
-            conteudo=self.conteudo,
-            descricao=u'foto1',
-            arquivo=arquivo,
-        )
+        self.anexo = mommy.prepare('Anexo', conteudo=self.obj, descricao=u'foto1', arquivo=midia_image)
 
     def test_criacao(self):
         """
@@ -86,44 +102,33 @@ class AnexoTest(TestCase):
 
 class PaginaTest(TestCase):
     def setUp(self):
-        self.pagina = mommy.prepare(
-            Pagina,
-            titulo=u'Título',
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
-        )
+        self.obj = mommy.prepare('Pagina', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
     def test_criacao(self):
         """
         Pagina deve conter titulo, texto, data_publicacao
         """
-        self.pagina.save()
-        self.assertIsNotNone(self.pagina.pk)
+        self.obj.save()
+        self.assertIsNotNone(self.obj.pk)
 
     def test_unicode(self):
         """
         Noticia deve apresentar o titulo como unicode
         """
-        self.assertEqual(u'Título', unicode(self.pagina))
+        self.assertEqual(u'Título', unicode(self.obj))
 
     def test_get_absolute_url(self):
         """
         Noticia deve ter um url de acesso direto
         """
-        self.pagina.save()
-        self.assertEqual(reverse('conteudo:pagina_detalhe', kwargs={'pagina_id': self.pagina.id}),
-                         self.pagina.get_absolute_url())
+        self.obj.save()
+        self.assertEqual(reverse('conteudo:pagina_detalhe', kwargs={'slug': self.obj.slug}),
+                         self.obj.get_absolute_url())
 
 
 class EventoTest(TestCase):
     def setUp(self):
-        self.obj = Evento(
-            titulo=u'Título',
-            texto=u'seu texto aqui!!!',
-            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
-            data_inicio=timezone.now(),  # '2014-03-21 17:59:00',
-            data_fim=timezone.now(),  # '2014-03-21 17:59:00',
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
-        )
+        self.obj = mommy.prepare('Evento', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
     def test_criacao(self):
         """
@@ -143,20 +148,14 @@ class EventoTest(TestCase):
         Evento deve ter um url de acesso direto
         """
         self.obj.save()
-        self.assertEqual(reverse('conteudo:evento_detalhe', kwargs={'evento_id': self.obj.id}),
+        self.assertEqual(reverse('conteudo:evento_detalhe', kwargs={'slug': self.obj.slug}),
                          self.obj.get_absolute_url())
 
 
 class VideoTest(TestCase):
     def setUp(self):
-        self.obj = Video(
-            titulo=u'Título',
-            slug='titulo',
-            texto=u'seu texto aqui!!!',
-            id_video_youtube=u'ID_do_video',
-            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
-        )
+        self.obj = mommy.prepare('Video', titulo=u'Título', campus_origem=mommy.make('Campus'),
+                                 url='https://www.youtube.com/watch?v=GbHBXOqI7hc')
 
     def test_criacao(self):
         """
@@ -176,19 +175,13 @@ class VideoTest(TestCase):
         Video deve ter um url de acesso direto
         """
         self.obj.save()
-        self.assertEqual(reverse('conteudo:video_detalhe', kwargs={'video_id': self.obj.id}),
+        self.assertEqual(reverse('conteudo:video_detalhe', kwargs={'slug': self.obj.slug}),
                          self.obj.get_absolute_url())
 
 
 class GaleriaTest(TestCase):
     def setUp(self):
-        self.obj = Galeria(
-            titulo=u'Título',
-            slug='titulo',
-            texto=u'seu texto aqui!!!',
-            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
-        )
+        self.obj = mommy.prepare('Galeria', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
     def test_criacao(self):
         """
@@ -208,32 +201,21 @@ class GaleriaTest(TestCase):
         Galeria deve ter um url de acesso direto
         """
         self.obj.save()
-        self.assertEqual(reverse('conteudo:galeria_detalhe', kwargs={'galeria_id': self.obj.id}),
+        self.assertEqual(reverse('conteudo:galeria_detalhe', kwargs={'slug': self.obj.slug}),
                          self.obj.get_absolute_url())
 
 
 class ImagemGaleriaTest(TestCase):
     def setUp(self):
-        self.galeria = Galeria(
-            titulo=u'Título',
-            slug='titulo',
-            texto=u'seu texto aqui!!!',
-            data_publicacao=timezone.now(),  # '2014-03-21 17:59:00',
-            campus_origem=mommy.make(Campus, _quantity=1)[0],
-        )
-        self.galeria.save()
+        self.obj = mommy.make('Galeria', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
-        self.img_path = 'portal/banner/static/img/images.jpeg'
-        self.img_name = 'imagembanner'
+        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
             midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
 
-        self.anexo = ImagemGaleria(
-            galeria=self.galeria,
-            descricao=u'foto1',
-            imagem=midia_image,
-        )
+        self.anexo = mommy.prepare('ImagemGaleria', galeria=self.obj, descricao=u'foto1', imagem=midia_image)
 
     def test_criacao(self):
         """
@@ -250,3 +232,42 @@ class ImagemGaleriaTest(TestCase):
 
     def tearDown(self):
         del_midia_filer(self.img_name)
+
+
+class LiciatacaoTest(TestCase):
+    def setUp(self):
+        campus_origem = mommy.make('Campus')
+        self.obj = mommy.prepare('Licitacao', titulo=u'Título', publicado=True, campus_origem=campus_origem)
+
+    def test_criacao(self):
+        """
+        Noticia deve conter titulo, texto, data_publicacao
+        """
+        self.obj.save()
+        self.assertIsNotNone(self.obj.pk)
+
+    def test_unicode(self):
+        """
+        Noticia deve apresentar o titulo como unicode
+        """
+        self.assertEqual(u'Título', unicode(self.obj))
+
+    def test_esta_publicado(self):
+        """
+        Conteudo para estar publicado deve estar marcado como publicado e tambem possuir data de publicacao
+        posterior a data atual
+        """
+        self.obj.data_publicacao = timezone.now() - timezone.timedelta(days=1)
+        self.obj.publicado = True
+        self.assertTrue(self.obj.esta_publicado)
+
+        self.obj.publicado = False
+        self.assertFalse(self.obj.esta_publicado)
+
+        self.obj.data_publicacao = timezone.now() + timezone.timedelta(days=1)
+        self.obj.publicado = True
+        self.assertFalse(self.obj.esta_publicado)
+
+        self.obj.data_publicacao = timezone.now() - timezone.timedelta(days=1)
+        self.obj.publicado = False
+        self.assertFalse(self.obj.esta_publicado)

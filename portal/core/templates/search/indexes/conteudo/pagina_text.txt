@@ -1,0 +1,6 @@
+{{ object.titulo }}
+{{ object.texto }}
+{{ object.data_publicacao }}
+{% for site in object.sites.all %}
+    {{ site }}
+{% endfor %}

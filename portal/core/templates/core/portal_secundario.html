@@ -1,0 +1,367 @@
+{% extends 'core/base.html' %}
+{% load thumbnail %}
+{% load embed_video_tags %}
+
+{% block content %}
+    {{ site.sitedetalhe.modal|safe }}
+    {#Container para as notícias de destaque e banners especiais#}
+    <div class="row padding-bottom">
+
+        {#Container para as notícias de destaque#}
+        <div class="medium-8 columns">
+            <ul class="example-orbit" data-orbit
+                data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+                {% for noticia in noticias_destaque %}
+                    <li data-orbit-slide="{{ noticia.id }}">
+                        <a href="{{ noticia.get_absolute_url }}">
+                            {% if noticia.primeira_imagem %}
+                                <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}"
+                                     alt="{{ noticia.titulo }}"/>
+                            {% endif %}
+                            <div class="orbit-caption">
+                                <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
+                                    {{ noticia.data_publicacao|date:"d M" }}
+                                    {#                                    {{ noticia.data_publicacao|date:"Y" }}#}
+                                </div>
+                                <div class="small-10 columns">
+                                    <div class="data-local branco negrito texto-tamanho-pequeno">
+                                        {{ noticia.get_campus_origem_display }}
+                                    </div>
+                                    <p class="no-margin espacamento-medio branco texto-tamanho-pequeno">{{ noticia.titulo }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <ul class="small-block-grid-5 padding-top">
+                {% for noticia in noticias_destaque %}
+                    <li>
+                        <a data-orbit-link="{{ noticia.id }}">
+                            <img src="{% thumbnail noticia.primeira_imagem 112x60 crop quality=80 %}"
+                                 alt="{{ noticia.titulo }}"/>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {#Container para os banners especiais#}
+        <div class="medium-4 columns">
+            {% for banner in banners_destaque %}
+                <div class="row collapse">
+                    <a class="th" href="{{ banner.url }}">
+                        <div class="row collapse">
+                            <div class="small-2 medium-12 columns">
+                                <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
+                                     data-tooltip class="has-tip"
+                                     title="{{ banner.titulo }}"/>
+                            </div>
+                            <div class="small-10 columns show-for-small-only">
+                                <div class="padding-left">
+                                    <p class="espacamento-medio">{{ banner.titulo }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {#Fim da div para as notícias de destaque e banners especiais#}
+
+    {#Container central para as 3 colunas#}
+    <div class="row">
+
+        {#Container para mais notícias#}
+        <div class="medium-4 columns padding-bottom">
+            <h1><a href="{% url 'conteudo:noticias_lista' %}"><i class="fi-plus"></i> NOTÍCIAS</a></h1>
+            {% for noticia in mais_noticias %}
+                <div class="row padding-bottom-duplo show-for-medium-up">
+                    <div class="row collapse hover-cinza-claro">
+                        {% if noticia.primeira_imagem %}
+                            <a href="{{ noticia.get_absolute_url }}">
+                                <div class="row collapse">
+                                    <div class="small-2 medium-3 columns">
+                                        <img src="{% thumbnail noticia.primeira_imagem 100x100 crop quality=80 %}"
+                                             alt="{{ noticia.titulo }}">
+                                    </div>
+                                    <div class="small-10 medium-9 columns">
+                                        <div class="data-local padding-left texto-tamanho-xsmall">{{ noticia.data_publicacao|date:"d M" }}
+                                            - {{ noticia.campus_origem.nome }}</div>
+                                        <p class="no-margin padding-left espacamento-medio">{{ noticia.titulo }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        {% else %}
+                            <div class="small-12 columns">
+                                <a href="{{ noticia.get_absolute_url }}">
+                                    <div class="row">
+                                        <div class="data-local texto-tamanho-xsmall">{{ noticia.data_publicacao|date:"d M" }}
+                                            - {{ noticia.campus_origem.nome }}</div>
+                                        <p class="no-margin espacamento-medio">{{ noticia.titulo }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {#Fim da div mais notícias#}
+
+        {#Container para eventos e guia de curso#}
+        <div class="medium-4 columns fundo-cinza">
+            <div class="row padding-bottom">
+                <h1 class="padding-bottom"><a href="{% url 'guiadecursoportal' %}"><i class="fi-list"></i> GUIA DE
+                    CURSOS</a></h1>
+
+                <form method="post" id="guiadecursoportal" name="guiadecursoportal"
+                      action="{% url 'guiadecursoportal' %}">{% csrf_token %}
+                    <div class="row collapse padding-bottom">
+                        <div class="medium-12 columns">
+                            <label class="padding-bottom">Selecione um tipo de formação
+                                <select id="formacao" name="formacao">
+                                    <option value="0">--------</option>
+                                    {% for f in formacao %}
+                                        <option value="{{ f.formacao__id }}">{{ f.formacao__nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                            <label class="padding-bottom">Selecione um câmpus
+                                <select id="campi" name="campi">
+                                    <option value="0">--------</option>
+                                </select>
+                            </label>
+                            <label class="padding-bottom">Selecione um curso
+                                <select id="cursos" name="cursos">
+                                    <option value="0">--------</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row collapse">
+                        <div class="medium-6 medium-offset-6 columns">
+                            <input type="submit" class="button small expand no-margin" value="Buscar Cursos">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {#Fim da div eventos e guia de curso#}
+
+            {#Eventos#}
+            <div class="row padding-bottom">
+                <h1 class="padding-bottom"><a href="{% url 'conteudo:eventos_lista' %}"><i class="fi-plus"></i> EVENTOS</a>
+                </h1>
+                {% for evento in eventos %}
+                    <div class="row padding-bottom-duplo hover-cinza-medio">
+                        <a href="{{ evento.get_absolute_url }}">
+                            <div class="row">
+                                <div class="small-3 columns text-center no-padding">
+                                    <p class="padding-top-bottom fundo-verde no-margin espacamento-medio">
+                                        {{ evento.data_inicio|date:"d M" }}
+                                        {{ evento.data_publicacao|date:"Y" }}
+                                    </p>
+                                </div>
+
+                                <div class="small-9 columns no-padding padding-left">
+                                    <div class="data-local">
+                                        {{ evento.get_campus_origem_display }}
+                                    </div>
+                                    <p class="espacamento-medio">{{ evento.titulo }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            {#Fim da div eventos#}
+
+        </div>
+        {#Fim da div para eventos e guia de curso#}
+
+        {#Container para coluna à direita#}
+        <div class="medium-4 columns padding-bottom">
+
+            {#Galeria de fotos#}
+            <div class="row">
+                <h1><a href="{% url 'conteudo:galerias_lista' %}"><i class="fi-plus"></i> GALERIAS</a></h1>
+
+                <div class="row">
+                    <ul class="example-orbit" data-orbit
+                        data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+                        {% for galeria in galerias %}
+                            <li data-orbit-slide="{{ galeria.id }}">
+                                <a href="{{ galeria.get_absolute_url }}">
+                                    {% if galeria.primeira_imagem %}
+                                        <img
+                                                src="{% thumbnail galeria.primeira_imagem 640x350 crop quality=80 %}"
+                                                alt="{{ galeria.titulo }}"/>
+                                    {% endif %}
+                                    <div class="orbit-caption">
+                                        <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
+                                            {{ galeria.data_publicacao|date:"d M" }}
+                                        </div>
+                                        <div class="small-10 columns">
+                                            <div class="data-local branco negrito texto-tamanho-pequeno">
+                                                {{ galeria.get_campus_origem_display }}
+                                            </div>
+                                            <p class="no-margin espacamento-medio branco texto-tamanho-pequeno">{{ galeria.titulo|truncatechars:'60' }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <ul class="small-block-grid-3 padding-top">
+                        {% for galeria in galerias %}
+                            <li>
+                                <a data-orbit-link="{{ galeria.id }}">
+                                    <img src="{% thumbnail galeria.primeira_imagem 190x100 crop quality=80 %}"
+                                         alt="{{ galeria.titulo }}"/>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {#Fim da div galeria de fotos#}
+
+            {#Vídeos#}
+            <div class="row">
+                <h1><a href="{% url 'conteudo:videos_lista' %}"><i class="fi-plus"></i> VÍDEOS</a></h1>
+                {% for video in videos %}
+                    <div class="row">
+                        <div class="flex-video">
+                            {% video video.url %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <a href="{{ video.get_absolute_url }}">
+                            <div class="data-local texto-tamanho-xsmall">{{ video.data_publicacao|date:"d M" }}
+                                - {{ video.campus_origem.nome }}</div>
+                            <p class="espacamento-medio">{{ video.titulo }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            {#Fim da div vídeos#}
+
+        </div>
+        {#Fim da div da coluna à direita#}
+    </div>
+    {#Fim da div central para as 3 colunas#}
+
+    {#Acesso rápido#}
+    <div class="row">
+        <div class="small-12 columns">
+            <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
+
+            <ul class="small-block-grid-1 medium-block-grid-5">
+                {% for banner in banners_linkdeacesso %}
+                    <li id="no-padding-bottom">
+                        <a class="th" href="{{ banner.url }}">
+                            <div class="row collapse">
+                                <div class="small-2 medium-12 columns">
+                                    <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
+                                         data-tooltip class="has-tip"
+                                         title="{{ banner.titulo }}">
+                                </div>
+                                <div class="small-10 columns show-for-small-only">
+                                    <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
+                                </div>
+                            </div>
+                        </a>
+
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+    {#Fim da div acesso rápido#}
+
+    {# Banners governamentais #}
+    <div class="row">
+        <div class="small-12 columns">
+            <h1><i class="fi-link"></i> LINKS GOVERNAMENTAIS</h1>
+
+            <ul class="small-block-grid-1 medium-block-grid-5">
+                {% for banner in banners_governamental %}
+                    <li id="no-padding-bottom">
+                        <a class="th" href="{{ banner.url }}">
+                            <div class="row collapse">
+                                <div class="small-2 medium-12 columns">
+                                    <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
+                                         data-tooltip class="has-tip"
+                                         title="{{ banner.titulo }}">
+                                </div>
+                                <div class="small-10 columns show-for-small-only">
+                                    <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
+                                </div>
+                            </div>
+                        </a>
+
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+    {# Fim banners governamentais #}
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $('#modal').foundation('reveal', 'open');
+            $("#formacao").change(function () {
+                {#                            alert ("change event occured with value: " + document.getElementById("formacao").value);#}
+                $.ajax({
+                    url: '/json_campi/' + $(this).val() + '/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (json) {
+                        var options = "<option value='0'>--------</option>";
+                        $.each(json, function (key, value) {
+                            options += '<option value="' + key + '">' + value + '</option>';
+                        });
+                        $("#campi").html(options);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        alert(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+                return false;
+            });
+
+            $("#campi").change(function () {
+                $.ajax({
+                    url: '/json_cursos/' + document.getElementById("formacao").value + '/' + $(this).val() + '/',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (json) {
+                        var options = "<option value='0'>--------</option>";
+                        $.each(json, function (key, value) {
+                            options += '<option value="' + key + '">' + value + '</option>';
+                        });
+                        $("#cursos").html(options);
+                    },
+                    error: function (xhr, errmsg, err) {
+                        alert(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+                return false;
+            });
+
+        });
+    </script>
+
+{% endblock %}

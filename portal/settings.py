@@ -29,6 +29,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
+# DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
 TESTING = 'test' in sys.argv
 
 ADMINS = (('Equipe Sistemas', 'sistemas@ifmt.edu.br'), )
@@ -56,24 +58,33 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # External apps
+    'debug_toolbar',
     'gunicorn',
     'devserver',
     'south',
     'mptt',
-    'django_summernote',
     'filer',
     'easy_thumbnails',
     'taggit',
-    'debug_toolbar',
     'django_extensions',
+    'adminsortable',
+    'haystack',
+    'whoosh',
+    'taggit_autosuggest',
+    'reversion',
+    'pure_pagination',
+    'embed_video',
 
     # Project apps
     'portal.core',
     'portal.conteudo',
     'portal.banner',
     'portal.cursos',
+    'portal.autorizacao',
+    'portal.menu',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -91,6 +102,7 @@ ROOT_URLCONF = 'portal.urls'
 
 WSGI_APPLICATION = 'portal.wsgi.application'
 
+SITE_ID = 1
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -105,6 +117,8 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
+# AUTH_USER_MODEL='core.User'
+
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Cuiaba'
@@ -113,7 +127,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -129,12 +143,30 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
-    'portal.core.context_processors.carregar_menus',
+    'portal.core.context_processors.carregar_site_e_menus',
 )
 
+# TEMPLATE_LOADERS = (
+#     'django.template.loaders.filesystem.Loader',
+#     'django.template.loaders.app_directories.Loader',
+# )
+
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates'),
+    BASE_DIR.child('portal').child('templates'),
 )
+
+WHOOSH_INDEX = BASE_DIR.child('whoosh')
+
+# HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': WHOOSH_INDEX,
+    },
+}
+
+MPTT_ADMIN_LEVEL_INDENT = 20
 
 # Utilizado para testes
 FILER_PUBLIC = BASE_DIR.child('filer_public')
@@ -152,6 +184,11 @@ THUMBNAIL_PROCESSORS = (
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
 )
+
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 6,
+    'MARGIN_PAGES_DISPLAYED': 2,
+}
 
 SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
@@ -183,27 +220,35 @@ else:  # Assume development mode
         }
     }
 
-# Summernote configuration
-SUMMERNOTE_CONFIG = {
-    # Change editor size
-    'width': '100%',
+AUTHENTICATION_BACKENDS = (
+    'portal.ldapauth.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
-    # Set editor language/locale
-    'lang': 'pt-BR',
 
-    # Customize toolbar buttons
-    'toolbar': [
-        # ['style', ['style']],
-        ['font', ['bold', 'italic', 'underline', 'clear']],
-        # ['font', ['bold', 'italic', 'underline', 'superscript', 'subscript',
-        # 'strikethrough', 'clear']],
-        # ['para', ['ul', 'ol']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'video']],
-        ['misc', ['codeview']]
-    ],
-}
+# ldap settings for ldap backend
+import ldap
+
+LDAP_DEBUG = True
+LDAP_SERVER_URI = config('LDAP_SERVER_URI', default='')
+LDAP_PREBINDDN = config('LDAP_PREBINDDN', default='')
+LDAP_PREBINDPW = config('LDAP_PREBINDPW', default='')
+LDAP_SEARCHDN = config('LDAP_SEARCHDN', default='')
+LDAP_SEARCH_FILTER = 'cn=%s'  # or sAMAccountName
+LDAP_SCOPE = ldap.SCOPE_SUBTREE
+LDAP_UPDATE_FIELDS = True
+
+#Required unless LDAP_FULL_NAME is set:
+LDAP_FIRST_NAME = 'givenName'
+LDAP_LAST_NAME = 'sn'
+
+#Optional Settings:
+LDAP_FULL_NAME = 'displayName'
+#LDAP_GID -- string, LDAP attribute to get group name/number from
+#LDAP_SU_GIDS -- list of strings, group names/numbers that are superusers
+#LDAP_STAFF_GIDS -- list of strings, group names/numbers that are staff
+LDAP_EMAIL = 'mail'
+
 
 LOGGING = {
     'version': 1,

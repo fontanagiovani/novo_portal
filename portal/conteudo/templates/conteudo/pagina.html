@@ -1,6 +1,11 @@
 {% extends 'core/detalhe.html' %}
 {% load thumbnail %}
 
+{% block stylesheet %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueimp-gallery.min.css">
+{% endblock %}
+
 {% block breadcrumbs %}
     <li><a href="{% url 'conteudo:noticias_lista' %}">Caminho do Menu pro Link</a></li>
     <li class="current"><a href="#">{{ pagina.titulo|truncatewords:"3" }}</a></li>
@@ -8,54 +13,67 @@
 
 {% block edicao %}
     {% if user.is_authenticated %}
-        <div class="row padding-top">
-            <div class="medium-12 columns text-right">
-                <a href="{% url 'admin:conteudo_pagina_change' pagina.id %}" target="_blank">
-                    <i class="fi-page-edit"></i> Editar Página
-                </a>
-            </div>
-        </div>
+        {% if perms.conteudo.change_pagina %}
+            {% load permissao_tags %}
+            {% if user|tem_permissao:pagina %}
+                <div class="row padding-top">
+                    <div class="medium-12 columns text-right">
+                        <a href="{% url 'admin:conteudo_pagina_change' pagina.id %}">
+                            <i class="fi-page-edit"></i> Editar página
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
     {% endif %}
 {% endblock edicao %}
 
 {% block conteudo %}
     <div class="row padding-bottom">
-        <div class="row">
-            <h1 class="justificado" id="titulo">{{ pagina.titulo }}</h1>
-
-            <p class="padding-top-bottom">{{ pagina.data_publicacao }}</p>
-        </div>
-        <div class="row">
-            {% if pagina.imagens %}
-                <div class="medium-10 columns no-padding">
-            {% else %}
-                <div class="medium-12 columns no-padding">
-            {% endif %}
-
-            {% autoescape off %}
-                <article>
-                    {{ pagina.texto }}
-                </article>
-            {% endautoescape %}
-
-            <p>{{ pagina.fonte }}</p>
+    <div class="row">
+        {% if not pagina.esta_publicado %}
+            <div class="row">
+                <h2 class="vermelho padding-top-bottom text-center">
+                    NÃO PUBLICADO - DATA DE PUBLICAÇÃO: {{ pagina.data_publicacao }}
+                </h2>
             </div>
-            {% if pagina.imagens %}
-                <div class="medium-2 columns">
-                    <div class="row">
-                        <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-1" data-clearing>
-                            {% for imagem in pagina.imagens %}
-                                <li>
-                                    <a class="th" href="{% thumbnail imagem.arquivo 1000x800 upscale quality=80 %}">
-                                        <img data-caption="{{ imagem.descricao }}"
-                                             src="{% thumbnail imagem.arquivo 200x200 crop quality=80 %}">
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+        {% endif %}
+        <h1 class="justificado" id="titulo">{{ pagina.titulo }}</h1>
+
+        <p class="padding-top-bottom texto-tamanho-pequeno">Publicado em: {{ pagina.campus_origem }} /
+                {{ pagina.data_publicacao }}</p>
+    </div>
+    <div class="row">
+        {% if pagina.imagens %}
+            <div class="medium-10 columns no-padding">
+        {% else %}
+            <div class="medium-12 columns no-padding">
+        {% endif %}
+
+        {% autoescape off %}
+            <article>
+                {{ pagina.texto|safe }}
+            </article>
+        {% endautoescape %}
+
+        </div>
+        {% if pagina.imagens %}
+            <div class="medium-2 columns">
+                <div class="row">
+                    <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-1" id="links">
+                        {% for imagem in pagina.imagens %}
+                            <li>
+                                <a class="th" href="{% thumbnail imagem.arquivo 1000x800 upscale quality=80 %}"
+                                   title="{{ imagem.descricao }}">
+                                    <img src="{% thumbnail imagem.arquivo 200x200 crop quality=80 %}"
+                                         alt="{{ imagem.descricao }}">
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
-            {% endif %}
+            </div>
+        {% endif %}
         </div>
     </div>
 
@@ -63,10 +81,10 @@
         <div class="row collapse padding-bottom-duplo">
             <div class="small-12 columns">
                 <ul class="sem-marcador no-margin">
-                    <li class="padding-right">Tags:</li>
+                    <li class="padding-right">Marcadores:</li>
                     {% for tag in pagina.tags.all %}
                         <li class="padding-all fundo-cinza"><a
-                                href="{% url 'conteudo:tags_lista' tag_slug=tag.slug %}">{{ tag.slug }}</a></li>
+                                href="{% url 'conteudo:tags_lista' slug=tag.slug %}">{{ tag.slug }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
@@ -76,7 +94,7 @@
     <div class="row">
         <div class="medium-4 columns">
             {% if pagina.documentos %}
-                <h2 class="fundo-vermelho padding-top-bottom text-center">Arquivos relacionados</h2>
+                <h2 class="fundo-vermelho text-center">Arquivos relacionados</h2>
                 {% for documento in pagina.documentos %}
                     <div class="row padding-bottom">
                         <a href="{{ documento.arquivo.url }}" target="_blank"><i
@@ -90,7 +108,7 @@
 
         <div class="medium-4 columns">
             {% if pagina.galerias.all %}
-                <h2 class="fundo-vermelho padding-top-bottom text-center">Galerias relacionados</h2>
+                <h2 class="fundo-vermelho text-center">Galerias relacionados</h2>
                 {% for galeria in pagina.galerias.all %}
                     <div class="row padding-bottom">
                         <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
@@ -104,7 +122,7 @@
 
         <div class="medium-4 columns">
             {% if pagina.videos.all %}
-                <h2 class="fundo-vermelho padding-top-bottom text-center">Vídeos relacionados</h2>
+                <h2 class="fundo-vermelho text-center">Vídeos relacionados</h2>
                 {% for video in pagina.videos.all %}
                     <div class="row padding-bottom">
                         <a href="{{ video.get_absolute_url }}" target="_blank"><i
@@ -116,4 +134,32 @@
             {% endif %}
         </div>
     </div>
+
+    <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+    <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="close">×</a>
+        <a class="play-pause"></a>
+        <ol class="indicator"></ol>
+    </div>
+
 {% endblock conteudo %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}js/blueimp-gallery.min.js"></script>
+
+    <script>
+        document.getElementById('links').onclick = function (event) {
+            event = event || window.event;
+            var target = event.target || event.srcElement,
+                    link = target.src ? target.parentNode : target,
+                    options = {index: link, event: event},
+                    links = this.getElementsByTagName('a');
+            blueimp.Gallery(links, options);
+        };
+    </script>
+{% endblock %}
