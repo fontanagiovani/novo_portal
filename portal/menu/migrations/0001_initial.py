@@ -14,7 +14,7 @@ class Migration(SchemaMigration):
             ('site', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['sites.Site'])),
             ('parent', self.gf('mptt.fields.TreeForeignKey')(blank=True, related_name='pai', null=True, to=orm['menu.Menu'])),
             ('titulo', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('url', self.gf('django.db.models.fields.CharField')(max_length=250)),
+            ('url', self.gf('django.db.models.fields.CharField')(max_length=250, null=True, blank=True)),
             ('ordem', self.gf('django.db.models.fields.PositiveIntegerField')()),
             (u'lft', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
             (u'rght', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
@@ -41,7 +41,7 @@ class Migration(SchemaMigration):
             'site': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['sites.Site']"}),
             'titulo': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'url': ('django.db.models.fields.CharField', [], {'max_length': '250'})
+            'url': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'})
         },
         u'sites.site': {
             'Meta': {'ordering': "(u'domain',)", 'object_name': 'Site', 'db_table': "u'django_site'"},
