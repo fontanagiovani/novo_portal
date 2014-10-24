@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html> <!--[if IE 9]><html class="lt-ie10" lang="pt-br" > <![endif]-->
 <html class="no-js" lang="pt-br">
 
@@ -6,29 +7,29 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IFMT - Instituto Federal de Mato Grosso</title>
-    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
+    <link rel="shortcut icon" href="{% get_static_prefix %}img/favicon.ico">
 
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-ifmt.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-icons/foundation-icons.css"/>
+    <link rel="stylesheet" href="{% get_static_prefix %}css/normalize.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}css/foundation-ifmt.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}css/foundation-icons/foundation-icons.css"/>
 
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}css/base.css">
 
     {#Bloco para estilos personalizados para templates específicos#}
     {% block stylesheet %}
     {% endblock %}
 
-    <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
+    <script src="{% get_static_prefix %}js/vendor/modernizr.js"></script>
 </head>
 <body> <!-- body content here -->
-<iframe src="{{ STATIC_URL }}html/barra_brasil.html" width="100%" height="42px" frameborder="0" scrolling="no"></iframe>
+<iframe src="{% get_static_prefix %}html/barra_brasil.html" width="100%" height="42px" frameborder="0" scrolling="no"></iframe>
 {#Container geral do portal#}
 <div class="row collapse">
 
     <div class="row padding-top-bottom">
         {#Container para a logo do IFMT#}
         <div class="small-12 columns small-only-text-center">
-            <a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/logo_ifmt.png" alt="IFMT"></a>
+            <a href="{% url 'home' %}"><img src="{% get_static_prefix %}img/logo_ifmt.png" alt="IFMT"></a>
         </div>
     </div>
 
@@ -40,10 +41,10 @@
 </div>
 {#Fim da div geral do portal#}
 
-<script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
-<script src="{{ STATIC_URL }}js/foundation.min.js"></script>
-<script src="{{ STATIC_URL }}js/foundation/foundation.clearing.js"></script>
-<script src="{{ STATIC_URL }}js/foundation/foundation.orbit.js"></script>
+<script src="{% get_static_prefix %}js/vendor/jquery.js"></script>
+<script src="{% get_static_prefix %}js/foundation.min.js"></script>
+<script src="{% get_static_prefix %}js/foundation/foundation.clearing.js"></script>
+<script src="{% get_static_prefix %}js/foundation/foundation.orbit.js"></script>
 <script> $(document).foundation(); </script>
 
 {#Bloco para javascript personalizado para templates específicos#}
