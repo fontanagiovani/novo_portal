@@ -11,6 +11,10 @@ $ sudo aptitude install python-dev libldap2-dev libsasl2-dev libssl-dev
 
 $ sudo aptitude install libjpeg libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev
 
+- resquisito para instalar psycopg2
+
+$ sudo aptitude install postgresql-9.3 postgresql-server-dev-9.3
+
 
 
 Desenvolvimento do novo portal do IFMT
