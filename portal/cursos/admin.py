@@ -30,6 +30,7 @@ class AnexoCursoInLine(admin.StackedInline):
 
 
 class CursoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('nome', 'formacao', 'campus')}
     form = CursoForm
 
     inlines = (AnexoCursoInLine, )
@@ -38,6 +39,6 @@ admin.site.register(Curso, CursoAdmin)
 
 
 class GrupoCursosAdmin(reversion.VersionAdmin, admin.ModelAdmin):
-    pass
+    prepopulated_fields = {'slug': ('nome',)}
 
 admin.site.register(GrupoCursos, GrupoCursosAdmin)

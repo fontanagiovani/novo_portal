@@ -36,6 +36,9 @@ class Formacao(models.Model):
 class GrupoCursos(models.Model):
     nome = models.CharField(max_length=80, verbose_name=u'Nome Genérico para Curso',
                             help_text=u'Ex.: Licenciatura em Matemática')
+    slug = models.SlugField(max_length=250, verbose_name=u'Identificador',
+                            help_text=u'Texto que identificará a URL deste item (não deve conter espaços ou '
+                                      u'caracteres especiais)')
 
     class Meta:
         verbose_name = u'Grupo de Cursos'
@@ -46,7 +49,7 @@ class GrupoCursos(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return 'listacursosdogrupo', (), {'grupo_id': self.id}
+        return 'listacursosdogrupo', (), {'slug': self.slug}
 
 
 class Curso(models.Model):
@@ -58,6 +61,9 @@ class Curso(models.Model):
     )
     nome = models.CharField(max_length=100, verbose_name=u'Nome do Curso',
                             help_text=u'Ex.: Licenciatura em Matemática Noturno')
+    slug = models.SlugField(max_length=250, verbose_name=u'Identificador',
+                            help_text=u'Texto que identificará a URL deste item (não deve conter espaços ou '
+                                      u'caracteres especiais)')
     formacao = models.ForeignKey('Formacao', verbose_name=u'Tipo de Formação')
     campus = models.ForeignKey('core.Campus', verbose_name=u'Câmpus')
     turno = models.CharField(max_length=3, choices=TURNO, verbose_name=u'Turno do Curso')
@@ -71,7 +77,7 @@ class Curso(models.Model):
         verbose_name_plural = u'Cursos'
 
     def __unicode__(self):
-        return u'{0} - {1}'.format(self.nome, self.campus)
+        return u'%s - %s' % (self.nome, self.campus)
 
 
 class AnexoCurso(models.Model):
