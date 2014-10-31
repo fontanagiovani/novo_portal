@@ -4,6 +4,8 @@ from portal.cursos.models import Curso, GrupoCursos
 from django.http import HttpResponse  # httresponse para usar com json
 import json  # json para usar no select com ajax
 
+from portal.core.decorators import contar_acesso
+
 
 def listadedicionarios(queryset):
     lista = []
@@ -64,6 +66,7 @@ def listacursosdogrupo(request, grupo_id):
     return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos})
 
 
+@contar_acesso
 def exibecurso(request, curso_id):
     curso = get_object_or_404(Curso, id=curso_id)
     return render(request, 'cursos/exibecurso.html', {'curso': curso})

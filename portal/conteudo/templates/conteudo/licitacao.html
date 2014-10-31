@@ -17,6 +17,8 @@
                         <a href="{% url 'admin:conteudo_licitacao_change' licitacao.id %}">
                             <i class="fi-page-edit"></i> Editar licitação
                         </a>
+                        {% load contador_tags %}
+                        / Visualizações: {% contador %}
                     </div>
                 </div>
             {% endif %}

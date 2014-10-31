@@ -118,6 +118,22 @@ class Destino(models.Model):
         return 'REDIRECT'
 
 
+class ContadorVisitas(models.Model):
+    criado_em = models.DateTimeField(auto_now_add=True, editable=False)
+    modificado_em = models.DateTimeField(auto_now=True, editable=False)
+    url = models.CharField(max_length=2000)
+    contagem = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ('-contagem', '-criado_em', '-modificado_em')
+        get_latest_by = 'criado_em'
+        verbose_name = u'Contador de visitas'
+        verbose_name_plural = u'Contador de visitas'
+
+    def __unicode__(self):
+        return self.url
+
+
 # cria um diretorio no filer para cada novo usuario
 def create_user_profile(sender, instance, created, **kwargs):
     if created and not instance.is_superuser:

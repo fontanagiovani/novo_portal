@@ -7,6 +7,8 @@ from django.http.response import Http404
 from django.utils import timezone
 from pure_pagination import Paginator, PageNotAnInteger
 from taggit.models import TaggedItem
+
+from portal.core.decorators import contar_acesso
 from portal.conteudo.models import Noticia
 from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
@@ -15,6 +17,7 @@ from portal.conteudo.models import Galeria
 from portal.conteudo.models import Licitacao
 
 
+@contar_acesso
 def noticia_detalhe(request, slug):
     try:
         site = Site.objects.get(domain=request.get_host())
@@ -55,6 +58,7 @@ def noticias_lista(request):
     return render(request, 'conteudo/noticias_lista.html', {'noticias': noticias})
 
 
+@contar_acesso
 def pagina_detalhe(request, slug):
     try:
         pagina = Pagina.publicados.get(slug=slug)
@@ -75,6 +79,7 @@ def pagina_detalhe_preview(request, slug):
     return render(request, 'conteudo/pagina.html', {'pagina': pagina})
 
 
+@contar_acesso
 def evento_detalhe(request, slug):
     try:
         site = Site.objects.get(domain=request.get_host())
@@ -112,6 +117,7 @@ def eventos_lista(request):
     return render(request, 'conteudo/eventos_lista.html', {'eventos': eventos})
 
 
+@contar_acesso
 def video_detalhe(request, slug):
     try:
         video = Video.publicados.get(slug=slug)
@@ -148,6 +154,7 @@ def videos_lista(request):
     return render(request, 'conteudo/videos_lista.html', {'videos': videos})
 
 
+@contar_acesso
 def galeria_detalhe(request, slug):
     try:
         galeria = Galeria.publicados.get(slug=slug)
@@ -211,6 +218,7 @@ def tags_lista(request, slug):
     return render(request, 'conteudo/tag_lista.html', {'tags': tags, 'slug': slug})
 
 
+@contar_acesso
 def licitacao_detalhe(request, licitacao_id):
     try:
         site = Site.objects.get(domain=request.get_host())

@@ -21,6 +21,8 @@
                         <a href="{% url 'admin:conteudo_galeria_change' galeria.id %}">
                             <i class="fi-page-edit"></i> Editar galeria
                         </a>
+                        {% load contador_tags %}
+                        / Visualizações: {% contador %}
                     </div>
                 </div>
             {% endif %}

@@ -22,6 +22,8 @@
                         <a href="{% url 'admin:conteudo_video_change' video.id %}">
                             <i class="fi-page-edit"></i> Editar vídeo
                         </a>
+                        {% load contador_tags %}
+                        / Visualizações: {% contador %}
                     </div>
                 </div>
             {% endif %}

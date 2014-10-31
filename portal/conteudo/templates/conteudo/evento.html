@@ -21,6 +21,8 @@
                         <a href="{% url 'admin:conteudo_evento_change' evento.id %}">
                             <i class="fi-page-edit"></i> Editar evento
                         </a>
+                        {% load contador_tags %}
+                        / Visualizações: {% contador %}
                     </div>
                 </div>
             {% endif %}

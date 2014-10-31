@@ -21,6 +21,8 @@
                         <a href="{% url 'admin:conteudo_noticia_change' noticia.id %}">
                             <i class="fi-page-edit"></i> Editar notícia
                         </a>
+                        {% load contador_tags %}
+                        / Visualizações: {% contador %}
                     </div>
                 </div>
             {% endif %}

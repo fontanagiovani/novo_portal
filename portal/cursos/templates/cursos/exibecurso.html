@@ -6,6 +6,22 @@
     <li class="current"><a href="{% url 'exibecurso' curso.id %}">{{ curso.nome|truncatewords:"5" }}</a></li>
 {% endblock %}
 
+{% block edicao %}
+    {% if user.is_authenticated %}
+        {% if perms.cursos.change_curso %}
+            <div class="row padding-top">
+                <div class="medium-12 columns text-right">
+                    <a href="{% url 'admin:cursos_curso_change' curso.id %}">
+                        <i class="fi-page-edit"></i> Editar curso
+                    </a>
+                    {% load contador_tags %}
+                    / Visualizações: {% contador %}
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock edicao %}
+
 {% block conteudo %}
     <div class="row padding-bottom">
         <div class="row">
@@ -13,7 +29,9 @@
         </div>
         <div class="row">
             <p><strong>Formação:</strong> {{ curso.formacao }}</p>
+
             <p><strong>Campus:</strong> {{ curso.campus }}</p>
+
             <p><strong>Turno:</strong> {{ curso.get_turno_display }}</p>
 
             {% autoescape off %}
@@ -29,18 +47,19 @@
             {% endif %}
         </div>
     </div>
-        <div class="row">
-            <div class="medium-12 columns">
-                {% if curso.anexocurso_set.all %}
-                    <h2 class="fundo-vermelho no-padding text-center">Anexos</h2>
-                    {% for arq in curso.anexocurso_set.all %}
-                        <div class="row padding-bottom">
-                            <a href="{{ arq.arquivo.url }}" target="_blank"><i class="fi-download texto-tamanho-medio alinhamento-vertical">
-                            </i>{{ arq.descricao }}
-                            </a>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            </div>
+    <div class="row">
+        <div class="medium-12 columns">
+            {% if curso.anexocurso_set.all %}
+                <h2 class="fundo-vermelho no-padding text-center">Anexos</h2>
+                {% for arq in curso.anexocurso_set.all %}
+                    <div class="row padding-bottom">
+                        <a href="{{ arq.arquivo.url }}" target="_blank"><i
+                                class="fi-download texto-tamanho-medio alinhamento-vertical">
+                        </i>{{ arq.descricao }}
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
+    </div>
 {% endblock conteudo %}
