@@ -76,6 +76,8 @@
                             options += '</div>';
                         });
                         $("#resultado").html(options);
+                        $("#filtrocampi").prop('selectedIndex',0);
+                        $("#filtrocursos").prop('selectedIndex',0);
                     },
                     error: function (xhr, errmsg, err) {
                         alert(xhr.status + ": " + xhr.responseText);
@@ -103,6 +105,8 @@
                             options += '</div>';
                         });
                         $("#resultado").html(options);
+                        $("#filtroformacao").prop('selectedIndex',0);
+                        $("#filtrocursos").prop('selectedIndex',0);
                     },
                     error: function (xhr, errmsg, err) {
                         alert(xhr.status + ": " + xhr.responseText);
@@ -130,6 +134,8 @@
                             options += '</div>';
                         });
                         $("#resultado").html(options);
+                        $("#filtroformacao").prop('selectedIndex',0);
+                        $("#filtrocampi").prop('selectedIndex',0);
                     },
                     error: function (xhr, errmsg, err) {
                         alert(xhr.status + ": " + xhr.responseText);
