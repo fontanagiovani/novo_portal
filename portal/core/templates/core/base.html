@@ -10,17 +10,15 @@
     <title>{{ site.name }}</title>
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
 
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-ifmt.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-icons/foundation-icons.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-ifmt.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-icons/foundation-icons.min.css"/>
 
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/base.min.css">
 
     {#Bloco para estilos personalizados para templates específicos#}
     {% block stylesheet %}
     {% endblock %}
-
-    <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
 </head>
 <body> <!-- body content here -->
 <iframe src="{{ STATIC_URL }}html/barra_brasil.html" width="100%" height="42px" frameborder="0" scrolling="no"></iframe>
@@ -251,7 +249,7 @@
 
 </div>
 {#Fim da div geral do portal#}
-
+<script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
 <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
 <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
 <script src="{{ STATIC_URL }}js/foundation/foundation.clearing.js"></script>

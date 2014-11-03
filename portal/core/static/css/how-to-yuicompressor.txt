@@ -1,0 +1,4 @@
+$ java -jar yuicompressor-x.y.z.jar myfile.js -o myfile-min.js
+$ java -jar yuicompressor-x.y.z.jar myfile.js -o myfile-min.js --charset utf-8
+
+source: http://yui.github.io/yuicompressor/
