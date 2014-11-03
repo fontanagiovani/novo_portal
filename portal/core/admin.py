@@ -9,6 +9,7 @@ import reversion
 from portal.core.models import SiteDetalhe
 from portal.core.models import Destino
 from portal.core.models import Campus
+from portal.core.models import ContadorVisitas
 # from portal.core.models import Selecao, TipoSelecao
 
 from portal.core.forms import SiteDetalheFormset
@@ -202,6 +203,13 @@ class DestinoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     pass
 
 admin.site.register(Destino, DestinoAdmin)
+
+
+class ContadorAdmin(admin.ModelAdmin):
+    list_display = ('url', 'contagem')
+    search_fields = ('url', )
+
+admin.site.register(ContadorVisitas, ContadorAdmin)
 
 # class TipoSelecaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
 #     list_display = ('titulo', 'parent',)

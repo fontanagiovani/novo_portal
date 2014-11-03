@@ -46,7 +46,7 @@
                     <div class="row padding-all">
                         <div class="small-4 large-4 columns">{{ q.formacao__nome }}</div>
                         <div class="small-4 large-4 columns">{{ q.campus__nome }}</div>
-                        <div class="small-4 large-4 columns"><a href="{% url 'listacursosdogrupo' q.grupo__id %}">{{ q.grupo__nome }}</a></div>
+                        <div class="small-4 large-4 columns"><a href="{% url 'listacursosdogrupo' q.grupo__slug %}">{{ q.grupo__nome }}</a></div>
                     </div>
                 {% endfor %}
             {% endif %}
@@ -76,6 +76,8 @@
                             options += '</div>';
                         });
                         $("#resultado").html(options);
+                        $("#filtrocampi").prop('selectedIndex',0);
+                        $("#filtrocursos").prop('selectedIndex',0);
                     },
                     error: function (xhr, errmsg, err) {
                         alert(xhr.status + ": " + xhr.responseText);
@@ -103,6 +105,8 @@
                             options += '</div>';
                         });
                         $("#resultado").html(options);
+                        $("#filtroformacao").prop('selectedIndex',0);
+                        $("#filtrocursos").prop('selectedIndex',0);
                     },
                     error: function (xhr, errmsg, err) {
                         alert(xhr.status + ": " + xhr.responseText);
@@ -130,6 +134,8 @@
                             options += '</div>';
                         });
                         $("#resultado").html(options);
+                        $("#filtroformacao").prop('selectedIndex',0);
+                        $("#filtrocampi").prop('selectedIndex',0);
                     },
                     error: function (xhr, errmsg, err) {
                         alert(xhr.status + ": " + xhr.responseText);

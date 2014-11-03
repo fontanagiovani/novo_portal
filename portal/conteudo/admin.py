@@ -10,7 +10,7 @@ from portal.core.models import Campus
 from portal.core.admin import SitesListFilter, EstaPublicadoListFilter
 from portal.conteudo.models import Noticia, Pagina, Evento, Video, Galeria, ImagemGaleria, Anexo, Licitacao, \
     AnexoLicitacao
-from portal.conteudo.forms import ConteudoForm, LicitacaoForm, AnexoFormset, NoticiaForm
+from portal.conteudo.forms import ConteudoForm, LicitacaoForm, AnexoFormset, NoticiaForm, ImagemGaleriaFormset
 
 
 class AnexoInLine(admin.TabularInline):
@@ -221,6 +221,8 @@ admin.site.register(Video, VideoAdmin)
 
 class ImagemGaleriaInline(admin.TabularInline):
     model = ImagemGaleria
+
+    formset = ImagemGaleriaFormset
 
 
 class GaleriaAdmin(ConteudoAdmin):

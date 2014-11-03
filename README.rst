@@ -20,6 +20,12 @@ $ sudo aptitude install postgresql-9.3 postgresql-server-dev-9.3
 Desenvolvimento do novo portal do IFMT
 
 ----
+Versão 1.1.1
+
+- Melhorias de performance das páginas iniciais.
+
+----
+
 Versão 1.1
 
 - Atualização do django para versão 1.6.8
