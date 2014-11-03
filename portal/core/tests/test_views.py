@@ -55,7 +55,7 @@ class HomePortalContextTest(TestCase):
         mommy.make(Noticia, _quantity=5, campus_origem=campus, titulo=u'test1')
         mommy.make(Evento, _quantity=3, campus_origem=campus, titulo=u'Titulo do evento')
 
-        self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
+        self.site = mommy.make(Site, domain='rtr.ifmt.dev')
 
         self.img_path = u'portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
@@ -76,7 +76,7 @@ class HomePortalContextTest(TestCase):
             i.sites.add(self.site)
 
         # cria o ambiente de um novo site e conteudos para simular ambiente real
-        self.site2 = mommy.make(Site, _quantity=1, domain='cba.ifmt.dev')[0]
+        self.site2 = mommy.make(Site, domain='cba.ifmt.dev')
         noticias_destaque = mommy.make(Noticia, _quantity=4, campus_origem=campus,
                                        titulo=u'noticia_destaque', destaque=True)
         noticias = mommy.make(Noticia, _quantity=7, campus_origem=campus, titulo=u'test1')
@@ -109,8 +109,8 @@ class HomePortalContextTest(TestCase):
         A home de conter noticias de destaque no topo e pode tambem existir na listagem
         """
         # Sao esperados 5 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
-        # Como sao exibidos os thumbnails para navegacao esse numero duplica, ficando 10
-        self.assertContains(self.resp, u'noticia_destaque', 10)
+        # Como sao exibidos os thumbnails para navegacao e o slug da noticia esse numero triplica, ficando 15
+        self.assertContains(self.resp, u'noticia_destaque', 15)
 
 
 class HomeBlogContextTest(TestCase):
@@ -341,8 +341,8 @@ class HomePortalSecundarioContextTest(TestCase):
         A home de conter noticias de destaque no topo e pode tambem existir na listagem
         """
         # Sao esperados 5 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
-        # Como sao exibidos os thumbnails para navegacao esse numero duplica, ficando 10
-        self.assertContains(self.resp, u'noticia_destaque', 10)
+        # Como sao exibidos os thumbnails para navegacao e o slug da noticia esse numero triplica, ficando 15
+        self.assertContains(self.resp, u'noticia_destaque', 15)
 
 
 class HomeBannersContextTest(TestCase):

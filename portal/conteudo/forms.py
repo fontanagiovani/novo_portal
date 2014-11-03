@@ -101,3 +101,22 @@ class AnexoFormset(BaseInlineFormSet):
                 raise forms.ValidationError(u'Uma notícia de destaque precisa de uma imagem anexada.')
 
 
+class ImagemGaleriaFormset(BaseInlineFormSet):
+    def clean(self):
+        super(ImagemGaleriaFormset, self).clean()
+
+        # se houver erros no formset ja retorna para tratamento
+        if any(self.errors):
+            return
+
+        imagem = False
+
+        for cleaned_data in self.cleaned_data:
+            if not cleaned_data.get('DELETE', False):
+                try:
+                    imagem = cleaned_data.get('imagem').image
+                except:
+                    pass
+
+        if not imagem:
+            raise forms.ValidationError(u'Uma galeria precisa de uma imagem anexada.')
