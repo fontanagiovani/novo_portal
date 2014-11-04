@@ -33,15 +33,15 @@ TEMPLATE_DEBUG = DEBUG
 
 TESTING = 'test' in sys.argv
 
-ADMINS = (('Equipe Sistemas', 'sistemas@ifmt.edu.br'), )
+# ADMINS = (('Equipe Sistemas', 'sistemas@ifmt.edu.br'), )
 
 # Email config
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-EMAIL_USE_TLS = True
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+# EMAIL_USE_TLS = True
 
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '.ifmt.edu.br', '.herokuapp.com']
 
@@ -144,6 +144,13 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
     'portal.core.context_processors.carregar_site_e_menus',
+)
+
+TEMPLATE_LOADERS = (
+    ('django.template.loaders.cached.Loader', (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )),
 )
 
 # TEMPLATE_LOADERS = (
@@ -260,12 +267,12 @@ LOGGING = {
     },
     'handlers': {
         # Include the default Django email handler for errors
-        'mail_admins': {
-            'class': 'django.utils.log.AdminEmailHandler',
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'include_html': True,
-        },
+        # 'mail_admins': {
+        #     'class': 'django.utils.log.AdminEmailHandler',
+        #     'level': 'ERROR',
+        #     'filters': ['require_debug_false'],
+        #     'include_html': True,
+        # },
         # Log to a text file that can be rotated by logrotate
         'logfile': {
             'class': 'logging.handlers.WatchedFileHandler',
@@ -274,11 +281,11 @@ LOGGING = {
     },
     'loggers': {
         # Again, default Django configuration to email unhandled exceptions
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
+        # 'django.request': {
+        #     'handlers': ['mail_admins'],
+        #     'level': 'ERROR',
+        #     'propagate': True,
+        # },
         # Might as well log any errors anywhere else in Django
         'django': {
             'handlers': ['logfile'],
