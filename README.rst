@@ -22,6 +22,11 @@ $ sudo aptitude install memcached libmemcached-dev python-pylibmc
 Desenvolvimento do novo portal do IFMT
 
 ----
+Versão 1.1.4
+
+- Remoção de compressor html e minify dos arquivos css.
+
+----
 Versão 1.1.3
 
 - Adição de compressor html e minify dos arquivos css.
