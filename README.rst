@@ -20,6 +20,11 @@ $ sudo aptitude install postgresql-9.3 postgresql-server-dev-9.3
 Desenvolvimento do novo portal do IFMT
 
 ----
+Versão 1.1.3
+
+- Adição de compressor html e minify dos arquivos css.
+
+----
 Versão 1.1.2
 
 - Correção na contagem de visitas das páginas de detalhe.
