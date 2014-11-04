@@ -15,6 +15,8 @@ $ sudo aptitude install libjpeg libjpeg-dev libfreetype6 libfreetype6-dev zlib1g
 
 $ sudo aptitude install postgresql-9.3 postgresql-server-dev-9.3
 
+- requisito para memcached
+$ sudo aptitude install memcached libmemcached-dev python-pylibmc
 
 
 Desenvolvimento do novo portal do IFMT
