@@ -24,6 +24,11 @@ Desenvolvimento do novo portal do IFMT
 ----
 Versão 1.1.4
 
+- Alterações no settings para melhoria de performance.
+
+----
+Versão 1.1.4
+
 - Remoção de compressor html e minify dos arquivos css.
 
 ----
