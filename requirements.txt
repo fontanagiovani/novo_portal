@@ -30,4 +30,3 @@ django-reversion==1.8.4
 django-pure-pagination==0.2.1
 python-ldap==2.4.18
 django-embed-video==0.11
-django-htmlmin==0.7.0
