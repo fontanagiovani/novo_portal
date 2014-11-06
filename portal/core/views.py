@@ -6,6 +6,7 @@ from django.contrib.sites.models import Site
 from django.shortcuts import render, redirect
 from django.http import HttpResponse  # httresponse para usar com json
 from django.http.response import Http404
+from django.views.decorators.cache import cache_page
 import json  # json para usar no select com ajax
 from haystack.views import SearchView
 from pure_pagination import Paginator, PageNotAnInteger
@@ -21,6 +22,7 @@ from portal.banner.models import Banner
 from portal.cursos.models import Curso
 
 
+@cache_page(60 * 3)
 def hotsite(request):
     try:
         site = Site.objects.get(domain=request.get_host())
@@ -34,12 +36,17 @@ def hotsite(request):
             return render(request, 'core/banners.html', contexto)
 
         else:
-            return home(request)
+            return _home(request)
     except (Site.DoesNotExist, Banner.DoesNotExist):
         raise Http404
 
 
+@cache_page(60 * 3)
 def home(request):
+    return _home(request)
+
+
+def _home(request):
     contexto = dict()
     try:
         site = Site.objects.get(domain=request.get_host())
