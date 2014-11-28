@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.core.files import File
 from django.contrib.sites.models import Site
 from django.utils import timezone
+from django.conf import settings
 from model_mommy import mommy
 from filer.models import Image
 
@@ -19,7 +20,7 @@ class HomeTest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
 
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
@@ -57,7 +58,7 @@ class HomePortalContextTest(TestCase):
 
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
 
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
@@ -125,7 +126,7 @@ class HomeBlogContextTest(TestCase):
 
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
 
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
@@ -186,7 +187,7 @@ class HomeBlogSliderContextTest(TestCase):
 
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
 
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
@@ -253,7 +254,7 @@ class HomePortalSecundarioContextTest(TestCase):
 
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
 
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
@@ -349,7 +350,7 @@ class HomeBannersContextTest(TestCase):
     def setUp(self):
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
 
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
@@ -428,7 +429,7 @@ class Menutest(TestCase):
         self.site = mommy.make(Site, _quantity=1, domain='rtr.ifmt.dev')[0]
         self.template = mommy.make(Destino, _quantity=1, tipo=Destino.portal(), caminho='core/portal.html')[0]
 
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
@@ -477,7 +478,7 @@ class DestinoTest(TestCase):
 
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
 
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)

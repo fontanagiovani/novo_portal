@@ -2,6 +2,7 @@
 from django.test import TestCase
 from django.utils import timezone
 from django.core.files import File
+from django.conf import settings
 from model_mommy import mommy
 from filer.models import Image
 
@@ -10,7 +11,7 @@ from portal.banner.models import Banner
 
 class BannerManagerTest(TestCase):
     def setUp(self):
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
