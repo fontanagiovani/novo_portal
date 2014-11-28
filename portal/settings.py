@@ -188,26 +188,13 @@ PAGINATION_SETTINGS = {
     'MARGIN_PAGES_DISPLAYED': 2,
 }
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#         'LOCATION': '127.0.0.1:11211',
-#     }
-# }
-
 CACHE_ACTIVE = config('CACHE_ACTIVE', default=False, cast=bool)
 
 if CACHE_ACTIVE:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            # 'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-            # 'BINARY': True,
             'LOCATION': config('CACHE_LOCATION'),
-            # 'OPTIONS': {
-            #     'ketama': True,
-            #     'tcp_nodelay': True,
-            # },
             'TIMEOUT': config('CACHE_TIMEOUT', default=500, cast=int),
         },
     }
@@ -217,3 +204,5 @@ else:  # Assume development mode
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
     }
+
+CACHE_MIDDLEWARE_SECONDS = config('CACHE_MIDDLEWARE_SECONDS', default=180, cast=int)
