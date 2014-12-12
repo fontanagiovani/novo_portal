@@ -1,167 +1,90 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import filer.fields.file
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Formacao'
-        db.create_table(u'cursos_formacao', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('nome', self.gf('django.db.models.fields.CharField')(max_length=100)),
-        ))
-        db.send_create_signal(u'cursos', ['Formacao'])
+    dependencies = [
+        ('core', '0001_initial'),
+        ('filer', '0001_initial'),
+    ]
 
-        # Adding model 'GrupoCursos'
-        db.create_table(u'cursos_grupocursos', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('nome', self.gf('django.db.models.fields.CharField')(max_length=80)),
-        ))
-        db.send_create_signal(u'cursos', ['GrupoCursos'])
-
-        # Adding model 'Curso'
-        db.create_table(u'cursos_curso', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('nome', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('formacao', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cursos.Formacao'])),
-            ('campus', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Campus'])),
-            ('turno', self.gf('django.db.models.fields.CharField')(max_length=3)),
-            ('descricao', self.gf('django.db.models.fields.TextField')()),
-            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, null=True, blank=True)),
-            ('url', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
-            ('grupo', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cursos.GrupoCursos'])),
-        ))
-        db.send_create_signal(u'cursos', ['Curso'])
-
-        # Adding model 'AnexoCurso'
-        db.create_table(u'cursos_anexocurso', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('descricao', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='anexos_curso', to=orm['filer.File'])),
-            ('curso', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['cursos.Curso'])),
-        ))
-        db.send_create_signal(u'cursos', ['AnexoCurso'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'Formacao'
-        db.delete_table(u'cursos_formacao')
-
-        # Deleting model 'GrupoCursos'
-        db.delete_table(u'cursos_grupocursos')
-
-        # Deleting model 'Curso'
-        db.delete_table(u'cursos_curso')
-
-        # Deleting model 'AnexoCurso'
-        db.delete_table(u'cursos_anexocurso')
-
-
-    models = {
-        u'auth.group': {
-            'Meta': {'object_name': 'Group'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
-            'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
-        },
-        u'auth.permission': {
-            'Meta': {'ordering': "(u'content_type__app_label', u'content_type__model', u'codename')", 'unique_together': "((u'content_type', u'codename'),)", 'object_name': 'Permission'},
-            'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'auth.user': {
-            'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'core.campus': {
-            'Meta': {'object_name': 'Campus'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nome': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'cursos.anexocurso': {
-            'Meta': {'object_name': 'AnexoCurso'},
-            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'anexos_curso'", 'to': u"orm['filer.File']"}),
-            'curso': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cursos.Curso']"}),
-            'descricao': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
-        },
-        u'cursos.curso': {
-            'Meta': {'object_name': 'Curso'},
-            'campus': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Campus']"}),
-            'descricao': ('django.db.models.fields.TextField', [], {}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
-            'formacao': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cursos.Formacao']"}),
-            'grupo': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['cursos.GrupoCursos']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nome': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'turno': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'})
-        },
-        u'cursos.formacao': {
-            'Meta': {'object_name': 'Formacao'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nome': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'cursos.grupocursos': {
-            'Meta': {'object_name': 'GrupoCursos'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nome': ('django.db.models.fields.CharField', [], {'max_length': '80'})
-        },
-        u'filer.file': {
-            'Meta': {'object_name': 'File'},
-            '_file_size': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'folder': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'all_files'", 'null': 'True', 'to': u"orm['filer.Folder']"}),
-            'has_all_mandatory_data': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_public': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'modified_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '255', 'blank': 'True'}),
-            'original_filename': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'owner': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'owned_files'", 'null': 'True', 'to': u"orm['auth.User']"}),
-            'polymorphic_ctype': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "u'polymorphic_filer.file_set'", 'null': 'True', 'to': u"orm['contenttypes.ContentType']"}),
-            'sha1': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '40', 'blank': 'True'}),
-            'uploaded_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
-        },
-        u'filer.folder': {
-            'Meta': {'ordering': "(u'name',)", 'unique_together': "((u'parent', u'name'),)", 'object_name': 'Folder'},
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            u'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            u'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'modified_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'owner': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'filer_owned_folders'", 'null': 'True', 'to': u"orm['auth.User']"}),
-            'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'children'", 'null': 'True', 'to': u"orm['filer.Folder']"}),
-            u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'uploaded_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
-        }
-    }
-
-    complete_apps = ['cursos']
+    operations = [
+        migrations.CreateModel(
+            name='AnexoCurso',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('descricao', models.CharField(max_length=250, verbose_name='Descri\xe7\xe3o do anexo')),
+                ('arquivo', filer.fields.file.FilerFileField(related_name='anexos_curso', to='filer.File')),
+            ],
+            options={
+                'verbose_name': 'Anexo',
+                'verbose_name_plural': 'Anexos',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Curso',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('nome', models.CharField(help_text='Ex.: Licenciatura em Matem\xe1tica Noturno', max_length=100, verbose_name='Nome do Curso')),
+                ('slug', models.SlugField(help_text='Texto que identificar\xe1 a URL deste item (n\xe3o deve conter espa\xe7os ou caracteres especiais)', max_length=250, verbose_name='Identificador')),
+                ('turno', models.CharField(max_length=3, verbose_name='Turno do Curso', choices=[(b'MAT', 'Matutino'), (b'VES', 'Vespertino'), (b'NOT', 'Noturno'), (b'INT', 'Integral')])),
+                ('descricao', models.TextField(verbose_name='Descri\xe7\xe3o')),
+                ('email', models.EmailField(max_length=75, null=True, verbose_name='email', blank=True)),
+                ('url', models.URLField(null=True, blank=True)),
+                ('campus', models.ForeignKey(verbose_name='C\xe2mpus', to='core.Campus')),
+            ],
+            options={
+                'verbose_name': 'Curso',
+                'verbose_name_plural': 'Cursos',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Formacao',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('nome', models.CharField(max_length=100, verbose_name='Nome da Forma\xe7\xe3o')),
+            ],
+            options={
+                'verbose_name': 'Tipo de Forma\xe7\xe3o',
+                'verbose_name_plural': 'Tipos de Forma\xe7\xf5es',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='GrupoCursos',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('nome', models.CharField(help_text='Ex.: Licenciatura em Matem\xe1tica', max_length=80, verbose_name='Nome Gen\xe9rico para Curso')),
+                ('slug', models.SlugField(help_text='Texto que identificar\xe1 a URL deste item (n\xe3o deve conter espa\xe7os ou caracteres especiais)', max_length=250, verbose_name='Identificador')),
+            ],
+            options={
+                'verbose_name': 'Grupo de Cursos',
+                'verbose_name_plural': 'Grupo de Cursos',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='curso',
+            name='formacao',
+            field=models.ForeignKey(verbose_name='Tipo de Forma\xe7\xe3o', to='cursos.Formacao'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='curso',
+            name='grupo',
+            field=models.ForeignKey(to='cursos.GrupoCursos'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='anexocurso',
+            name='curso',
+            field=models.ForeignKey(verbose_name='Curso', to='cursos.Curso'),
+            preserve_default=True,
+        ),
+    ]

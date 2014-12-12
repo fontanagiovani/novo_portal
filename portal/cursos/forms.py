@@ -8,6 +8,9 @@ from portal.core.forms import TinyMCEEditor
 class CursoForm(ModelForm):
     class Meta:
         model = Curso
+
+        fields = ('nome', 'slug', 'formacao', 'campus', 'turno', 'descricao', 'email', 'url', 'grupo')
+
         widgets = {
             'descricao': TinyMCEEditor(),
         }

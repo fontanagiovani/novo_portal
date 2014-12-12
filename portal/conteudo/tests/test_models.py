@@ -3,8 +3,8 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core.files import File
 from django.utils import timezone
+from django.conf import settings
 from filer.models import Image
-from filer.models import File as FileFiler
 from model_mommy import mommy
 
 from portal.core.tests.util import del_midia_filer
@@ -78,7 +78,7 @@ class AnexoTest(TestCase):
     def setUp(self):
         self.obj = mommy.make('Conteudo', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)
@@ -209,7 +209,7 @@ class ImagemGaleriaTest(TestCase):
     def setUp(self):
         self.obj = mommy.make('Galeria', titulo=u'Título', campus_origem=mommy.make('Campus'))
 
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)

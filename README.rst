@@ -22,6 +22,13 @@ $ sudo aptitude install memcached libmemcached-dev python-pylibmc
 Desenvolvimento do novo portal do IFMT
 
 ----
+Versão 1.2
+
+- Atualização para o django 1.7;
+
+- Atualização de apps de terceiros.
+
+----
 Versão 1.1.4
 
 - Melhorias no sistema de cache.

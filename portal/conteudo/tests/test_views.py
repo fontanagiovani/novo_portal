@@ -11,7 +11,8 @@ from model_mommy import mommy
 class NoticiaDetalheTest(TestCase):
     def setUp(self):
         self.obj = mommy.make('Noticia', titulo='titulo_teste', texto=u'texto_teste',
-                              data_publicacao='2014-06-05 10:16:00', )
+                              data_publicacao='2014-06-05T10:16:00-04:00', )
+                              # data_publicacao='2014-06-05 10:16:00', )
         self.site = mommy.make(Site, domain='rtr.ifmt.dev')
         self.obj.sites.add(self.site)
         self.obj.tags.add('ifmt-teste')
@@ -105,8 +106,8 @@ class PaginaDetalheTest(TestCase):
             'Pagina',
             titulo='titulo_teste',
             texto=u'texto_teste',
-            # data_publicacao='2014-06-05T10:16:00-04:00',
-            data_publicacao='2014-06-05 10:16:00'
+            data_publicacao='2014-06-05T10:16:00-04:00',
+            # data_publicacao='2014-06-05 10:16:00'
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
         self.obj.sites.add(self.site)
@@ -253,7 +254,8 @@ class VideoDetalheTest(TestCase):
             'Video',
             titulo='titulo_teste',
             texto=u'texto_teste',
-            data_publicacao='2014-06-05 10:16:00',
+            data_publicacao='2014-06-05T10:16:00-04:00',
+            # data_publicacao='2014-06-05 10:16:00',
             campus_origem=mommy.make('Campus'),
             publicado=True,
             url='https://www.youtube.com/watch?v=GbHBXOqI7hc',
@@ -359,7 +361,8 @@ class GaleriaDetalheTest(TestCase):
             'Galeria',
             titulo='titulo_teste',
             texto=u'texto_teste',
-            data_publicacao='2014-06-05 10:16:00',
+            data_publicacao='2014-06-05T10:16:00-04:00',
+            # data_publicacao='2014-06-05 10:16:00',
             publicado=True,
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')

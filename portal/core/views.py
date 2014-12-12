@@ -22,7 +22,6 @@ from portal.banner.models import Banner
 from portal.cursos.models import Curso
 
 
-@cache_page(60 * 3)
 def hotsite(request):
     try:
         site = Site.objects.get(domain=request.get_host())
@@ -41,7 +40,6 @@ def hotsite(request):
         raise Http404
 
 
-@cache_page(60 * 3)
 def home(request):
     return _home(request)
 

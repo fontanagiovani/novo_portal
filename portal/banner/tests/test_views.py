@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core.files import File
 from django.utils import timezone
+from django.conf import settings
 from filer.models import Image
 from model_mommy import mommy
 
@@ -13,7 +14,7 @@ from portal.core.models import Destino
 
 class HomeBannerContextTest(TestCase):
     def setUp(self):
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as self.img:
             self.file_obj = File(self.img, name=self.img_name)

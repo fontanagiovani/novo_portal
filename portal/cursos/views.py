@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.cache import never_cache
 from portal.cursos.models import Curso, GrupoCursos
 from django.http import HttpResponse  # httresponse para usar com json
 import json  # json para usar no select com ajax
@@ -69,6 +70,7 @@ def listacursosdogrupo(request, slug):
     return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos})
 
 
+@never_cache
 @contar_acesso
 def exibecurso(request, slug):
     curso = get_object_or_404(Curso, slug=slug)
