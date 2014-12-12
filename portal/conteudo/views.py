@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.sites.models import Site
 from django.http.response import Http404
 from django.utils import timezone
+from django.views.decorators.cache import never_cache
 from pure_pagination import Paginator, PageNotAnInteger
 from taggit.models import TaggedItem
 
@@ -17,6 +18,7 @@ from portal.conteudo.models import Galeria
 from portal.conteudo.models import Licitacao
 
 
+@never_cache
 @contar_acesso
 def noticia_detalhe(request, slug):
     try:
@@ -28,6 +30,7 @@ def noticia_detalhe(request, slug):
     return render(request, 'conteudo/noticia.html', {'noticia': noticia})
 
 
+@never_cache
 @login_required
 def noticia_detalhe_preview(request, slug):
     try:
@@ -58,6 +61,7 @@ def noticias_lista(request):
     return render(request, 'conteudo/noticias_lista.html', {'noticias': noticias})
 
 
+@never_cache
 @contar_acesso
 def pagina_detalhe(request, slug):
     try:
@@ -68,6 +72,7 @@ def pagina_detalhe(request, slug):
     return render(request, 'conteudo/pagina.html', {'pagina': pagina})
 
 
+@never_cache
 @login_required
 def pagina_detalhe_preview(request, slug):
     try:
@@ -79,6 +84,7 @@ def pagina_detalhe_preview(request, slug):
     return render(request, 'conteudo/pagina.html', {'pagina': pagina})
 
 
+@never_cache
 @contar_acesso
 def evento_detalhe(request, slug):
     try:
@@ -89,6 +95,7 @@ def evento_detalhe(request, slug):
     return render(request, 'conteudo/evento.html', {'evento': evento})
 
 
+@never_cache
 @login_required
 def evento_detalhe_preview(request, slug):
     try:
@@ -117,6 +124,7 @@ def eventos_lista(request):
     return render(request, 'conteudo/eventos_lista.html', {'eventos': eventos})
 
 
+@never_cache
 @contar_acesso
 def video_detalhe(request, slug):
     try:
@@ -128,6 +136,7 @@ def video_detalhe(request, slug):
     return render(request, 'conteudo/video.html', {'video': video})
 
 
+@never_cache
 @login_required
 def video_detalhe_preview(request, slug):
     video = get_object_or_404(Video, slug=slug)
@@ -154,6 +163,7 @@ def videos_lista(request):
     return render(request, 'conteudo/videos_lista.html', {'videos': videos})
 
 
+@never_cache
 @contar_acesso
 def galeria_detalhe(request, slug):
     try:
@@ -165,6 +175,7 @@ def galeria_detalhe(request, slug):
     return render(request, 'conteudo/galeria.html', {'galeria': galeria})
 
 
+@never_cache
 @login_required
 def galeria_detalhe_preview(request, slug):
     galeria = get_object_or_404(Galeria, slug=slug)
@@ -218,6 +229,7 @@ def tags_lista(request, slug):
     return render(request, 'conteudo/tag_lista.html', {'tags': tags, 'slug': slug})
 
 
+@never_cache
 @contar_acesso
 def licitacao_detalhe(request, licitacao_id):
     try:

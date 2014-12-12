@@ -1,15 +1,17 @@
 #coding: utf-8
 from django.test.testcases import TestCase
-from portal.banner.models import Banner
+from django.conf import settings
+from django.utils import timezone
 from django.core.files import File
 from filer.models import Image
-from django.utils import timezone
+
+from portal.banner.models import Banner
 from portal.core.tests.util import del_midia_filer
 
 
 class BannerTest(TestCase):
     def setUp(self):
-        self.img_path = u'portal/banner/static/img/images.jpeg'
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
         self.img_name = u'imagembanner'
         with open(self.img_path) as img:
             file_obj = File(img, name=self.img_name)

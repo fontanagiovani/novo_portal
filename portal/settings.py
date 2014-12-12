@@ -1,25 +1,23 @@
-# coding: utf-8
 """
 Django settings for portal project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
+https://docs.djangoproject.com/en/1.7/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
+https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import sys
 from decouple import config
-from unipath import Path
 from dj_database_url import parse as db_url
-
-BASE_DIR = Path(__file__).parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
@@ -29,29 +27,12 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
-# DEBUG_TOOLBAR_PATCH_SETTINGS = False
-
-TESTING = 'test' in sys.argv
-
-# ADMINS = (('Equipe Sistemas', 'sistemas@ifmt.edu.br'), )
-
-# Email config
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-# EMAIL_USE_TLS = True
-
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '.ifmt.edu.br', '.herokuapp.com']
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '.ifmt.edu.br']
 
 
 # Application definition
 
 INSTALLED_APPS = (
-    # Pre apps
-
-    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,64 +41,56 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    # External apps
-    'debug_toolbar',
     'gunicorn',
-    'devserver',
-    'south',
-    'mptt',
     'filer',
+    'mptt',
     'easy_thumbnails',
-    'taggit',
-    'django_extensions',
-    'adminsortable',
     'haystack',
     'whoosh',
-    'taggit_autosuggest',
     'reversion',
+    'taggit',
+    'taggit_autosuggest',
     'pure_pagination',
     'embed_video',
+    'django_extensions',
+    'adminsortable',
 
-    # Project apps
-    'portal.core',
-    'portal.conteudo',
-    'portal.banner',
-    'portal.cursos',
     'portal.autorizacao',
+    'portal.banner',
+    'portal.conteudo',
+    'portal.core',
+    'portal.cursos',
     'portal.menu',
 )
 
 MIDDLEWARE_CLASSES = (
-    # 'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'django.middleware.cache.FetchFromCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'portal.urls'
 
 WSGI_APPLICATION = 'portal.wsgi.application'
 
-SITE_ID = 1
-
 # Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
     'default': config(
         'DATABASE_URL',
-        default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
+        default='sqlite:///' + os.path.join(BASE_DIR + '/db.sqlite3'),
         cast=db_url),
 }
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
-
-# AUTH_USER_MODEL='core.User'
+# https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
 
@@ -127,18 +100,21 @@ USE_I18N = True
 
 USE_L10N = True
 
-# USE_TZ = True
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
+# https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-STATIC_ROOT = BASE_DIR.child('staticfiles')
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR + '/staticfiles')
 
-MEDIA_ROOT = BASE_DIR.child('media')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR + '/media')
 
-# Templates
+SITE_ID = 1
+
+TESTING = 'test' in sys.argv
+
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 TEMPLATE_CONTEXT_PROCESSORS += (
@@ -146,92 +122,14 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'portal.core.context_processors.carregar_site_e_menus',
 )
 
-TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
-)
-
-# TEMPLATE_LOADERS = (
-#     'django.template.loaders.filesystem.Loader',
-#     'django.template.loaders.app_directories.Loader',
-# )
-
 TEMPLATE_DIRS = (
-    BASE_DIR.child('portal').child('templates'),
+    BASE_DIR + '/portal/templates',
 )
-
-WHOOSH_INDEX = BASE_DIR.child('whoosh')
-
-# HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': WHOOSH_INDEX,
-    },
-}
-
-MPTT_ADMIN_LEVEL_INDENT = 20
-
-# Utilizado para testes
-FILER_PUBLIC = BASE_DIR.child('filer_public')
-FILER_PUBLIC_THUMBNAIL = BASE_DIR.child('filer_public_thumbnails').child('filer_public')
-
-# Habilita as permissoes do django-filer
-FILER_ENABLE_PERMISSIONS = True
-
-FILER_DUMP_PAYLOAD = True
-
-THUMBNAIL_PROCESSORS = (
-    'easy_thumbnails.processors.colorspace',
-    'easy_thumbnails.processors.autocrop',
-    'easy_thumbnails.processors.scale_and_crop',
-    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
-    'easy_thumbnails.processors.filters',
-)
-
-PAGINATION_SETTINGS = {
-    'PAGE_RANGE_DISPLAYED': 6,
-    'MARGIN_PAGES_DISPLAYED': 2,
-}
-
-SOUTH_MIGRATION_MODULES = {
-    'easy_thumbnails': 'easy_thumbnails.south_migrations',
-    'taggit': 'taggit.south_migrations',
-}
-
-# Cache
-CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
-
-CACHE_ACTIVE = config('CACHE_ACTIVE', default=False, cast=bool)
-
-if CACHE_ACTIVE:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-            'BINARY': True,
-            'LOCATION': config('CACHE_LOCATION'),
-            'OPTIONS': {
-                'ketama': True,
-                'tcp_nodelay': True,
-            },
-            'TIMEOUT': config('CACHE_TIMEOUT', default=500, cast=int),
-        },
-    }
-else:  # Assume development mode
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        }
-    }
 
 AUTHENTICATION_BACKENDS = (
     'portal.ldapauth.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-
 
 # ldap settings for ldap backend
 import ldap
@@ -256,41 +154,58 @@ LDAP_FULL_NAME = 'displayName'
 #LDAP_STAFF_GIDS -- list of strings, group names/numbers that are staff
 LDAP_EMAIL = 'mail'
 
+MIGRATION_MODULES = {
+    'filer': 'filer.migrations_django',
+}
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        # Include the default Django email handler for errors
-        # 'mail_admins': {
-        #     'class': 'django.utils.log.AdminEmailHandler',
-        #     'level': 'ERROR',
-        #     'filters': ['require_debug_false'],
-        #     'include_html': True,
-        # },
-        # Log to a text file that can be rotated by logrotate
-        'logfile': {
-            'class': 'logging.handlers.WatchedFileHandler',
-            'filename': BASE_DIR.child('logs').child('error.log'),
-        },
-    },
-    'loggers': {
-        # Again, default Django configuration to email unhandled exceptions
-        # 'django.request': {
-        #     'handlers': ['mail_admins'],
-        #     'level': 'ERROR',
-        #     'propagate': True,
-        # },
-        # Might as well log any errors anywhere else in Django
-        'django': {
-            'handlers': ['logfile'],
-            'level': 'INFO',
-            'propagate': False,
-        },
+# Utilizado para testes
+FILER_PUBLIC = os.path.join(BASE_DIR + '/filer_public')
+FILER_PUBLIC_THUMBNAIL = os.path.join(BASE_DIR + '/filer_public_thumbnails/filer_public')
+
+# Habilita as permissoes do django-filer
+FILER_ENABLE_PERMISSIONS = True
+
+FILER_DUMP_PAYLOAD = True
+
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
+
+MPTT_ADMIN_LEVEL_INDENT = 20
+
+WHOOSH_INDEX = os.path.join(BASE_DIR + '/whoosh')
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': WHOOSH_INDEX,
     },
 }
+
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 6,
+    'MARGIN_PAGES_DISPLAYED': 2,
+}
+
+CACHE_ACTIVE = config('CACHE_ACTIVE', default=False, cast=bool)
+
+if CACHE_ACTIVE and not TESTING:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': config('CACHE_LOCATION'),
+            'TIMEOUT': config('CACHE_TIMEOUT', default=500, cast=int),
+        },
+    }
+else:  # Assume development mode
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
+
+CACHE_MIDDLEWARE_SECONDS = config('CACHE_MIDDLEWARE_SECONDS', default=180, cast=int)

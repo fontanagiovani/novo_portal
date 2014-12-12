@@ -1,364 +1,211 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import filer.fields.file
+import embed_video.fields
+import taggit_autosuggest.managers
+import filer.fields.image
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Conteudo'
-        db.create_table(u'conteudo_conteudo', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('campus_origem', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Campus'])),
-            ('titulo', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('slug', self.gf('django.db.models.fields.SlugField')(max_length=250)),
-            ('texto', self.gf('django.db.models.fields.TextField')()),
-            ('data_publicacao', self.gf('django.db.models.fields.DateTimeField')()),
-            ('publicado', self.gf('django.db.models.fields.BooleanField')(default=True)),
-        ))
-        db.send_create_signal(u'conteudo', ['Conteudo'])
+    dependencies = [
+        ('taggit', '0001_initial'),
+        ('sites', '0001_initial'),
+        ('core', '0001_initial'),
+        ('filer', '0001_initial'),
+    ]
 
-        # Adding M2M table for field galerias on 'Conteudo'
-        m2m_table_name = db.shorten_name(u'conteudo_conteudo_galerias')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('conteudo', models.ForeignKey(orm[u'conteudo.conteudo'], null=False)),
-            ('galeria', models.ForeignKey(orm[u'conteudo.galeria'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['conteudo_id', 'galeria_id'])
-
-        # Adding M2M table for field videos on 'Conteudo'
-        m2m_table_name = db.shorten_name(u'conteudo_conteudo_videos')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('conteudo', models.ForeignKey(orm[u'conteudo.conteudo'], null=False)),
-            ('video', models.ForeignKey(orm[u'conteudo.video'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['conteudo_id', 'video_id'])
-
-        # Adding M2M table for field sites on 'Conteudo'
-        m2m_table_name = db.shorten_name(u'conteudo_conteudo_sites')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('conteudo', models.ForeignKey(orm[u'conteudo.conteudo'], null=False)),
-            ('site', models.ForeignKey(orm[u'sites.site'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['conteudo_id', 'site_id'])
-
-        # Adding model 'Noticia'
-        db.create_table(u'conteudo_noticia', (
-            (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
-            ('destaque', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('prioridade_destaque', self.gf('django.db.models.fields.CharField')(default='6', max_length=1)),
-        ))
-        db.send_create_signal(u'conteudo', ['Noticia'])
-
-        # Adding model 'Anexo'
-        db.create_table(u'conteudo_anexo', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('descricao', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='anexos_conteudo', to=orm['filer.File'])),
-            ('conteudo', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['conteudo.Conteudo'])),
-        ))
-        db.send_create_signal(u'conteudo', ['Anexo'])
-
-        # Adding model 'Pagina'
-        db.create_table(u'conteudo_pagina', (
-            (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
-        ))
-        db.send_create_signal(u'conteudo', ['Pagina'])
-
-        # Adding model 'Evento'
-        db.create_table(u'conteudo_evento', (
-            (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
-            ('local', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('data_inicio', self.gf('django.db.models.fields.DateTimeField')()),
-            ('data_fim', self.gf('django.db.models.fields.DateTimeField')()),
-        ))
-        db.send_create_signal(u'conteudo', ['Evento'])
-
-        # Adding model 'Licitacao'
-        db.create_table(u'conteudo_licitacao', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('campus_origem', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Campus'])),
-            ('modalidade', self.gf('django.db.models.fields.CharField')(max_length=1)),
-            ('titulo', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('data_publicacao', self.gf('django.db.models.fields.DateTimeField')()),
-            ('data_abertura', self.gf('django.db.models.fields.DateField')()),
-            ('pregao_srp', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('validade_ata_srp', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
-            ('possui_contrato', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('vigencia_contrato_inicio', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
-            ('vigencia_contrato_fim', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
-            ('encerrado', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('situacao', self.gf('django.db.models.fields.TextField')()),
-            ('objeto', self.gf('django.db.models.fields.TextField')()),
-            ('alteracoes', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('email_contato', self.gf('django.db.models.fields.EmailField')(max_length=75)),
-            ('publicado', self.gf('django.db.models.fields.BooleanField')(default=True)),
-        ))
-        db.send_create_signal(u'conteudo', ['Licitacao'])
-
-        # Adding M2M table for field sites on 'Licitacao'
-        m2m_table_name = db.shorten_name(u'conteudo_licitacao_sites')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('licitacao', models.ForeignKey(orm[u'conteudo.licitacao'], null=False)),
-            ('site', models.ForeignKey(orm[u'sites.site'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['licitacao_id', 'site_id'])
-
-        # Adding model 'AnexoLicitacao'
-        db.create_table(u'conteudo_anexolicitacao', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('descricao', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('arquivo', self.gf('django.db.models.fields.related.ForeignKey')(related_name='anexos_licitacao', to=orm['filer.File'])),
-            ('licitacao', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['conteudo.Licitacao'])),
-        ))
-        db.send_create_signal(u'conteudo', ['AnexoLicitacao'])
-
-        # Adding model 'Video'
-        db.create_table(u'conteudo_video', (
-            (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
-            ('url', self.gf('embed_video.fields.EmbedVideoField')(max_length=200)),
-        ))
-        db.send_create_signal(u'conteudo', ['Video'])
-
-        # Adding model 'Galeria'
-        db.create_table(u'conteudo_galeria', (
-            (u'conteudo_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['conteudo.Conteudo'], unique=True, primary_key=True)),
-        ))
-        db.send_create_signal(u'conteudo', ['Galeria'])
-
-        # Adding model 'ImagemGaleria'
-        db.create_table(u'conteudo_imagemgaleria', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('descricao', self.gf('django.db.models.fields.CharField')(max_length=250)),
-            ('imagem', self.gf('django.db.models.fields.related.ForeignKey')(related_name='Imagem Galeria', to=orm['filer.Image'])),
-            ('galeria', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['conteudo.Galeria'])),
-        ))
-        db.send_create_signal(u'conteudo', ['ImagemGaleria'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'Conteudo'
-        db.delete_table(u'conteudo_conteudo')
-
-        # Removing M2M table for field galerias on 'Conteudo'
-        db.delete_table(db.shorten_name(u'conteudo_conteudo_galerias'))
-
-        # Removing M2M table for field videos on 'Conteudo'
-        db.delete_table(db.shorten_name(u'conteudo_conteudo_videos'))
-
-        # Removing M2M table for field sites on 'Conteudo'
-        db.delete_table(db.shorten_name(u'conteudo_conteudo_sites'))
-
-        # Deleting model 'Noticia'
-        db.delete_table(u'conteudo_noticia')
-
-        # Deleting model 'Anexo'
-        db.delete_table(u'conteudo_anexo')
-
-        # Deleting model 'Pagina'
-        db.delete_table(u'conteudo_pagina')
-
-        # Deleting model 'Evento'
-        db.delete_table(u'conteudo_evento')
-
-        # Deleting model 'Licitacao'
-        db.delete_table(u'conteudo_licitacao')
-
-        # Removing M2M table for field sites on 'Licitacao'
-        db.delete_table(db.shorten_name(u'conteudo_licitacao_sites'))
-
-        # Deleting model 'AnexoLicitacao'
-        db.delete_table(u'conteudo_anexolicitacao')
-
-        # Deleting model 'Video'
-        db.delete_table(u'conteudo_video')
-
-        # Deleting model 'Galeria'
-        db.delete_table(u'conteudo_galeria')
-
-        # Deleting model 'ImagemGaleria'
-        db.delete_table(u'conteudo_imagemgaleria')
-
-
-    models = {
-        u'auth.group': {
-            'Meta': {'object_name': 'Group'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
-            'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
-        },
-        u'auth.permission': {
-            'Meta': {'ordering': "(u'content_type__app_label', u'content_type__model', u'codename')", 'unique_together': "((u'content_type', u'codename'),)", 'object_name': 'Permission'},
-            'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'auth.user': {
-            'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'conteudo.anexo': {
-            'Meta': {'object_name': 'Anexo'},
-            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'anexos_conteudo'", 'to': u"orm['filer.File']"}),
-            'conteudo': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['conteudo.Conteudo']"}),
-            'descricao': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
-        },
-        u'conteudo.anexolicitacao': {
-            'Meta': {'object_name': 'AnexoLicitacao'},
-            'arquivo': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'anexos_licitacao'", 'to': u"orm['filer.File']"}),
-            'descricao': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'licitacao': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['conteudo.Licitacao']"})
-        },
-        u'conteudo.conteudo': {
-            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Conteudo'},
-            'campus_origem': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Campus']"}),
-            'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
-            'galerias': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['conteudo.Galeria']", 'symmetrical': 'False', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'publicado': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['sites.Site']", 'symmetrical': 'False'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '250'}),
-            'texto': ('django.db.models.fields.TextField', [], {}),
-            'titulo': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'videos': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['conteudo.Video']", 'symmetrical': 'False', 'blank': 'True'})
-        },
-        u'conteudo.evento': {
-            'Meta': {'ordering': "('-data_inicio', '-id')", 'object_name': 'Evento', '_ormbases': [u'conteudo.Conteudo']},
-            u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'}),
-            'data_fim': ('django.db.models.fields.DateTimeField', [], {}),
-            'data_inicio': ('django.db.models.fields.DateTimeField', [], {}),
-            'local': ('django.db.models.fields.CharField', [], {'max_length': '250'})
-        },
-        u'conteudo.galeria': {
-            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Galeria', '_ormbases': [u'conteudo.Conteudo']},
-            u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'})
-        },
-        u'conteudo.imagemgaleria': {
-            'Meta': {'object_name': 'ImagemGaleria'},
-            'descricao': ('django.db.models.fields.CharField', [], {'max_length': '250'}),
-            'galeria': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['conteudo.Galeria']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'imagem': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'Imagem Galeria'", 'to': "orm['filer.Image']"})
-        },
-        u'conteudo.licitacao': {
-            'Meta': {'object_name': 'Licitacao'},
-            'alteracoes': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'campus_origem': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Campus']"}),
-            'data_abertura': ('django.db.models.fields.DateField', [], {}),
-            'data_publicacao': ('django.db.models.fields.DateTimeField', [], {}),
-            'email_contato': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
-            'encerrado': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modalidade': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
-            'objeto': ('django.db.models.fields.TextField', [], {}),
-            'possui_contrato': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'pregao_srp': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'publicado': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['sites.Site']", 'symmetrical': 'False'}),
-            'situacao': ('django.db.models.fields.TextField', [], {}),
-            'titulo': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'validade_ata_srp': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
-            'vigencia_contrato_fim': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
-            'vigencia_contrato_inicio': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'})
-        },
-        u'conteudo.noticia': {
-            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Noticia', '_ormbases': [u'conteudo.Conteudo']},
-            u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'}),
-            'destaque': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'prioridade_destaque': ('django.db.models.fields.CharField', [], {'default': "'6'", 'max_length': '1'})
-        },
-        u'conteudo.pagina': {
-            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Pagina', '_ormbases': [u'conteudo.Conteudo']},
-            u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'})
-        },
-        u'conteudo.video': {
-            'Meta': {'ordering': "('-data_publicacao', '-id')", 'object_name': 'Video', '_ormbases': [u'conteudo.Conteudo']},
-            u'conteudo_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['conteudo.Conteudo']", 'unique': 'True', 'primary_key': 'True'}),
-            'url': ('embed_video.fields.EmbedVideoField', [], {'max_length': '200'})
-        },
-        u'core.campus': {
-            'Meta': {'object_name': 'Campus'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nome': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'filer.file': {
-            'Meta': {'object_name': 'File'},
-            '_file_size': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'file': ('django.db.models.fields.files.FileField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'folder': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'all_files'", 'null': 'True', 'to': u"orm['filer.Folder']"}),
-            'has_all_mandatory_data': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_public': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'modified_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '255', 'blank': 'True'}),
-            'original_filename': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'owner': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'owned_files'", 'null': 'True', 'to': u"orm['auth.User']"}),
-            'polymorphic_ctype': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "u'polymorphic_filer.file_set'", 'null': 'True', 'to': u"orm['contenttypes.ContentType']"}),
-            'sha1': ('django.db.models.fields.CharField', [], {'default': "u''", 'max_length': '40', 'blank': 'True'}),
-            'uploaded_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
-        },
-        u'filer.folder': {
-            'Meta': {'ordering': "(u'name',)", 'unique_together': "((u'parent', u'name'),)", 'object_name': 'Folder'},
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            u'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            u'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'modified_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'owner': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'filer_owned_folders'", 'null': 'True', 'to': u"orm['auth.User']"}),
-            'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'children'", 'null': 'True', 'to': u"orm['filer.Folder']"}),
-            u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'uploaded_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
-        },
-        'filer.image': {
-            'Meta': {'object_name': 'Image', '_ormbases': [u'filer.File']},
-            '_height': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            '_width': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'author': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'date_taken': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'default_alt_text': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'default_caption': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            u'file_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['filer.File']", 'unique': 'True', 'primary_key': 'True'}),
-            'must_always_publish_author_credit': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'must_always_publish_copyright': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'subject_location': ('django.db.models.fields.CharField', [], {'default': 'None', 'max_length': '64', 'null': 'True', 'blank': 'True'})
-        },
-        u'sites.site': {
-            'Meta': {'ordering': "(u'domain',)", 'object_name': 'Site', 'db_table': "u'django_site'"},
-            'domain': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        }
-    }
-
-    complete_apps = ['conteudo']
+    operations = [
+        migrations.CreateModel(
+            name='Anexo',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('descricao', models.CharField(max_length=250, verbose_name='Descri\xe7\xe3o')),
+                ('arquivo', filer.fields.file.FilerFileField(related_name='anexos_conteudo', to='filer.File')),
+            ],
+            options={
+                'verbose_name': 'Anexo',
+                'verbose_name_plural': 'Anexos',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='AnexoLicitacao',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('descricao', models.CharField(max_length=250, verbose_name='Descri\xe7\xe3o')),
+                ('arquivo', filer.fields.file.FilerFileField(related_name='anexos_licitacao', to='filer.File')),
+            ],
+            options={
+                'verbose_name': 'Anexo da licita\xe7\xe3o',
+                'verbose_name_plural': 'Anexos da licita\xe7\xe3o',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Conteudo',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('titulo', models.CharField(max_length=250, verbose_name='T\xedtulo')),
+                ('slug', models.SlugField(help_text='Texto que identificar\xe1 a URL deste item (n\xe3o deve conter espa\xe7os ou caracteres especiais)', max_length=250, verbose_name='Identificador')),
+                ('texto', models.TextField()),
+                ('data_publicacao', models.DateTimeField(verbose_name='Data de publica\xe7\xe3o')),
+                ('publicado', models.BooleanField(default=True, verbose_name='Publicar')),
+            ],
+            options={
+                'ordering': ('-data_publicacao', '-id'),
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Evento',
+            fields=[
+                ('conteudo_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='conteudo.Conteudo')),
+                ('local', models.CharField(max_length=250)),
+                ('data_inicio', models.DateTimeField(verbose_name='Data de in\xedcio')),
+                ('data_fim', models.DateTimeField(verbose_name='Data de t\xe9rmino')),
+            ],
+            options={
+                'ordering': ('-data_inicio', '-id'),
+                'verbose_name': 'Evento',
+                'verbose_name_plural': 'Eventos',
+            },
+            bases=('conteudo.conteudo',),
+        ),
+        migrations.CreateModel(
+            name='Galeria',
+            fields=[
+                ('conteudo_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='conteudo.Conteudo')),
+            ],
+            options={
+                'ordering': ('-data_publicacao', '-id'),
+                'verbose_name': 'Galeria',
+                'verbose_name_plural': 'Galerias',
+            },
+            bases=('conteudo.conteudo',),
+        ),
+        migrations.CreateModel(
+            name='ImagemGaleria',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('descricao', models.CharField(max_length=250, verbose_name='Descri\xe7\xe3o')),
+                ('galeria', models.ForeignKey(verbose_name='Galeria', to='conteudo.Galeria')),
+                ('imagem', filer.fields.image.FilerImageField(related_name='Imagem Galeria', to='filer.Image')),
+            ],
+            options={
+                'verbose_name': 'Anexo de galeria',
+                'verbose_name_plural': 'Anexos de galeria',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Licitacao',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('modalidade', models.CharField(max_length=1, verbose_name='Tipo de Modalidade', choices=[(b'1', 'Preg\xe3o'), (b'2', 'Convite'), (b'3', 'Tomada de pre\xe7o'), (b'4', 'Concorr\xeancia')])),
+                ('titulo', models.CharField(max_length=100, verbose_name='T\xedtulo')),
+                ('data_publicacao', models.DateTimeField(verbose_name='Data de publica\xe7\xe3o')),
+                ('data_abertura', models.DateField(verbose_name='Data de abertura')),
+                ('pregao_srp', models.BooleanField(default=False, verbose_name='\xc9 um preg\xe3o SRP?')),
+                ('validade_ata_srp', models.DateField(null=True, verbose_name='Validade ATA SRP', blank=True)),
+                ('possui_contrato', models.BooleanField(default=False, verbose_name='Possui Contrato?')),
+                ('vigencia_contrato_inicio', models.DateField(null=True, verbose_name='Data de in\xedcio da vig\xeancia do contrato', blank=True)),
+                ('vigencia_contrato_fim', models.DateField(null=True, verbose_name='Data de t\xe9rmino da vig\xeancia do contrato', blank=True)),
+                ('encerrado', models.BooleanField(default=False, verbose_name='Processo encerrado?')),
+                ('situacao', models.TextField(verbose_name='Situa\xe7\xe3o')),
+                ('objeto', models.TextField(verbose_name='Objeto')),
+                ('alteracoes', models.TextField(null=True, verbose_name='Altera\xe7\xf5es', blank=True)),
+                ('email_contato', models.EmailField(max_length=75, verbose_name='Email para contato')),
+                ('publicado', models.BooleanField(default=True, verbose_name='Publicar')),
+                ('campus_origem', models.ForeignKey(verbose_name='Origem', to='core.Campus')),
+                ('sites', models.ManyToManyField(to='sites.Site', verbose_name='Sites para publica\xe7\xe3o')),
+                ('tags', taggit_autosuggest.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', blank=True, help_text='A comma-separated list of tags.', verbose_name='Tags')),
+            ],
+            options={
+                'verbose_name': 'Licita\xe7\xe3o',
+                'verbose_name_plural': 'Licita\xe7\xf5es',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Noticia',
+            fields=[
+                ('conteudo_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='conteudo.Conteudo')),
+                ('destaque', models.BooleanField(default=False, verbose_name='Destaque')),
+                ('prioridade_destaque', models.CharField(default=b'6', max_length=1, verbose_name='Prioridade de destaque', choices=[(b'1', '1 - Alta'), (b'2', '2 - M\xe9dia-Alta'), (b'3', '3 - M\xe9dia'), (b'4', '4 - Baixa-M\xe9dia'), (b'5', '5 - Baixa'), (b'6', 'Nenhuma')])),
+            ],
+            options={
+                'ordering': ('-data_publicacao', '-id'),
+                'verbose_name': 'Not\xedcia',
+                'verbose_name_plural': 'Not\xedcias',
+            },
+            bases=('conteudo.conteudo',),
+        ),
+        migrations.CreateModel(
+            name='Pagina',
+            fields=[
+                ('conteudo_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='conteudo.Conteudo')),
+            ],
+            options={
+                'verbose_name': 'P\xe1gina',
+                'verbose_name_plural': 'P\xe1ginas',
+            },
+            bases=('conteudo.conteudo',),
+        ),
+        migrations.CreateModel(
+            name='Video',
+            fields=[
+                ('conteudo_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='conteudo.Conteudo')),
+                ('url', embed_video.fields.EmbedVideoField()),
+            ],
+            options={
+                'verbose_name': 'V\xeddeo',
+                'verbose_name_plural': 'V\xeddeos',
+            },
+            bases=('conteudo.conteudo',),
+        ),
+        migrations.AddField(
+            model_name='conteudo',
+            name='campus_origem',
+            field=models.ForeignKey(verbose_name='Origem', to='core.Campus'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='conteudo',
+            name='galerias',
+            field=models.ManyToManyField(to='conteudo.Galeria', verbose_name='Galerias Relacionadas', blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='conteudo',
+            name='sites',
+            field=models.ManyToManyField(to='sites.Site', verbose_name='Site(s)'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='conteudo',
+            name='tags',
+            field=taggit_autosuggest.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', blank=True, help_text='A comma-separated list of tags.', verbose_name='Tags'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='conteudo',
+            name='videos',
+            field=models.ManyToManyField(to='conteudo.Video', verbose_name='Videos Relacionadas', blank=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='anexolicitacao',
+            name='licitacao',
+            field=models.ForeignKey(verbose_name='Licita\xe7\xe3o', to='conteudo.Licitacao'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='anexo',
+            name='conteudo',
+            field=models.ForeignKey(verbose_name='conteudo', to='conteudo.Conteudo'),
+            preserve_default=True,
+        ),
+    ]

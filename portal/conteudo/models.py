@@ -255,7 +255,7 @@ class Galeria(Conteudo):
 
 
 class ImagemGaleria(models.Model):
-    descricao = models.CharField(max_length=250, verbose_name=u'Descrição')
+    descricao = models.CharField(max_length=250, verbose_name=u'Descrição', blank=True, null=True)
     imagem = FilerImageField(related_name='Imagem Galeria')
     galeria = models.ForeignKey('Galeria', verbose_name=u'Galeria')
 

@@ -12,6 +12,10 @@ from portal.core.forms import TinyMCEEditor
 class ConteudoForm(ModelForm):
     class Meta:
         model = Conteudo
+
+        fields = ('campus_origem', 'titulo', 'slug', 'texto', 'data_publicacao', 'galerias', 'videos', 'tags',
+                  'sites', 'publicado')
+
         widgets = {
             'texto': TinyMCEEditor(),
         }
@@ -49,6 +53,11 @@ class NoticiaForm(ConteudoForm):
 class LicitacaoForm(ModelForm):
     class Meta:
         model = Licitacao
+
+        fields = ('sites', 'campus_origem', 'modalidade', 'titulo', 'data_publicacao', 'data_abertura', 'pregao_srp',
+                  'validade_ata_srp', 'possui_contrato', 'vigencia_contrato_inicio', 'vigencia_contrato_fim',
+                  'encerrado', 'situacao', 'objeto', 'alteracoes', 'email_contato', 'publicado', 'tags')
+
         widgets = {
             'situacao': TinyMCEEditor(),
         }
