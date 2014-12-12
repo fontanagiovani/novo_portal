@@ -1,6 +1,7 @@
 {% extends 'core/lista.html' %}
 {% load thumbnail %}
 {% load i18n %}
+{% load embed_video_tags %}
 
 {% block breadcrumbs %}
     <li class="current"><a href="{% url 'conteudo:galerias_lista' %}">Vídeos</a></li>
@@ -18,8 +19,9 @@
                             <a href="{{ video.get_absolute_url }}">
                                 <div class="row">
                                     <div class="small-2 medium-1 columns no-padding">
-                                        <img src="{{ video.imagem_sddefault }}"
-                                             alt="{{ video.titulo }}"/>
+                                        {% video video.url as my_video %}
+                                            <img src="{{ my_video.thumbnail }}" alt="{{ video.titulo }}"/>
+                                        {% endvideo %}
                                     </div>
                                     <div class="small-10 medium-11 columns">
                                         <div class="data-local texto-tamanho-xsmall">{{ video.data_publicacao|date:"d M" }}
