@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import sys
 from decouple import config
 from dj_database_url import parse as db_url
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -112,6 +113,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR + '/media')
 
 SITE_ID = 1
 
+TESTING = 'test' in sys.argv
+
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 TEMPLATE_CONTEXT_PROCESSORS += (
@@ -190,7 +193,7 @@ PAGINATION_SETTINGS = {
 
 CACHE_ACTIVE = config('CACHE_ACTIVE', default=False, cast=bool)
 
-if CACHE_ACTIVE:
+if CACHE_ACTIVE and not TESTING:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
