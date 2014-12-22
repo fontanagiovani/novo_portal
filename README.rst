@@ -22,9 +22,14 @@ $ sudo aptitude install memcached libmemcached-dev python-pylibmc
 Desenvolvimento do novo portal do IFMT
 
 ----
+Versão 1.2.2
+
+- Adicionado restrição no tamanho da imagem usada como destaque para notícias.
+
+----
 Versão 1.2.1
 
-- Correção de exibição de thumbnail na lista de vídeos;
+- Correção de exibição de thumbnail na lista de vídeos.
 
 ----
 Versão 1.2

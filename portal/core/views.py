@@ -216,7 +216,7 @@ def admin_site_menu(request, site_id):
         raise Http404
     menus = Menu.objects.filter(site=site)
 
-    return HttpResponse(json.dumps(serialize_menus(menus)), mimetype="application/json")
+    return HttpResponse(json.dumps(serialize_menus(menus)), content_type="application/json")
 
 
 def serialize_menus(queryset):
