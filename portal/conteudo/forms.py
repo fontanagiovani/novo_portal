@@ -98,16 +98,28 @@ class AnexoFormset(BaseInlineFormSet):
         # se o campo destaque estiver selecionado faz a validacao
         if self.data.get('destaque'):
             imagem = False
+            tamanho_adequado = False
+            primeira_imagem = True
 
             for cleaned_data in self.cleaned_data:
                 if not cleaned_data.get('DELETE', False):
                     try:
                         imagem = cleaned_data.get('arquivo').image
+
+                        # restringe que a primeira imagem obedeca a resolucao minima (980x388) quando destaque
+                        if imagem and primeira_imagem:
+                            primeira_imagem = False
+                            if imagem.width >= 980 and imagem.height >= 388:
+                                tamanho_adequado = True
                     except:
                         pass
 
             if not imagem:
                 raise forms.ValidationError(u'Uma notícia de destaque precisa de uma imagem anexada.')
+            if imagem and not tamanho_adequado:
+                raise forms.ValidationError(u'Uma notícia de destaque precisa que a primeira imagem anexada '
+                                            u'tenha resolução de no mínimo 980x388 (largura x altura). A atual '
+                                            u'primeira imagem possui %dx%d.' % (imagem.width, imagem.height))
 
 
 class ImagemGaleriaFormset(BaseInlineFormSet):
