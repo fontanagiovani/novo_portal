@@ -64,15 +64,16 @@
         </div>
     </div>
 
-    <div class="row padding-top-bottom">
+    <div class="row padding-top">
 
         {#Container para a logo do IFMT#}
-        <div class="small-4 medium-4 columns small-only-text-center">
+        <div class="small-4 medium-5 columns small-only-text-center">
             <a href="{% url 'home' %}"><img src="{{ site.sitedetalhe.logo.url }}" alt="IFMT"></a>
+            <p class="small-text-left texto-tamanho-pequeno padding-top">{{ site.name }}</p>
         </div>
 
         {#Container para a parte direita do cabeçalho#}
-        <div class="small-8 medium-8 columns">
+        <div class="small-8 medium-7 columns">
 
             {#Social#}
             {{ site.sitedetalhe.social|safe }}
@@ -119,12 +120,11 @@
             {#Fim da div links úteis#}
         </div>
         {#Fim da div menu topo#}
-    </div>
-
-    <div class="row">
-        <div class="small-12 columns">
-            <h4>{{ site.name }}</h4>
-        </div>
+{#        <div class="row show-for-small-only">#}
+{#            <div class="small-12 columns">#}
+{#                <p>{{ site.name }}</p>#}
+{#            </div>#}
+{#        </div>#}
     </div>
 
 </div>
