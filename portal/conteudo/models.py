@@ -28,6 +28,8 @@ class Conteudo(models.Model):
 
     class Meta:
         ordering = ('-data_publicacao', '-id')
+        verbose_name = u'Conteúdo'
+        verbose_name_plural = u'Conteúdos'
 
     def __unicode__(self):
         return self.titulo
