@@ -17,6 +17,8 @@ class Menu(MPTTModel):
 
     class Meta(object):
         ordering = ('ordem',)
+        verbose_name = u'Menu'
+        verbose_name_plural = u'Menus'
 
     class MPTTMeta:
         order_insertion_by = ('ordem', )

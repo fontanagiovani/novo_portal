@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 from django.db import models
 from django.utils import timezone
 from filer.fields.image import FilerImageField
