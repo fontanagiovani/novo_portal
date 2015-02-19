@@ -24,3 +24,4 @@ python-decouple==2.3
 python-ldap==2.4.18
 python-memcached==1.53
 pytz==2014.10
+psycopg2==2.6
