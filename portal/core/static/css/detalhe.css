@@ -2,6 +2,10 @@ p {
     text-align: justify;
 }
 
+p a {
+    text-decoration: underline;
+}
+
 h1 {
     font-weight: bold;
 }
