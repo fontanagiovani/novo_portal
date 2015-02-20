@@ -209,3 +209,29 @@ else:  # Assume development mode
     }
 
 CACHE_MIDDLEWARE_SECONDS = config('CACHE_MIDDLEWARE_SECONDS', default=180, cast=int)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'log_file': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filters': ['require_debug_false'],
+            'filename': os.path.join(BASE_DIR, 'logs/django.log'),
+            'when': 'W5',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['log_file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
