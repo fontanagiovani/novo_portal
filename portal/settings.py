@@ -27,7 +27,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '.ifmt.edu.br']
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '10.0.0.30' '.ifmt.edu.br']
 
 
 # Application definition
@@ -123,7 +123,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 )
 
 TEMPLATE_DIRS = (
-    BASE_DIR + '/portal/templates',
+    os.path.join(BASE_DIR, '/portal/templates'),
 )
 
 AUTHENTICATION_BACKENDS = (
