@@ -28,7 +28,7 @@ def jsonformacao(request, formacao_id):
         'formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome', 'grupo__slug'
     ).distinct()
     dados = listadedicionarios(queryset)
-    return HttpResponse(json.dumps(dados), mimetype="application/json")
+    return HttpResponse(json.dumps(dados), {'mimetype': "application/json"})
 
 
 def jsoncampi(request, campus_id):
@@ -36,7 +36,7 @@ def jsoncampi(request, campus_id):
         'formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome', 'grupo__slug'
     ).distinct()
     dados = listadedicionarios(queryset)
-    return HttpResponse(json.dumps(dados), mimetype="application/json")
+    return HttpResponse(json.dumps(dados), {'mimetype': "application/json"})
 
 
 def jsoncursos(request, curso_id):
@@ -44,7 +44,7 @@ def jsoncursos(request, curso_id):
         'formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome', 'grupo__slug'
     ).distinct()
     dados = listadedicionarios(queryset)
-    return HttpResponse(json.dumps(dados), mimetype="application/json")
+    return HttpResponse(json.dumps(dados), {'mimetype': "application/json"})
 
 
 def listagrupodecursos(request, queryset):
