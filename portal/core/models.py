@@ -4,6 +4,7 @@ from unicodedata import normalize
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 from filer.models import File, Image, Folder
 from filer.fields.image import FilerImageField
 from mptt.models import MPTTModel, TreeForeignKey
@@ -13,8 +14,8 @@ class Campus(models.Model):
     nome = models.CharField(max_length=50, verbose_name=u'Nome do Câmpus')
 
     class Meta:
-        verbose_name = u'Campus'
-        verbose_name_plural = u'Campi'
+        verbose_name = _(u'Campus')
+        verbose_name_plural = _(u'Campi')
 
     def __unicode__(self):
         return self.nome
@@ -27,8 +28,8 @@ class TipoSelecao(MPTTModel):
 
     class Meta:
         ordering = ('titulo',)
-        verbose_name = u'Tipo de seleção'
-        verbose_name_plural = u'Tipos de seleção'
+        verbose_name = _(u'Tipo de selecao')
+        verbose_name_plural = _(u'Tipos de selecao')
 
     def __unicode__(self):
         return self.titulo
@@ -52,8 +53,8 @@ class Selecao(models.Model):
 
     class Meta:
         ordering = ('titulo', 'status', 'data_abertura_edital')
-        verbose_name = u'Seleção'
-        verbose_name_plural = u'Seleções'
+        verbose_name = _(u'Selecao')
+        verbose_name_plural = _(u'Selecoes')
 
     def __unicode__(self):
         return self.titulo
@@ -127,8 +128,8 @@ class ContadorVisitas(models.Model):
     class Meta:
         ordering = ('-contagem', '-criado_em', '-modificado_em')
         get_latest_by = 'criado_em'
-        verbose_name = u'Contador de visitas'
-        verbose_name_plural = u'Contador de visitas'
+        verbose_name = _(u'Contador de visitas')
+        verbose_name_plural = _(u'Contador de visitas')
 
     def __unicode__(self):
         return self.url

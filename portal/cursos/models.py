@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from filer.fields.file import FilerFileField
 
 
@@ -18,8 +19,8 @@ class Formacao(models.Model):
     nome = models.CharField(max_length=100, verbose_name=u'Nome da Formação')
 
     class Meta:
-        verbose_name = u'Tipo de Formação'
-        verbose_name_plural = u'Tipos de Formações'
+        verbose_name = _(u'Tipo de Formacao')
+        verbose_name_plural = _(u'Tipos de Formacoes')
 
     def __unicode__(self):
         return self.nome
@@ -41,8 +42,8 @@ class GrupoCursos(models.Model):
                                       u'caracteres especiais)')
 
     class Meta:
-        verbose_name = u'Grupo de Cursos'
-        verbose_name_plural = u'Grupo de Cursos'
+        verbose_name = _(u'Grupo de Cursos')
+        verbose_name_plural = _(u'Grupo de Cursos')
 
     def __unicode__(self):
         return self.nome
@@ -86,8 +87,8 @@ class AnexoCurso(models.Model):
     curso = models.ForeignKey('Curso', verbose_name=u'Curso')
 
     class Meta:
-        verbose_name = u'Anexo'
-        verbose_name_plural = u'Anexos'
+        verbose_name = _(u'Anexo')
+        verbose_name_plural = _(u'Anexos')
 
     def __unicode__(self):
         return self.descricao

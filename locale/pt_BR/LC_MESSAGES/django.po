@@ -1,0 +1,302 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-02-23 15:27-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: autorizacao/models.py:10
+msgid "Permissao de Publicacao"
+msgstr "Permissão de Publicação"
+
+#: autorizacao/models.py:11
+msgid "Permissoes de Publicacao"
+msgstr "Permissões de Publicação"
+
+#: banner/models.py:36
+msgid "Banner"
+msgstr ""
+
+#: banner/models.py:37
+msgid "Banners"
+msgstr ""
+
+#: conteudo/models.py:32
+msgid "Conteudo"
+msgstr "Conteúdo"
+
+#: conteudo/models.py:33
+msgid "Conteudos"
+msgstr "Conteúdos"
+
+#: conteudo/models.py:71
+msgid "Noticia"
+msgstr "Notícia"
+
+#: conteudo/models.py:72
+msgid "Noticias"
+msgstr "Notícias"
+
+#: conteudo/models.py:92 cursos/models.py:90
+msgid "Anexo"
+msgstr ""
+
+#: conteudo/models.py:93 cursos/models.py:91
+msgid "Anexos"
+msgstr ""
+
+#: conteudo/models.py:104
+msgid "Pagina"
+msgstr "Página"
+
+#: conteudo/models.py:105
+msgid "Paginas"
+msgstr "Páginas"
+
+#: conteudo/models.py:127
+msgid "Evento"
+msgstr ""
+
+#: conteudo/models.py:128
+msgid "Eventos"
+msgstr ""
+
+#: conteudo/models.py:174
+msgid "Licitacao"
+msgstr "Licitação"
+
+#: conteudo/models.py:175
+msgid "Licitacoes"
+msgstr "Licitações"
+
+#: conteudo/models.py:204
+msgid "Anexo da licitacao"
+msgstr "Anexo da licitação"
+
+#: conteudo/models.py:205
+msgid "Anexos da licitacao"
+msgstr "Anexos da licitação"
+
+#: conteudo/models.py:218
+msgid "Video"
+msgstr "Vídeo"
+
+#: conteudo/models.py:219
+msgid "Videos"
+msgstr "Vídeos"
+
+#: conteudo/models.py:237
+msgid "Galeria"
+msgstr ""
+
+#: conteudo/models.py:238
+msgid "Galerias"
+msgstr ""
+
+#: conteudo/models.py:266
+msgid "Anexo de galeria"
+msgstr ""
+
+#: conteudo/models.py:267
+msgid "Anexos de galeria"
+msgstr ""
+
+#: core/models.py:17
+msgid "Campus"
+msgstr ""
+
+#: core/models.py:18
+msgid "Campi"
+msgstr ""
+
+#: core/models.py:31
+msgid "Tipo de selecao"
+msgstr "Tipo de seleção"
+
+#: core/models.py:32
+msgid "Tipos de selecao"
+msgstr "Tipos de seleção"
+
+#: core/models.py:56
+msgid "Selecao"
+msgstr "Seleção"
+
+#: core/models.py:57
+msgid "Selecoes"
+msgstr "Seleções"
+
+#: core/models.py:131 core/models.py:132
+msgid "Contador de visitas"
+msgstr ""
+
+#: core/templates/core/exemplo_form_admin.html:3
+#: templates/admin/base_site.html:10 templates/admin/base_site.html.py:13
+msgid "Portal IFMT - Administração"
+msgstr ""
+
+#: core/templates/core/exemplo_form_admin.html:16
+msgid "Home"
+msgstr ""
+
+#: core/templates/core/exemplo_form_admin.html:32
+msgid "Por favor, corrija os erros abaixo."
+msgstr ""
+
+#: core/templates/core/exemplo_form_admin.html:73
+msgid "Save"
+msgstr ""
+
+#: core/templates/core/exemplo_form_admin.html:74
+#: templates/admin/filer/folder/directory_table.html:63
+msgid "Delete"
+msgstr ""
+
+#: core/templates/core/exemplo_form_admin.html:75
+msgid "Save as new"
+msgstr ""
+
+#: core/templates/core/exemplo_form_admin.html:76
+msgid "Save and add another"
+msgstr ""
+
+#: core/templates/core/exemplo_form_admin.html:77
+msgid "Save and continue editing"
+msgstr ""
+
+#: cursos/models.py:22
+msgid "Tipo de Formacao"
+msgstr "Tipo de Formação"
+
+#: cursos/models.py:23
+msgid "Tipos de Formacoes"
+msgstr "Tipos de Formação"
+
+#: cursos/models.py:45 cursos/models.py:46
+msgid "Grupo de Cursos"
+msgstr ""
+
+#: menu/models.py:21
+msgid "Menu"
+msgstr ""
+
+#: menu/models.py:22
+msgid "Menus"
+msgstr ""
+
+#: templates/admin/auth/user/add_form.html:7
+msgid ""
+"First, enter a username and password. Then, you'll be able to edit more user "
+"options."
+msgstr ""
+
+#: templates/admin/auth/user/add_form.html:10
+msgid "Enter a username and password."
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:18
+msgid "Name"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:33
+#: templates/admin/filer/folder/directory_table.html:37
+#: templates/admin/filer/folder/directory_table.html:39
+#, python-format
+msgid "Change '%(item_label)s' folder details"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:33
+msgid "Folder Icon"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:37
+#: templates/admin/filer/folder/directory_table.html:64
+msgid "Change"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:39
+#, python-format
+msgid "1 folder"
+msgid_plural "%(counter)s folders"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/filer/folder/directory_table.html:39
+#, python-format
+msgid "1 file"
+msgid_plural "%(counter)s files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/admin/filer/folder/directory_table.html:40
+#: templates/admin/filer/folder/directory_table.html:67
+msgid "Owner"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:50
+#: templates/admin/filer/folder/directory_table.html:53
+msgid "Select this file"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:51
+msgid "Inserir no editor"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:59
+#: templates/admin/filer/folder/directory_table.html:64
+#: templates/admin/filer/folder/directory_table.html:66
+#, python-format
+msgid "Change '%(item_label)s' details"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:63
+#, python-format
+msgid "Delete '%(item_label)s'"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:68
+msgid "Permissions"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:68
+msgid "disabled"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:68
+msgid "enabled"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:72
+msgid "Move to clipboard"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:80
+msgid "there are no files or subfolders"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:87
+msgid "previous"
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:91
+#, python-format
+msgid ""
+"\n"
+"            Page %(number)s of %(num_pages)s.\n"
+"            "
+msgstr ""
+
+#: templates/admin/filer/folder/directory_table.html:97
+msgid "next"
+msgstr ""

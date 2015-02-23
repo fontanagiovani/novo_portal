@@ -1,6 +1,7 @@
 # coding: utf-8
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 from filer.fields.image import FilerImageField
 
 from portal.banner.managers import PublicadoManager, DestaqueManager, LinkDeAcessoManager, GovernamentalManager, \
@@ -32,8 +33,8 @@ class Banner(models.Model):
     hotsite = HotsiteManager()
 
     class Meta:
-        verbose_name = u'Banner'
-        verbose_name_plural = u'Banners'
+        verbose_name = _(u'Banner')
+        verbose_name_plural = _(u'Banners')
         ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):

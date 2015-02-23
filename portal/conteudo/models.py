@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 from filer.fields.file import FilerFileField
 from filer.fields.image import FilerImageField
 from taggit_autosuggest.managers import TaggableManager
@@ -28,8 +29,8 @@ class Conteudo(models.Model):
 
     class Meta:
         ordering = ('-data_publicacao', '-id')
-        verbose_name = u'Conteúdo'
-        verbose_name_plural = u'Conteúdos'
+        verbose_name = _(u'Conteudo')
+        verbose_name_plural = _(u'Conteudos')
 
     def __unicode__(self):
         return self.titulo
@@ -67,8 +68,8 @@ class Noticia(Conteudo):
     publicados = PublicadoManager()
 
     class Meta:
-        verbose_name = u'Notícia'
-        verbose_name_plural = u'Notícias'
+        verbose_name = _(u'Noticia')
+        verbose_name_plural = _(u'Noticias')
         ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
@@ -88,8 +89,8 @@ class Anexo(models.Model):
     conteudo = models.ForeignKey('Conteudo', verbose_name=u'conteudo')
 
     class Meta:
-        verbose_name = u'Anexo'
-        verbose_name_plural = u'Anexos'
+        verbose_name = _(u'Anexo')
+        verbose_name_plural = _(u'Anexos')
 
     def __unicode__(self):
         return self.descricao
@@ -100,8 +101,8 @@ class Pagina(Conteudo):
     publicados = PublicadoManager()
 
     class Meta:
-        verbose_name = u'Página'
-        verbose_name_plural = u'Páginas'
+        verbose_name = _(u'Pagina')
+        verbose_name_plural = _(u'Paginas')
 
     def __unicode__(self):
         return self.titulo
@@ -123,8 +124,8 @@ class Evento(Conteudo):
     publicados = PublicadoManager()
 
     class Meta:
-        verbose_name = u'Evento'
-        verbose_name_plural = u'Eventos'
+        verbose_name = _(u'Evento')
+        verbose_name_plural = _(u'Eventos')
         ordering = ('-data_inicio', '-id')
 
     def __unicode__(self):
@@ -170,8 +171,8 @@ class Licitacao(models.Model):
     publicados = PublicadoManager()
 
     class Meta:
-        verbose_name = u'Licitação'
-        verbose_name_plural = u'Licitações'
+        verbose_name = _(u'Licitacao')
+        verbose_name_plural = _(u'Licitacoes')
 
     def __unicode__(self):
         return self.titulo
@@ -200,8 +201,8 @@ class AnexoLicitacao(models.Model):
     licitacao = models.ForeignKey('Licitacao', verbose_name=u'Licitação')
 
     class Meta:
-        verbose_name = u'Anexo da licitação'
-        verbose_name_plural = u'Anexos da licitação'
+        verbose_name = _(u'Anexo da licitacao')
+        verbose_name_plural = _(u'Anexos da licitacao')
 
     def __unicode__(self):
         return self.descricao
@@ -214,8 +215,8 @@ class Video(Conteudo):
     publicados = PublicadoManager()
 
     class Meta:
-        verbose_name = u'Vídeo'
-        verbose_name_plural = u'Vídeos'
+        verbose_name = _(u'Video')
+        verbose_name_plural = _(u'Videos')
 
     def __unicode__(self):
         return self.titulo
@@ -233,8 +234,8 @@ class Galeria(Conteudo):
     publicados = PublicadoManager()
 
     class Meta:
-        verbose_name = u'Galeria'
-        verbose_name_plural = u'Galerias'
+        verbose_name = _(u'Galeria')
+        verbose_name_plural = _(u'Galerias')
         ordering = ('-data_publicacao', '-id')
 
     def __unicode__(self):
@@ -262,8 +263,8 @@ class ImagemGaleria(models.Model):
     galeria = models.ForeignKey('Galeria', verbose_name=u'Galeria')
 
     class Meta:
-        verbose_name = u'Anexo de galeria'
-        verbose_name_plural = u'Anexos de galeria'
+        verbose_name = _(u'Anexo de galeria')
+        verbose_name_plural = _(u'Anexos de galeria')
 
     def __unicode__(self):
         return self.descricao
