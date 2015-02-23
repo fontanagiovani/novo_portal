@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -17,8 +18,8 @@ class Menu(MPTTModel):
 
     class Meta(object):
         ordering = ('ordem',)
-        verbose_name = u'Menu'
-        verbose_name_plural = u'Menus'
+        verbose_name = _(u'Menu')
+        verbose_name_plural = _(u'Menus')
 
     class MPTTMeta:
         order_insertion_by = ('ordem', )

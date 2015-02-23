@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for portal project.
 
@@ -13,6 +14,7 @@ import os
 import sys
 from decouple import config
 from dj_database_url import parse as db_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -94,6 +96,12 @@ DATABASES = {
 
 LANGUAGE_CODE = 'pt-br'
 
+LANGUAGES = (
+    ('pt-br', u'Português'),
+)
+
+LOCALE_PATHS = (BASE_DIR + '/locale',)
+
 TIME_ZONE = 'America/Cuiaba'
 
 USE_I18N = True
@@ -123,7 +131,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 )
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, '/portal/templates'),
+    os.path.join(BASE_DIR + '/portal/templates'),
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -143,15 +151,15 @@ LDAP_SEARCH_FILTER = 'cn=%s'  # or sAMAccountName
 LDAP_SCOPE = ldap.SCOPE_SUBTREE
 LDAP_UPDATE_FIELDS = True
 
-#Required unless LDAP_FULL_NAME is set:
+# Required unless LDAP_FULL_NAME is set:
 LDAP_FIRST_NAME = 'givenName'
 LDAP_LAST_NAME = 'sn'
 
-#Optional Settings:
+# Optional Settings:
 LDAP_FULL_NAME = 'displayName'
-#LDAP_GID -- string, LDAP attribute to get group name/number from
-#LDAP_SU_GIDS -- list of strings, group names/numbers that are superusers
-#LDAP_STAFF_GIDS -- list of strings, group names/numbers that are staff
+# LDAP_GID -- string, LDAP attribute to get group name/number from
+# LDAP_SU_GIDS -- list of strings, group names/numbers that are superusers
+# LDAP_STAFF_GIDS -- list of strings, group names/numbers that are staff
 LDAP_EMAIL = 'mail'
 
 MIGRATION_MODULES = {
