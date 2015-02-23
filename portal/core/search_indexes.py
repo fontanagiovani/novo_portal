@@ -11,8 +11,8 @@ from portal.conteudo.models import Licitacao
 
 class NoticiaIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    titulo = indexes.CharField(model_attr='titulo')
-    texto = indexes.CharField(model_attr='texto')
+    titulo = indexes.NgramField(model_attr='titulo')
+    texto = indexes.NgramField(model_attr='texto')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
     sites = indexes.MultiValueField()
 
@@ -26,8 +26,8 @@ class NoticiaIndex(indexes.SearchIndex, indexes.Indexable):
 
 class EventoIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    titulo = indexes.CharField(model_attr='titulo')
-    texto = indexes.CharField(model_attr='texto')
+    titulo = indexes.NgramField(model_attr='titulo')
+    texto = indexes.NgramField(model_attr='texto')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
     sites = indexes.MultiValueField()
 
@@ -41,8 +41,8 @@ class EventoIndex(indexes.SearchIndex, indexes.Indexable):
 
 class PaginaIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    titulo = indexes.CharField(model_attr='titulo')
-    texto = indexes.CharField(model_attr='texto')
+    titulo = indexes.NgramField(model_attr='titulo')
+    texto = indexes.NgramField(model_attr='texto')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
     sites = indexes.MultiValueField()
 
@@ -56,8 +56,8 @@ class PaginaIndex(indexes.SearchIndex, indexes.Indexable):
 
 class VideoIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    titulo = indexes.CharField(model_attr='titulo')
-    texto = indexes.CharField(model_attr='texto')
+    titulo = indexes.NgramField(model_attr='titulo')
+    texto = indexes.NgramField(model_attr='texto')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
     sites = indexes.MultiValueField()
 
@@ -71,8 +71,8 @@ class VideoIndex(indexes.SearchIndex, indexes.Indexable):
 
 class GaleriaIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    titulo = indexes.CharField(model_attr='titulo')
-    texto = indexes.CharField(model_attr='texto')
+    titulo = indexes.NgramField(model_attr='titulo')
+    texto = indexes.NgramField(model_attr='texto')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
     sites = indexes.MultiValueField()
 
@@ -86,11 +86,11 @@ class GaleriaIndex(indexes.SearchIndex, indexes.Indexable):
 
 class LicitacaoIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    modalidade = indexes.CharField(model_attr='modalidade')
-    titulo = indexes.CharField(model_attr='titulo')
-    situacao = indexes.CharField(model_attr='situacao')
-    objeto = indexes.CharField(model_attr='objeto')
-    alteracoes = indexes.CharField(model_attr='alteracoes')
+    modalidade = indexes.NgramField(model_attr='modalidade')
+    titulo = indexes.NgramField(model_attr='titulo')
+    situacao = indexes.NgramField(model_attr='situacao')
+    objeto = indexes.NgramField(model_attr='objeto')
+    alteracoes = indexes.NgramField(model_attr='alteracoes')
     data_publicacao = indexes.CharField(model_attr='data_publicacao')
     data_abertura = indexes.CharField(model_attr='data_abertura')
     sites = indexes.MultiValueField()
