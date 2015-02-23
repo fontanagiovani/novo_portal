@@ -123,7 +123,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 )
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, '/portal/templates'),
+    os.path.join(BASE_DIR + '/portal/templates'),
 )
 
 AUTHENTICATION_BACKENDS = (
