@@ -194,6 +194,9 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
+if not TESTING:
+    HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
 PAGINATION_SETTINGS = {
     'PAGE_RANGE_DISPLAYED': 6,
     'MARGIN_PAGES_DISPLAYED': 2,
