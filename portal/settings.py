@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for portal project.
 
@@ -13,6 +14,7 @@ import os
 import sys
 from decouple import config
 from dj_database_url import parse as db_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -93,6 +95,12 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
+
+LANGUAGES = (
+    ('pt-br', u'Português'),
+)
+
+LOCALE_PATHS = (BASE_DIR + '/locale',)
 
 TIME_ZONE = 'America/Cuiaba'
 
