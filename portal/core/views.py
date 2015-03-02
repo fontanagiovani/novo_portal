@@ -6,7 +6,6 @@ from django.contrib.sites.models import Site
 from django.shortcuts import render, redirect
 from django.http import HttpResponse  # httresponse para usar com json
 from django.http.response import Http404
-from django.views.decorators.cache import cache_page
 import json  # json para usar no select com ajax
 from haystack.views import SearchView
 from pure_pagination import Paginator, PageNotAnInteger
@@ -20,6 +19,7 @@ from portal.conteudo.models import Video
 from portal.conteudo.models import Galeria
 from portal.banner.models import Banner
 from portal.cursos.models import Curso
+from portal.core.utils import replace_antigo_portal
 
 
 def hotsite(request):
@@ -155,6 +155,10 @@ def _home(request):
         raise Http404
 
     return render(request, site.sitedetalhe.destino.caminho, contexto)
+
+
+def redirecionar_antigoportal(request):
+    return redirect(replace_antigo_portal(request.build_absolute_uri()))
 
 
 def selecao(request):
