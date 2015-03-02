@@ -66,7 +66,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'portal.middlewares.RemoveWWWRedirectMiddleware',
+    'portal.middlewares.UrlMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -81,6 +81,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'portal.urls'
 
 WSGI_APPLICATION = 'portal.wsgi.application'
+
+REMOVE_WWW = True
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
