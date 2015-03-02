@@ -8,7 +8,7 @@ class RemoveWWWRedirectMiddleware(object):
     """
     def process_request(self, request):
         url = request.build_absolute_uri()
-        if url.startswith('www.'):
-            url = url[4:]
+        if url.startswith('http://www.'):
+            url = url[11:]
 
             return redirect(url)
