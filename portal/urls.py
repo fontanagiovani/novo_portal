@@ -41,6 +41,21 @@ urlpatterns = patterns('',
                        url(r'^json_cursos/(?P<formacao_id>\d+)/(?P<campus_id>\d+)/$', 'portal.core.views.json_cursos',
                            name='json_cursos'),
 
+                       # urls de redirecionamento do antigoportal
+                       url(r'^noticias/$', 'portal.core.views.redirecionar_antigoportal', name='antigo_noticias'),
+                       url(r'^noticias/(?P<id_noticia>\d+)/$', 'portal.core.views.redirecionar_antigoportal'),
+                       url(r'^licitacoes/$', 'portal.core.views.redirecionar_antigoportal'),
+                       url(r'^licitacoes/(?P<id_modalidade>\d+)/$', 'portal.core.views.redirecionar_antigoportal'),
+                       url(r'^licitacoes/(?P<id_modalidade>\d+)/(?P<id_licitacao>\d+)/$', 'portal.core.views.redirecionar_antigoportal'),
+                       url(r'^post/(?P<id_postagem>\d+)/$', 'portal.core.views.redirecionar_antigoportal'),
+                       url(r'^get_file/(?P<table_id>\d+)/(?P<record_id>\d+)/(?P<file_order>\d+)/$',
+                           'portal.core.views.redirecionar_antigoportal'),
+                       url(r'^get_file_from_name/(?P<table_id>\d+)/(?P<record_id>\d+)/(?P<file_name>[\w A-Za-z0-9-._]+)/$',
+                           'portal.core.views.redirecionar_antigoportal'),
+                       url(r'^pesquisar/$', 'portal.core.views.redirecionar_antigoportal'),
+                       # fim do redirecionamento de urls do antigoportal
+
+
                        url(r'^inicio/$', 'portal.core.views.home', name='home'),
                        url(r'^$', 'portal.core.views.hotsite', name='hotsite'),
                        )

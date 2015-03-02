@@ -14,6 +14,7 @@ from portal.banner.models import Banner
 from portal.menu.models import Menu
 from portal.core.models import Destino
 from portal.core.models import Selecao, TipoSelecao, Campus
+from portal.core.utils import replace_antigo_portal
 
 
 class HomeTest(TestCase):
@@ -508,3 +509,38 @@ class DestinoTest(TestCase):
             i.sites.add(self.site2)
 
         self.resp = self.client.get(reverse('home'), SERVER_NAME='rtr.ifmt.dev')
+
+
+class RedirecionarAntigoPortalTest(TestCase):
+    def setUp(self):
+        self.site = mommy.make('Site', domain='rtr.ifmt.edu.br')
+        self.site2 = mommy.make('Site', domain='rtr.antigo.ifmt.edu.br')
+
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
+
+        destino = mommy.make('Destino', tipo=Destino.portal(), caminho='core/portal.html')
+        mommy.make('SiteDetalhe', site=self.site, destino=destino, logo=midia_image)
+        mommy.make('SiteDetalhe', site=self.site2, destino=destino, logo=midia_image)
+
+        self.resp = self.client.get(reverse('antigo_noticias'), SERVER_NAME='rtr.ifmt.edu.br')
+
+    def test_redirect(self):
+        """
+        GET / must return status code 200.
+        """
+        self.assertEqual(self.resp.status_code, 302)
+
+    def test_replace(self):
+        """
+        Testa se a url fornecida e convertida para a url de dominio antigo
+        """
+        self.assertEqual('rtr.antigoportal.ifmt.edu.br', replace_antigo_portal('rtr.ifmt.edu.br'))
+
+        url_original = 'rtr.ifmt.edu.br' + reverse('antigo_noticias')
+        url_futura = 'rtr.antigoportal.ifmt.edu.br' + reverse('antigo_noticias')
+
+        self.assertEqual(replace_antigo_portal(url_original), url_futura)
