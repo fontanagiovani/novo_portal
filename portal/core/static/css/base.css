@@ -15,6 +15,11 @@ h2 {
     font-size: 1.3em;
 }
 
+.verde-logo {
+    /*color: #69B92D*/
+    color: #8fc74a
+}
+
 .justificado {
     text-align: justify;
 }
