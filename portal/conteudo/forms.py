@@ -100,6 +100,8 @@ class AnexoFormset(BaseInlineFormSet):
             imagem = False
             tamanho_adequado = False
             primeira_imagem = True
+            largura = 0
+            altura = 0
 
             for cleaned_data in self.cleaned_data:
                 if not cleaned_data.get('DELETE', False):
@@ -111,6 +113,9 @@ class AnexoFormset(BaseInlineFormSet):
                             primeira_imagem = False
                             if imagem.width >= 980 and imagem.height >= 388:
                                 tamanho_adequado = True
+                            else:
+                                largura = imagem.width
+                                altura = imagem.height
                     except:
                         pass
 
@@ -119,7 +124,7 @@ class AnexoFormset(BaseInlineFormSet):
             if imagem and not tamanho_adequado:
                 raise forms.ValidationError(u'Uma notícia de destaque precisa que a primeira imagem anexada '
                                             u'tenha resolução de no mínimo 980x388 (largura x altura). A atual '
-                                            u'primeira imagem possui %dx%d.' % (imagem.width, imagem.height))
+                                            u'primeira imagem possui %dx%d.' % (largura, altura))
 
 
 class ImagemGaleriaFormset(BaseInlineFormSet):
@@ -131,13 +136,29 @@ class ImagemGaleriaFormset(BaseInlineFormSet):
             return
 
         imagem = False
+        primeira_imagem = True
+        tamanho_adequado = False
+        largura = 0
+        altura = 0
 
         for cleaned_data in self.cleaned_data:
             if not cleaned_data.get('DELETE', False):
                 try:
                     imagem = cleaned_data.get('imagem').image
+
+                    if imagem and primeira_imagem:
+                            primeira_imagem = False
+                            if imagem.width >= 640 and imagem.height >= 480:
+                                tamanho_adequado = True
+                            else:
+                                largura = imagem.width
+                                altura = imagem.height
                 except:
                     pass
 
         if not imagem:
             raise forms.ValidationError(u'Uma galeria precisa de uma imagem anexada.')
+        if imagem and not tamanho_adequado:
+                raise forms.ValidationError(u'Uma galeria precisa que a primeira imagem anexada '
+                                            u'tenha resolução de no mínimo 640x480 (largura x altura). A atual '
+                                            u'primeira imagem possui %dx%d.' % (largura, altura))
