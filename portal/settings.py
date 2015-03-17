@@ -124,6 +124,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR + '/media')
 
 SITE_ID = 1
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 TESTING = 'test' in sys.argv
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
