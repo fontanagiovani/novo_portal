@@ -21,7 +21,7 @@
     {% endblock %}
 </head>
 <body> <!-- body content here -->
-<iframe src="{{ STATIC_URL }}html/barra_brasil.html" width="100%" height="42px" frameborder="0" scrolling="no"></iframe>
+<iframe src="{{ STATIC_URL }}html/barra_brasil.html" width="100%" height="33px" frameborder="0" scrolling="no"></iframe>
 {#Container geral do portal#}
 <div class="row collapse">
 
@@ -64,16 +64,16 @@
         </div>
     </div>
 
-    <div class="row padding-top">
+    <div class="row">
 
         {#Container para a logo do IFMT#}
-        <div class="small-4 medium-5 columns small-only-text-center">
+        <div class="small-4 medium-5 columns small-only-text-center padding-top">
             <a href="{% url 'home' %}"><img src="{{ site.sitedetalhe.logo.url }}" alt="IFMT"></a>
-            <p class="small-text-left texto-tamanho-pequeno verde-logo negrito padding-top">{{ site.name }}</p>
+            <p class="small-text-left texto-tamanho-pequeno verde-logo negrito no-margin">{{ site.name }}</p>
         </div>
 
         {#Container para a parte direita do cabeçalho#}
-        <div class="small-8 medium-7 columns padding-top">
+        <div class="small-8 medium-7 columns">
 
             {#Social#}
             {{ site.sitedetalhe.social|safe }}
