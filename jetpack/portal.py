@@ -1,7 +1,16 @@
 # coding: utf-8
 from fabric.api import task, env, require, cd
-from fabric.operations import run, sudo
-from jetpack.helpers import RunAsAdmin
+from fabric.operations import run, sudo, local
+# from jetpack.helpers import RunAsAdmin
+
+
+@task
+def merge(from_branch='develop', into_branch='master'):
+    local('git checkout %s' % into_branch)
+    local('git pull')
+    local('git merge --no-ff %s' % from_branch)
+    local('git push origin %s' % into_branch)
+    local('git checkout %s' % from_branch)
 
 
 @task
