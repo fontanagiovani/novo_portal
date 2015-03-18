@@ -6,8 +6,6 @@ from fabric.operations import run, sudo, local
 
 @task
 def merge(from_branch='develop', into_branch='master'):
-    require('PROJECT')
-
     local('git checkout %s' % into_branch)
     local('git pull')
     local('git merge --no-ff %s' % from_branch)
