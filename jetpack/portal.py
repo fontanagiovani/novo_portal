@@ -44,3 +44,10 @@ def log_django(lines=50):
     require('PROJECT')
 
     run('tail --lines=%s /home/dgti/portal/logs/django.log' % lines)
+
+
+@task
+def log_error(lines=50):
+    require('PROJECT')
+
+    run('tail --lines=%s /home/dgti/portal/logs/error.log' % lines)
