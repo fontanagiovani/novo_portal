@@ -21,7 +21,7 @@ class Banner(models.Model):
     titulo = models.CharField(max_length=250, verbose_name=u'Título', default='')
     data_publicacao = models.DateTimeField(verbose_name=u'Data de publicação')
     url = models.URLField(help_text=u'Insira o endereço completo (com http://). Ex.: http://www.ifmt.edu.br/',
-                          verbose_name=u'URL', default='http://')
+                          verbose_name=u'URL')
     arquivo = FilerImageField(verbose_name=u'Imagem', related_name='banners', default=None)
     publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
 
