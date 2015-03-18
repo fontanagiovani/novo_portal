@@ -4,15 +4,22 @@ from unipath import Path
 from jetpack.helpers import Project
 
 # Exposes other functionalities
-from jetpack import setup, deploy, db, config, django, logs
-
+# from jetpack import setup, deploy, db, config, django, logs
+from jetpack.portal import *
 
 # Always run fabric from the repository root dir.
 Path(__file__).parent.chdir()
 
 
 @task
-def production():
-    env.PROJECT = Project(project='portal', instance='production')
-    env.hosts = ['stage.ifmt.edu.br']
-    env.user = env.PROJECT.user
+def portal():
+    env.PROJECT = Project(project='novo_portal', instance='portal')
+    env.hosts = ['10.0.0.30']
+    env.user = 'dgti'
+
+
+@task
+def portaldemo():
+    env.PROJECT = Project(project='novo_portal', instance='portaldemo')
+    env.hosts = ['portaldemo.ifmt.edu.br']
+    env.user = 'dgti'

@@ -9,6 +9,8 @@ class BannerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(BannerForm, self).__init__(*args, **kwargs)
+        # self.fields['sites'].help_text = u'Mantenha a tecla "Control", ou "Command" no Mac, pressionado para ' \
+        #                                  u'selecionar mais de uma opção.'
         if self.request.user.permissao.sites.all().count() == 1:
             self.initial['sites'] = self.request.user.permissao.sites.all()
 
@@ -23,8 +25,6 @@ class BannerForm(forms.ModelForm):
         return sites_marcados
 
     def clean_arquivo(self):
-        # import pudb
-        # pudb.set_trace()
         imagem = False
         tamanho_adequado = False
 
