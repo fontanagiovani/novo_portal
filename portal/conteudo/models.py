@@ -97,6 +97,11 @@ class Anexo(models.Model):
 
 
 class Pagina(Conteudo):
+    pagina_inicial = models.BooleanField(default=False, verbose_name=u'Página inicial',
+                                         help_text=u'Esse campo é utilizado para sites que possuem uma página '
+                                                   u'simples como página inicial. Para definir esta página como '
+                                                   u'sendo a página inicial marque esta opção.')
+
     objects = models.Manager()
     publicados = PublicadoManager()
 

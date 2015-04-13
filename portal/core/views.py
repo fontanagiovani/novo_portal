@@ -14,6 +14,7 @@ from portal.menu.models import Menu
 from portal.core.models import Destino
 from portal.core.models import Selecao, TipoSelecao
 from portal.conteudo.models import Noticia
+from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
 from portal.conteudo.models import Video
 from portal.conteudo.models import Galeria
@@ -145,6 +146,15 @@ def _home(request):
                 'galerias': galerias,
                 'banners': banners,
             }
+
+        elif tipo_destino == Destino.pagina():
+            # a ordenacao ja e feita no model, tornando o primeiro elemento o ultimo publicado
+            pagina = Pagina.publicados.filter(sites__id__exact=site.id, pagina_inicial=True).first()
+
+            if pagina:
+                contexto = {'pagina': pagina}
+            else:
+                raise Http404
 
         elif tipo_destino == Destino.redirect():
             return redirect(site.sitedetalhe.destino.caminho)

@@ -99,7 +99,7 @@ admin.site.register(Noticia, NoticiaAdmin)
 
 
 class PaginaAdmin(ConteudoAdmin):
-    list_display = ('titulo', 'data_publicacao', 'get_link', 'get_publicacao')
+    list_display = ('titulo', 'data_publicacao', 'get_link', 'get_publicacao', 'pagina_inicial')
     search_fields = ('titulo', 'texto', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     list_filter = (SitesListFilter, EstaPublicadoListFilter, )
@@ -115,6 +115,10 @@ class PaginaAdmin(ConteudoAdmin):
                 'texto',
                 'tags',
             )
+        }),
+        (u'Pagina inicial', {
+            'classes': ('collapse',),
+            'fields': ('pagina_inicial', )
         }),
         (u'Galerias e Vídeos', {
             'classes': ('collapse',),

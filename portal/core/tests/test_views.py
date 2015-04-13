@@ -9,6 +9,7 @@ from model_mommy import mommy
 from filer.models import Image
 
 from portal.conteudo.models import Noticia
+from portal.conteudo.models import Pagina
 from portal.conteudo.models import Evento
 from portal.banner.models import Banner
 from portal.menu.models import Menu
@@ -392,6 +393,54 @@ class HomeBannersContextTest(TestCase):
         """
         # Sao esperados 4 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
         self.assertContains(self.resp, u'banner', 8)
+
+
+class HomePaginaContextTest(TestCase):
+    def setUp(self):
+        self.site = mommy.make(Site, domain='rtr.ifmt.dev')
+
+        self.img_path = settings.BASE_DIR + '/portal/banner/static/img/images.jpeg'
+        self.img_name = u'imagembanner'
+        with open(self.img_path) as img:
+            file_obj = File(img, name=self.img_name)
+            midia_image = Image.objects.create(original_filename=self.img_name, file=file_obj)
+
+        destino = mommy.make('Destino', tipo=Destino.pagina(), caminho='core/pagina.html')
+        mommy.make('SiteDetalhe', destino=destino, logo=midia_image, site=self.site)
+        mommy.make('Pagina', _quantity=1, pagina_inicial=True, titulo='titulo_teste1',
+                   data_publicacao='2014-06-05T10:16:00-04:00')
+        mommy.make('Pagina', _quantity=1, pagina_inicial=False, titulo='titulo_teste2',
+                   data_publicacao='2014-06-05T10:16:00-04:00')
+        mommy.make('Pagina', _quantity=1, pagina_inicial=True, titulo='titulo_teste3',
+                   data_publicacao='2014-06-04T10:16:00-04:00')
+        mommy.make('Pagina', _quantity=2)
+        mommy.make('Pagina', _quantity=2, pagina_inicial=True, publicado=False)
+        mommy.make('Pagina', _quantity=2)
+
+        for i in Pagina.objects.all():
+            i.sites.add(self.site)
+
+        self.resp = self.client.get(reverse('hotsite'), SERVER_NAME='rtr.ifmt.dev')
+
+    def test_get(self):
+        """
+        GET / deve retorno status code 200
+        """
+        self.assertEqual(200, self.resp.status_code)
+
+    def test_template(self):
+        """
+        Pagina detalhe deve renderizar o template portal_secundario.html
+        """
+        self.assertTemplateUsed(self.resp, 'core/pagina.html')
+
+    def test_conteudo(self):
+        """
+        A home deve conter noticias listadas na parte nao destaque+
+        """
+        # Sao esperados 4 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
+        self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16', 0)
+        self.assertContains(self.resp, u'titulo_teste1', 1)
 
 
 class SelecaoTest(TestCase):
