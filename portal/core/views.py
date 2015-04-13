@@ -148,7 +148,8 @@ def _home(request):
             }
 
         elif tipo_destino == Destino.pagina():
-            pagina = Pagina.publicados.filter(pagina_inicial=True).last()
+            # a ordenacao ja e feita no model, tornando o primeiro elemento o ultimo publicado
+            pagina = Pagina.publicados.filter(sites__id__exact=site.id, pagina_inicial=True).first()
 
             if pagina:
                 contexto = {'pagina': pagina}

@@ -407,8 +407,12 @@ class HomePaginaContextTest(TestCase):
 
         destino = mommy.make('Destino', tipo=Destino.pagina(), caminho='core/pagina.html')
         mommy.make('SiteDetalhe', destino=destino, logo=midia_image, site=self.site)
-        mommy.make('Pagina', _quantity=2, pagina_inicial=True, titulo='titulo_teste',
+        mommy.make('Pagina', _quantity=1, pagina_inicial=True, titulo='titulo_teste1',
                    data_publicacao='2014-06-05T10:16:00-04:00')
+        mommy.make('Pagina', _quantity=1, pagina_inicial=False, titulo='titulo_teste2',
+                   data_publicacao='2014-06-05T10:16:00-04:00')
+        mommy.make('Pagina', _quantity=1, pagina_inicial=True, titulo='titulo_teste3',
+                   data_publicacao='2014-06-04T10:16:00-04:00')
         mommy.make('Pagina', _quantity=2)
         mommy.make('Pagina', _quantity=2, pagina_inicial=True, publicado=False)
         mommy.make('Pagina', _quantity=2)
@@ -430,13 +434,13 @@ class HomePaginaContextTest(TestCase):
         """
         self.assertTemplateUsed(self.resp, 'core/pagina.html')
 
-    def test_banners(self):
+    def test_conteudo(self):
         """
         A home deve conter noticias listadas na parte nao destaque+
         """
         # Sao esperados 4 noticias desse tipo pois no setup foi simulado uma ordem aleatoria
         self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16', 0)
-        self.assertContains(self.resp, u'titulo_teste', 1)
+        self.assertContains(self.resp, u'titulo_teste1', 1)
 
 
 class SelecaoTest(TestCase):
