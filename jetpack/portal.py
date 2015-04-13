@@ -26,6 +26,7 @@ def update():
     require('PROJECT')
 
     with cd('~/portal'):
+        run('source bin/activate')
         run('git pull')
         run('python manage.py migrate')
 
@@ -37,6 +38,7 @@ def migrate():
     require('PROJECT')
 
     with cd('~/portal'):
+        run('source bin/activate')
         run('python manage.py migrate')
 
     sudo('supervisorctl restart portal')
