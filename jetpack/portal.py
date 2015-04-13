@@ -27,6 +27,17 @@ def update():
 
     with cd('~/portal'):
         run('git pull')
+        run('python manage.py migrate')
+
+    sudo('supervisorctl restart portal')
+
+
+@task
+def migrate():
+    require('PROJECT')
+
+    with cd('~/portal'):
+        run('python manage.py migrate')
 
     sudo('supervisorctl restart portal')
 
