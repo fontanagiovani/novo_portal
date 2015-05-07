@@ -28,7 +28,7 @@ def update():
     with cd('~/portal'):
         run('git pull')
         run('~/portal/bin/python manage.py migrate')
-        run('~/portal/bin/python manage.py collectstatic')
+        run('~/portal/bin/python manage.py collectstatic --noinput')
 
     sudo('supervisorctl restart portal')
 
