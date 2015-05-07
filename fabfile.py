@@ -1,6 +1,7 @@
 # coding: utf-8
 from fabric.api import task, env
-from unipath import Path
+# from unipath import Path
+# import os
 from jetpack.helpers import Project
 
 # Exposes other functionalities
@@ -8,7 +9,8 @@ from jetpack.helpers import Project
 from jetpack.portal import *
 
 # Always run fabric from the repository root dir.
-Path(__file__).parent.chdir()
+# BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# Path(__file__).parent.chdir()
 
 
 @task
