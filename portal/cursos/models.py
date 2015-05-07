@@ -80,6 +80,10 @@ class Curso(models.Model):
     def __unicode__(self):
         return u'%s - %s' % (self.nome, self.campus)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return 'exibecurso', (), {'slug': self.slug}
+
 
 class AnexoCurso(models.Model):
     descricao = models.CharField(max_length=250, verbose_name=u'Descrição do anexo')

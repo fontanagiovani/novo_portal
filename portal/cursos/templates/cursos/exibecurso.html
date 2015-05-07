@@ -3,7 +3,7 @@
 {% block breadcrumbs %}
     <li><a href="{% url 'guiadecursoportal' %}">Guia de Cursos</a></li>
     <li><a href="{% url 'listacursosdogrupo' curso.grupo.slug %}">Cursos</a></li>
-    <li class="current"><a href="{% url 'exibecurso' curso.id %}">{{ curso.nome|truncatewords:"5" }}</a></li>
+    <li class="current">{{ curso.nome|truncatewords:"5" }}</li>
 {% endblock %}
 
 {% block edicao %}

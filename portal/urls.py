@@ -26,7 +26,7 @@ urlpatterns = patterns('',
                            template='search/search.html',
                            searchqueryset=sqs,
                            form_class=ModelSearchForm
-                           ), name='buscar'),
+                       ), name='buscar'),
 
                        # url(r'^guiadecursos/', 'portal.cursos.views.listagrupodecursos', name='listagrupodecursos'),
                        url(r'^cursos/(?P<slug>[\w_-]+)/$', 'portal.cursos.views.listacursosdogrupo',
@@ -58,11 +58,11 @@ urlpatterns = patterns('',
                        url(r'^$', 'portal.core.views.hotsite', name='hotsite'),
                        )
 
-# Trecho utilizado para que o django sirva os arquivos do summernote
+# Trecho utilizado para que o django sirva os arquivos do diretorio media
 from django.conf import settings
 
-# if settings.DEBUG:
-# static files (images, css, javascript, etc.)
-urlpatterns += patterns('',
-                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-                            'document_root': settings.MEDIA_ROOT}))
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+                            (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                                'document_root': settings.MEDIA_ROOT}))
