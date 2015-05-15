@@ -214,7 +214,9 @@ class AnexoLicitacao(models.Model):
 
 
 class Video(Conteudo):
-    url = EmbedVideoField()
+    url = EmbedVideoField(verbose_name=u'URL do vídeo',
+                          help_text=u'Utilize de preferência alguma URL de um vídeo do '
+                                    u'YouTube da conta oficial do IFMT')
 
     objects = models.Manager()
     publicados = PublicadoManager()
@@ -275,37 +277,37 @@ class ImagemGaleria(models.Model):
         return self.descricao
 
 
-# work-around para que o signal dos objetos sejam chamados e o index do haystack seja atualizado
+        # work-around para que o signal dos objetos sejam chamados e o index do haystack seja atualizado
 
-# from django.db.models.signals import m2m_changed
-# from django.dispatch import receiver
-#
-#
-# @receiver(m2m_changed, sender=Noticia.sites.through)
-# def noticia(sender, **kwargs):
-#     obj = kwargs['instance']
-#     obj.save()
-#
-#
-# @receiver(m2m_changed, sender=Pagina.sites.through)
-# def pagina(sender, **kwargs):
-#     obj = kwargs['instance']
-#     obj.save()
-#
-#
-# @receiver(m2m_changed, sender=Evento.sites.through)
-# def evento(sender, **kwargs):
-#     obj = kwargs['instance']
-#     obj.save()
-#
-#
-# @receiver(m2m_changed, sender=Video.sites.through)
-# def video(sender, **kwargs):
-#     obj = kwargs['instance']
-#     obj.save()
-#
-#
-# @receiver(m2m_changed, sender=Galeria.sites.through)
-# def galeria(sender, **kwargs):
-#     obj = kwargs['instance']
-#     obj.save()
+        # from django.db.models.signals import m2m_changed
+        # from django.dispatch import receiver
+        #
+        #
+        # @receiver(m2m_changed, sender=Noticia.sites.through)
+        # def noticia(sender, **kwargs):
+        # obj = kwargs['instance']
+        # obj.save()
+        #
+        #
+        # @receiver(m2m_changed, sender=Pagina.sites.through)
+        # def pagina(sender, **kwargs):
+        #     obj = kwargs['instance']
+        #     obj.save()
+        #
+        #
+        # @receiver(m2m_changed, sender=Evento.sites.through)
+        # def evento(sender, **kwargs):
+        #     obj = kwargs['instance']
+        #     obj.save()
+        #
+        #
+        # @receiver(m2m_changed, sender=Video.sites.through)
+        # def video(sender, **kwargs):
+        #     obj = kwargs['instance']
+        #     obj.save()
+        #
+        #
+        # @receiver(m2m_changed, sender=Galeria.sites.through)
+        # def galeria(sender, **kwargs):
+        #     obj = kwargs['instance']
+        #     obj.save()
