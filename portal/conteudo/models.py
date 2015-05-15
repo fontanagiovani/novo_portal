@@ -215,8 +215,7 @@ class AnexoLicitacao(models.Model):
 
 class Video(Conteudo):
     url = EmbedVideoField(verbose_name=u'URL do vídeo',
-                          help_text=u'Utilize de preferência alguma URL de um vídeo do '
-                                    u'YouTube da conta oficial do IFMT')
+                          help_text=u'Utilize uma URL de vídeo do YouTube')
 
     objects = models.Manager()
     publicados = PublicadoManager()
