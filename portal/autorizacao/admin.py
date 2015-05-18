@@ -70,7 +70,7 @@ class PermissaoAdmin(reversion.VersionAdmin, UserAdmin):
                     'is_staff', 'permissao')
     inlines = [SiteInline]
     date_hierarchy = 'last_login'
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', LogAtividadesListFilter)
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', LogAtividadesListFilter, 'permissao__sites')
 
     def log_atividade(self, obj):
         if obj.logentry_set.all().exists():
