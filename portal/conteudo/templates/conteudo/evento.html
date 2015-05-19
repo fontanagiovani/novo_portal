@@ -91,13 +91,13 @@
     {% if evento.tags.all %}
         <div class="row collapse padding-bottom-duplo">
             <div class="small-12 columns">
-                <ul class="sem-marcador no-margin">
-                    <li class="padding-right">Marcadores:</li>
+                <p class="sem-marcador no-margin espacamento-triplo">
+                    Marcadores:
                     {% for tag in evento.tags.all %}
-                        <li class="padding-all fundo-cinza"><a
-                                href="{% url 'conteudo:tags_lista' slug=tag.slug %}">{{ tag.slug }}</a></li>
+                        <a href="{% url 'conteudo:tags_lista' slug=tag.slug %}"
+                           class="padding-all fundo-cinza">{{ tag.slug }}</a>
                     {% endfor %}
-                </ul>
+                </p>
             </div>
         </div>
     {% endif %}

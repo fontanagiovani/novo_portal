@@ -75,7 +75,7 @@
                 h1.style.fontSize = parseFloat(h1.style.fontSize) + (multiplier * 0.2) + "em";
             }
 
-            for (i = 0; i < p.length; i++) {
+            for (var i = 0; i < p.length; i++) {
                 if (p[i].style.fontSize == "") {
                     p[i].style.fontSize = "1em";
                 }
@@ -91,7 +91,7 @@
 
             h1.style.fontSize = "1.5em";
 
-            for (i = 0; i < p.length; i++) {
+            for (var i = 0; i < p.length; i++) {
                 p[i].style.fontSize = "1em";
             }
         }

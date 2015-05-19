@@ -6,6 +6,10 @@ p a {
     text-decoration: underline;
 }
 
+p.espacamento-triplo {
+    line-height: 300%;
+}
+
 h1 {
     font-weight: bold;
 }
