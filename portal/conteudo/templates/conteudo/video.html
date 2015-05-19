@@ -35,11 +35,11 @@
     <div class="row padding-bottom">
         <div class="row">
             {% if not video.esta_publicado %}
-            <div class="row">
-                <h2 class="vermelho padding-top-bottom text-center">
-                    NÃO PUBLICADO - DATA DE PUBLICAÇÃO: {{ video.data_publicacao }}
-                </h2>
-            </div>
+                <div class="row">
+                    <h2 class="vermelho padding-top-bottom text-center">
+                        NÃO PUBLICADO - DATA DE PUBLICAÇÃO: {{ video.data_publicacao }}
+                    </h2>
+                </div>
             {% endif %}
             <h1 class="justificado" id="titulo">{{ video.titulo }}</h1>
 
@@ -65,13 +65,13 @@
     {% if video.tags.all %}
         <div class="row collapse padding-bottom-duplo">
             <div class="small-12 columns">
-                <ul class="sem-marcador no-margin">
-                    <li class="padding-right">Marcadores:</li>
+                <p class="sem-marcador no-margin espacamento-triplo">
+                    Marcadores:
                     {% for tag in video.tags.all %}
-                        <li class="padding-all fundo-cinza"><a
-                                href="{% url 'conteudo:tags_lista' slug=tag.slug %}">{{ tag.slug }}</a></li>
+                        <a href="{% url 'conteudo:tags_lista' slug=tag.slug %}"
+                           class="padding-all fundo-cinza">{{ tag.slug }}</a>
                     {% endfor %}
-                </ul>
+                </p>
             </div>
         </div>
     {% endif %}
