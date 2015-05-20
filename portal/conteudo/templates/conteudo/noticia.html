@@ -76,11 +76,11 @@
         {% if noticia.tags.all %}
             <div class="row collapse padding-bottom-duplo">
                 <div class="small-12 columns">
-                    <p class="sem-marcador no-margin espacamento-triplo">
+                    <p class="sem-marcador no-margin">
                         Marcadores:
                         {% for tag in noticia.tags.all %}
                             <a href="{% url 'conteudo:tags_lista' slug=tag.slug %}"
-                               class="padding-all fundo-cinza">{{ tag.slug }}</a>
+                               class="padding-right">{{ tag.slug }}</a>
                         {% endfor %}
                     </p>
                 </div>
