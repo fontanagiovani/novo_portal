@@ -27,7 +27,7 @@
 {% endblock edicao %}
 
 {% block conteudo %}
-    <div class="row padding-bottom">
+    <div class="row padding-bottom" id="conteudo">
         <h1 id="titulo">{{ licitacao.titulo }}</h1>
 
         <p><strong>Publicado em:</strong> {{ licitacao.campus_origem.nome }} / {{ licitacao.data_publicacao }}</p>
@@ -44,21 +44,21 @@
             <div class="medium-12 columns no-padding">
                 {% autoescape off %}
                     <article>
-                        <strong>Situação:</strong> {{ licitacao.situacao|safe }}
+                        <p><strong>Situação:</strong> {{ licitacao.situacao|safe }}</p>
                     </article>
                 {% endautoescape %}
 
                 <div class="medium-12 columns no-padding">
                     {% autoescape off %}
                         <article>
-                            <strong>Objeto:</strong> {{ licitacao.objeto|safe }}
+                            <p><strong>Objeto:</strong> {{ licitacao.objeto|safe }}</p>
                         </article>
                     {% endautoescape %}
 
                     {% if licitacao.alteracoes.strip|length > 0 %}
                         {% autoescape off %}
                             <article>
-                                <strong>Alterações:</strong> {{ licitacao.alteracoes|safe }}
+                                <p><strong>Alterações:</strong> {{ licitacao.alteracoes|safe }}</p>
                             </article>
                         {% endautoescape %}
                     {% endif %}

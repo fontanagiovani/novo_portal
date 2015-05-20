@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 {% block stylesheet %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/detalhe.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueimp-gallery.min.css">
 {% endblock %}
 {% block content %}
 
@@ -63,10 +64,11 @@
 {% endblock %}
 
 {% block javascript %}
+    <script src="{{ STATIC_URL }}js/blueimp-gallery.min.js"></script>
     <script>
         function resizeText(multiplier) {
             var h1 = document.getElementById('titulo');
-            var p = document.getElementsByTagName('p');
+            var p = document.getElementById('conteudo').getElementsByTagName('p');
 
             if (h1.style.fontSize == "") {
                 h1.style.fontSize = "1.5em";
@@ -87,7 +89,7 @@
 
         function resetText() {
             var h1 = document.getElementById('titulo');
-            var p = document.getElementsByTagName('p');
+            var p = document.getElementById('conteudo').getElementsByTagName('p');
 
             h1.style.fontSize = "1.5em";
 
@@ -95,5 +97,15 @@
                 p[i].style.fontSize = "1em";
             }
         }
+
+        document.getElementById('links').onclick = function (event) {
+            event = event || window.event;
+            var target = event.target || event.srcElement,
+                    link = target.src ? target.parentNode : target,
+                    options = {index: link, event: event},
+                    links = this.getElementsByTagName('a');
+            blueimp.Gallery(links, options);
+        };
+
     </script>
 {% endblock %}
