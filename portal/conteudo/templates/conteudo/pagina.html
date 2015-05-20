@@ -75,8 +75,8 @@
                     <p class="sem-marcador no-margin">
                         Marcadores:
                         {% for tag in pagina.tags.all %}
-                            <a href="{% url 'conteudo:tags_lista' slug=tag.slug %}"
-                               class="padding-right">{{ tag.slug }}</a>
+                            <a href="{% url 'conteudo:tags_lista' slug=tag.slug %}">
+                                <span class="radius secondary label texto-tamanho-pequeno">{{ tag.slug }}</span></a>
                         {% endfor %}
                     </p>
                 </div>
