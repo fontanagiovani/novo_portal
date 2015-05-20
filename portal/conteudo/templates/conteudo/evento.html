@@ -1,11 +1,6 @@
 {% extends 'core/detalhe.html' %}
 {% load thumbnail %}
 
-{% block stylesheet %}
-    {{ block.super }}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueimp-gallery.min.css">
-{% endblock %}
-
 {% block breadcrumbs %}
     <li><a href="{% url 'conteudo:eventos_lista' %}">Eventos</a></li>
     <li class="current"><a href="#">{{ evento.titulo|truncatewords:"4" }}</a></li>
@@ -31,7 +26,7 @@
 {% endblock edicao %}
 
 {% block conteudo %}
-    <div class="row padding-bottom">
+    <div class="row padding-bottom" id="conteudo">
     <div class="row">
         {% if not evento.esta_publicado %}
             <div class="row">
@@ -86,91 +81,75 @@
             </div>
         {% endif %}
         </div>
-    </div>
 
-    {% if evento.tags.all %}
-        <div class="row collapse padding-bottom-duplo">
-            <div class="small-12 columns">
-                <p class="sem-marcador no-margin espacamento-triplo">
-                    Marcadores:
-                    {% for tag in evento.tags.all %}
-                        <a href="{% url 'conteudo:tags_lista' slug=tag.slug %}"
-                           class="padding-all fundo-cinza">{{ tag.slug }}</a>
+        {% if evento.tags.all %}
+            <div class="row collapse padding-bottom-duplo">
+                <div class="small-12 columns">
+                    <p class="sem-marcador no-margin espacamento-triplo">
+                        Marcadores:
+                        {% for tag in evento.tags.all %}
+                            <a href="{% url 'conteudo:tags_lista' slug=tag.slug %}"
+                               class="padding-all fundo-cinza">{{ tag.slug }}</a>
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="medium-4 columns">
+                {% if evento.documentos %}
+                    <h2 class="fundo-vermelho text-center">Arquivos relacionados</h2>
+                    {% for documento in evento.documentos %}
+                        <div class="row padding-bottom">
+                            <a href="{{ documento.arquivo.url }}" target="_blank"><i
+                                    class="fi-download texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ documento.descricao }}
+                            </a>
+                        </div>
                     {% endfor %}
-                </p>
+                {% endif %}
+            </div>
+
+            <div class="medium-4 columns">
+                {% if evento.galerias.all %}
+                    <h2 class="fundo-vermelho text-center">Galerias relacionados</h2>
+                    {% for galeria in evento.galerias.all %}
+                        <div class="row padding-bottom">
+                            <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
+                                    class="fi-photo texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ galeria.titulo }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="medium-4 columns">
+                {% if evento.videos.all %}
+                    <h2 class="fundo-vermelho text-center">Vídeos relacionados</h2>
+                    {% for video in evento.videos.all %}
+                        <div class="row padding-bottom">
+                            <a href="{{ video.get_absolute_url }}" target="_blank"><i
+                                    class="fi-play-video texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ video.titulo }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
-    {% endif %}
 
-    <div class="row">
-        <div class="medium-4 columns">
-            {% if evento.documentos %}
-                <h2 class="fundo-vermelho text-center">Arquivos relacionados</h2>
-                {% for documento in evento.documentos %}
-                    <div class="row padding-bottom">
-                        <a href="{{ documento.arquivo.url }}" target="_blank"><i
-                                class="fi-download texto-tamanho-medio alinhamento-vertical">
-                        </i>{{ documento.descricao }}
-                        </a>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+            <div class="slides"></div>
+            <h3 class="title"></h3>
+            <a class="prev">‹</a>
+            <a class="next">›</a>
+            <a class="close">×</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
         </div>
-
-        <div class="medium-4 columns">
-            {% if evento.galerias.all %}
-                <h2 class="fundo-vermelho text-center">Galerias relacionados</h2>
-                {% for galeria in evento.galerias.all %}
-                    <div class="row padding-bottom">
-                        <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
-                                class="fi-photo texto-tamanho-medio alinhamento-vertical">
-                        </i>{{ galeria.titulo }}
-                        </a>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-
-        <div class="medium-4 columns">
-            {% if evento.videos.all %}
-                <h2 class="fundo-vermelho text-center">Vídeos relacionados</h2>
-                {% for video in evento.videos.all %}
-                    <div class="row padding-bottom">
-                        <a href="{{ video.get_absolute_url }}" target="_blank"><i
-                                class="fi-play-video texto-tamanho-medio alinhamento-vertical">
-                        </i>{{ video.titulo }}
-                        </a>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
-    <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
-        <div class="slides"></div>
-        <h3 class="title"></h3>
-        <a class="prev">‹</a>
-        <a class="next">›</a>
-        <a class="close">×</a>
-        <a class="play-pause"></a>
-        <ol class="indicator"></ol>
     </div>
 
 {% endblock conteudo %}
-
-{% block javascript %}
-    {{ block.super }}
-    <script src="{{ STATIC_URL }}js/blueimp-gallery.min.js"></script>
-
-    <script>
-        document.getElementById('links').onclick = function (event) {
-            event = event || window.event;
-            var target = event.target || event.srcElement,
-                    link = target.src ? target.parentNode : target,
-                    options = {index: link, event: event},
-                    links = this.getElementsByTagName('a');
-            blueimp.Gallery(links, options);
-        };
-    </script>
-{% endblock %}

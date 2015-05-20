@@ -2,11 +2,6 @@
 {% load thumbnail %}
 {% load embed_video_tags %}
 
-{% block stylesheet %}
-    {{ block.super }}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/blueimp-gallery.min.css">
-{% endblock %}
-
 {% block breadcrumbs %}
     <li><a href="{% url 'conteudo:videos_lista' %}">Videos</a></li>
     <li class="current"><a href="#">{{ video.titulo|truncatewords:"3" }}</a></li>
@@ -32,7 +27,7 @@
 {% endblock edicao %}
 
 {% block conteudo %}
-    <div class="row padding-bottom">
+    <div class="row padding-bottom" id="conteudo">
         <div class="row">
             {% if not video.esta_publicado %}
                 <div class="row">
@@ -60,116 +55,101 @@
             </article>
 
         </div>
-    </div>
 
-    {% if video.tags.all %}
-        <div class="row collapse padding-bottom-duplo">
-            <div class="small-12 columns">
-                <p class="sem-marcador no-margin espacamento-triplo">
-                    Marcadores:
-                    {% for tag in video.tags.all %}
-                        <a href="{% url 'conteudo:tags_lista' slug=tag.slug %}"
-                           class="padding-all fundo-cinza">{{ tag.slug }}</a>
-                    {% endfor %}
-                </p>
+
+        {% if video.tags.all %}
+            <div class="row collapse padding-bottom-duplo">
+                <div class="small-12 columns">
+                    <p class="sem-marcador no-margin espacamento-triplo">
+                        Marcadores:
+                        {% for tag in video.tags.all %}
+                            <a href="{% url 'conteudo:tags_lista' slug=tag.slug %}"
+                               class="padding-all fundo-cinza">{{ tag.slug }}</a>
+                        {% endfor %}
+                    </p>
+                </div>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
 
-    {% if video.imagens %}
-        <div class="row">
-            <div class="small-12 columns">
-                <div class="row collapse">
-                    <div class="medium-4 columns">
-                        <h2 class="fundo-vermelho text-center">Imagens relacionadas</h2>
-                    </div>
-                    <div class="small-12 columns">
-                        <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-12" id="links">
-                            {% for imagem in video.imagens %}
-                                <li>
-                                    <a class="th" href="{% thumbnail imagem.arquivo 1000x800 upscale quality=80 %}"
-                                       title="{{ imagem.descricao }}">
-                                        <img src="{% thumbnail imagem.arquivo 200x200 crop quality=80 %}"
-                                             alt="{{ imagem.descricao }}">
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
+        {% if video.imagens %}
+            <div class="row">
+                <div class="small-12 columns">
+                    <div class="row collapse">
+                        <div class="medium-4 columns">
+                            <h2 class="fundo-vermelho text-center">Imagens relacionadas</h2>
+                        </div>
+                        <div class="small-12 columns">
+                            <ul class="clearing-thumbs small-block-grid-3 medium-block-grid-12" id="links">
+                                {% for imagem in video.imagens %}
+                                    <li>
+                                        <a class="th" href="{% thumbnail imagem.arquivo 1000x800 upscale quality=80 %}"
+                                           title="{{ imagem.descricao }}">
+                                            <img src="{% thumbnail imagem.arquivo 200x200 crop quality=80 %}"
+                                                 alt="{{ imagem.descricao }}">
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
 
-    <div class="row">
-        <div class="medium-4 columns">
-            {% if video.documentos %}
-                <h2 class="fundo-vermelho text-center">Arquivos relacionados</h2>
-                {% for documento in video.documentos %}
-                    <div class="row padding-bottom">
-                        <a href="{{ documento.arquivo.url }}" target="_blank"><i
-                                class="fi-download texto-tamanho-medio alinhamento-vertical">
-                        </i>{{ documento.descricao }}
-                        </a>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        <div class="row">
+            <div class="medium-4 columns">
+                {% if video.documentos %}
+                    <h2 class="fundo-vermelho text-center">Arquivos relacionados</h2>
+                    {% for documento in video.documentos %}
+                        <div class="row padding-bottom">
+                            <a href="{{ documento.arquivo.url }}" target="_blank"><i
+                                    class="fi-download texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ documento.descricao }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="medium-4 columns">
+                {% if video.galerias.all %}
+                    <h2 class="fundo-vermelho text-center">Galerias relacionados</h2>
+                    {% for galeria in video.galerias.all %}
+                        <div class="row padding-bottom">
+                            <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
+                                    class="fi-photo texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ galeria.titulo }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="medium-4 columns">
+                {% if video.videos.all %}
+                    <h2 class="fundo-vermelho text-center">Vídeos relacionados</h2>
+                    {% for video in video.videos.all %}
+                        <div class="row padding-bottom">
+                            <a href="{{ video.get_absolute_url }}" target="_blank"><i
+                                    class="fi-play-video texto-tamanho-medio alinhamento-vertical">
+                            </i>{{ video.titulo }}
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
 
-        <div class="medium-4 columns">
-            {% if video.galerias.all %}
-                <h2 class="fundo-vermelho text-center">Galerias relacionados</h2>
-                {% for galeria in video.galerias.all %}
-                    <div class="row padding-bottom">
-                        <a href="{{ galeria.get_absolute_url }}" target="_blank"><i
-                                class="fi-photo texto-tamanho-medio alinhamento-vertical">
-                        </i>{{ galeria.titulo }}
-                        </a>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+            <div class="slides"></div>
+            <h3 class="title"></h3>
+            <a class="prev">‹</a>
+            <a class="next">›</a>
+            <a class="close">×</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
         </div>
-
-        <div class="medium-4 columns">
-            {% if video.videos.all %}
-                <h2 class="fundo-vermelho text-center">Vídeos relacionados</h2>
-                {% for video in video.videos.all %}
-                    <div class="row padding-bottom">
-                        <a href="{{ video.get_absolute_url }}" target="_blank"><i
-                                class="fi-play-video texto-tamanho-medio alinhamento-vertical">
-                        </i>{{ video.titulo }}
-                        </a>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
-    <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
-        <div class="slides"></div>
-        <h3 class="title"></h3>
-        <a class="prev">‹</a>
-        <a class="next">›</a>
-        <a class="close">×</a>
-        <a class="play-pause"></a>
-        <ol class="indicator"></ol>
     </div>
 
 {% endblock conteudo %}
-
-{% block javascript %}
-    {{ block.super }}
-    <script src="{{ STATIC_URL }}js/blueimp-gallery.min.js"></script>
-
-    <script>
-        document.getElementById('links').onclick = function (event) {
-            event = event || window.event;
-            var target = event.target || event.srcElement,
-                    link = target.src ? target.parentNode : target,
-                    options = {index: link, event: event},
-                    links = this.getElementsByTagName('a');
-            blueimp.Gallery(links, options);
-        };
-    </script>
-{% endblock %}
