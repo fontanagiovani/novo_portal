@@ -137,7 +137,9 @@ class PaginaDetalheTest(TestCase):
         """
         self.assertContains(self.resp, 'titulo_teste')
         self.assertContains(self.resp, u'texto_teste')
-        self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
+
+        # data de publicacao nao eh mais necessario para exibicao segundo o cliente
+        # self.assertContains(self.resp, u'5 de Junho de 2014 às 10:16')
         self.assertContains(self.resp, 'ifmt-teste')
 
     def test_pagina_nao_publicada(self):
