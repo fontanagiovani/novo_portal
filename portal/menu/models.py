@@ -14,6 +14,7 @@ class Menu(MPTTModel):
                                      u'<br><br>Para páginas internas utilize a url gerada na área '
                                      u'de conteúdo/página. Ex.:'
                                      u'<br>/conteudo/pagina/inscricoes-workif/')
+    nova_janela = models.BooleanField(default=False, verbose_name=u'Abrir em uma nova janela?')
     ordem = models.PositiveIntegerField()
 
     class Meta(object):

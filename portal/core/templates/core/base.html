@@ -48,7 +48,8 @@
                             <ul>
                                 {% recursetree menus %}
                                     <li {% if node.get_leafnodes %}class="has-dropdown"{% endif %}>
-                                        <a href="{{ node.url }}">{{ node.titulo }}</a>
+                                        <a href="{{ node.url }}" {% if node.nova_janela %}target="_blank"{% endif %}>
+                                            {{ node.titulo }}</a>
                                         {% if not node.is_leaf_node %}
                                             <ul class="dropdown">
                                                 {{ children }}
