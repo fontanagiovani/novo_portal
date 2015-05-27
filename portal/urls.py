@@ -44,7 +44,7 @@ urlpatterns = patterns('',
                        # urls de redirecionamento do antigoportal
                        url(r'^noticias/', 'portal.core.views.redirecionar_antigoportal', name='antigo_noticias'),
                        # url(r'^noticias/(?P<id_noticia>\d+)/$', 'portal.core.views.redirecionar_antigoportal'),
-                       url(r'^licitacoes/', 'portal.core.views.redirecionar_antigoportal'),
+                       # url(r'^licitacoes/', 'portal.core.views.redirecionar_antigoportal'),
                        # url(r'^licitacoes/(?P<id_modalidade>\d+)/$', 'portal.core.views.redirecionar_antigoportal'),
                        # url(r'^licitacoes/(?P<id_modalidade>\d+)/(?P<id_licitacao>\d+)/$', 'portal.core.views.redirecionar_antigoportal'),
                        url(r'^post/', 'portal.core.views.redirecionar_antigoportal'),
