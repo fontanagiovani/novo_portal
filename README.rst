@@ -14,10 +14,15 @@ $ sudo aptitude install libjpeg libjpeg-dev libfreetype6 libfreetype6-dev zlib1g
 - resquisito para instalar psycopg2
 
 $ sudo aptitude install postgresql-9.3 postgresql-server-dev-9.3
+ou caso não seja ambiente de produção,
+$ sudo aptitude install libpq-dev python-dev
 
 - requisito para memcached
 $ sudo aptitude install memcached libmemcached-dev python-pylibmc
 
+
+- requisito para o módulo dirf (pyPdf que já está no requirements.txt) e pdftk via pacote debian
+$ sudo aptitude install pdftk
 
 Desenvolvimento do novo portal do IFMT
 

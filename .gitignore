@@ -22,3 +22,5 @@
 /whoosh
 .floo
 .flooignore
+/portal/dirf/pdf
+!/portal/dirf/pdf/.dummy
