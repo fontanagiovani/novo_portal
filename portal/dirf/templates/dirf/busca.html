@@ -9,6 +9,12 @@
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
         <form method="post" action="{% url "download" %}">{% csrf_token %}
+            {% if mensagem %}
+                <div data-alert class="alert-box {{ tipo }}">
+                  {{ mensagem }}
+                  <a href="#" class="close">&times;</a>
+                </div>
+            {% endif %}
             <fieldset>
                 <legend>DIRF</legend>
                 <div class="row">
