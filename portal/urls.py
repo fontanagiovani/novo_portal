@@ -17,6 +17,7 @@ urlpatterns = patterns('',
                        url(r'^taggit_autosuggest/', include('taggit_autosuggest.urls')),
                        url(r'^conteudo/', include('portal.conteudo.urls', namespace='conteudo')),
                        url(r'^selecao/', 'portal.core.views.selecao', name='selecao'),
+                       url(r'^dirf/', 'portal.dirf.views.download', name='download'),
                        url(r'^admin_site_menu/(?P<site_id>\d+)/$', 'portal.core.views.admin_site_menu',
                            name='admin_site_menu'),
 

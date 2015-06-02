@@ -16,6 +16,7 @@
 /.env
 /.idea
 /media
+!/media/dirf/.dummy
 /staticfiles
 /logs
 !/logs/.dummy
