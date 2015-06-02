@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+{% load thumbnail %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/detalhe.min.css">
+{% endblock %}
+
+{% block content %}
+
+    {#Container para a página de listagem#}
+    <div class="row">
+
+        {#Container para breadcrumbs#}
+        <div class="row">
+            <div class="small-12 columns">
+                <ul class="breadcrumbs no-margin">
+                    <li><a href="{% url 'home' %}">Início</a></li>
+                    {% block breadcrumbs %}
+                    {% endblock %}
+                </ul>
+            </div>
+        </div>
+        {#Fim da row para breadcrumbs#}
+
+        {% block dados %}
+        {% endblock %}
+    </div>
+    {#Fim da div row para a página de busca#}
+    {% block javascript %}
+        <script src="{{ STATIC_URL }}js/jquery.maskedinput.min.js"></script>
+        <script src="{{ STATIC_URL }}js/fields_mask.js"></script>
+    {% endblock %}
+{% endblock %}

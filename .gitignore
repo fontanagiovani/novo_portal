@@ -16,9 +16,12 @@
 /.env
 /.idea
 /media
+!/media/dirf/.dummy
 /staticfiles
 /logs
 !/logs/.dummy
 /whoosh
 .floo
 .flooignore
+/portal/dirf/pdf
+!/portal/dirf/pdf/.dummy

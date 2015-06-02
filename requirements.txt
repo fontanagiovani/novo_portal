@@ -1,5 +1,5 @@
 # This file is here because many Platforms as a Service look for
-#	requirements.txt in the root directory of a project.
+# requirements.txt in the root directory of a project.
 
 
 Django==1.7.1
@@ -25,3 +25,4 @@ python-ldap==2.4.18
 python-memcached==1.53
 pytz==2014.10
 psycopg2==2.6
+pyPdf==1.13
