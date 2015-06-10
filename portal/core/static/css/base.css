@@ -30,7 +30,7 @@ h2 {
 }
 
 .espacamento-pequeno {
-    line-height: 1.0em;
+    line-height: 0.7em;
     margin-bottom: 0;
 }
 
@@ -178,7 +178,7 @@ h2 {
 }
 
 .marcador-circulo li {
-    padding-bottom: 0.625em;
+    padding-bottom: 0.3125em;
 }
 
 .branco {
