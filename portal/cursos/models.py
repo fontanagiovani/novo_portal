@@ -35,9 +35,9 @@ class Formacao(models.Model):
 
 
 class GrupoCursos(models.Model):
-    nome = models.CharField(max_length=80, verbose_name=u'Nome Genérico para Curso',
+    nome = models.CharField(max_length=80, verbose_name=u'Nome Genérico para Curso', unique=True,
                             help_text=u'Ex.: Licenciatura em Matemática')
-    slug = models.SlugField(max_length=250, verbose_name=u'Identificador',
+    slug = models.SlugField(max_length=250, verbose_name=u'Identificador', unique=True,
                             help_text=u'Texto que identificará a URL deste item (não deve conter espaços ou '
                                       u'caracteres especiais)')
 
