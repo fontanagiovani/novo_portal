@@ -29,6 +29,11 @@ h2 {
     margin-bottom: 0;
 }
 
+.espacamento-pequeno {
+    line-height: 1.0em;
+    margin-bottom: 0;
+}
+
 .no-padding {
     padding: 0;
 }
