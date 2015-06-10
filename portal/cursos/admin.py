@@ -40,5 +40,6 @@ admin.site.register(Curso, CursoAdmin)
 
 class GrupoCursosAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     prepopulated_fields = {'slug': ('nome',)}
+    search_fields = ('nome', 'slug',)
 
 admin.site.register(GrupoCursos, GrupoCursosAdmin)
