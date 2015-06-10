@@ -15,7 +15,7 @@ def forwards_func(apps, schema_editor):
     for grupo in grupos:
         slug_grupo = grupo.get('grupo__slug')
         grupos_semelhantes = GrupoCursos.objects.using(db_alias).filter(slug=slug_grupo)
-        if grupos_semelhantes.count() >1:
+        if grupos_semelhantes.count() > 1:
             grupo_curso = grupos_semelhantes[0]
             for g in grupos_semelhantes:
                 for curso in g.curso_set.all():
@@ -24,8 +24,9 @@ def forwards_func(apps, schema_editor):
                 if grupo_curso.pk != g.pk:
                     g.delete()
 
-    # import ipdb
-    # ipdb.set_trace()
+def backwards_func(apps, schema_editor):
+    pass
+
 
 class Migration(migrations.Migration):
 
@@ -35,18 +36,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(
-            forwards_func,
-        ),
-        migrations.AlterField(
-            model_name='grupocursos',
-            name='nome',
-            field=models.CharField(help_text='Ex.: Licenciatura em Matem\xe1tica', unique=True, max_length=80, verbose_name='Nome Gen\xe9rico para Curso'),
-            preserve_default=True,
-        ),
-        migrations.AlterField(
-            model_name='grupocursos',
-            name='slug',
-            field=models.SlugField(help_text='Texto que identificar\xe1 a URL deste item (n\xe3o deve conter espa\xe7os ou caracteres especiais)', unique=True, max_length=250, verbose_name='Identificador'),
-            preserve_default=True,
+            forwards_func, backwards_func
         ),
     ]
