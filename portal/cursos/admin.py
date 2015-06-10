@@ -31,7 +31,7 @@ class AnexoCursoInLine(admin.StackedInline):
 
 class CursoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     prepopulated_fields = {'slug': ('nome', 'formacao', 'campus')}
-    search_fields = ('nome', 'slug', 'formacao', 'campus')
+    search_fields = ('nome', 'slug', 'formacao__nome', 'campus__nome')
 
     form = CursoForm
 
