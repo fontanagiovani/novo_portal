@@ -62,7 +62,7 @@ class Curso(models.Model):
     )
     nome = models.CharField(max_length=100, verbose_name=u'Nome do Curso',
                             help_text=u'Ex.: Licenciatura em Matemática Noturno')
-    slug = models.SlugField(max_length=250, verbose_name=u'Identificador',
+    slug = models.SlugField(max_length=250, verbose_name=u'Identificador', unique=True,
                             help_text=u'Texto que identificará a URL deste item (não deve conter espaços ou '
                                       u'caracteres especiais)')
     formacao = models.ForeignKey('Formacao', verbose_name=u'Tipo de Formação')
@@ -96,7 +96,6 @@ class AnexoCurso(models.Model):
 
     def __unicode__(self):
         return self.descricao
-
 
     # |---------|
     # |Formacao |
