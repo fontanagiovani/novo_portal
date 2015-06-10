@@ -12,7 +12,7 @@ from portal.cursos.forms import CursoForm
 
 
 class FormacaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
-    pass
+    search_fields = ('nome',)
 
 admin.site.register(Formacao, FormacaoAdmin)
 
@@ -31,6 +31,8 @@ class AnexoCursoInLine(admin.StackedInline):
 
 class CursoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     prepopulated_fields = {'slug': ('nome', 'formacao', 'campus')}
+    search_fields = ('nome', 'slug', 'formacao', 'campus')
+
     form = CursoForm
 
     inlines = (AnexoCursoInLine, )
