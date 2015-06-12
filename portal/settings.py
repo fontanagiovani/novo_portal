@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'embed_video',
     'django_extensions',
     'adminsortable',
+    'disqus',
 
     'portal.autorizacao',
     'portal.banner',
@@ -139,6 +140,8 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR + '/portal/templates'),
 )
+
+# DISQUS_API_KEY = config('DISQUS_API_KEY')
 
 if config('LDAP_ACTIVE', default=False):
 
