@@ -131,6 +131,11 @@
             </div>
         </div>
 
+        {% if site.sitedetalhe.disqus_shortname %}
+            {% load disqus_tags %}
+            {% disqus_show_comments site.sitedetalhe.disqus_shortname %}
+        {% endif %}
+
         <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
         <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
             <div class="slides"></div>
