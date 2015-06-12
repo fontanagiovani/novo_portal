@@ -64,10 +64,11 @@ def listagrupodecursos(request, queryset):
     )
 
 
-def listacursosdogrupo(request, slug):
+def listacursosdogrupo(request, slug, campus, formacao):
     grupo = get_object_or_404(GrupoCursos, slug=slug)
-    cursos = Curso.objects.select_related('Campus').filter(grupo__slug=slug)
-    return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos})
+    # cursos = Curso.objects.select_related('Campus').filter(grupo__slug=slug)
+    cursos = Curso.objects.filter(grupo=grupo, campus=campus, formacao=formacao)
+    return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos, })
 
 
 @never_cache
@@ -80,7 +81,7 @@ def exibecurso(request, slug):
 def guiadecursoportal(request):
     if request.method == 'POST':
         if int(request.POST.get('cursos')) > 0:
-            return listacursosdogrupo(request, GrupoCursos.objects.get(id=request.POST.get('cursos')).slug)
+            return listacursosdogrupo(request, GrupoCursos.objects.get(id=request.POST.get('cursos')).slug, request.POST.get('campi'), request.POST.get('formacao'))
         elif int(request.POST.get('campi')) > 0:
             queryset = Curso.objects.select_related().values(
                 'formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome',
