@@ -27,6 +27,7 @@ def update():
 
     with cd('~/portal'):
         run('git pull')
+        run('~/portal/bin/pip install -r requirements.txt')
         run('~/portal/bin/python manage.py migrate')
         run('~/portal/bin/python manage.py collectstatic --noinput')
 
