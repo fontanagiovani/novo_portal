@@ -4,6 +4,7 @@ from django.views.decorators.cache import never_cache
 from portal.cursos.models import Curso, GrupoCursos
 from django.http import HttpResponse  # httresponse para usar com json
 import json  # json para usar no select com ajax
+from django.core.urlresolvers import reverse
 
 from portal.core.decorators import contar_acesso
 
@@ -18,7 +19,8 @@ def listadedicionarios(queryset):
         d["campus_nome"] = l[3]
         d["grupo_id"] = l[4]
         d["grupo_nome"] = l[5]
-        d["grupo_url"] = GrupoCursos.objects.get(pk=l[4]).get_absolute_url()
+        d["grupo_slug"] = l[6]
+        d["grupo_url"] = reverse('listacursosdogrupo', kwargs={'slug': l[6], 'campus': l[2], 'formacao': l[0]})
         lista.append(d)
     return lista
 
@@ -49,7 +51,8 @@ def jsoncursos(request, curso_id):
 
 def listagrupodecursos(request, queryset):
     formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').order_by('formacao__nome').distinct()
-    campi = Curso.objects.select_related('Campus').values('campus__id', 'formacao__id', 'campus__nome').distinct()
+    #campi = Curso.objects.select_related('Campus').values('campus__id', 'formacao__id', 'campus__nome').distinct()
+    campi = Curso.objects.select_related('Campus').values('campus__id', 'campus__nome').distinct()
     grupo_cursos = Curso.objects.select_related('GrupoCursos').values('grupo__id', 'grupo__nome',
                                                                       'grupo__slug').distinct()
 
