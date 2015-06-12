@@ -48,10 +48,6 @@ class GrupoCursos(models.Model):
     def __unicode__(self):
         return self.nome
 
-    @models.permalink
-    def get_absolute_url(self):
-        return 'listacursosdogrupo', (), {'slug': self.slug}
-
 
 class Curso(models.Model):
     TURNO = (

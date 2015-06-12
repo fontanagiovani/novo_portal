@@ -30,7 +30,7 @@ urlpatterns = patterns('',
                        ), name='buscar'),
 
                        # url(r'^guiadecursos/', 'portal.cursos.views.listagrupodecursos', name='listagrupodecursos'),
-                       url(r'^cursos/(?P<slug>[\w_-]+)/$', 'portal.cursos.views.listacursosdogrupo',
+                       url(r'^cursos/(?P<slug>[\w_-]+)/(?P<campus>\d+)/(?P<formacao>\d+)/$', 'portal.cursos.views.listacursosdogrupo',
                            name='listacursosdogrupo'),
                        url(r'^curso/(?P<slug>[\w_-]+)/$', 'portal.cursos.views.exibecurso', name='exibecurso'),
                        url(r'^guiadecursoportal/', 'portal.cursos.views.guiadecursoportal', name='guiadecursoportal'),

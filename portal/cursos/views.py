@@ -4,6 +4,7 @@ from django.views.decorators.cache import never_cache
 from portal.cursos.models import Curso, GrupoCursos
 from django.http import HttpResponse  # httresponse para usar com json
 import json  # json para usar no select com ajax
+from django.core.urlresolvers import reverse
 
 from portal.core.decorators import contar_acesso
 
@@ -18,7 +19,8 @@ def listadedicionarios(queryset):
         d["campus_nome"] = l[3]
         d["grupo_id"] = l[4]
         d["grupo_nome"] = l[5]
-        d["grupo_url"] = GrupoCursos.objects.get(pk=l[4]).get_absolute_url()
+        d["grupo_slug"] = l[6]
+        d["grupo_url"] = reverse('listacursosdogrupo', kwargs={'slug': l[6], 'campus': l[2], 'formacao': l[0]})
         lista.append(d)
     return lista
 
@@ -49,7 +51,8 @@ def jsoncursos(request, curso_id):
 
 def listagrupodecursos(request, queryset):
     formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').order_by('formacao__nome').distinct()
-    campi = Curso.objects.select_related('Campus').values('campus__id', 'formacao__id', 'campus__nome').distinct()
+    #campi = Curso.objects.select_related('Campus').values('campus__id', 'formacao__id', 'campus__nome').distinct()
+    campi = Curso.objects.select_related('Campus').values('campus__id', 'campus__nome').distinct()
     grupo_cursos = Curso.objects.select_related('GrupoCursos').values('grupo__id', 'grupo__nome',
                                                                       'grupo__slug').distinct()
 
@@ -64,10 +67,11 @@ def listagrupodecursos(request, queryset):
     )
 
 
-def listacursosdogrupo(request, slug):
+def listacursosdogrupo(request, slug, campus, formacao):
     grupo = get_object_or_404(GrupoCursos, slug=slug)
-    cursos = Curso.objects.select_related('Campus').filter(grupo__slug=slug)
-    return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos})
+    # cursos = Curso.objects.select_related('Campus').filter(grupo__slug=slug)
+    cursos = Curso.objects.filter(grupo=grupo, campus=campus, formacao=formacao)
+    return render(request, 'cursos/listacursos.html', {'grupo': grupo, 'cursos': cursos, })
 
 
 @never_cache
@@ -80,7 +84,7 @@ def exibecurso(request, slug):
 def guiadecursoportal(request):
     if request.method == 'POST':
         if int(request.POST.get('cursos')) > 0:
-            return listacursosdogrupo(request, GrupoCursos.objects.get(id=request.POST.get('cursos')).slug)
+            return listacursosdogrupo(request, GrupoCursos.objects.get(id=request.POST.get('cursos')).slug, request.POST.get('campi'), request.POST.get('formacao'))
         elif int(request.POST.get('campi')) > 0:
             queryset = Curso.objects.select_related().values(
                 'formacao__id', 'formacao__nome', 'campus__id', 'campus__nome', 'grupo__id', 'grupo__nome',
