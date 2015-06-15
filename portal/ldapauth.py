@@ -251,7 +251,8 @@ class LDAPBackend(object):
                         % (firstn, dn))
         if lastn:
             if lastn in attrs:
-                user.last_name = attrs[lastn][0]
+                user.last_name = attrs[lastn][0].split(' ')[-1]
+                # user.last_name = attrs[lastn][0]
             else:
                 raise NameError('Missing attribute: %s in result for %s' 
                         % (lastn, dn))
