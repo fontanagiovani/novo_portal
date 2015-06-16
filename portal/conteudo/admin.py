@@ -57,9 +57,10 @@ class ConteudoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
 
     def formfield_for_manytomany(self, db_field, request=None, **kwargs):
         if db_field.name == "sites":
-            # somente os sites que o usuario tem permissao ordenados pelo tamanho da string de dominio
+            # somente os sites que o usuario tem permissao ordenados pelo tamanho da string de dominio e depois por
+            # ordem alfabetica
             kwargs["queryset"] = request.user.permissao.sites.all().extra(
-                select={'length': 'Length(domain)'}).order_by('length')
+                select={'length': 'Length(domain)'}).order_by('length', 'domain')
         return super(ConteudoAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
 
