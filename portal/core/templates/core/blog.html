@@ -82,6 +82,35 @@
         {% if banners or videos or galerias %}
             <div class="medium-4 columns padding-bottom">
 
+                {#Eventos#}
+                {% if eventos %}
+                    <div class="row">
+                        <h1><a href="{% url 'conteudo:eventos_lista' %}"><i class="fi-plus"></i> EVENTOS</a></h1>
+                        {% for evento in eventos %}
+                            <div class="row padding-bottom hover-cinza-claro">
+                                <a href="{{ evento.get_absolute_url }}">
+                                    <div class="row">
+                                        <div class="small-3 columns text-center no-padding">
+                                            <p class="padding-top-bottom fundo-verde no-margin espacamento-medio">
+                                                {{ evento.data_inicio|date:"d M" }}
+                                                {{ evento.data_publicacao|date:"Y" }}
+                                            </p>
+                                        </div>
+
+                                        <div class="small-9 columns no-padding padding-left">
+                                            <div class="data-local">
+                                                {{ evento.get_campus_origem_display }}
+                                            </div>
+                                            <p class="espacamento-medio">{{ evento.titulo }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {#Fim da div eventos#}
+
                 {#Galeria de fotos#}
                 {% if galerias %}
                     <div class="row">

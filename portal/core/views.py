@@ -115,12 +115,14 @@ def _home(request):
             paginator = Paginator(objects, request=request, per_page=5)
             mais_noticias = paginator.page(page)
 
+            eventos = Evento.publicados.filter(sites__id__exact=site.id)[:3]
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
             banners = Banner.publicados.filter(sites__id__exact=site.id).order_by('tipo')
             contexto = {
                 'noticias_destaque': noticias_detaque,
                 'mais_noticias': mais_noticias,
+                'eventos': eventos,
                 'videos': videos,
                 'galerias': galerias,
                 'banners': banners,
@@ -137,11 +139,13 @@ def _home(request):
             paginator = Paginator(objects, request=request, per_page=5)
             noticias = paginator.page(page)
 
+            eventos = Evento.publicados.filter(sites__id__exact=site.id)[:3]
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
             banners = Banner.publicados.filter(sites__id__exact=site.id).order_by('tipo')
             contexto = {
                 'noticias': noticias,
+                'eventos': eventos,
                 'videos': videos,
                 'galerias': galerias,
                 'banners': banners,
