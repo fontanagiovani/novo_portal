@@ -23,6 +23,7 @@ class Banner(models.Model):
     url = models.URLField(help_text=u'Insira o endereço completo (com http://). Ex.: http://www.ifmt.edu.br/',
                           verbose_name=u'URL')
     arquivo = FilerImageField(verbose_name=u'Imagem', related_name='banners', default=None)
+    nova_janela = models.BooleanField(default=False, verbose_name=u'Abrir em uma nova janela?')
     publicado = models.BooleanField(default=True, verbose_name=u'Publicar')
 
     objects = models.Manager()

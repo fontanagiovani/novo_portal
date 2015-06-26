@@ -218,10 +218,10 @@
                         <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
                         {% for banner in banners %}
                             <div class="row collapse padding-bottom">
-                                <a href="{{ banner.url }}">
+                                <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
                                     <div class="row collapse hover-cinza-claro">
                                         <div class="small-2 medium-12 columns">
-                                            <img src="{% thumbnail banner.arquivo 460x200 crop quality=80 %}"
+                                            <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
                                                  data-tooltip class="has-tip"
                                                  title="{{ banner.titulo }}"/>
                                         </div>
