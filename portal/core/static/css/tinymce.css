@@ -6,3 +6,11 @@ p {
     margin-bottom: 1.25rem;
     text-rendering: optimizelegibility;
 }
+
+li {
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: normal;
+    line-height: 1.6;
+    text-rendering: optimizelegibility;
+}
