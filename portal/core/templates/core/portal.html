@@ -49,7 +49,7 @@
         <div class="medium-4 columns">
             {% for banner in banners_destaque %}
                 <div class="row collapse">
-                    <a class="th" href="{{ banner.url }}">
+                    <a class="th" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
                         <div class="row collapse">
                             <div class="small-2 medium-12 columns">
                                 <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
@@ -163,7 +163,7 @@
                 <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
                 {% for banner in banners_linkdeacesso %}
                     <div class="row collapse">
-                        <a class="th" href="{{ banner.url }}">
+                        <a class="th" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
                             <div class="row collapse">
                                 <div class="small-2 medium-12 columns">
                                     <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
@@ -334,7 +334,7 @@
             <ul class="small-block-grid-1 medium-block-grid-5">
                 {% for banner in banners_governamental %}
                     <li id="no-padding-bottom">
-                        <a class="th" href="{{ banner.url }}">
+                        <a class="th" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
                             <div class="row collapse">
                                 <div class="small-2 medium-12 columns">
                                     <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"

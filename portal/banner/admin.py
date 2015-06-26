@@ -24,6 +24,7 @@ class BannerAdmin(reversion.VersionAdmin, admin.ModelAdmin):
                 'tipo',
                 'url',
                 'arquivo',
+                'nova_janela',
             )
         }),
         (u'Regras de publicação', {
