@@ -1,4 +1,4 @@
-{% load i18n l10n %}
+{% load i18n %}
 {% load admin_list filermedia filer_tags %}
 {% load url from future %}
 
@@ -8,6 +8,11 @@
             <tr class="{% cycle 'row1' 'row2' as rowcolors %}">
                 <th{% if is_popup %} style="width: 3em;"{% else %} class="action-checkbox-column"{% endif %}>{% if paginator.count and not select_folder and not is_popup %}<input type="checkbox" id="action-toggle" />{% endif %}</th>
                 <!-- THUMB -->
+
+            {% if is_popup %}
+                <th class="thumbHeader">&nbsp;</th>
+            {% endif %}
+
                 <th class="thumbHeader">&nbsp;</th>
                 <!-- FILENAME / FOLDERNAME / DIMENSIONS / OWNER -->
                 <th>{% trans 'Name' %}</th>
@@ -18,6 +23,11 @@
         {% for item, item_perms in paginated_items.object_list %}
             {% if item.file_type == 'Folder' or item.file_type == 'DummyFolder' %}{% with item as subfolder%}
             <tr class="{% cycle rowcolors %}">
+
+            {% if is_popup %}
+                <td class="thumbHeader">&nbsp;</td>
+            {% endif %}
+
                 <td>{% if select_folder and item.file_type == 'Folder' %}<a class="insertlink insertlinkButton" href="" onclick="opener.dismissRelatedFolderLookupPopup(window, {{ subfolder.id }}, '{{ subfolder.quoted_logical_path }}'); return false;" >&nbsp;</a>{% else %}{% if action_form and item.pk and not is_popup %}<input type="checkbox" class="action-select" value="folder-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>
                 <!-- DirIcon -->
                 <td><a href="{{ subfolder.get_admin_directory_listing_url_path }}{% if is_popup %}?_popup=1{% if select_folder %}&select_folder=1{% endif %}{% endif %}" title="{% blocktrans with subfolder.name as item_label %}Change '{{ item_label }}' folder details{% endblocktrans %}"><img src="{{ subfolder.icons.48 }}" alt="{% trans "Folder Icon" %}" /></a></td>
@@ -31,16 +41,23 @@
                 </td>
                 <td></td>
             </tr>
-            {% endwith %}{% else %}{% with item as file %}
+            {% endwith %}{% endif %}
+            {% if item.file_type == 'File' or item.file_type == 'Image' %}{% with item as file %}
             <tr class="{% cycle rowcolors %}">
 
-                {#Adaptacao para integracao do django-filer com o tinymce4#}
-                {#<td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="opener.dismissRelatedImageLookupPopup(window, {{ file.id|unlocalize }}, '{{ file.icons.48|escapejs }}', '{{ file.label|escapejs }}'); return false;" title="{% trans "Select this file" %}">&nbsp;</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>#}
-
+            {% if is_popup %}
                 {% load thumbnail %}
-                <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="dismissRelatedImageLookupPopup(window, {{ file.id|unlocalize }}, '{{ file.icons.48|escapejs }}', '{{ file.label|escapejs }}', '{{ file.url|escapejs }}', '{% thumbnail file 1000x0 crop %}'); return false;" title="{% trans "Select this file" %}">&nbsp;</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>
-                {#Fim da adaptacao#}
+                <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="dismissRelatedImageLookupPopup(window, {{ file.id }}, '{{ file.icons.48|escapejs }}', '{{ file.label|escapejs }}', '{{ file.url|escapejs }}', '{% thumbnail file 1000x0 crop %}'); return false;" title="{% trans "Select this file" %}">Teste</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>
+{#                <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="opener.dismissRelatedImageLookupPopup(window, {{ file.id }}, '{{ file.icons.48|escapejs }}', '{{ file.label|escapejs }}'); return false;" title="{% trans "Select this file" %}">Anexo</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>#}
+{#                <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="opener.dismissRelatedImageLookupPopup(window, {{ file.id }}, '{{ file.icons.48|escapejs }}', '{{ file.label|escapejs }}'); return false;" title="{% trans "Select this file" %}">Anexo</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>#}
+{#                <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="dismissRelatedImageLookupPopupTinyMCE('{{ file.url|escapejs }}', '{% thumbnail file 1000x0 crop %}');" title="{% trans "Inserir no editor" %}">Editor</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>#}
+{#                <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="dismissRelatedImageLookupPopupTinyMCE('{{ file.url|escapejs }}', '{% thumbnail file 1000x0 crop %}');" title="{% trans "Inserir no editor" %}">Editor</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>#}
+            {% else %}
+                <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="opener.dismissRelatedImageLookupPopup(window, {{ file.id }}, '{{ file.icons.48|escapejs }}', '{{ file.label|escapejs }}'); return false;" title="{% trans "Select this file" %}">&nbsp;</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>
+            {% endif %}
 
+
+{#                <td>{% if is_popup and not select_folder %}<a class="insertlink insertlinkButton" href="" onclick="opener.dismissRelatedImageLookupPopup(window, {{ file.id }}, '{{ file.icons.48|escapejs }}', '{{ file.label|escapejs }}'); return false;" title="{% trans "Select this file" %}">&nbsp;</a>{% else %}{% if action_form and not is_popup %}<input type="checkbox" class="action-select" value="file-{{ item.pk }}" name="_selected_action" />{% endif %}{% endif %}</td>#}
                 <!-- FileIcon -->
                 <td>{% if item_perms.change %}<a href="{{ file.get_admin_url_path }}{% if is_popup %}?_popup=1{% if select_folder %}&select_folder=1{% endif %}{% endif %}" title="{% blocktrans with file.label as item_label %}Change '{{ item_label }}' details{% endblocktrans %}">{% endif %}<img src="{% if file.icons.48 %}{{ file.icons.48 }}{% else %}{% filer_staticmedia_prefix %}icons/missingfile_48x48.png{% endif %}" alt="{{ file.default_alt_text }}" />{% if item_perms.change %}</a>{% endif %}</td>
                 <!-- Filename/Dimensions -->
@@ -55,7 +72,7 @@
                     {# {% if file.has_all_mandatory_data %}<div><img alt="0" src="{% admin_icon_base %}img/admin/icon-yes.gif" /> {% trans "has all mandatory metadata" %}</div>{% else %}<div><img alt="1" src="{% admin_icon_base %}img/admin/icon-no.gif"/> {% trans "missing metadata!" %}</div>{% endif %} #}
                 </td>
                 <td style="text-align: right;">
-                    <input type="submit" name="move-to-clipboard-{{ file.id|unlocalize }}" value="&rarr;" title="{% trans "Move to clipboard" %}"{% if file in clipboard_files or not item_perms.change %} style="color: gray;" disabled="disabled"{% endif %} />
+                    <input type="submit" name="move-to-clipboard-{{ file.id }}" value="&rarr;" title="{% trans "Move to clipboard" %}"{% if file in clipboard_files or not item_perms.change %} style="color: gray;" disabled="disabled"{% endif %} />
                 </td>
             </tr>
             {% endwith %}{% endif %}
@@ -85,8 +102,20 @@
     </p>
 </div>
 
-{#Adaptacao para integracao do django-filer com o tinymce4#}
 <script>
+    dismissRelatedImageLookupPopupTinyMCE = function(FileURL, FileThumb) {
+        url = FileURL;
+        if (FileThumb != '') {
+            url = FileThumb
+        }
+        parentWin = (!window.frameElement && window.dialogArguments) || opener || parent || top;
+        tinymce = tinyMCE = parentWin.tinymce;
+        self.editor = tinymce.EditorManager.activeEditor;
+        self.params = self.editor.windowManager.getParams();
+        parentWin.document.getElementById(self.params.input).value = url;
+        self.editor.windowManager.close(parentWin);
+	};
+
     dismissRelatedImageLookupPopup = function (win, chosenId, chosenThumbnailUrl, chosenDescriptionTxt, FileURL, FileThumb) {
         if (win.frameElement == null) {
             opener.dismissRelatedImageLookupPopup(win, chosenId, chosenThumbnailUrl, chosenDescriptionTxt);
@@ -106,4 +135,3 @@
         }
     };
 </script>
-{#Fim da adaptacao#}
