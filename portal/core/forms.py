@@ -45,7 +45,7 @@ class TinyMCEEditor(forms.Textarea):
                     "| bullist numlist outdent indent | link image media | visualblocks preview fullscreen",
 
                 language: 'pt_BR',
-                content_css: '/static/css/base.css,/static/css/detalhe.min.css,/static/css/tinymce.css',
+                content_css: '/static/css/base.css,/static/css/detalhe.css,/static/css/tinymce.css',
                 height: 360,
                 width: 1040,
                 visualblocks_default_state: true,
