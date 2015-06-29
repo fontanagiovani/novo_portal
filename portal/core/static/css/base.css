@@ -88,6 +88,10 @@ h2 {
     padding: 0.625em;
 }
 
+.padding-bottom-banner-destaque {
+    padding-bottom: 0.9em;
+}
+
 .fundo-verde {
     background-color: #2db200;
     color: #FFFFFF;

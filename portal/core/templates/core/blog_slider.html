@@ -218,20 +218,24 @@
                         <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
                         {% for banner in banners %}
                             <div class="row collapse padding-bottom">
-                                <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
-                                    <div class="row collapse hover-cinza-claro">
-                                        <div class="small-2 medium-12 columns">
+                                <div class="row collapse hover-cinza-claro">
+                                    <div class="small-2 medium-12 columns">
+                                        <a href="{{ banner.url }}"
+                                           {% if banner.nova_janela %}target="_blank"{% endif %}>
                                             <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
                                                  data-tooltip class="has-tip"
                                                  title="{{ banner.titulo }}"/>
-                                        </div>
-                                        <div class="small-10 columns show-for-small-only">
-                                            <div class="padding-left">
+                                        </a>
+                                    </div>
+                                    <div class="small-10 columns show-for-small-only th">
+                                        <div class="padding-left">
+                                            <a href="{{ banner.url }}"
+                                               {% if banner.nova_janela %}target="_blank"{% endif %}>
                                                 <p class="espacamento-medio">{{ banner.titulo }}</p>
-                                            </div>
+                                            </a>
                                         </div>
                                     </div>
-                                </a>
+                                </div>
                             </div>
                         {% endfor %}
                     </div>
