@@ -50,20 +50,22 @@
         <div class="medium-4 columns">
             {% for banner in banners_destaque %}
                 <div class="row collapse">
-                    <a class="th" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
-                        <div class="row collapse">
-                            <div class="small-2 medium-12 columns">
+                    <div class="row collapse padding-bottom-banner-destaque">
+                        <div class="small-2 medium-12 columns">
+                            <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
                                 <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
                                      data-tooltip class="has-tip"
                                      title="{{ banner.titulo }}"/>
-                            </div>
-                            <div class="small-10 columns show-for-small-only">
-                                <div class="padding-left">
+                            </a>
+                        </div>
+                        <div class="small-10 columns show-for-small-only th">
+                            <div class="padding-left">
+                                <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
                                     <p class="espacamento-medio">{{ banner.titulo }}</p>
-                                </div>
+                                </a>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -244,19 +246,22 @@
             <ul class="small-block-grid-1 medium-block-grid-5">
                 {% for banner in banners_linkdeacesso %}
                     <li id="no-padding-bottom">
-                        <a class="th" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
-                            <div class="row collapse">
-                                <div class="small-2 medium-12 columns">
+                        <div class="row collapse padding-bottom">
+                            <div class="small-2 medium-12 columns">
+                                <a href="{{ banner.url }}"
+                                   {% if banner.nova_janela %}target="_blank"{% endif %}>
                                     <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
                                          data-tooltip class="has-tip"
                                          title="{{ banner.titulo }}">
-                                </div>
-                                <div class="small-10 columns show-for-small-only">
-                                    <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
-                                </div>
+                                </a>
                             </div>
-                        </a>
-
+                            <div class="small-10 columns show-for-small-only th">
+                                <a href="{{ banner.url }}"
+                                   {% if banner.nova_janela %}target="_blank"{% endif %}>
+                                    <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
+                                </a>
+                            </div>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
@@ -273,19 +278,21 @@
             <ul class="small-block-grid-1 medium-block-grid-5">
                 {% for banner in banners_governamental %}
                     <li id="no-padding-bottom">
-                        <a class="th" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
-                            <div class="row collapse">
-                                <div class="small-2 medium-12 columns">
+                        <div class="row collapse padding-bottom">
+                            <div class="small-2 medium-12 columns">
+                                <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
                                     <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
                                          data-tooltip class="has-tip"
                                          title="{{ banner.titulo }}">
-                                </div>
-                                <div class="small-10 columns show-for-small-only">
-                                    <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
-                                </div>
+                                </a>
                             </div>
-                        </a>
-
+                            <div class="small-10 columns show-for-small-only th">
+                                <a href="{{ banner.url }}"
+                                   {% if banner.nova_janela %}target="_blank"{% endif %}>
+                                    <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
+                                </a>
+                            </div>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
