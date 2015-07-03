@@ -10,7 +10,7 @@
         {#Container para as notícias de destaque#}
         <div class="medium-8 columns">
             <ul class="example-orbit" data-orbit
-                data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+                data-options="animation:fade;animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
                 {% for noticia in noticias_destaque %}
                     <li data-orbit-slide="{{ noticia.id }}">
                         <a href="{{ noticia.get_absolute_url }}">
@@ -175,7 +175,7 @@
 
                 <div class="row">
                     <ul class="example-orbit" data-orbit
-                        data-options="animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+                        data-options="animation:fade;animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
                         {% for galeria in galerias %}
                             <li data-orbit-slide="{{ galeria.id }}">
                                 <a href="{{ galeria.get_absolute_url }}">
