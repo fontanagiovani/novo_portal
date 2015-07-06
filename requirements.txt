@@ -2,7 +2,7 @@
 # requirements.txt in the root directory of a project.
 
 
-Django==1.7.1
+Django==1.7.8
 Pillow==2.6.1
 Whoosh==2.6.0
 dj-database-url==0.3.0
