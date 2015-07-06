@@ -6,18 +6,27 @@
 {% block listagem %}
     <div class="row padding-top-bottom">
         <div class="small-12 columns">
-            <div class="row padding-top-bottom"><h1>{{ grupo.nome }}</h1></div>
-            <div class="row padding-top-bottom">Cursos ofertados:
-            {% for c in cursos %}
-                <p>
-                    <a href="{% url 'exibecurso' c.slug %}"><span class="sucess label">{{ c.campus }}</span></a>
-                    <a href="{% url 'exibecurso' c.slug %}"><span class="sucess label">{{ c.nome }}</span></a>
-                    <a href="{% url 'exibecurso' c.slug %}"><span class="sucess label">Formação: {{ c.formacao }}</span></a>
-                    <a href="{% url 'exibecurso' c.slug %}"><span class="sucess label">Turno: {{ c.get_turno_display }}</span></a>
-                </p>
-            {% endfor %}
+
+            <div class="row padding-top-bottom">
+                <h1>{{ grupo.nome }}</h1>
             </div>
-            <hr />
+            <div class="row padding-top-bottom">
+                <h2>Cursos ofertados:</h2>
+                {% for c in cursos %}
+                    <div class="row padding-bottom-duplo">
+                        <div class="row hover-cinza-claro">
+                            <a href="{% url 'exibecurso' c.slug %}">
+                                <div class="row">
+                                    <div class="small-12 columns borda-esquerda">
+                                        <p class="no-margin espacamento-medio">{{ c.nome }} - {{ c.campus }} -
+                                            Formação: {{ c.formacao }} - Turno: {{ c.get_turno_display }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
