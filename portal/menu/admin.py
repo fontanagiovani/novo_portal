@@ -25,6 +25,13 @@ class MenuAdmin(reversion.VersionAdmin, SortableAdminMixin, MPTTModelAdmin):
 
     form = MenuForm
 
+    # remove a opcao de recuperar excluidos
+    def changelist_view(self, request, extra_context=None):
+        if not request.user.is_superuser:
+            self.change_list_template = None
+
+        return super(MenuAdmin, self).changelist_view(request, extra_context=extra_context)
+
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(MenuAdmin, self).get_form(request, obj, **kwargs)
 

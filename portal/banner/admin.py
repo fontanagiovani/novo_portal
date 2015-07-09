@@ -40,6 +40,13 @@ class BannerAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     get_publicacao.short_description = u'Publicado'
     get_publicacao.boolean = True
 
+    # remove a opcao de recuperar excluidos
+    def changelist_view(self, request, extra_context=None):
+        if not request.user.is_superuser:
+            self.change_list_template = None
+
+        return super(BannerAdmin, self).changelist_view(request, extra_context=extra_context)
+
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(BannerAdmin, self).get_form(request, obj, **kwargs)
 
