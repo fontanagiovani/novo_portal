@@ -29,6 +29,13 @@ class ConteudoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     inlines = (AnexoInLine,)
     filter_horizontal = ('galerias', 'videos')
 
+    # remove a opcao de recuperar excluidos
+    def changelist_view(self, request, extra_context=None):
+        if not request.user.is_superuser:
+            self.change_list_template = None
+
+        return super(ConteudoAdmin, self).changelist_view(request, extra_context=extra_context)
+
     def get_publicacao(self, obj):
         return obj.esta_publicado
     get_publicacao.short_description = u'Publicado'
@@ -321,6 +328,13 @@ class LicitacaoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
         return obj.esta_publicado
     get_publicacao.short_description = u'Publicado'
     get_publicacao.boolean = True
+
+    # remove a opcao de recuperar excluidos
+    def changelist_view(self, request, extra_context=None):
+        if not request.user.is_superuser:
+            self.change_list_template = None
+
+        return super(LicitacaoAdmin, self).changelist_view(request, extra_context=extra_context)
 
     def get_form(self, request, obj=None, **kwargs):
         modelform = super(LicitacaoAdmin, self).get_form(request, obj, **kwargs)
