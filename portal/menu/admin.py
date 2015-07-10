@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
-from adminsortable.admin import SortableAdminMixin
+from adminsortable2.admin import SortableAdminMixin
 import reversion
 
 from portal.core.admin import SiteListFilter
@@ -29,6 +29,9 @@ class MenuAdmin(reversion.VersionAdmin, SortableAdminMixin, MPTTModelAdmin):
     def changelist_view(self, request, extra_context=None):
         if not request.user.is_superuser:
             self.change_list_template = None
+
+        # carrega o template que mixa o mptt com sortable
+        self.change_list_template = 'menu/mptt_sortable_change_list.html'
 
         return super(MenuAdmin, self).changelist_view(request, extra_context=extra_context)
 
