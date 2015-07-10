@@ -5,5 +5,5 @@
     {% if action_form and actions_on_top and cl.full_result_count %}{% admin_actions %}{% endif %}
     {% mptt_result_list cl %}
     {% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}
-    <a id="adminsortable_update_url" href="adminsortable_update/"></a>
+    <a id="adminsortable_update_url" href="{% url 'admin:sortable_update' %}"></a>
 {% endblock %}
