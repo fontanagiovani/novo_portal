@@ -55,7 +55,7 @@ INSTALLED_APPS = (
     'pure_pagination',
     'embed_video',
     'django_extensions',
-    'adminsortable',
+    'adminsortable2',
     'disqus',
 
     'portal.autorizacao',
