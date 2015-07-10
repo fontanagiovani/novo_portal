@@ -21,6 +21,7 @@ django-taggit-autosuggest==0.2.5
 easy-thumbnails==2.2
 gunicorn==19.1.1
 model-mommy==1.2.2
+newrelic==2.52.0.40
 python-decouple==2.3
 python-ldap==2.4.18
 python-memcached==1.53
