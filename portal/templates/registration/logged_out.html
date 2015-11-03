@@ -8,6 +8,6 @@
 <p>{% trans "Thanks for spending some quality time with the Web site today." %}</p>
 
 <p><a href="{% url 'admin:index' %}">{% trans 'Log in again' %}</a></p>
-<p><a href="http://{{ request.META.HTTP_HOST }}/">{% trans 'Retornar à página inicial' %}</a></p>
+<p><a href="{% url 'hotsite' %}">{% trans 'Retornar à página inicial' %}</a></p>
 
 {% endblock %}
