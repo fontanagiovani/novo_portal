@@ -13,7 +13,7 @@ from portal.conteudo.managers import PublicadoManager
 class Conteudo(models.Model):
     campus_origem = models.ForeignKey('core.Campus', verbose_name=u'Origem')
     titulo = models.CharField(max_length=250, verbose_name=u'Título')
-    slug = models.SlugField(max_length=250, verbose_name=u'Identificador',
+    slug = models.SlugField(max_length=250, verbose_name=u'Identificador', unique=True,
                             help_text=u'Texto que identificará a URL deste item (não deve conter espaços ou '
                                       u'caracteres especiais)')
     texto = models.TextField()
