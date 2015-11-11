@@ -65,7 +65,7 @@ class SiteInline(admin.StackedInline):
     filter_horizontal = ('sites', )
 
 
-class PermissaoAdmin(reversion.VersionAdmin, UserAdmin):
+class PermissaoAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'log_atividade', 'date_joined', 'last_login',
                     'is_staff', 'permissao')
     inlines = [SiteInline]
