@@ -88,7 +88,7 @@
         {% endif %}
 
         <div class="row">
-            <div class="medium-4 columns">
+{#            <div class="medium-4 columns">#}
                 {% if noticia.documentos %}
                     <h2 class="fundo-vermelho text-center">Arquivos relacionados</h2>
                     {% for documento in noticia.documentos %}
@@ -100,9 +100,9 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            </div>
+{#            </div>#}
 
-            <div class="medium-4 columns">
+{#            <div class="medium-4 columns">#}
                 {% if noticia.galerias.all %}
                     <h2 class="fundo-vermelho text-center">Galerias relacionados</h2>
                     {% for galeria in noticia.galerias.all %}
@@ -114,9 +114,9 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            </div>
+{#            </div>#}
 
-            <div class="medium-4 columns">
+{#            <div class="medium-4 columns">#}
                 {% if noticia.videos.all %}
                     <h2 class="fundo-vermelho text-center">Vídeos relacionados</h2>
                     {% for video in noticia.videos.all %}
@@ -128,7 +128,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            </div>
+{#            </div>#}
         </div>
 
         {% if site.sitedetalhe.disqus_shortname %}

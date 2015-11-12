@@ -84,7 +84,7 @@
         {% endif %}
 
         <div class="row">
-            <div class="medium-4 columns">
+{#            <div class="medium-4 columns">#}
                 {% if pagina.documentos %}
                     <h2 class="fundo-vermelho text-center">Arquivos relacionados</h2>
                     {% for documento in pagina.documentos %}
@@ -96,9 +96,9 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            </div>
+{#            </div>#}
 
-            <div class="medium-4 columns">
+{#            <div class="medium-4 columns">#}
                 {% if pagina.galerias.all %}
                     <h2 class="fundo-vermelho text-center">Galerias relacionados</h2>
                     {% for galeria in pagina.galerias.all %}
@@ -110,9 +110,9 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            </div>
+{#            </div>#}
 
-            <div class="medium-4 columns">
+{#            <div class="medium-4 columns">#}
                 {% if pagina.videos.all %}
                     <h2 class="fundo-vermelho text-center">Vídeos relacionados</h2>
                     {% for video in pagina.videos.all %}
@@ -124,7 +124,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            </div>
+{#            </div>#}
         </div>
 
         <!-- The Gallery as lightbox dialog, should be a child element of the document body -->

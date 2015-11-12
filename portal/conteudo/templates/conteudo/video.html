@@ -97,7 +97,7 @@
         {% endif %}
 
         <div class="row">
-            <div class="medium-4 columns">
+{#            <div class="medium-4 columns">#}
                 {% if video.documentos %}
                     <h2 class="fundo-vermelho text-center">Arquivos relacionados</h2>
                     {% for documento in video.documentos %}
@@ -109,9 +109,9 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            </div>
+{#            </div>#}
 
-            <div class="medium-4 columns">
+{#            <div class="medium-4 columns">#}
                 {% if video.galerias.all %}
                     <h2 class="fundo-vermelho text-center">Galerias relacionados</h2>
                     {% for galeria in video.galerias.all %}
@@ -123,9 +123,9 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            </div>
+{#            </div>#}
 
-            <div class="medium-4 columns">
+{#            <div class="medium-4 columns">#}
                 {% if video.videos.all %}
                     <h2 class="fundo-vermelho text-center">Vídeos relacionados</h2>
                     {% for video in video.videos.all %}
@@ -137,7 +137,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            </div>
+{#            </div>#}
         </div>
 
         <!-- The Gallery as lightbox dialog, should be a child element of the document body -->
