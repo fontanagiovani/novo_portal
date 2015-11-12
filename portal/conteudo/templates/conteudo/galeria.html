@@ -64,7 +64,7 @@
         </div>
 
 
-        {% if galeria.tags.all %}
+        {% if galeria.tags.all and site in galeria.sites.all %}
             <div class="row collapse padding-bottom-duplo">
                 <div class="small-12 columns">
                     <p class="sem-marcador no-margin">

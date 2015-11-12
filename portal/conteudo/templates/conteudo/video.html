@@ -57,7 +57,7 @@
         </div>
 
 
-        {% if video.tags.all %}
+        {% if video.tags.all and site in video.sites.all %}
             <div class="row collapse padding-bottom-duplo">
                 <div class="small-12 columns">
                     <p class="sem-marcador no-margin">
