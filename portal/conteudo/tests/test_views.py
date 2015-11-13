@@ -265,6 +265,7 @@ class VideoDetalheTest(TestCase):
         # data_publicacao='2014-06-05T10:16:00-04:00',
 
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
+        self.obj.sites.add(self.site)
         self.obj.tags.add('ifmt-teste')
         # as views de detalhe nao precisam de um site para ser exibida, para permitir o relacionamento entre
         # os conteudos dos sites
@@ -368,12 +369,13 @@ class GaleriaDetalheTest(TestCase):
             publicado=True,
         )
         self.site = mommy.make('Site', domain='rtr.ifmt.dev')
+        self.obj.sites.add(self.site)
         self.obj.tags.add('ifmt-teste')
         # as views de detalhe nao precisam de um site para ser exibida, para permitir o relacionamento entre
         # os conteudos dos sites
         # self.galeria.sites.add(self.site)
 
-        self.obj_nao_publicado = mommy.make('Noticia', publicado=False)
+        self.obj_nao_publicado = mommy.make('Galeria', publicado=False)
 
         self.resp = self.client.get(reverse('conteudo:galeria_detalhe',
                                             kwargs={'slug': self.obj.slug}), SERVER_NAME='rtr.ifmt.dev')
