@@ -9,7 +9,7 @@ from portal.banner.forms import BannerForm
 
 
 class BannerAdmin(reversion.VersionAdmin, admin.ModelAdmin):
-    list_display = ('titulo', 'tipo', 'data_publicacao', 'arquivo', 'get_publicacao')
+    list_display = ('titulo', 'tipo', 'data_publicacao', 'url', 'get_publicacao')
     search_fields = ('titulo', 'data_publicacao')
     date_hierarchy = 'data_publicacao'
     list_filter = (SitesListFilter, EstaPublicadoListFilter, 'tipo')
