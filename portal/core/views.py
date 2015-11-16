@@ -261,7 +261,8 @@ class SearchViewSites(SearchView):
 
             results = results.models(*search_models)
 
-        results = results.filter(text__contains=self.request.get_host())
+        site = 'sitepublicado%s' % self.request.get_host()
+        results = results.filter(text__contains=site)
 
         return results
 
