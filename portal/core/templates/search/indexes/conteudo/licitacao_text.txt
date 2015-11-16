@@ -7,5 +7,5 @@
 {{ object.data_publicacao }}
 {{ object.data_abertura }}
 {% for site in object.sites.all %}
-    {{ site }}
+    sitepublicado{{ site }}
 {% endfor %}

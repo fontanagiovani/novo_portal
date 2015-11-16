@@ -2,5 +2,5 @@
 {{ object.texto }}
 {{ object.data_publicacao }}
 {% for site in object.sites.all %}
-    {{ site }}
+    sitepublicado{{ site }}
 {% endfor %}
