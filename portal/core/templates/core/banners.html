@@ -20,9 +20,23 @@
     {% endblock %}
 
     <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
+    <style>
+        .clear { clear: both; }
+    </style>
 </head>
 <body> <!-- body content here -->
 {#Container geral do portal#}
+<iframe src="{{ STATIC_URL }}html/barra_brasil.html" width="100%" height="33px" frameborder="0" scrolling="no"><img src="{{ STATIC_URL }}img/topo-ifmt.png" alt="Barra do IFMT"></iframe>
+<div style="display: block; position: relative; top: -8px; width: 100%; background-image: url('{{ STATIC_URL }}img/topo-bg.png'); background-repeat: repeat-x;">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="small-block-grid-1 medium-block-grid-2">
+                <img src="{{ STATIC_URL }}img/topo-ifmt.png" alt="Barra do IFMT">
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="clearfix" style="clear: both;"></div>
 <div class="row padding-top-duplo">
     <div class="small-12 columns">
         <ul class="small-block-grid-1 medium-block-grid-2">
