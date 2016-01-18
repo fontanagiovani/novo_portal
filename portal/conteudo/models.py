@@ -41,15 +41,15 @@ class Conteudo(models.Model):
 
     def primeira_imagem(self):
         if self.anexo_set.filter(arquivo__image__isnull=False).exists():
-            return self.anexo_set.filter(arquivo__image__isnull=False)[0].arquivo
+            return self.anexo_set.filter(arquivo__image__isnull=False).order_by('id')[0].arquivo
 
     def imagens(self):
         if self.anexo_set.filter(arquivo__image__isnull=False).exists():
-            return self.anexo_set.filter(arquivo__image__isnull=False)
+            return self.anexo_set.filter(arquivo__image__isnull=False).order_by('id')
 
     def documentos(self):
         if self.anexo_set.filter(arquivo__image__isnull=True).exists():
-            return self.anexo_set.filter(arquivo__image__isnull=True)
+            return self.anexo_set.filter(arquivo__image__isnull=True).order_by('id')
 
 
 class Noticia(Conteudo):
@@ -256,11 +256,11 @@ class Galeria(Conteudo):
 
     def primeira_imagem(self):
         if self.imagemgaleria_set.all().exists():
-            return self.imagemgaleria_set.all()[0].imagem
+            return self.imagemgaleria_set.all().order_by('id')[0].imagem
 
     def imagens(self):
         if self.imagemgaleria_set.all().exists():
-            return self.imagemgaleria_set.all()
+            return self.imagemgaleria_set.all().order_by('id')
 
 
 class ImagemGaleria(models.Model):
