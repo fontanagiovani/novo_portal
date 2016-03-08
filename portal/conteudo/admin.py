@@ -73,7 +73,7 @@ class ConteudoAdmin(reversion.VersionAdmin, admin.ModelAdmin):
 
 class NoticiaAdmin(ConteudoAdmin):
     list_display = ('titulo', 'data_publicacao', 'destaque', 'prioridade_destaque', 'get_publicacao')
-    search_fields = ('titulo', 'texto', 'data_publicacao')
+    search_fields = ('titulo', 'texto', 'data_publicacao', 'slug')
     date_hierarchy = 'data_publicacao'
     list_filter = (SitesListFilter, EstaPublicadoListFilter, 'destaque', 'prioridade_destaque')
     prepopulated_fields = {'slug': ('titulo',)}
@@ -110,7 +110,7 @@ admin.site.register(Noticia, NoticiaAdmin)
 
 class PaginaAdmin(ConteudoAdmin):
     list_display = ('titulo', 'data_publicacao', 'get_link', 'get_publicacao', 'pagina_inicial')
-    search_fields = ('titulo', 'texto', 'data_publicacao')
+    search_fields = ('titulo', 'texto', 'data_publicacao', 'slug')
     date_hierarchy = 'data_publicacao'
     list_filter = (SitesListFilter, EstaPublicadoListFilter, )
     prepopulated_fields = {'slug': ('titulo',)}
@@ -156,7 +156,7 @@ admin.site.register(Pagina, PaginaAdmin)
 
 class EventoAdmin(ConteudoAdmin):
     list_display = ('titulo', 'data_publicacao', 'data_inicio', 'data_fim', 'get_publicacao')
-    search_fields = ('titulo', 'texto', 'data_publicacao', 'data_inicio', 'data_fim')
+    search_fields = ('titulo', 'texto', 'data_publicacao', 'data_inicio', 'data_fim', 'slug')
     date_hierarchy = 'data_publicacao'
     list_filter = (SitesListFilter, EstaPublicadoListFilter, )
     prepopulated_fields = {'slug': ('titulo',)}
@@ -196,7 +196,7 @@ admin.site.register(Evento, EventoAdmin)
 
 class VideoAdmin(AdminVideoMixin, ConteudoAdmin):
     list_display = ('titulo', 'data_publicacao', 'get_publicacao')
-    search_fields = ('titulo', 'texto', 'data_publicacao')
+    search_fields = ('titulo', 'texto', 'data_publicacao', 'slug')
     date_hierarchy = 'data_publicacao'
     list_filter = (SitesListFilter, EstaPublicadoListFilter, )
     prepopulated_fields = {'slug': ('titulo',)}
@@ -241,7 +241,7 @@ class ImagemGaleriaInline(admin.TabularInline):
 
 class GaleriaAdmin(ConteudoAdmin):
     list_display = ('titulo', 'data_publicacao', 'get_publicacao')
-    search_fields = ('titulo', 'texto', 'data_publicacao')
+    search_fields = ('titulo', 'texto', 'data_publicacao', 'slug')
     date_hierarchy = 'data_publicacao'
     list_filter = (SitesListFilter, EstaPublicadoListFilter, )
     prepopulated_fields = {'slug': ('titulo',)}
