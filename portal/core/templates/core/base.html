@@ -69,16 +69,24 @@
 {#    <div class="row" style="background-image: url('/static/img/background-clean.jpg');">#}
 
         {#Container para a logo do IFMT#}
+	{% if site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
+        <div class="small-12 medium-12 columns small-only-text-center padding-top">
+	{% else %}
         <div class="small-4 medium-5 columns small-only-text-center padding-top">
-            <a href="{% url 'home' %}"><img src="{{ site.sitedetalhe.logo.url }}" alt="IFMT"></a>
+	{% endif %}
+            <a href="{% url 'home' %}"><img src="{{ site.sitedetalhe.logo.url }}" alt="{{ site.name }}"></a>
+            {% if not site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
             <p class="small-text-left texto-tamanho-pequeno negrito no-margin" style="margin-left: 72px;">{{ site.name }}</p>
+            {% endif %}
         </div>
 
         {#Container para a parte direita do cabeçalho#}
         <div class="small-8 medium-7 columns">
 
             {#Social#}
-            {{ site.sitedetalhe.social|safe }}
+            {% if not site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
+                {{ site.sitedetalhe.social|safe }}
+            {% endif %}
 
             {#<div class="row">#}
             {#    <div class="small-12 social texto-tamanho-medio">#}
@@ -93,6 +101,7 @@
             {#Fim da div social#}
 
             {#Form de busca#}
+            {% if not site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
             <div class="row">
                 <form method="get" action="{% url 'buscar' %}">
                     <div class="row collapse">
@@ -105,10 +114,13 @@
                     </div>
                 </form>
             </div>
+            {% endif %}
             {#Fim da div de busca#}
 
             {#Links úteis#}
-            {{ site.sitedetalhe.links_uteis|safe }}
+            {% if not site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
+                {{ site.sitedetalhe.links_uteis|safe }}
+            {% endif %}
 
             {#<div class="row collapse">#}
             {#    <div class="small-12 columns text-right">#}

@@ -160,6 +160,35 @@ def _home(request):
             else:
                 raise Http404
 
+
+        elif tipo_destino == Destino.independente():
+            try:
+                page = request.GET.get('page', 1)
+
+            except PageNotAnInteger:
+                page = 1
+
+            noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
+                                      key=lambda o: o.prioridade_destaque)
+            objects = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
+                id__in=[obj.id for obj in noticias_detaque])
+            paginator = Paginator(objects, request=request, per_page=5)
+            mais_noticias = paginator.page(page)
+
+            eventos = Evento.publicados.filter(sites__id__exact=site.id)[:3]
+            videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
+            galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
+            banners = Banner.publicados.filter(sites__id__exact=site.id).order_by('tipo')
+            contexto = {
+                'noticias_destaque': noticias_detaque,
+                'mais_noticias': mais_noticias,
+                'eventos': eventos,
+                'videos': videos,
+                'galerias': galerias,
+                'banners': banners,
+            }
+
+
         elif tipo_destino == Destino.redirect():
             return redirect(site.sitedetalhe.destino.caminho)
 

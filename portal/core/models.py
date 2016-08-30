@@ -85,6 +85,7 @@ class Destino(models.Model):
         ('BLOG', u'BLOG'),
         ('BLOG_SLIDER', u'BLOG SLIDER'),
         ('PAGINA', u'PÁGINA INDIVIDUAL'),
+        ('INDEPENDENTE', u'PORTAL INDEPENDENTE'),
         ('REDIRECT', u'REDIRECIONAMENTO'),
     )
 
@@ -95,6 +96,7 @@ class Destino(models.Model):
                                                          u'<br>core/blog.html'
                                                          u'<br>core/blog_slider.html'
                                                          u'<br>core/pagina.html'
+                                                         u'<br>core/independente.html'
                                                          u'<br><br>Em caso de redirect use a url completa - '
                                                          u'Ex.: http://www.ifmt.edu.br')
 
@@ -120,6 +122,10 @@ class Destino(models.Model):
     @staticmethod
     def pagina():
         return 'PAGINA'
+
+    @staticmethod
+    def independente():
+        return 'INDEPENDENTE'
 
     @staticmethod
     def redirect():
