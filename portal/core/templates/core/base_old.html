@@ -1,0 +1,284 @@
+{% load mptt_tags %}
+{% load thumbnail %}
+<!DOCTYPE html> <!--[if IE 9]><html class="lt-ie10" lang="pt-br" > <![endif]-->
+<html class="no-js" lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site.name }}</title>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-ifmt.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-icons/foundation-icons.min.css"/>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css">
+
+    {#Bloco para estilos personalizados para templates específicos#}
+    {% block stylesheet %}
+    {% endblock %}
+</head>
+<body> <!-- body content here -->
+<iframe src="{{ STATIC_URL }}html/barra_brasil.html" width="100%" height="33px" frameborder="0" scrolling="no"></iframe>
+{#Container geral do portal#}
+<div class="row collapse">
+
+{#Container para o cabeçalho#}
+<div class="row padding-bottom">
+    {#Menu topo#}
+    <div class="row">
+        <div class="medium-12 columns">
+            <div class="contain-to-grid fixed">
+                <nav class="top-bar" id="menu_section" data-topbar data-options="custom_back_text:false;scrolltop:false">
+
+                    <ul class="title-area">
+                        <li class="name">
+                            <h1><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/logo-ifmt-branco.png" alt="IFMT"></a></h1>
+                            {#      <h1><a href="#">My Site</a></h1>#}
+                        </li>
+                        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+                    </ul>
+                    <section class="top-bar-section">
+                        <!-- Right Nav Section -->
+                        {% block menu %}
+                            {#Renderiza o menu#}
+                            <ul>
+                                {% recursetree menus %}
+                                    <li {% if node.get_leafnodes %}class="has-dropdown"{% endif %}>
+                                        <a href="{{ node.url }}" {% if node.nova_janela %}target="_blank"{% endif %}>
+                                            {{ node.titulo }}</a>
+                                        {% if not node.is_leaf_node %}
+                                            <ul class="dropdown">
+                                                {{ children }}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endrecursetree %}
+                            </ul>
+                        {% endblock %}
+                    </section>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+{#    <div class="row" style="background-image: url('/static/img/background-clean.jpg');">#}
+
+        {#Container para a logo do IFMT#}
+	{% if site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
+        <div class="small-4 medium-5 large-8 columns small-only-text-center padding-top">
+	{% else %}
+        <div class="small-4 medium-5 columns small-only-text-center padding-top">
+	{% endif %}
+            <a href="{% url 'home' %}"><img src="{{ site.sitedetalhe.logo.url }}" alt="{{ site.name }}"></a>
+            {% if not site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
+            <p class="small-text-left texto-tamanho-pequeno negrito no-margin" style="margin-left: 72px;">{{ site.name }}</p>
+            {% endif %}
+        </div>
+
+        {#Container para a parte direita do cabeçalho#}
+        <div class="small-8 medium-7 columns">
+
+            {#Social#}
+            {% if not site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
+                {{ site.sitedetalhe.social|safe }}
+            {% endif %}
+
+            {#<div class="row">#}
+            {#    <div class="small-12 social texto-tamanho-medio">#}
+            {#        <a href="https://www.facebook.com/IFMT.Oficial" target="_blank"><i#}
+            {#            class="fi-social-facebook"></i></a>#}
+            {#        <a href="https://twitter.com/ifmt" target="_blank"><i class="fi-social-twitter"></i></a>#}
+            {#        <a href=""><i class="fi-social-youtube"></i></a>#}
+            {#        <!--<a href=""><i class="fi-social-instagram"></i></a>-->#}
+            {#        <!--<a href=""><i class="fi-social-google-plus"></i></a>-->#}
+            {#    </div>#}
+            {#</div>#}
+            {#Fim da div social#}
+
+            {#Form de busca#}
+            {% if not site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
+            <div class="row">
+                <form method="get" action="{% url 'buscar' %}">
+                    <div class="row collapse">
+                        <div class="small-9 medium-9 large-7 medium-offset-1 large-offset-3 columns">
+                            <input type="search" id="id_q" name="q" placeholder="Buscar notícias, eventos e mais...">
+                        </div>
+                        <div class="small-3 medium-2 columns">
+                            <input type="submit" value="Buscar" class="button postfix no-margin" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+            {#Fim da div de busca#}
+
+            {#Links úteis#}
+            {% if not site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
+                {{ site.sitedetalhe.links_uteis|safe }}
+            {% endif %}
+
+            {#<div class="row collapse">#}
+            {#    <div class="small-12 columns text-right">#}
+            {#        <ul class="sem-marcador no-margin">#}
+            {#            <li class="separador-direita"><a href="/">IFMT Portal</a></li>#}
+            {#            <li class="separador-direita"><a href="">Ouvidoria</a></li>#}
+            {#            <li><a href="">Imprensa</a></li>#}
+            {#        </ul>#}
+            {#    </div>#}
+            {#</div>#}
+            {#Fim da div links úteis#}
+        </div>
+        {#Fim da div menu topo#}
+{#        <div class="row show-for-small-only">#}
+{#            <div class="small-12 columns">#}
+{#                <p>{{ site.name }}</p>#}
+{#            </div>#}
+{#        </div>#}
+    </div>
+
+</div>
+{#Fim da div para o cabeçalho#}
+
+{% block content %}
+{% endblock %}
+
+{{ site.sitedetalhe.mapa_site|safe }}
+{#<!--Container rodapé-->#}
+{#<div class="row padding-top-duplo fundo-cinza-claro">#}
+{#<!--Container para rodapé-->#}
+{#    <div class="medium-12 columns">#}
+{#        <div class="row collapse">#}
+{#            <div class="medium-3 columns">#}
+{#                <div class="row">#}
+{#                    <h6>INSTITUCIONAL</h6>#}
+{#                    <ul class="sem-marcador">#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Sobre o IFMT</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Colegiados</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Comissões</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Notícias</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Documentos Institucionais</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Seleções de Concursos</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Auditoria Interna</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Procuradoria Federal</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Gabinete</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">DGTI</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">DSGP</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Concursos Públicos</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Imprensa</a></p></li>#}
+{#                    </ul>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <div class="medium-3 columns">#}
+{#                <div class="row">#}
+{#                    <h6>PRÓ-REITORIAS</h6>#}
+{#                    <ul class="sem-marcador">#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Administração</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Desenvolvimento Institucional</a></p>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Ensino</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Extensão</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Pesquisa e Inovação</a></p></li>#}
+{#                    </ul>#}
+{#                </div>#}
+{##}
+{#                <div class="row">#}
+{#                    <h6>DIRETORIAS</h6>#}
+{#                    <ul class="sem-marcador">#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Gestão de Pessoas</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Tecnologia da Informação</a></p>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <div class="medium-3 columns">#}
+{#                <div class="row">#}
+{#                    <h6>CÂMPUS</h6>#}
+{#                    <ul class="sem-marcador">#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Alta Floresta</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Barra do Garças</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Bela Vista</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Cáceres</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Confresa</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Cuiabá</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Juína</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Campo Novo do Parecis</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Pontes e Lacerda</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Rondonópolis</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">São Vicente</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Primavera do Leste</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Sorriso</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Várzea Grande</a></p></li>#}
+{#                    </ul>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <div class="medium-3 columns">#}
+{#                <div class="row">#}
+{#                    <h6>CONTEÚDOS</h6>#}
+{#                    <ul class="sem-marcador">#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Eventos</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Galerias de fotos</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Notícias</a></p></li>#}
+{#                        <li><p class="no-margin texto-tamanho-pequeno"><a href="">Vídeos</a></p></li>#}
+{#                    </ul>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                    <h6>CONTATOS</h6>#}
+{#                </div>#}
+{##}
+{#                <div class="row">#}
+{#                    <h6>SOCIAL</h6>#}
+{##}
+{#                    <div class="row">#}
+{#                        <div class="small-12 texto-tamanho-medio">#}
+{#                            <a href="https://www.facebook.com/IFMT.Oficial" target="_blank"><i#}
+{#                                    class="fi-social-facebook"></i></a>#}
+{#                            <a href="https://twitter.com/ifmt" target="_blank"><i class="fi-social-twitter"></i></a>#}
+{#                            <a href=""><i class="fi-social-youtube"></i></a>#}
+{#                            <!--<a href=""><i class="fi-social-instagram"></i></a>#}
+{#                            <!--<a href=""><i class="fi-social-google-plus"></i></a>-->#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                    <h6><a href="/admin/">GERENCIAR SITE</a></h6>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{#Fim da div rodapé#}
+
+{#Comeco da div endereco#}
+{{ site.sitedetalhe.endereco|safe }}
+{#<div class="row padding-top-duplo fundo-cinza-claro">#}
+{#    <div class="small-12 columns">#}
+{#        <p class="text-center no-margin">Instituto Federal de Educação, Ciência e Tecnologia de Mato Grosso</p>#}
+{#        <p class="text-center no-margin">Avenida Sen. Filinto Müller , 953 - CEP: 78043-400</p>#}
+{#        <p class="text-center no-margin">Telefone: (65) 3616-4100</p>#}
+{#        <p class="text-center no-margin">Cuiabá / MT</p>#}
+{#    </div>#}
+{#</div>#}
+{#Fim da div endereco#}
+
+</div>
+{#Fim da div geral do portal#}
+<script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
+<script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
+<script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.clearing.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.orbit.js"></script>
+<script> $(document).foundation(); </script>
+
+{#Bloco para javascript personalizado para templates específicos#}
+{% block javascript %}
+{% endblock %}
+
+</body>
+</html>

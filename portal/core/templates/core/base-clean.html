@@ -66,7 +66,6 @@
 
     <div class="row">
         {#Container para a logo do IFMT#}
-	{% if not site.sitedetalhe.destino.tipo == 'INDEPENDENTE' %}
         <div class="small-4 medium-5 columns small-only-text-center padding-top">
             <a href="{% url 'home' %}"><img src="{{ site.sitedetalhe.logo.url }}" alt="IFMT"></a>
             <p class="small-text-left texto-tamanho-pequeno negrito no-margin" style="margin-left: 72px;">{{ site.name }}</p>
@@ -99,9 +98,6 @@
             {#Fim da div links úteis#}
 
         </div>
-        {% else %}
-            <a href="{% url 'home' %}"><img src="{{ site.sitedetalhe.logo.url }}" alt="IFMT"></a>
-        {% endif %}
         {#Fim da div menu topo#}
 
     </div>
