@@ -28,6 +28,7 @@
 {#Container para o cabeçalho#}
 <div class="row padding-bottom">
     {#Menu topo#}
+    <a href="#" id="irmenu"></a>
     <div class="row">
         <div class="medium-12 columns">
             <div class="contain-to-grid fixed">
@@ -109,12 +110,14 @@
 </div>
 {#Fim da div para o cabeçalho#}
 
+<a href="#" id="irconteudo"></a>
 {% block content %}
 {% endblock %}
 
 {{ site.sitedetalhe.mapa_site|safe }}
-{#Fim da div rodapé#}
+{#Fim da div mapa do site#}
 
+<a href="#" id="irrodape"></a>
 {#Comeco da div endereco#}
 {{ site.sitedetalhe.endereco|safe }}
 {#Fim da div endereco#}
