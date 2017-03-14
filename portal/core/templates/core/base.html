@@ -130,17 +130,6 @@
 <script src="{{ STATIC_URL }}js/foundation/foundation.orbit.js"></script>
 <script> $(document).foundation(); </script>
 
-{#script para foco na busca#}
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("a.clickable").click(function(event){
-            event.preventDefault();
-            $("input#id_q").val($(this).html());
-        });  
-    });
-</script>
-{#fim do script para foco na busca#}
-
 <noscript>Seu navegador não tem suporte a JavaScript ou está desativado!</noscript>
 
 {#Bloco para javascript personalizado para templates específicos#}
