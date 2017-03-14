@@ -75,6 +75,20 @@
         {#Container para a parte direita do cabeçalho#}
         <div class="small-8 medium-7 columns">
 
+            {#atalhos#}
+            <!--atalhos-->
+            <div class="row collapse" id="atalhos">
+                <div class="small-12 columns text-right">
+                    <ul class="texto-tamanho-xsmall sem-marcador no-margin">
+                        <li class="separador-direita"><a accesskey="1" href="#irconteudo" id="link-conteudo">Ir para o conteúdo &#10102;</a></li>
+                        <li class="separador-direita"><a accesskey="2" href="#id_q" id="link-buscar">Ir para a busca &#10103;</a></li>
+                        <li><a accesskey="3" href="#irrodape" id="link-rodape">Ir para o rodapé &#10104;</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!--Fim da div atalhos-->
+            {#fim da div de atalhos#}
+
             {#Social#}
             {{ site.sitedetalhe.social|safe }}
             {#Fim da div social#}
