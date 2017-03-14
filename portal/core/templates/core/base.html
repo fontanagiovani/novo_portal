@@ -82,16 +82,14 @@
             {#Form de busca#}
             <div class="row">
                 <form method="get" action="{% url 'buscar' %}">
-                    <fieldset>
-                        <div class="row collapse">
-                            <div class="small-9 medium-9 large-7 medium-offset-1 large-offset-3 columns">
-                                <input type="search" id="id_q" name="q" placeholder="Buscar notícias, eventos e mais...">
-                            </div>
-                            <div class="small-3 medium-2 columns">
-                                <input type="submit" value="Buscar" class="button postfix no-margin" />
-                            </div>
+                    <div class="row collapse">
+                        <div class="small-9 medium-9 large-7 medium-offset-1 large-offset-3 columns">
+                            <input type="search" id="id_q" name="q" placeholder="Buscar notícias, eventos e mais...">
                         </div>
-                    <fieldset>
+                        <div class="small-3 medium-2 columns">
+                            <input type="submit" value="Buscar" class="button postfix no-margin" />
+                        </div>
+                    </div>
                 </form>
             </div>
             {#Fim da div de busca#}
