@@ -28,7 +28,6 @@
 {#Container para o cabeçalho#}
 <div class="row padding-bottom">
     {#Menu topo#}
-    <a href="#" id="irmenu"></a>
     <div class="row">
         <div class="medium-12 columns">
             <div class="contain-to-grid fixed">
@@ -83,14 +82,17 @@
             {#Form de busca#}
             <div class="row">
                 <form method="get" action="{% url 'buscar' %}">
-                    <div class="row collapse">
-                        <div class="small-9 medium-9 large-7 medium-offset-1 large-offset-3 columns">
-                            <input type="search" id="id_q" name="q" placeholder="Buscar notícias, eventos e mais...">
+                    <fieldset>
+                        <legend>Buscar</legend>
+                        <div class="row collapse">
+                            <div class="small-9 medium-9 large-7 medium-offset-1 large-offset-3 columns">
+                                <input type="search" id="id_q" name="q" placeholder="Buscar notícias, eventos e mais...">
+                            </div>
+                            <div class="small-3 medium-2 columns">
+                                <input type="submit" value="Buscar" class="button postfix no-margin" />
+                            </div>
                         </div>
-                        <div class="small-3 medium-2 columns">
-                            <input type="submit" value="Buscar" class="button postfix no-margin" />
-                        </div>
-                    </div>
+                    <fieldset>
                 </form>
             </div>
             {#Fim da div de busca#}
@@ -130,6 +132,18 @@
 <script src="{{ STATIC_URL }}js/foundation/foundation.clearing.js"></script>
 <script src="{{ STATIC_URL }}js/foundation/foundation.orbit.js"></script>
 <script> $(document).foundation(); </script>
+
+{#script para foco no campo busca#}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("a.clickable").click(function(event){
+            event.preventDefault();
+            $("input#id_q").val($(this).html());
+        });  
+    });
+</script>
+{#fim do script para foco na busca#}
+
 <noscript>Seu navegador não tem suporte a JavaScript ou está desativado!</noscript>
 
 {#Bloco para javascript personalizado para templates específicos#}
