@@ -1,3 +1,11 @@
+.show-for-sr,
+.show-on-focus {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0); }
+
 .temp-rodape {
     /*height: 20em;*/
     border: 0.3125em solid #80bf40;
