@@ -169,7 +169,7 @@
                                 <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
                                     <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
 {#                                         data-tooltip class="has-tip"#}
-                                         title="{{ banner.titulo }}">
+                                         title="{{ banner.titulo }}" alt="{{ banner.titulo }}">
                                 </a>
                             </div>
                             <div class="small-10 columns show-for-small-only th">
@@ -344,7 +344,7 @@
                                    {% if banner.nova_janela %}target="_blank"{% endif %}>
                                     <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
 {#                                         data-tooltip class="has-tip"#}
-                                         title="{{ banner.titulo }}">
+                                         title="{{ banner.titulo }}" alt="{{ banner.titulo }}">
                                 </a>
                             </div>
                             <div class="small-10 columns show-for-small-only th">
