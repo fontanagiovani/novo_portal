@@ -14,9 +14,7 @@
                 {% for noticia in noticias_destaque %}
                     <li data-orbit-slide="{{ noticia.id }}">
                         <a href="{{ noticia.get_absolute_url }}">
-                            <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}"
-                                 alt="{{ noticia.titulo }}"/>
-
+                            <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}" alt="{{ noticia.titulo }}"/>
                             <div class="orbit-caption">
                                 <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                     {{ noticia.data_publicacao|date:"d M" }}
@@ -37,8 +35,7 @@
                 {% for noticia in noticias_destaque %}
                     <li>
                         <a data-orbit-link="{{ noticia.id }}">
-                            <img src="{% thumbnail noticia.primeira_imagem 112x60 crop quality=80 %}"
-                                 alt="{{ noticia.titulo }}"/>
+                            <img src="{% thumbnail noticia.primeira_imagem 112x60 crop quality=80 %}" alt="{{ noticia.titulo }}"/>
                         </a>
                     </li>
                 {% endfor %}
@@ -51,7 +48,7 @@
                 <div class="row collapse padding-bottom-banner-destaque">
                     <div class="small-2 medium-12 columns">
                         <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
-                            <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}" title="{{ banner.titulo }}"/>
+                            <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}" alt="{{ banner.titulo }}"/>
                         </a>
                     </div>
                     <div class="small-10 columns show-for-small-only th">
@@ -165,9 +162,7 @@
                         <div class="row collapse padding-bottom">
                             <div class="small-2 medium-12 columns">
                                 <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
-                                    <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
-{#                                         data-tooltip class="has-tip"#}
-                                         title="{{ banner.titulo }}" alt="{{ banner.titulo }}">
+                                    <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}" alt="{{ banner.titulo }}">
                                 </a>
                             </div>
                             <div class="small-10 columns show-for-small-only th">
@@ -267,10 +262,7 @@
                         {% for galeria in galerias %}
                             <li data-orbit-slide="{{ galeria.id }}">
                                 <a href="{{ galeria.get_absolute_url }}">
-                                    <img
-                                            src="{% thumbnail galeria.primeira_imagem 640x470 crop quality=80 %}"
-                                            alt="{{ galeria.titulo }}"/>
-
+                                    <img src="{% thumbnail galeria.primeira_imagem 640x470 crop quality=80 %}" alt="{{ galeria.titulo }}"/>
                                     <div class="orbit-caption">
                                         <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                             {{ galeria.data_publicacao|date:"d M" }}
@@ -291,8 +283,7 @@
                         {% for galeria in galerias %}
                             <li>
                                 <a data-orbit-link="{{ galeria.id }}">
-                                    <img src="{% thumbnail galeria.primeira_imagem 190x100 crop quality=80 %}"
-                                         alt="{{ galeria.titulo }}"/>
+                                    <img src="{% thumbnail galeria.primeira_imagem 190x100 crop quality=80 %}" alt="{{ galeria.titulo }}"/>
                                 </a>
                             </li>
                         {% endfor %}
@@ -338,11 +329,8 @@
 
                         <div class="row collapse padding-bottom">
                             <div class="small-2 medium-12 columns">
-                                <a href="{{ banner.url }}"
-                                   {% if banner.nova_janela %}target="_blank"{% endif %}>
-                                    <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
-{#                                         data-tooltip class="has-tip"#}
-                                         title="{{ banner.titulo }}" alt="{{ banner.titulo }}">
+                                <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
+                                    <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}" alt="{{ banner.titulo }}">
                                 </a>
                             </div>
                             <div class="small-10 columns show-for-small-only th">
