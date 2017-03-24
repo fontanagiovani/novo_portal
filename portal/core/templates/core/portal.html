@@ -51,9 +51,7 @@
                 <div class="row collapse padding-bottom-banner-destaque">
                     <div class="small-2 medium-12 columns">
                         <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
-                            <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
-{#                                 data-tooltip class="has-tip"#}
-                                 title="{{ banner.titulo }}"/>
+                            <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}" title="{{ banner.titulo }}"/>
                         </a>
                     </div>
                     <div class="small-10 columns show-for-small-only th">
