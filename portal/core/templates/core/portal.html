@@ -324,10 +324,8 @@
             <h1><i class="fi-link"></i> LINKS GOVERNAMENTAIS</h1>
 
             <ul class="small-block-grid-1 medium-block-grid-5">
-                {% count = 0 %}
                 {% for banner in banners_governamental %}
-                    {% count +=1 %}
-                    <li id="banner-{% count %}" class="no-padding-bottom">
+                    <li id="banner-{{ forloop.counter0 }}" class="no-padding-bottom">
 
                         <div class="row collapse padding-bottom">
                             <div class="small-2 medium-12 columns">
