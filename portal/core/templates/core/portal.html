@@ -97,7 +97,7 @@
                       action="{% url 'guiadecursoportal' %}">{% csrf_token %}
                     <div class="row collapse padding-bottom">
                         <div class="medium-12 columns">
-                            <label>Selecione um tipo de formação
+                            <label for="formacao">Selecione um tipo de formação
                                 <select id="formacao" name="formacao">
                                     <option value="0">--------</option>
                                     {% for f in formacao %}
@@ -105,12 +105,12 @@
                                     {% endfor %}
                                 </select>
                             </label>
-                            <label>Selecione um Câmpus
+                            <label for="campi">Selecione um Câmpus
                                 <select id="campi" name="campi">
                                     <option value="0">--------</option>
                                 </select>
                             </label>
-                            <label>Selecione um curso
+                            <label for="cursos">Selecione um curso
                                 <select id="cursos" name="cursos">
                                     <option value="0">--------</option>
                                 </select>
