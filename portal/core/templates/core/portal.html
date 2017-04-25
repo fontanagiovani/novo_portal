@@ -98,7 +98,7 @@
                     <div class="row collapse padding-bottom">
                         <div class="medium-12 columns">
                             <label for="formacao">Selecione um tipo de formação
-                                <select id="formacao" name="formacao">
+                                <select id="formacao" name="formacao" title="selecione o tipo de formação">
                                     <option value="0">--------</option>
                                     {% for f in formacao %}
                                         <option value="{{ f.formacao__id }}">{{ f.formacao__nome }}</option>
@@ -106,12 +106,12 @@
                                 </select>
                             </label>
                             <label for="campi">Selecione um Câmpus
-                                <select id="campi" name="campi">
+                                <select id="campi" name="campi" title="selecione um câmpus">
                                     <option value="0">--------</option>
                                 </select>
                             </label>
                             <label for="cursos">Selecione um curso
-                                <select id="cursos" name="cursos">
+                                <select id="cursos" name="cursos" title="selecione um curso">
                                     <option value="0">--------</option>
                                 </select>
                             </label>
