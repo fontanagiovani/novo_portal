@@ -14,7 +14,7 @@
                 {% for noticia in noticias_destaque %}
                     <li data-orbit-slide="{{ noticia.id }}">
                         <a href="{{ noticia.get_absolute_url }}">
-                            <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}" {% if noticia.titulo|length < 100 %} alt="{{ noticia.titulo }} {% endif %}"/>
+                            <img src="{% thumbnail noticia.primeira_imagem 637x298 crop quality=80 %}" {% if noticia.titulo|length > 100 %} alt="{{ noticia.titulo|length }} {% endif %}"/>
                             <div class="orbit-caption">
                                 <div class="small-2 columns text-center no-padding padding-top-bottom fundo-vermelho texto-tamanho-pequeno">
                                     {{ noticia.data_publicacao|date:"d M" }}
