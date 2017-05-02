@@ -6,6 +6,10 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0); }
 
+legend {
+    line-height: 0;
+}
+
 .temp-rodape {
     /*height: 20em;*/
     border: 0.3125em solid #80bf40;
