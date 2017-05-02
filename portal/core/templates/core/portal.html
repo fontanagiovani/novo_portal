@@ -96,7 +96,7 @@
                 <form method="post" id="guiadecursoportal" name="guiadecursoportal" action="{% url 'guiadecursoportal' %}">{% csrf_token %}
                     <div class="row collapse padding-bottom">
                         <div class="medium-12 columns">
-                            <fieldset class="show-for-sr">
+                            <fieldset>
                                 <legend class="show-for-sr">lista de formações</legend>
                                 <label for="formacao">Selecione um tipo de formação
                                     <select id="formacao" name="formacao" title="selecione o tipo de formação">
@@ -107,7 +107,7 @@
                                     </select>
                                 </label>
                             </fieldset>
-                            <fieldset class="show-for-sr">
+                            <fieldset>
                                 <legend class="show-for-sr">lista de campi</legend>
                                 <label for="campi">Selecione um Câmpus
                                     <select id="campi" name="campi" title="selecione um câmpus">
@@ -115,7 +115,7 @@
                                     </select>
                                 </label>
                             </fieldset>
-                            <fieldset class="show-for-sr">
+                            <fieldset>
                                 <legend class="show-for-sr">lista de cursos</legend>
                                 <label for="cursos">Selecione um curso
                                     <select id="cursos" name="cursos" title="selecione um curso">
