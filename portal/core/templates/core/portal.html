@@ -93,28 +93,37 @@
             <div class="row padding-bottom">
                 <h1><a href="{% url 'guiadecursoportal' %}"><i class="fi-list"></i> GUIA DE CURSOS</a></h1>
 
-                <form method="post" id="guiadecursoportal" name="guiadecursoportal"
-                      action="{% url 'guiadecursoportal' %}">{% csrf_token %}
+                <form method="post" id="guiadecursoportal" name="guiadecursoportal" action="{% url 'guiadecursoportal' %}">{% csrf_token %}
                     <div class="row collapse padding-bottom">
                         <div class="medium-12 columns">
-                            <label for="formacao">Selecione um tipo de formação
-                                <select id="formacao" name="formacao" title="selecione o tipo de formação">
-                                    <option value="0">--------</option>
-                                    {% for f in formacao %}
-                                        <option value="{{ f.formacao__id }}">{{ f.formacao__nome }}</option>
-                                    {% endfor %}
-                                </select>
-                            </label>
-                            <label for="campi">Selecione um Câmpus
-                                <select id="campi" name="campi" title="selecione um câmpus">
-                                    <option value="0">--------</option>
-                                </select>
-                            </label>
-                            <label for="cursos">Selecione um curso
-                                <select id="cursos" name="cursos" title="selecione um curso">
-                                    <option value="0">--------</option>
-                                </select>
-                            </label>
+                            <fieldset class="show-for-sr">
+                                <legend class="show-for-sr">lista de formações</legend>
+                                <label for="formacao">Selecione um tipo de formação
+                                    <select id="formacao" name="formacao" title="selecione o tipo de formação">
+                                        <option value="0">--------</option>
+                                        {% for f in formacao %}
+                                            <option value="{{ f.formacao__id }}">{{ f.formacao__nome }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </fieldset>
+                            <fieldset class="show-for-sr">
+                                <legend class="show-for-sr">lista de campi</legend>
+                                <label for="campi">Selecione um Câmpus
+                                    <select id="campi" name="campi" title="selecione um câmpus">
+                                        <option value="0">--------</option>
+                                    </select>
+                                </label>
+                            </fieldset>
+                            <fieldset class="show-for-sr">
+                                <legend class="show-for-sr">lista de cursos</legend>
+                                <label for="cursos">Selecione um curso
+                                    <select id="cursos" name="cursos" title="selecione um curso">
+                                        <option value="0">--------</option>
+                                    </select>
+                                </label>
+                                </label>
+                            </fieldset>
                         </div>
                     </div>
                     <div class="row collapse">
