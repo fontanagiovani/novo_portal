@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
 from django.contrib import admin
 
 
@@ -57,6 +58,10 @@ urlpatterns = patterns('',
 
                        url(r'^inicio/$', 'portal.core.views.home', name='home'),
                        url(r'^$', 'portal.core.views.hotsite', name='hotsite'),
+
+                       # url para arquivo html de autenticidade para o google search console
+                       url(r'^googlef0c85b6fba6510c7.html$', TemplateView.as_view(template_name="googlef0c85b6fba6510c7.html")),
+
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do diretorio media
