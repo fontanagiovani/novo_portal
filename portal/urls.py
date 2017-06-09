@@ -62,6 +62,8 @@ urlpatterns = patterns('',
                        # url para arquivo html de autenticidade para o google search console
                        url(r'^googlef0c85b6fba6510c7.html$', TemplateView.as_view(template_name="googlef0c85b6fba6510c7.html")),
 
+                       # url para arquivo robots.txt
+                       url(r'^robots.txt$', TemplateView.as_view(template_name="robots.txt")),
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do diretorio media

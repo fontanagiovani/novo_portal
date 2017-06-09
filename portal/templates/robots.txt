@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: googlef0c85b6fba6510c7.html
