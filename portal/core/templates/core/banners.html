@@ -23,7 +23,7 @@
     <style>
         .clear { clear: both; }
         body {
-            background-image: url({{ MEDIA_URL }}/{{ background }});
+            background-image: url({% thumbnail background 3840x2160 as thumb %}{{thumb.url}});
             background-repeat: no-repeat;
             background-color: #EEE;
             background-size: auto;
