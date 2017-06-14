@@ -68,10 +68,10 @@ class SiteDetalhe(models.Model):
     disqus_shortname = models.CharField(max_length=250, null=True, blank=True,
                                         help_text=u'ShortName do site no serviço de comentários DISQUS')
     hotsite = models.BooleanField(default=False)
+    hotsite_background = FilerImageField(null=True, blank=True, verbose_name=u'Background do hotsite')
     modal = models.TextField(null=True, blank=True)
     social = models.TextField(null=True, blank=True)
     links_uteis = models.TextField(null=True, blank=True)
-    mapa_site = models.TextField(null=True, blank=True)
     endereco = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
