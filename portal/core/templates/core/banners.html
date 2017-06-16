@@ -45,17 +45,18 @@
 <div class="clearfix" style="clear: both;"></div>
 <div class="row padding-top-duplo">
     <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-2">
-            {% for banner in banners %}
+        {% for banner in banners %}
+            <ul class="small-block-grid-1 medium-block-grid-2 align-right">
                 <li>
                     <a class="th" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
-                        <img src="{% thumbnail banner.arquivo 640x0 upscale quality=80 %}"
+                        <img src="{% thumbnail banner.arquivo 300x0 upscale quality=80 %}"
 {#                             data-tooltip class="has-tip"#}
                              title="{{ banner.titulo }}"/>
                     </a>
                 </li>
-            {% endfor %}
-        </ul>
+            
+            </ul>
+        {% endfor %}
     </div>
 </div>
 {#Fim da div geral do portal#}
