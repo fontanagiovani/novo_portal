@@ -44,7 +44,7 @@
 </div>
 <div class="clearfix" style="clear: both;"></div>
 
-<div class="icon-bar large-vertical five-up">
+<div class="icon-bar vertical three-up">
     {% for banner in banners %}
         <a class="item" tabindex="0" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
             <img src="{% thumbnail banner.arquivo 300x0 upscale quality=80 %}"
