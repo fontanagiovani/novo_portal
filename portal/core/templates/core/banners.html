@@ -43,12 +43,16 @@
     </div>
 </div>
 <div class="clearfix" style="clear: both;"></div>
-{% for banner in banners %}
-        <a class="thumbnail align-right" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
+
+<div class="icon-bar vertical five-up">
+    {% for banner in banners %}
+        <a class="item" tabindex="0" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
             <img src="{% thumbnail banner.arquivo 300x0 upscale quality=80 %}"
                  title="{{ banner.titulo }}"/>
         </a>
-{% endfor %}
+    {% endfor %}
+
+</div>
 
 <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
 <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
