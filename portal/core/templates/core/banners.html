@@ -46,6 +46,9 @@
 
 {% for banner in banners %}
     <div class="expanded column row right">
+        &#09;
+    </div>
+    <div class="expanded column row right">
         <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
             <img src="{% thumbnail banner.arquivo 300x0 upscale quality=80 %}"
                  title="{{ banner.titulo }}" class="right"/>
