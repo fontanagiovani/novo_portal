@@ -44,15 +44,14 @@
 </div>
 <div class="clearfix" style="clear: both;"></div>
 
-<div class="icon-bar vertical three-up">
-    {% for banner in banners %}
-        <a class="item" tabindex="0" href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
+{% for banner in banners %}
+    <div class="expanded column row">
+        <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
             <img src="{% thumbnail banner.arquivo 300x0 upscale quality=80 %}"
-                 title="{{ banner.titulo }}"/>
+                 title="{{ banner.titulo }}" class="right"/>
         </a>
-    {% endfor %}
-
-</div>
+    </div>
+{% endfor %}
 
 <script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
 <script src="{{ STATIC_URL }}js/foundation.min.js"></script>

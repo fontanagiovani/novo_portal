@@ -4450,8 +4450,8 @@ label.error {
 }
 /* line 62, ../bower_components/foundation/scss/foundation/components/_icon-bar.scss */
 .icon-bar > * img {
-  width: 4.875rem;
-  height: 4.875rem;
+  width: 1.875rem;
+  height: 1.875rem;
 }
 /* line 70, ../bower_components/foundation/scss/foundation/components/_icon-bar.scss */
 .icon-bar.label-right > * i, .icon-bar.label-right > * img {
@@ -4468,7 +4468,7 @@ label.error {
 }
 /* line 82, ../bower_components/foundation/scss/foundation/components/_icon-bar.scss */
 .icon-bar.vertical.label-right > * {
-  text-align: right;
+  text-align: left;
 }
 /* line 86, ../bower_components/foundation/scss/foundation/components/_icon-bar.scss */
 .icon-bar.vertical, .icon-bar.small-vertical {
