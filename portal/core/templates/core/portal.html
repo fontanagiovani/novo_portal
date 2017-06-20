@@ -30,16 +30,6 @@
                     </li>
                 {% endfor %}
             </ul>
-
-            <ul class="small-block-grid-5 padding-top">
-                {% for noticia in noticias_destaque %}
-                    <li>
-                        <a data-orbit-link="{{ noticia.id }}">
-                            <img src="{% thumbnail noticia.primeira_imagem 112x60 crop quality=80 %}" alt="{{ noticia.titulo }}"/>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
         </div>
 
         {#Container para os banners especiais#}
