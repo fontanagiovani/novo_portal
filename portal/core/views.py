@@ -53,7 +53,7 @@ def _home(request):
         tipo_destino = site.sitedetalhe.destino.tipo
 
         if tipo_destino == Destino.portal():
-            noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
+            noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:10],
                                       key=lambda o: o.prioridade_destaque)
             mais_noticias = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
                 id__in=[obj.id for obj in noticias_detaque])[:10]
