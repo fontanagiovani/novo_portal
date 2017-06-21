@@ -74,7 +74,7 @@ class SiteDetalhe(models.Model):
                                         help_text=u'ShortName do site no serviço de comentários DISQUS')
     hotsite = models.BooleanField(default=False)
     hotsite_background = FilerImageField(null=True, blank=True, related_name='hotsite_background_SiteDetalhe', verbose_name=u'Background do hotsite')
-    hotsite_alinhamento_banners = models.CharField(max_length=15, choices=ALINHAMENTO, verbose_name=u'Alinhamento dos banners no Hotsite')
+    hotsite_alinhamento_banners = models.CharField(max_length=15, choices=ALINHAMENTO, default='right', verbose_name=u'Alinhamento dos banners no Hotsite')
     modal = models.TextField(null=True, blank=True)
     social = models.TextField(null=True, blank=True)
     links_uteis = models.TextField(null=True, blank=True)
