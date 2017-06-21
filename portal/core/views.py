@@ -29,9 +29,11 @@ def hotsite(request):
 
         if site.sitedetalhe.hotsite:
             banners = Banner.hotsite.filter(sites__id__exact=site.id)
+            alinhamento = site.sitedetalhe.hotsite_alinhamento_banners
             background = site.sitedetalhe.hotsite_background
             contexto = {
                 'banners': banners,
+                'alinhamento': alinhamento,
                 'background': background,
             }
             return render(request, 'core/banners.html', contexto)

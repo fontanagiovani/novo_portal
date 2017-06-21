@@ -61,6 +61,11 @@ class Selecao(models.Model):
 
 
 class SiteDetalhe(models.Model):
+    ALINHAMENTO = (
+        ('left', 'ESQUERDA'),
+        ('right', 'DIREITA'),
+        ('center', 'CENTRO')
+    )
     site = models.OneToOneField('sites.Site')
     campus = models.ForeignKey('Campus', help_text=u'Câmpus ou local que este site está relacionado')
     destino = models.ForeignKey('Destino', help_text=u'Destino da página inicial')
@@ -69,6 +74,7 @@ class SiteDetalhe(models.Model):
                                         help_text=u'ShortName do site no serviço de comentários DISQUS')
     hotsite = models.BooleanField(default=False)
     hotsite_background = FilerImageField(null=True, blank=True, related_name='hotsite_background_SiteDetalhe', verbose_name=u'Background do hotsite')
+    hotsite_alinhamento_banners = models.CharField(max_length=15, choices=ALINHAMENTO, verbose_name=u'Alinhamento dos banners no Hotsite')
     modal = models.TextField(null=True, blank=True)
     social = models.TextField(null=True, blank=True)
     links_uteis = models.TextField(null=True, blank=True)
