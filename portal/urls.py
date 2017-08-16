@@ -43,6 +43,10 @@ urlpatterns = patterns('',
                        url(r'^json_cursos/(?P<formacao_id>\d+)/(?P<campus_id>\d+)/$', 'portal.core.views.json_cursos',
                            name='json_cursos'),
 
+                       # urls para agenda de compromissos do reitor
+                       url(r'^agenda/$', 'portal.agenda.views.compromissos', name='agenda'),
+                       url(r'^agenda/(?P<dia>\d{2})/(?P<mes>\d{2})/(?P<ano>\d{4})/$', 'portal.agenda.views.compromissos', name='agenda'),
+
                        # urls de redirecionamento do antigoportal
                        url(r'^noticias/', 'portal.core.views.redirecionar_antigoportal', name='antigo_noticias'),
                        # url(r'^noticias/(?P<id_noticia>\d+)/$', 'portal.core.views.redirecionar_antigoportal'),

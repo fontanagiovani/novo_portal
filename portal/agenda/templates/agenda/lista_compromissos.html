@@ -1,0 +1,56 @@
+{% extends 'core/lista.html' %}
+{% load template_filters %}
+{#
+https://docs.djangoproject.com/en/dev/ref/templates/builtins/?from=olddocs#for
+#}
+
+{% block breadcrumbs %}
+    <li><a href="{% url 'agenda' %}">Agenda de Compromissos do Reitor</a></li>
+{% endblock %}
+
+{% block listagem %}
+{% now "SHORT_DATE_FORMAT" as hoje %}
+{# <h1><strong>Agenda do Reitor para semana {{ today|date:"W" }}</strong></h1> #}
+    <div class="row padding-top-bottom">
+      <div class="small-6 small-centered columns text-center"><h1><strong>Agenda do Reitor para semana</strong></h1></div>
+    </div>
+    <div class="row padding-top-bottom">
+      <div class="small-3 large-3 columns cinza_claro text-left"><a href="{% url 'agenda' %}{{ first_day|minus_days:1|date:'SHORT_DATE_FORMAT' }}"><< Semana Anterior</a></div>
+      <div class="small-6 large-6 columns text-center">{{ first_day|date:"j \d\e F \d\e Y" }} até {{ last_day|date:"j \d\e F \d\e Y" }}</div>
+      <div class="small-3 large-3 columns cinza_claro text-right"><a href="{% url 'agenda' %}{{ first_day|plus_days:7|date:'SHORT_DATE_FORMAT' }}">Próxima Semana >></a></div>
+    </div>
+    {% for i in daterange %}
+        <div class="panel radius {%if forloop.counter0 == today|date:'w'|to_int and today|date:'SHORT_DATE_FORMAT' == hoje %} verde {% endif %}">
+          <h5><strong>{{i|date:"l, j \d\e F \d\e Y"}}</strong></h5>
+            {% for a in agenda %}
+                {% if a.inicio|date:"SHORT_DATE_FORMAT" == i|date:"SHORT_DATE_FORMAT" or a.fim|date:"SHORT_DATE_FORMAT" == i|date:"SHORT_DATE_FORMAT" %}
+                  <h4><small>
+                  {{a.descricao}}<br />
+                  {% if a.inicio|date:"SHORT_DATE_FORMAT" == i|date:"SHORT_DATE_FORMAT" %}[início] <i class="fi-clock"></i> {{ a.inicio }}<br />
+                  {% elif a.fim|date:"SHORT_DATE_FORMAT" == i|date:"SHORT_DATE_FORMAT" %}[término] <i class="fi-clock"></i> {{ a.fim }}<br />
+                  {% endif %}
+                  {% if a.local %}Local: {{ a.local }}{% endif %}
+                  </small></h4>
+                {% elif a.inicio|date:"SHORT_DATE_FORMAT" < i|date:"SHORT_DATE_FORMAT" and a.fim|date:"SHORT_DATE_FORMAT" > i|date:"SHORT_DATE_FORMAT" %}
+                  <h4><small>
+                  {{a.descricao}}<br />
+                  {% if a.local %}Local: {{ a.local }}{% endif %}
+                  </small></h4> 
+               {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <div class="row padding-top-bottom">
+      <div class="small-3 large-3 columns cinza_claro text-left"><a href="{% url 'agenda' %}{{ first_day|minus_days:1|date:'SHORT_DATE_FORMAT' }}"><< Semana Anterior</a></div>
+      <div class="small-6 large-6 columns text-center"></div>
+      <div class="small-3 large-3 columns cinza_claro text-right"><a href="{% url 'agenda' %}{{ first_day|plus_days:7|date:'SHORT_DATE_FORMAT' }}">Próxima Semana >></a></div>
+    </div>
+{% endblock %}
+
+
+{% block stylesheet %}
+    <style>
+    .verde { background-color: #ccffcc; }
+    .cinza_claro { background-color:  #d9d9d9; }
+    </style>
+{% endblock %}
