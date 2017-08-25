@@ -16,6 +16,14 @@
 
     {#Bloco para estilos personalizados para templates específicos#}
     {% block stylesheet %}
+    <style>
+        .fullWidth {
+           width: 100%;
+           margin-left: auto;
+           margin-right: auto;
+           max-width: initial;
+        }
+    </style>
     {% endblock %}
 
     <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
@@ -46,10 +54,10 @@
 <div class="clearfix" style="clear: both;"></div>
 
 {% for banner in banners %}
-    <div class="expanded column row {{ alinhamento }}">
+    <div class="fullWidth column row {{ alinhamento }}">
         &nbsp;
     </div>
-    <div class="expanded column row {{ alinhamento }}">
+    <div class="fullWidth column row {{ alinhamento }}">
         <a href="{{ banner.url }}" {% if banner.nova_janela %}target="_blank"{% endif %}>
             <img src="{% thumbnail banner.arquivo 300x0 upscale quality=80 %}"
                  title="{{ banner.titulo }}" class="{{ alinhamento }}"/>

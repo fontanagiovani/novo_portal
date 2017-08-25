@@ -64,7 +64,7 @@ class SiteDetalhe(models.Model):
     ALINHAMENTO = (
         ('left', 'ESQUERDA'),
         ('right', 'DIREITA'),
-        ('center', 'CENTRO')
+        ('text-center', 'CENTRO')
     )
     site = models.OneToOneField('sites.Site')
     campus = models.ForeignKey('Campus', help_text=u'Câmpus ou local que este site está relacionado')
