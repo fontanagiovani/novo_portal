@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/dev/ref/templates/builtins/?from=olddocs#for
 {% now "SHORT_DATE_FORMAT" as hoje %}
 {# <h1><strong>Agenda do Reitor para semana {{ today|date:"W" }}</strong></h1> #}
     <div class="row padding-top-bottom">
-      <div class="small-6 small-centered columns text-center"><h1><strong>Agenda do Reitor para semana</strong></h1></div>
+      <div class="small-6 small-centered columns text-center"><h1><strong>Agenda do Reitor</strong></h1></div>
     </div>
     <div class="row padding-top-bottom">
       <div class="small-3 large-3 columns cinza_claro text-left"><a href="{% url 'agenda' %}{{ first_day|minus_days:1|date:'SHORT_DATE_FORMAT' }}"><< Semana Anterior</a></div>
