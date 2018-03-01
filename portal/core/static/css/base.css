@@ -116,6 +116,10 @@ h2 {
     padding-top: 1.25em;
 }
 
+.padding-top-simples {
+    padding-top: 0.125em;
+}
+
 .padding-all {
     /*padding: 0.625em 0.625em 0.625em 0.625em;*/
     padding: 0.625em;
@@ -152,7 +156,6 @@ h2 {
     background-color: #f8f8f8;
     border-top-style: solid;
     border-top-width: thin;
-    margin-top: 0.1em;
 }
 
 .lupa {
