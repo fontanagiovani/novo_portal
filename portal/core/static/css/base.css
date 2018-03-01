@@ -150,6 +150,8 @@ h2 {
 
 .fundo-cinza-claro {
     background-color: #f8f8f8;
+    border-top-style: solid;
+    border-top-width: thin;
 }
 
 .lupa {
