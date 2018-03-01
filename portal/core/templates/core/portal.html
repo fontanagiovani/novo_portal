@@ -79,7 +79,7 @@
         {#Fim da div mais notícias#}
 
         {#Container para eventos e guia de curso#}
-        <div class="medium-4 columns fundo-cinza">
+        <div class="medium-4 columns fundo-guia-cursos">
             <div class="row padding-bottom">
                 <h1><a href="{% url 'guiadecursoportal' %}"><i class="fi-list"></i> GUIA DE CURSOS</a></h1>
 
@@ -124,7 +124,7 @@
                 </form>
             </div>
             {#Fim da div eventos e guia de curso#}
-
+            <p></p>
             {#Eventos#}
             <div class="row padding-bottom">
                 <h1><a href="{% url 'conteudo:eventos_lista' %}"><i class="fi-plus"></i> EVENTOS</a></h1>
@@ -151,7 +151,7 @@
                 {% endfor %}
             </div>
             {#Fim da div eventos#}
-
+            {% comment %}
             {#Acesso rápido#}
             <div class="row">
                 <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
@@ -174,6 +174,7 @@
                 {% endfor %}
             </div>
             {#Fim da div acesso rápido#}
+            {% endcomment %}
         </div>
         {#Fim da div para eventos e guia de curso#}
 
@@ -183,7 +184,7 @@
             {#Pró-reitorias e diretorias#}
 
             <div class="row">
-                <h1><i class="fi-torsos-all"></i> PRÓ-REITORIAS</h1>
+                <h1>PRÓ-REITORIAS</h1>
                 <ul class="marcador-circulo">
                     <li>
                         <p class="no-margin espacamento-medio">
@@ -224,7 +225,7 @@
             </div>
 
             <div class="row">
-                <h1><i class="fi-torsos-all"></i> DIRETORIAS</h1>
+                <h1>DIRETORIAS</h1>
                 <ul class="marcador-circulo">
                     <li>
                         <p class="no-margin espacamento-medio">
@@ -257,7 +258,7 @@
 
                 <div class="row">
                     <ul class="example-orbit" data-orbit
-                        data-options="animation:fade;animation_speed:500;bullets:false;slide_number:false;swipe:true;resume_on_mouseout:true;">
+                        data-options="animation:fade;animation_speed:500;bullets:true;slide_number:true;swipe:true;resume_on_mouseout:true;">
                         {% for galeria in galerias %}
                             <li data-orbit-slide="{{ galeria.id }}">
                                 <a href="{{ galeria.get_absolute_url }}">
@@ -277,18 +278,7 @@
                             </li>
                         {% endfor %}
                     </ul>
-
-                    <ul class="small-block-grid-3 padding-top">
-                        {% for galeria in galerias %}
-                            <li>
-                                <a data-orbit-link="{{ galeria.id }}">
-                                    <img src="{% thumbnail galeria.primeira_imagem 190x100 crop quality=80 %}" alt="{{ galeria.titulo }}"/>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
                 </div>
-
             </div>
             {#Fim da div galeria de fotos#}
 
@@ -316,7 +306,39 @@
         {#Fim da div da coluna à direita#}
     </div>
     {#Fim da div central para as 3 colunas#}
+    <p></p>
+    {#Acesso rápido#}
+    <div class="row">
+        <div class="small-12 columns">
+            <h1><i class="fi-link"></i> LINKS DE ACESSO</h1>
 
+            <ul class="small-block-grid-1 medium-block-grid-5">
+                {% for banner in banners_linkdeacesso %}
+                    <li id="no-padding-bottom">
+                        <div class="row collapse padding-bottom">
+                            <div class="small-2 medium-12 columns">
+                                <a href="{{ banner.url }}"
+                                   {% if banner.nova_janela %}target="_blank"{% endif %}>
+                                    <img src="{% thumbnail banner.arquivo 300x80 crop quality=80 %}"
+                                         data-tooltip class="has-tip"
+                                         title="{{ banner.titulo }}">
+                                </a>
+                            </div>
+                            <div class="small-10 columns show-for-small-only th">
+                                <a href="{{ banner.url }}"
+                                   {% if banner.nova_janela %}target="_blank"{% endif %}>
+                                    <p class="padding-left espacamento-medio">{{ banner.titulo }}</p>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+    {#Fim da div acesso rápido#}
+    <p></p>
     {# Banners governamentais #}
     <div class="row">
         <div class="small-12 columns">

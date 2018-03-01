@@ -17,6 +17,20 @@ fieldset legend {
     line-height: 0;
 }
 
+.fundo-guia-cursos {
+    background-color: #f6f3e0;
+}
+
+
+.botao-social-cinza {
+    color: # 839192;
+}
+
+.botao-social-cinza a:hover {
+    color: #279e41;
+    text-decoration: none;
+}
+
 .temp-rodape {
     /*height: 20em;*/
     border: 0.3125em solid #80bf40;
