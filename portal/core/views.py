@@ -63,7 +63,7 @@ def _home(request):
             videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
             galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
 
-            banners_destaque = Banner.destaque.filter(sites__id__exact=site.id)[:4]
+            banners_destaque = Banner.destaque.filter(sites__id__exact=site.id)[:5]
             banners_linkdeacesso = Banner.linkdeacesso.filter(sites__id__exact=site.id)[:5]
             banners_governamental = Banner.governamental.filter(sites__id__exact=site.id)
             formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').order_by('formacao__nome').distinct()
