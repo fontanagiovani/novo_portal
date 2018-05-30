@@ -1,0 +1,66 @@
+{% load mptt_tags %}
+{% load thumbnail %}
+<!DOCTYPE html> <!--[if IE 9]><html class="lt-ie10" lang="pt-br" > <![endif]-->
+<html class="no-js" lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site.name }}</title>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-ifmt.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation-icons/foundation-icons.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css">
+    <link rel="stylesheet" href="tableau/main.css">
+    <script src="{{ STATIC_URL }}js/vendor/modernizr.js"></script>
+</head>
+<body> <!-- body content here -->
+<div id="barra-brasil" style="background:#7F7F7F; height: 20px; padding:0 0 0 10px;display:block;"> 
+	<ul id="menu-barra-temp" style="list-style:none;">
+		<li style="display:inline; float:left;padding-right:10px; margin-right:10px; border-right:1px solid #EDEDED"><a href="http://brasil.gov.br" style="font-family:sans,sans-serif; text-decoration:none; color:white;">Portal do Governo Brasileiro</a></li> 
+		<li><a style="font-family:sans,sans-serif; text-decoration:none; color:white;" href="http://epwg.governoeletronico.gov.br/barra/atualize.html">Atualize sua Barra de Governo</a></li>
+	</ul>
+</div>
+{#Container geral do portal#}
+<div style="display: block; position: relative; width: 100%; background-image: url('{{ STATIC_URL }}img/topo-bg-small.png'); background-repeat: repeat-x;">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="small-block-grid-1 medium-block-grid-2">
+                <img src="{{ STATIC_URL }}img/topo-ifmt-small.png" alt="Barra do IFMT">
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="clearfix" style="clear: both;"></div>
+{#Container geral do tableau#}
+<script type='text/javascript' src='https://public.tableau.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 100%; height: 1063px;'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IF&#47;IFMT-Estatsticas_0&#47;1Matriculados&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' width='100%' height='1063' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='site_root' value='' /><param name='name' value='IFMT-Estatsticas_0&#47;1Matriculados' /><param name='tabs' value='yes' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IF&#47;IFMT-Estatsticas_0&#47;1Matriculados&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='showTabs' value='y' /></object></div>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-74104374-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+<script src="{{ STATIC_URL }}js/vendor/jquery.js"></script>
+<script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.clearing.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.orbit.js"></script>
+<script> $(document).foundation(); </script>
+
+<script defer="defer" src="//barra.brasil.gov.br/barra.js" type="text/javascript"></script>
+
+{#Bloco para javascript personalizado para templates específicos#}
+{% block javascript %}
+
+{% endblock %}
+
+</body>
+</html>
