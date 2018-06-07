@@ -10,7 +10,7 @@
       index : 0,
       sticky_class : 'sticky',
       custom_back_text: true,
-      back_text: 'Back',
+      back_text: '↶ Voltar',
       mobile_show_parent_link: true,
       is_hover: true,
       scrolltop : true, // jump to top when sticky nav menu toggle is clicked
