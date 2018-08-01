@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block edicao %}
-    {{ block.super }}
     {% if user.is_authenticated %}
         Visualizações: {% contador %}
         {% if perms.conteudo.change_pagina %}
