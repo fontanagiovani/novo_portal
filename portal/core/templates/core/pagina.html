@@ -8,16 +8,16 @@
 
 {% block edicao %}
     {% if user.is_authenticated %}
+        Visualizações: {% contador %}
         {% if perms.conteudo.change_pagina %}
             {% load permissao_tags %}
             {% if user|tem_permissao:pagina %}
                 <div class="row padding-top">
                     <div class="medium-12 columns text-right">
                         <a href="{% url 'admin:conteudo_pagina_change' pagina.id %}">
-                            <i class="fi-page-edit"></i> Editar página
+                            <i class="fi-page-edit"></i>/ Editar página
                         </a>
                         {% load contador_tags %}
-                        / Visualizações: {% contador %}
                     </div>
                 </div>
             {% endif %}
