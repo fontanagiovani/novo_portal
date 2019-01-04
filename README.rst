@@ -5,7 +5,7 @@ Pré-requisitos do requirements.txt:
 
 - requisito do python-ldap, executar:
 
-$ sudo aptitude install python-dev libldap2-dev libsasl2-dev libssl-dev
+$ sudo aptitude install build-essential python-dev libldap2-dev libsasl2-dev libssl-dev
 
 - requisito para instalar PIL:
 
