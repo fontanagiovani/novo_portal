@@ -53,6 +53,8 @@ def _home(request):
     try:
         site = Site.objects.get(domain=request.get_host())
         tipo_destino = site.sitedetalhe.destino.tipo
+        print tipo_destino
+        print Destino
 
         if tipo_destino == Destino.portal():
             noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:10],
@@ -90,6 +92,31 @@ def _home(request):
 
             banners_destaque = Banner.destaque.filter(sites__id__exact=site.id)[:4]
             banners_linkdeacesso = Banner.linkdeacesso.filter(sites__id__exact=site.id)[:5]
+            banners_governamental = Banner.governamental.filter(sites__id__exact=site.id)
+            formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
+            contexto = {
+                'noticias_destaque': noticias_detaque,
+                'mais_noticias': mais_noticias,
+                'eventos': eventos,
+                'banners_destaque': banners_destaque,
+                'banners_linkdeacesso': banners_linkdeacesso,
+                'banners_governamental': banners_governamental,
+                'videos': videos,
+                'galerias': galerias,
+                'formacao': formacao,
+            }
+
+        elif tipo_destino == Destino.portal_pro_reitorias():
+            noticias_detaque = sorted(Noticia.publicados.filter(destaque=True, sites__id__exact=site.id)[:5],
+                                      key=lambda o: o.prioridade_destaque)
+            mais_noticias = Noticia.publicados.filter(sites__id__exact=site.id).exclude(
+                id__in=[obj.id for obj in noticias_detaque])[:10]
+            eventos = Evento.publicados.filter(sites__id__exact=site.id)[:3]
+            videos = Video.publicados.filter(sites__id__exact=site.id)[:1]
+            galerias = Galeria.publicados.filter(sites__id__exact=site.id)[:3]
+
+            banners_destaque = Banner.destaque.filter(sites__id__exact=site.id)[:4]
+            banners_linkdeacesso = Banner.linkdeacesso.filter(sites__id__exact=site.id)[:7]
             banners_governamental = Banner.governamental.filter(sites__id__exact=site.id)
             formacao = Curso.objects.select_related('Formacao').values('formacao__id', 'formacao__nome').distinct()
             contexto = {

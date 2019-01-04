@@ -87,7 +87,8 @@ class SiteDetalhe(models.Model):
 class Destino(models.Model):
     TIPO = (
         ('PORTAL', u'PORTAL'),
-        ('PORTAL_SECUNDARIO', u'PORTAL SECUNDÁRIO'),
+        ('PORTAL_SECUNDARIO', u'PORTAL DE CAMPI'),
+        ('PORTAL_PRO_REITORIAS', u'PORTAL DE PRÓ-REITORIAS'),
         ('BLOG', u'BLOG'),
         ('BLOG_SLIDER', u'BLOG SLIDER'),
         ('PAGINA', u'PÁGINA INDIVIDUAL'),
@@ -116,6 +117,10 @@ class Destino(models.Model):
     @staticmethod
     def portal_secundario():
         return 'PORTAL_SECUNDARIO'
+
+    @staticmethod
+    def portal_pro_reitorias():
+        return 'PORTAL_PRO_REITORIAS'
 
     @staticmethod
     def blog():

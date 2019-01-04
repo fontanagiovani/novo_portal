@@ -4,7 +4,9 @@
 
 Django==1.8.6
 Pillow==5.2.0
-Whoosh==2.7.0
+urllib3==1.23
+pyelasticsearch==1.4.1
+elasticsearch==1.9.0
 dj-database-url==0.3.0
 django-admin-sortable2==0.5.2
 django-disqus==0.5
@@ -20,11 +22,10 @@ django-taggit==0.17.3
 django-taggit-autosuggest==0.2.6
 easy-thumbnails==2.2
 gunicorn==19.3.0
-model-mommy==1.2.5.1
-newrelic==2.56.0.42
 python-decouple==3.0
-python-ldap==2.4.22
+python-ldap==3.1.0
 python-memcached==1.57
 pytz==2015.7
-psycopg2==2.6.1
+psycopg2==2.7.3.1
 pyPdf==1.13
+
