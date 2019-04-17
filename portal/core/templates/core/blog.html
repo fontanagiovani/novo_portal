@@ -22,7 +22,7 @@
             <div class="row padding-bottom-duplo collapse">
                 <div class="small-12 columns">
                     <p class="data-local texto-tamanho-xsmall no-margin">{{ noticia.data_publicacao|date:"d M" }}
-                        - {{ noticia.campus_origem.nome }}</p>
+                        - Publicado por {{ noticia.campus_origem.nome }}</p>
 
                     <h1><a href="{{ noticia.get_absolute_url }}">{{ noticia.titulo }}</a></h1>
 
