@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
+from django.views.generic import RedirectView
 from django.contrib import admin
 
 
@@ -14,6 +15,8 @@ from portal.core.views import SearchViewSites
 sqs = SearchQuerySet().order_by('-data_publicacao')
 
 urlpatterns = patterns('',
+                       url(r'^favicon\.ico$', RedirectView.as_view(url='/static/facicon.ico', permanent=True)),
+
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^taggit_autosuggest/', include('taggit_autosuggest.urls')),
                        url(r'^conteudo/', include('portal.conteudo.urls', namespace='conteudo')),
@@ -68,6 +71,12 @@ urlpatterns = patterns('',
 
                        # url para arquivo robots.txt
                        url(r'^robots.txt$', TemplateView.as_view(template_name="robots.txt")),
+
+                       # url para arquivo wpad.dat
+                       url(r'^wpad.dat$', TemplateView.as_view(template_name="wpad.dat")),
+
+                       # url para favicon.ico
+                       url(r'^favicon\.ico$', RedirectView.as_view(url='/staticfiles/favicon.ico', permanent=True)),
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do diretorio media
