@@ -11,6 +11,7 @@ from haystack.forms import ModelSearchForm
 from haystack.query import SearchQuerySet
 from haystack.views import search_view_factory
 from portal.core.views import SearchViewSites
+from rss_feed import UltimasNoticias
 
 sqs = SearchQuerySet().order_by('-data_publicacao')
 
@@ -77,6 +78,10 @@ urlpatterns = patterns('',
 
                        # url para favicon.ico
                        url(r'^favicon\.ico$', RedirectView.as_view(url='/staticfiles/favicon.ico', permanent=True)),
+
+                       # rss
+                       # (r'^rss/(?P<url>.*)/$', 'django.contrib.syndication.views.Feed', {'feed_dict': {'ultimas': UltimasNoticias}}),
+                       (r'^rss/$', UltimasNoticias()),
                        )
 
 # Trecho utilizado para que o django sirva os arquivos do diretorio media

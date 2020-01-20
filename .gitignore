@@ -25,3 +25,4 @@
 .flooignore
 /portal/dirf/pdf
 !/portal/dirf/pdf/.dummy
+settings.py
