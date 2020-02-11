@@ -2,7 +2,7 @@
 # requirements.txt in the root directory of a project.
 
 
-Django==1.8.6
+Django==1.11.28
 Pillow==5.2.0
 urllib3==1.23
 pyelasticsearch==1.4.1
