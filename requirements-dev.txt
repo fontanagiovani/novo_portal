@@ -4,6 +4,6 @@
 ipdb==0.8.1
 ipython==4.0.0
 pudb==2015.4.1
-Werkzeug==0.10.4
+Werkzeug==0.15.3
 Fabric==1.10.2
 cuisine==0.7.10
